@@ -7,6 +7,7 @@ However, we expect that this README becomes your own
 - SENG202 Teaching team
 - Sophia Copley
 - Rafe Dunlop
+- Hannah Botting
 
 ## Prerequisites
 - JDK >= 21 [click here to get the latest stable OpenJDK release (as of writing this README)](https://jdk.java.net/18/)
