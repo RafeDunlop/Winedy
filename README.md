@@ -9,6 +9,7 @@ However, we expect that this README becomes your own
 - Rafe Dunlop
 - Hannah Botting
 - Steven Leishman
+- Navaneethakrishna Sridhar
 
 ## Prerequisites
 - JDK >= 21 [click here to get the latest stable OpenJDK release (as of writing this README)](https://jdk.java.net/18/)
