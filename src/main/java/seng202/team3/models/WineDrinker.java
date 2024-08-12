@@ -35,6 +35,7 @@ public class WineDrinker {
     /**
      * Initialises WineDrinker object and DBService instance and stores
      * data retrieved from database under given username and password
+     *
      * @param username username for database search record
      * @param password password to authenticate user
      */
