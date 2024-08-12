@@ -1,12 +1,61 @@
 package seng202.team3.models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public abstract class WineList {
-    ArrayList<Wine> wineListArray = new ArrayList<>();
+/**
+ *This class represents a list of wines (stored as Wine objects). The list is stored as an Arraylist which is kept private.
+ *
+ * @author Yuvraj Singh Fagotra
+ */
+    public class WineList {
+    private final List<Wine> wineList;
 
-    public abstract void addWineToList(Wine wine);
+    /**
+     * Constructs new WineList object and initializes the list.
+     */
+    public WineList() {
+        wineList = new ArrayList<>();
+    }
 
-    public abstract void removeWineFromList(Wine wine);
+    /**
+     * Used to access the list of wines.
+     * @return An immutable copy of the wine list to make sure that the list is only modified using the public methods
+     * provided by this class.
+     */
+    public List<Wine> getWineList() {
+        return List.copyOf(wineList);
+    }
+
+    /**
+     * Adds the given wine to the wine list.
+     * @param wine The Wine object to be added to the list. Must not be null.
+     * @throws NullPointerException If given Wine is null.
+     */
+    public void addWineToList(Wine wine) throws NullPointerException {
+
+        if (wine != null) {
+            wineList.add(wine);
+        } else {
+            throw new NullPointerException("Wine must not be null");
+        }
+
+    }
+
+    /**
+     * Removes the given wine from the wine list.
+     * @param wine The Wine object to be removed from the list. Must not be null.
+     * @throws NullPointerException If given Wine is null.
+     */
+    public void removeWineFromList(Wine wine) throws NullPointerException {
+
+        if (wine != null) {
+            wineList.remove(wine);
+        } else {
+            throw new NullPointerException("Wine must not be null");
+        }
+
+    }
 
 }
