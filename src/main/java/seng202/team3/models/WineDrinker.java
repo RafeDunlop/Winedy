@@ -35,12 +35,12 @@ public class WineDrinker {
     }
 
     void createWineList() {
-
     }
 
     void removeWineList(WineList list) {
         for (WineList wineList : drinkersWineLists) {
-
+            //need wineList.getName()
+            //drinkersWineLists.remove(wineList)
         }
     }
 
