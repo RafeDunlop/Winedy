@@ -1,4 +1,5 @@
 package seng202.team3.services;
+
 import seng202.team3.models.*;
 import java.util.*;
 
@@ -17,9 +18,9 @@ public class DBService {
      * or if no data exists throw exception
      *
      * @param username - users username to search
-     * @param password
+     * @param password - users chosen password to match
      * @return List of Strings of user data
-     * @throws WineDrinkerDoesNotExistException
+     * @throws WineDrinkerDoesNotExistException if no record found in database
      */
     public List<String>  readDrinkerDetails(String username, String password) throws WineDrinkerDoesNotExistException{
         boolean mockFlag = false;
@@ -33,7 +34,7 @@ public class DBService {
     /**
      * writes a wineDrinker record to the database from input
      * wineDrinker instance
-     * @param wineDrinker
+     * @param wineDrinker - current instance of wineDrinker
      */
     public void writeDrinkerDetails(WineDrinker wineDrinker){
         //to implement when SQL learned
@@ -42,8 +43,8 @@ public class DBService {
     /**
      * Creates a new wineDrinker record with input username and password
      * utilises writeDrinkerDetails
-     * @param username
-     * @param password
+     * @param username users name to match DB record
+     * @param password users password to match DB record
      */
     public void writeNewDrinkerRecord(String username, String password){
         System.out.println("Wine Drinker record created");
@@ -51,8 +52,8 @@ public class DBService {
     }
 
     /**
-     * Adds inputted wineList to db
-     * @param wineList
+     * Adds inputted wineList to DB records
+     * @param wineList the list to store
      */
     public void writeWineList(List<Wine> wineList){
         //to implement when SQL learned

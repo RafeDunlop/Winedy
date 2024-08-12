@@ -3,6 +3,15 @@ package seng202.team3.models;
 import seng202.team3.services.*;
 import java.util.ArrayList;
 
+/**
+ * WineDrinker class holds important information about the user
+ * and their wine preferences, holds ArrayList of WineLists
+ *
+ * Supplies controllers with information to display
+ * Calls DBService to retrieve record from database
+ *
+ * @author Steven Leishman
+ */
 public class WineDrinker {
     ArrayList<WineList> drinkersWineLists = new ArrayList<>();
     String username;
