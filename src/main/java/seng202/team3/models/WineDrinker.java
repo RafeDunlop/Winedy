@@ -1,5 +1,6 @@
 package seng202.team3.models;
 
+import seng202.team3.services.*;
 import java.util.ArrayList;
 
 public class WineDrinker {
@@ -8,25 +9,48 @@ public class WineDrinker {
     String wineColourPreference;
     String wineFullnessPreference;
     boolean isLoggedIn = false;
+    DBService dbService;
 
     public WineDrinker() {
-        // To implement
+        this.username = null;
+        this.wineColourPreference = null;
+        this.wineFullnessPreference = null;
+        this.dbService = new DBService();
+
     }
 
-    public WineDrinker(String username, String userPassword) {
-        // To implement
+    public WineDrinker(String username, String password) {
+        this.username = username;
+        this.dbService = new DBService();
+        try {
+            dbService.readDrinkerDetails(username, password);
+        } catch (WineDrinkerDoesNotExistException e){
+            e.printStackTrace();
+            dbService.writeNewDrinkerRecord(username, password);
+        }
     }
 
     void readPreferences() {
-        // To implement
+
     }
 
     void createWineList() {
-        // To implement
+
     }
 
     void removeWineList(WineList list) {
-        // To implement
+        for (WineList wineList : drinkersWineLists) {
+
+        }
     }
 
+    public String getUsername(){
+        return this.username;
+    }
+    public String getWineColourPreference(){
+        return this.wineColourPreference;
+    }
+    public String getWineFullnessPreference(){
+        return this.wineFullnessPreference;
+    }
 }
