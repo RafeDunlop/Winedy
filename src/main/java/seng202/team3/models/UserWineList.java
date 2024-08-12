@@ -5,7 +5,7 @@ public class UserWineList extends WineList {
 
     @Override
     public void addWineToList(Wine wine) {
-        // To implement
+        super.addWineToList(wine);
     }
 
     @Override
@@ -13,8 +13,11 @@ public class UserWineList extends WineList {
         // To implement
     }
 
-    void editWineListName(String newName) {
+    public void editWineListName(String newName) {
         // To implement
     }
 
+    public String getWineListName() {
+        return this.wineListName;
+    }
 }
