@@ -5,7 +5,7 @@ import javafx.scene.control.TextField;
 
 /**
  * controller for dummy1.fxml, not for release
- * @author Rafe Dunlop (rdu46)
+ * @author Rafe Dunlop (rdu46), Krishna Sridhar (nsr36)
  */
 public class Dummy2Controller {
 
@@ -15,6 +15,12 @@ public class Dummy2Controller {
      */
     @FXML
     private TextField text;
+
+    private WinedyAppEnvironment winedyAppEnvironment;
+
+    public Dummy2Controller(WinedyAppEnvironment x) {
+        winedyAppEnvironment = x;
+    }
 
     /**
      * initializes the controller, setting a default value to the TextField

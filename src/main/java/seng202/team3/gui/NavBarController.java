@@ -2,22 +2,14 @@ package seng202.team3.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-
 
 /**
 controller for the navigation bar (nav_bar.fxml)
  which is the container for all screens except for the landing screen
  (currently only contains features for demonstration)
- @author Rafe Dunlop (rdu46)
+ @author Rafe Dunlop (rdu46), Krishna Sridhar (nsr36)
  */
 public class NavBarController {
-
-    /**
-     * the container for all screens featuring the navigation bar
-     */
-    @FXML
-    private AnchorPane screenPane;
 
     /**
      * just a dummy text field for verifying that this structure works graphically
@@ -25,21 +17,21 @@ public class NavBarController {
     @FXML
     TextField dummyText;
 
+    private WinedyAppEnvironment winedyAppEnvironment;
 
-    public void initialize() {
-        FXWrapper instance = FXWrapper.getInstance();
-        instance.setScreenPane(screenPane);
+    public NavBarController(WinedyAppEnvironment x) {
+        winedyAppEnvironment = x;
     }
 
     @FXML
     private void dummy1Clicked() {
-        FXWrapper.getInstance().loadScreen(Screen.DUMMY1);
+        winedyAppEnvironment.launchDummy1();
         dummyText.setText("dummy1clicked");
     }
 
     @FXML
     private void dummy2Clicked() {
-        FXWrapper.getInstance().loadScreen(Screen.DUMMY2);
+        winedyAppEnvironment.launchDummy2();
         dummyText.setText("dummy2clicked");
     }
 }

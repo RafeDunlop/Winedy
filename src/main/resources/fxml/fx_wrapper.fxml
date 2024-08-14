@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.FXWrapper">
+   <children>
+      <Pane fx:id="screenPane" layoutY="80.0" prefHeight="720.0" prefWidth="1200.0" />
+      <Pane fx:id="superPane" prefHeight="80.0" prefWidth="1200.0" />
+   </children>
+</AnchorPane>
