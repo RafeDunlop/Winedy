@@ -13,23 +13,23 @@ import java.io.IOException;
  */
 public class FXWrapper {
 
-    /**
+    /*
      * container below navigation bar for screens featuring the navigation bar
      */
     private AnchorPane screenPane;
 
-    /**
+    /*
      * higher level container for all GUI in the application
      */
     private Pane superPane;
 
-    /**
+    /*
      * instance variable, stores the only copy of this class that may exist.
      */
     private static FXWrapper instance;
 
-    /**
-     * private (almost) default constructor to prevent instantiation outside this class
+    /*
+     * private default constructor to prevent instantiation outside this class
      */
     private FXWrapper() {
         screenPane = null;
@@ -65,6 +65,7 @@ public class FXWrapper {
     }
 
     /**
+     * --DEPRECATED--
      * loads dummy1.fxml into the screen below navbar
      * not for release
      * @throws IOException thrown if the FXMLLoader.load() method encounters a problem
@@ -78,6 +79,7 @@ public class FXWrapper {
     }
 
     /**
+     * --DEPRECATED--
      * loads dummy2.fxml into the screen below navbar
      * not for release
      * @throws IOException thrown if the FXMLLoader.load() method encounters a problem
@@ -90,19 +92,44 @@ public class FXWrapper {
     }
 
     /**
+     * loads specified screen passed via enum
+     * @param screen Enum which contains fxml path and
+     */
+    protected void loadScreen(Screen screen) {
+        try {
+            FXMLLoader screenLoader = new FXMLLoader(getClass().getResource("/fxml/" + screen.file));
+            Parent root = screenLoader.load();
+            if (screen.hasNavBar) {
+                clearScreen();
+                screenPane.getChildren().add(root);
+            } else {
+                clearNavBar();
+                superPane.getChildren().add(root);
+            }
+        } catch (IOException e) {
+            e.printStackTrace(); //TODO: replace with error logging
+        }
+    }
+
+    /*
      * Removes all FXML components, including the navBar
      * @throws NullPointerException thrown if superPane is not set yet via setSuperPane
      */
-    protected void clearNavBar() throws NullPointerException {
+    private void clearNavBar() throws NullPointerException {
         superPane.getChildren().removeAll(superPane.getChildren());
     }
 
-    /**
+    /*
      * Removes all FXML components below the navBar level
+     * if screenPane is not present, initializes navBar (which sets screenPane)
      * called when switching screens
      * @throws NullPointerException thrown if screenPane is not set yet via setScreenPane
      */
-    protected void clearScreen() throws NullPointerException {
-        screenPane.getChildren().removeAll(screenPane.getChildren());
+    private void clearScreen() throws NullPointerException {
+        try {
+            screenPane.getChildren().removeAll(screenPane.getChildren());
+        } catch (NullPointerException e) {
+            loadScreen(Screen.NAVBAR);
+        }
     }
 }
