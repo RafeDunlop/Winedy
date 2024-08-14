@@ -3,7 +3,7 @@ package seng202.team3.gui;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+
 
 
 import java.io.IOException;
@@ -35,13 +35,13 @@ public class NavBarController {
     }
 
     @FXML
-    private void dummy1Clicked() throws IOException {
+    private void dummy1Clicked() {
         FXWrapper.getInstance().loadScreen(Screen.DUMMY1);
         dummyText.setText("dummy1clicked");
     }
 
     @FXML
-    private void dummy2Clicked() throws IOException {
+    private void dummy2Clicked() {
         FXWrapper.getInstance().loadScreen(Screen.DUMMY2);
         dummyText.setText("dummy2clicked");
     }
