@@ -5,9 +5,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 
-
-import java.io.IOException;
-
 /**
 controller for the navigation bar (nav_bar.fxml)
  which is the container for all screens except for the landing screen
