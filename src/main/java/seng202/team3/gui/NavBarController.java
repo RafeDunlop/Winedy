@@ -17,13 +17,6 @@ controller for the navigation bar (nav_bar.fxml)
 public class NavBarController {
 
     /**
-     * pane upon which the application is built, may need to be moved to a different class.
-     * landing screen has been bypassed in this branch for simplicity
-     */
-    @FXML
-    private Pane superPane;
-
-    /**
      * the container for all screens featuring the navigation bar
      */
     @FXML
@@ -39,19 +32,17 @@ public class NavBarController {
     public void initialize() {
         FXWrapper instance = FXWrapper.getInstance();
         instance.setScreenPane(screenPane);
-        instance.setSuperPane(superPane);
-
     }
 
     @FXML
     private void dummy1Clicked() throws IOException {
-        FXWrapper.getInstance().launchDummy1();
+        FXWrapper.getInstance().loadScreen(Screen.DUMMY1);
         dummyText.setText("dummy1clicked");
     }
 
     @FXML
     private void dummy2Clicked() throws IOException {
-        FXWrapper.getInstance().launchDummy2();
+        FXWrapper.getInstance().loadScreen(Screen.DUMMY2);
         dummyText.setText("dummy2clicked");
     }
 }
