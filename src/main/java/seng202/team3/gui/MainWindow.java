@@ -25,7 +25,7 @@ public class MainWindow extends Application {
         Parent root = baseLoader.load();
 
         primaryStage.setTitle("Winedy");
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 1200, 800);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
