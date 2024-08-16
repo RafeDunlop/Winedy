@@ -38,6 +38,7 @@ public class FXWrapper {
                                  this::launchNavBar,
                                  this::launchDummy1,
                                  this::launchDummy2,
+                                 this::launchSignInScreen,
                                  this::clearScreen,
                                  this::clearSuper);
     }
@@ -76,7 +77,6 @@ public class FXWrapper {
     /**
      * loads dummy1.fxml into the screen below navbar
      * not for release
-     * @throws IOException thrown if the FXMLLoader.load() method encounters a problem
      */
     public void launchDummy1(WinedyAppEnvironment winedyAppEnvironment) {
         try {
@@ -94,7 +94,6 @@ public class FXWrapper {
     /**
      * loads dummy2.fxml into the screen below navbar
      * not for release
-     * @throws IOException thrown if the FXMLLoader.load() method encounters a problem
      */
     public void launchDummy2(WinedyAppEnvironment winedyAppEnvironment) {
         try {
@@ -110,23 +109,33 @@ public class FXWrapper {
     }
 
     /**
-     * Removes all FXML components below the navBar level
-     * called when switching screens
-     * @throws NullPointerException thrown if screenPane is not set yet via setScreenPane
+     * loads signInScreen.fxml into the screen below navbar
      */
-    public void clearScreen() throws NullPointerException {
+    public void launchSignInScreen(WinedyAppEnvironment winedyAppEnvironment) {
         try {
-            screenPane.getChildren().removeAll(screenPane.getChildren());
-        }
-        catch (NullPointerException e) {
+            FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/signInScreen.fxml"));
+            baseLoader.setControllerFactory(param -> new SignInScreenController(winedyAppEnvironment));
+            Parent root = baseLoader.load();
+            screenPane.getChildren().add(root);
+            stage.setTitle("Winedy Profile Sign In");
+        } catch (IOException e) {
             e.printStackTrace(); //TODO: replace with error logging
         }
     }
 
     /**
+     * Removes all FXML components below the navBar level
+     * called when switching screens
+     * TODO: more robust use of exceptions
+     */
+    public void clearScreen() {
+        screenPane.getChildren().removeAll(screenPane.getChildren());
+    }
+
+    /**
      * Removes all FXML components in the navBar level
      * called when switching screens
-     * @throws NullPointerException thrown if screenPane is not set yet via setScreenPane
+     * TODO: more robust use of exceptions
      */
     public void clearSuper() {
         superPane.getChildren().removeAll(superPane.getChildren());

@@ -12,6 +12,7 @@ public class WinedyAppEnvironment {
     private final Consumer<WinedyAppEnvironment> navBarLauncher;
     private final Consumer<WinedyAppEnvironment> dummy1Launcher;
     private final Consumer<WinedyAppEnvironment> dummy2Launcher;
+    private final Consumer<WinedyAppEnvironment> signInScreenLauncher;
     private final Runnable clearScreen;
     private final Runnable clearSuper;
 
@@ -30,12 +31,14 @@ public class WinedyAppEnvironment {
                                 Consumer<WinedyAppEnvironment> navBarLauncher,
                                 Consumer<WinedyAppEnvironment> dummy1Launcher,
                                 Consumer<WinedyAppEnvironment> dummy2Launcher,
+                                Consumer<WinedyAppEnvironment> launchSignInScreen,
                                 Runnable clearScreen,
                                 Runnable clearSuper) {
         this.homeScreenLauncher = homeScreenLauncher;
         this.navBarLauncher = navBarLauncher;
         this.dummy1Launcher = dummy1Launcher;
         this.dummy2Launcher = dummy2Launcher;
+        this.signInScreenLauncher = launchSignInScreen;
         this.clearScreen = clearScreen;
         this.clearSuper = clearSuper;
         launchHomeScreen();
@@ -71,5 +74,13 @@ public class WinedyAppEnvironment {
     public void launchDummy2() {
         clearScreen.run();
         dummy2Launcher.accept(this);
+    }
+
+    /**
+     * Open the sign in screen
+     */
+    public void launchSignInScreen() {
+        clearScreen.run();
+        signInScreenLauncher.accept(this);
     }
 }

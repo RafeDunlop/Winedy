@@ -41,7 +41,8 @@ public class HomeScreenController {
      */
     @FXML
     public void goToProfile() {
-        // To implement
+        winedyAppEnvironment.launchSignInScreen();
+        winedyAppEnvironment.launchNavBar();
     }
 
     /**
