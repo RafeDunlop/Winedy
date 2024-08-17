@@ -26,6 +26,7 @@ public class MainWindow extends Application {
 
         primaryStage.setTitle("Winedy");
         Scene scene = new Scene(root, 600, 400);
+        scene.getStylesheets().add(getClass().getResource("/css/test.css").toExternalForm());  // added this idk what it does
         primaryStage.setScene(scene);
         primaryStage.show();
     }

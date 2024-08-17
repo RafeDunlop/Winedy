@@ -4,10 +4,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="superPane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.NavBarController">
-   <AnchorPane fx:id="screenPane" layoutY="76.0" prefHeight="1004.0" prefWidth="1920.0"/>
-   <Button layoutX="31.0" layoutY="30.0" mnemonicParsing="false" onAction="#dummy1Clicked" text="DummyButton1"/>
-   <Button layoutX="150.0" layoutY="30.0" mnemonicParsing="false" onAction="#dummy2Clicked" text="DummyButton2"/>
-   <TextField fx:id="dummyText" layoutX="288.0" layoutY="30.0"/>
+<AnchorPane fx:id="superPane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.NavBarController">
+   <AnchorPane fx:id="screenPane" layoutY="76.0" prefHeight="1004.0" prefWidth="1920.0" />
+   <Button fx:id="dummy1" layoutX="31.0" layoutY="30.0" mnemonicParsing="false" onAction="#dummy1Clicked" text="DummyButton1" />
+   <Button layoutX="150.0" layoutY="30.0" mnemonicParsing="false" onAction="#dummy2Clicked" text="DummyButton2" />
+   <TextField fx:id="dummyText" layoutX="288.0" layoutY="30.0" />
 </AnchorPane>

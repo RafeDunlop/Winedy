@@ -1,6 +1,7 @@
 package seng202.team3.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -35,12 +36,18 @@ public class NavBarController {
     @FXML
     TextField dummyText;
 
+    /**
+     * Dummy Button
+     */
+    @FXML
+    Button dummy1;
+
 
     public void initialize() {
         FXWrapper instance = FXWrapper.getInstance();
         instance.setScreenPane(screenPane);
         instance.setSuperPane(superPane);
-
+        dummy1.getStyleClass().add("test-button");
     }
 
     @FXML
