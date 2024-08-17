@@ -2,9 +2,12 @@ package seng202.team3.models;
 
 import java.util.List;
 
+/**
+ * Wine class for creating wine objects that will be stored in a database
+ */
 public class Wine {
     private String name;
-    private String colour;
+    private String type;
     private String personalWineEntry;
     private int uniqueWineID;
     private String country;
@@ -15,6 +18,32 @@ public class Wine {
     private List<String> awards;
     private float alcoholByVolume;
     private float volumeInMl;
+
+    /**
+     * Constructor for the Wine object
+     * @param name of the wine
+     * @param type of wine, either red, white or rose
+     * @param uniqueWineID identifying value for the wine
+     * @param country that the wine was made in
+     * @param shortDescription 1-2 word description of the wine
+     * @param longDescription longer description of the wine
+     * @param awards List of awards the wine has won
+     * @param pricePerBottle float of the price per bottle
+     * @param alcoholByVolume percentage of alcohol content in the bottle
+     * @param volumeInMl volume per bottle in ml
+     */
+    public Wine(String name, String type, int uniqueWineID, String country, String shortDescription, String longDescription, List<String> awards, float pricePerBottle, float alcoholByVolume, float volumeInMl) {
+        this.name = name;
+        this.type = type;
+        this.uniqueWineID = uniqueWineID;
+        this.country = country;
+        this.shortDescription = shortDescription;
+        this.longDescription = longDescription;
+        this.awards = awards;
+        this.pricePerBottle = pricePerBottle;
+        this.alcoholByVolume = alcoholByVolume;
+        this.volumeInMl = volumeInMl;
+    }
 
     /**
      * Get name of the wine
@@ -33,12 +62,17 @@ public class Wine {
     }
 
     /**
-     * Gets the colour of the wine
-     * @return Wine colour
+     * Gets the type of the wine
+     * @return Wine type, either red, white or rose
      */
-    public String getColour() { return colour;}
-    public void setColour(String colour) {
-        this.colour = colour;
+    public String getType() { return type;}
+
+    /**
+     * Sets the type of wine
+     * @param type of wine, either red, white or rose
+     */
+    public void setType(String type) {
+        this.type = type;
     }
 
 
@@ -141,7 +175,7 @@ public class Wine {
 
     /**
      * Sets the country the wine is from
-     * @param country
+     * @param country String containing the country the wine is made
      */
     public void setCountry(String country) {
         this.country = country;
@@ -149,7 +183,7 @@ public class Wine {
 
     /**
      * Sets the year the wine is from
-     * @param year
+     * @param year the year the wine was made
      */
     public void setYear(int year) {
         this.year = year;
