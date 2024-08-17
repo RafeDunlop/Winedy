@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Class starts the javaFX application window
@@ -26,6 +27,7 @@ public class MainWindow extends Application {
 
         primaryStage.setTitle("Winedy");
         Scene scene = new Scene(root, 1200, 800);
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/red_wine_button.css")).toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }

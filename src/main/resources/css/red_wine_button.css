@@ -1,0 +1,32 @@
+.root {
+    -fx-rwb-shadow-highlight-colour: #2E2E2E; /* Charcoal grey */
+    -fx-rwb-outer-border: #821D38; /* Claret */
+    -fx-rwb-inner-border: #A23D58; /* Amaranth purple */
+    -fx-rwb-body-colour: #B24D68; /* China rose */
+    -fx-rwb-text-base-colour: #F0F0F0;
+}
+
+.red-wine-button {
+    -fx-background-color: -fx-rwb-shadow-highlight-colour, -fx-rwb-outer-border, -fx-rwb-inner-border, -fx-rwb-body-colour;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-background-radius: 20px;
+    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* 4 8 4 8 */
+    -fx-text-fill: -fx-rwb-text-base-colour;
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
+}
+
+.red-wine-button:hover {
+    -fx-background-color: -fx-rwb-shadow-highlight-colour, -fx-rwb-shadow-highlight-colour, -fx-rwb-shadow-highlight-colour, derive(-fx-rwb-body-colour, 30%);
+    -fx-font-size: 40;
+}
+
+.red-wine-button:focused {
+    -fx-background-color: derive(-fx-rwb-body-colour, -30%);
+    -fx-border-color: -fx-rwb-shadow-highlight-colour;
+    -fx-background-insets: 10;
+    -fx-border-insets: 10;
+    -fx-border-width: 2;
+    -fx-border-radius: 20;
+}
+

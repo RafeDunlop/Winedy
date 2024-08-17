@@ -18,6 +18,16 @@ public class HomeScreenController {
     private Button helpButton;
 
     /**
+     * Initialises the button styles to be red-wine-button
+     */
+    @FXML
+    public void initialize() {
+        searchButton.getStyleClass().addAll("button", "red-wine-button");
+        profileButton.getStyleClass().addAll("button", "red-wine-button");
+        helpButton.getStyleClass().addAll("button", "red-wine-button");
+    }
+
+    /**
      * When search button is pressed, launch the nav bar and search window
      */
     @FXML
