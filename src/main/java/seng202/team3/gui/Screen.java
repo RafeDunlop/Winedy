@@ -6,8 +6,10 @@ enum detailing necessary fields for LoadScreen method in FXWrapper
  @author Rafe Dunlop (rdu46)
  */
 public enum Screen {
-    HOME("home.fxml", false),
+    HOME("home_screen.fxml", false),
     NAVBAR("nav_bar.fxml", false),
+
+    SIGNINSCREEN("sign_in_screen.fxml", true),
 
     //TODO: get rid of these!
     DUMMY1("dummy1.fxml", true),

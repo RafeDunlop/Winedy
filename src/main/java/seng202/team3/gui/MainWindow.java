@@ -21,7 +21,7 @@ public class MainWindow extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/nav_bar.fxml"));
+        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/super_pane.fxml"));
         Parent root = baseLoader.load();
 
         primaryStage.setTitle("Winedy");

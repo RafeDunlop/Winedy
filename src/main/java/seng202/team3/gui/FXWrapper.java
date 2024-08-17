@@ -65,33 +65,6 @@ public class FXWrapper {
     }
 
     /**
-     * --DEPRECATED--
-     * loads dummy1.fxml into the screen below navbar
-     * not for release
-     * @throws IOException thrown if the FXMLLoader.load() method encounters a problem
-     */
-    protected void launchDummy1() throws IOException {
-        clearScreen();
-        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/dummy1.fxml"));
-        Parent root = baseLoader.load();
-        screenPane.getChildren().add(root);
-
-    }
-
-    /**
-     * --DEPRECATED--
-     * loads dummy2.fxml into the screen below navbar
-     * not for release
-     * @throws IOException thrown if the FXMLLoader.load() method encounters a problem
-     */
-    protected void launchDummy2() throws IOException {
-        clearScreen();
-        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/dummy2.fxml"));
-        Parent root = baseLoader.load();
-        screenPane.getChildren().add(root);
-    }
-
-    /**
      * loads specified screen passed via enum
      * @param screen Enum which contains fxml path and
      */
