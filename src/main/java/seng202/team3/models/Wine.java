@@ -21,10 +21,11 @@ public class Wine {
 
     /**
      * Constructor for the Wine object
+     * @param uniqueWineID identifying value for the wine
      * @param name of the wine
      * @param type of wine, either red, white or rose
-     * @param uniqueWineID identifying value for the wine
      * @param country that the wine was made in
+     * @param year the year that the wine was made
      * @param shortDescription 1-2 word description of the wine
      * @param longDescription longer description of the wine
      * @param awards List of awards the wine has won
@@ -32,11 +33,12 @@ public class Wine {
      * @param alcoholByVolume percentage of alcohol content in the bottle
      * @param volumeInMl volume per bottle in ml
      */
-    public Wine(int uniqueWineID, String name, String type, String country, String shortDescription, String longDescription, String awards, float pricePerBottle, float alcoholByVolume, float volumeInMl) {
+    public Wine(int uniqueWineID, String name, String type, String country, int year, String shortDescription, String longDescription, String awards, float pricePerBottle, float alcoholByVolume, float volumeInMl) {
         this.uniqueWineID = uniqueWineID;
         this.name = name;
         this.type = type;
         this.country = country;
+        this.year = year;
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
         this.awards = awards;
