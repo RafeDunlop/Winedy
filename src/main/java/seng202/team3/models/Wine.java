@@ -15,7 +15,7 @@ public class Wine {
     private String shortDescription;
     private String longDescription;
     private float pricePerBottle;
-    private List<String> awards;
+    private String awards; //this should be a list
     private float alcoholByVolume;
     private float volumeInMl;
 
@@ -32,7 +32,7 @@ public class Wine {
      * @param alcoholByVolume percentage of alcohol content in the bottle
      * @param volumeInMl volume per bottle in ml
      */
-    public Wine(int uniqueWineID, String name, String type, String country, String shortDescription, String longDescription, List<String> awards, float pricePerBottle, float alcoholByVolume, float volumeInMl) {
+    public Wine(int uniqueWineID, String name, String type, String country, String shortDescription, String longDescription, String awards, float pricePerBottle, float alcoholByVolume, float volumeInMl) {
         this.uniqueWineID = uniqueWineID;
         this.name = name;
         this.type = type;
@@ -120,7 +120,7 @@ public class Wine {
      * Gets the list of awards the wine has won
      * @return the list of the wine's awards
      */
-    public List<String> getAwards() {
+    public String getAwards() {
         return awards;
     }
 
@@ -214,7 +214,7 @@ public class Wine {
      * Sets the list of awards the wine has won
      * @param awards A list of the awards
      */
-    public void setAwards(List<String> awards) {
+    public void setAwards(String awards) {
         this.awards = awards;
     }
 
