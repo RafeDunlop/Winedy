@@ -6,10 +6,10 @@ import java.util.List;
  * Wine class for creating wine objects that will be stored in a database
  */
 public class Wine {
+    private int uniqueWineID;
     private String name;
     private String type;
     private String personalWineEntry;
-    private int uniqueWineID;
     private String country;
     private int year;
     private String shortDescription;
@@ -32,10 +32,10 @@ public class Wine {
      * @param alcoholByVolume percentage of alcohol content in the bottle
      * @param volumeInMl volume per bottle in ml
      */
-    public Wine(String name, String type, int uniqueWineID, String country, String shortDescription, String longDescription, List<String> awards, float pricePerBottle, float alcoholByVolume, float volumeInMl) {
+    public Wine(int uniqueWineID, String name, String type, String country, String shortDescription, String longDescription, List<String> awards, float pricePerBottle, float alcoholByVolume, float volumeInMl) {
+        this.uniqueWineID = uniqueWineID;
         this.name = name;
         this.type = type;
-        this.uniqueWineID = uniqueWineID;
         this.country = country;
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
@@ -43,6 +43,14 @@ public class Wine {
         this.pricePerBottle = pricePerBottle;
         this.alcoholByVolume = alcoholByVolume;
         this.volumeInMl = volumeInMl;
+    }
+
+    /**
+     * Gets the unique wine id
+     * @return Unique wine id
+     */
+    public int getUniqueWineID() {
+        return uniqueWineID;
     }
 
     /**
@@ -54,27 +62,10 @@ public class Wine {
     }
 
     /**
-     * Set name of the
-     * @param name a String with the name of the wine
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
      * Gets the type of the wine
      * @return Wine type, either red, white or rose
      */
     public String getType() { return type;}
-
-    /**
-     * Sets the type of wine
-     * @param type of wine, either red, white or rose
-     */
-    public void setType(String type) {
-        this.type = type;
-    }
-
 
     /**
      * Gets the wine entry recorded by the wine drinker
@@ -84,13 +75,6 @@ public class Wine {
         return personalWineEntry;
     }
 
-    /**
-     * Gets the unique wine id
-     * @return Unique wine id
-     */
-    public int getUniqueWineID() {
-        return uniqueWineID;
-    }
 
     /**
      * Gets the country the wine is made in
@@ -156,21 +140,34 @@ public class Wine {
         return volumeInMl;
     }
 
-
-    /**
-     * Sets the personal wine entry for a wine drinker
-     * @param personalWineEntry Wine note taken by the user
-     */
-    public void setPersonalWineEntry(String personalWineEntry) {
-        this.personalWineEntry = personalWineEntry;
-    }
-
     /**
      * Sets the personal wine ID
      * @param uniqueWineID Integer identifier of the wine
      */
     public void setUniqueWineID(int uniqueWineID) {
         this.uniqueWineID = uniqueWineID;
+    }
+
+    /**
+     * Set name of the
+     * @param name a String with the name of the wine
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+    /**
+     * Sets the type of wine
+     * @param type of wine, either red, white or rose
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+    /**
+     * Sets the personal wine entry for a wine drinker
+     * @param personalWineEntry Wine note taken by the user
+     */
+    public void setPersonalWineEntry(String personalWineEntry) {
+        this.personalWineEntry = personalWineEntry;
     }
 
     /**
