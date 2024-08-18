@@ -214,9 +214,7 @@ public class Wine {
      * Sets the list of awards the wine has won
      * @param awards A list of the awards
      */
-    public void setAwards(String awards) {
-        this.awards = awards;
-    }
+    public void setAwards(String awards) { this.awards = awards; }
 
     /**
      * Sets the alcohol percentage of the wine
