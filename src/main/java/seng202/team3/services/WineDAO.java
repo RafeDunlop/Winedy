@@ -96,24 +96,24 @@ public class WineDAO implements DAOInterface<Wine> {
     /**
      * Adds an individual wine to the database
      * @param toAdd wine to add
-     * @return true if no error, false if sql error
+     * @return the insertId of the action
      */
     @Override
     public int add (Wine toAdd){
         String sql = "INSERT INTO wine (id, name, type, country, year, shortDescription, longDescription, awards, pricePerBottle, alcoholByVolume, volumeInML) values (?,?,?,?,?,?,?,?,?,?,?);";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(0,toAdd.getUniqueWineID());
-            ps.setString(1, toAdd.getName());
-            ps.setString(2, toAdd.getType());
-            ps.setString(3, toAdd.getCountry());
-            ps.setInt(4, toAdd.getYear());
-            ps.setString(5, toAdd.getShortDescription());
-            ps.setString(6, toAdd.getLongDescription());
-            ps.setString(7, toAdd.getAwards());
-            ps.setFloat(8, toAdd.getPricePerBottle());
-            ps.setFloat(9, toAdd.getAlcoholByVolume());
-            ps.setFloat(10, toAdd.getVolumeInMl());
+            ps.setInt(1,toAdd.getUniqueWineID());
+            ps.setString(2, toAdd.getName());
+            ps.setString(3, toAdd.getType());
+            ps.setString(4, toAdd.getCountry());
+            ps.setInt(5, toAdd.getYear());
+            ps.setString(6, toAdd.getShortDescription());
+            ps.setString(7, toAdd.getLongDescription());
+            ps.setString(8, toAdd.getAwards());
+            ps.setFloat(9, toAdd.getPricePerBottle());
+            ps.setFloat(10, toAdd.getAlcoholByVolume());
+            ps.setFloat(11, toAdd.getVolumeInMl());
             ps.executeUpdate();
             ResultSet resultSet = ps.getGeneratedKeys();
             int insertId = -1;
@@ -138,17 +138,17 @@ public class WineDAO implements DAOInterface<Wine> {
              PreparedStatement ps = conn.prepareStatement(sql)) {
             conn.setAutoCommit(false);
             for (Wine wine : toAdd) {
-                ps.setInt(0, wine.getUniqueWineID());
-                ps.setString(1, wine.getName());
-                ps.setString(2, wine.getType());
-                ps.setString(3, wine.getCountry());
-                ps.setInt(4, wine.getYear());
-                ps.setString(5, wine.getShortDescription());
-                ps.setString(6, wine.getLongDescription());
-                ps.setString(7, wine.getAwards());
-                ps.setFloat(8, wine.getPricePerBottle());
-                ps.setFloat(9, wine.getAlcoholByVolume());
-                ps.setFloat(10, wine.getVolumeInMl());
+                ps.setInt(1,wine.getUniqueWineID());
+                ps.setString(2, wine.getName());
+                ps.setString(3, wine.getType());
+                ps.setString(4, wine.getCountry());
+                ps.setInt(5, wine.getYear());
+                ps.setString(6, wine.getShortDescription());
+                ps.setString(7, wine.getLongDescription());
+                ps.setString(8, wine.getAwards());
+                ps.setFloat(9, wine.getPricePerBottle());
+                ps.setFloat(10, wine.getAlcoholByVolume());
+                ps.setFloat(11, wine.getVolumeInMl());
                 ps.addBatch();
             }
             ps.executeBatch();
