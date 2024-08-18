@@ -11,11 +11,7 @@ public enum Screen {
     SEARCH("search_screen.fxml", true),
     SIGNINSCREEN("sign_in_screen.fxml", true),
     PROFILESCREEN("profile_screen.fxml", true),
-    PROFILELISTVIEWSCREEN("profile_list_view_screen.fxml", true),
-
-    //TODO: get rid of these!
-    DUMMY1("dummy1.fxml", true),
-    DUMMY2("dummy2.fxml", true);
+    PROFILELISTVIEWSCREEN("profile_list_view_screen.fxml", true);
 
     /**
      * the file name of the fxml file related to this screen without prefix i.e. "main.fxml"
