@@ -16,24 +16,13 @@ public class HomeScreenController {
     private Button profileButton;
     @FXML
     private Button helpButton;
-    private WinedyAppEnvironment winedyAppEnvironment;
-
-    /**
-     * HomeScreenController Constructor
-     * Pass in the winedyAppEnvironment
-     * @author nsr36
-     * @param x WinedyAppEnvironment instance
-     */
-    public HomeScreenController(WinedyAppEnvironment x) {
-        winedyAppEnvironment = x;
-    }
 
     /**
      * When search button is pressed, launch the nav bar and search window
      */
     @FXML
     public void goToSearch() {
-        winedyAppEnvironment.launchNavBar();
+        FXWrapper.getInstance().loadScreen(Screen.DUMMY1);
     }
 
     /**
@@ -41,8 +30,7 @@ public class HomeScreenController {
      */
     @FXML
     public void goToProfile() {
-        winedyAppEnvironment.launchSignInScreen();
-        winedyAppEnvironment.launchNavBar();
+        FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
     }
 
     /**

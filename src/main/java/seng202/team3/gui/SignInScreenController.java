@@ -29,18 +29,6 @@ public class SignInScreenController {
     @FXML
     private PasswordField loginPasswordField;
 
-    private WinedyAppEnvironment winedyAppEnvironment;
-
-    /**
-     * SignInScreenController Constructor
-     * Pass in the winedyAppEnvironment
-     * @author nsr36
-     * @param x WinedyAppEnvironment instance
-     */
-    public SignInScreenController(WinedyAppEnvironment x) {
-        winedyAppEnvironment = x;
-    }
-
     @FXML
     public void createAccountButtonClicked() {
         // To implement

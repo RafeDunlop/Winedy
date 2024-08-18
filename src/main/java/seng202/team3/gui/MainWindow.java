@@ -10,7 +10,7 @@ import java.io.IOException;
 
 /**
  * Class starts the javaFX application window
- * @author seng202 teaching team, Krishna Sridhar (nsr36)
+ * @author seng202 teaching team
  */
 public class MainWindow extends Application {
 
@@ -21,14 +21,13 @@ public class MainWindow extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/fx_wrapper.fxml"));
+        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/super_pane.fxml"));
         Parent root = baseLoader.load();
-        FXWrapper fxWrapper = baseLoader.getController();
+
         primaryStage.setTitle("Winedy");
         Scene scene = new Scene(root, 1200, 800);
         primaryStage.setScene(scene);
         primaryStage.show();
-        fxWrapper.init(primaryStage);
     }
 
     /**
