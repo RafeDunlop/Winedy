@@ -108,7 +108,7 @@ public class SignInScreenController {
      */
     @FXML
     private void onCreateAccountButtonClicked(ActionEvent event) {
-
+        FXWrapper.getInstance().loadScreen(Screen.PROFILESCREEN);
     }
 
     /*
@@ -119,7 +119,7 @@ public class SignInScreenController {
      */
     @FXML
     void onLoginButtonClicked(ActionEvent event) {
-
+        FXWrapper.getInstance().loadScreen(Screen.PROFILESCREEN);
     }
 
     /*
