@@ -1,7 +1,7 @@
 package seng202.team3.gui;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -9,6 +9,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import seng202.team3.models.IllegalWineDrinkerException;
 
 /**
  * controller for sign_in_screen.fxml. Handles logging in, registering and setting initial preferences
@@ -27,13 +28,7 @@ public class SignInScreenController {
       *combobox for selecting red/white
       */
     @FXML
-    private ComboBox<?> colourPreferenceComboBox;
-
-    /*
-    button for creating account. Hidden when in login mode
-     */
-    @FXML
-    private Button createAccountButton;
+    private ComboBox<String> colourPreferenceComboBox;
 
     /*
     field for entering password
@@ -45,7 +40,7 @@ public class SignInScreenController {
     comboBox for selecting the fullness of your preferred wines
      */
     @FXML
-    private ComboBox<?> fullnessPreferenceComboBox;
+    private ComboBox<String> fullnessPreferenceComboBox;
 
     /*
     button clicked upon logging in
@@ -93,7 +88,10 @@ public class SignInScreenController {
     ComboBox for variety selection
      */
     @FXML
-    private ComboBox<?> varietyPreferenceComboBox;
+    private ComboBox<String> varietyPreferenceComboBox;
+
+    @FXML
+    private Label errorLabel;
 
     /*
     state variable (state design pattern) to decide if the UI is in register mode (true) or login mode (false)
@@ -107,8 +105,22 @@ public class SignInScreenController {
      * Otherwise, prompts user with what input is invalid
      */
     @FXML
-    private void onCreateAccountButtonClicked(ActionEvent event) {
-        FXWrapper.getInstance().loadScreen(Screen.PROFILESCREEN);
+    private void onCreateAccountButtonClicked() {
+        try {
+            String username = usernameTextField.getText(); //replace with method to check input against constraints
+            String password = enterPasswordField.getText(); //""
+            assertPasswordsMatch();
+            String colour = getComboInput(colourPreferenceComboBox);
+            String fullness = getComboInput(fullnessPreferenceComboBox);
+            String variety = getComboInput(varietyPreferenceComboBox);
+            int ABVLimit = (int) abvLimitSlider.getValue();
+
+            FXWrapper.getInstance().loadScreen(Screen.PROFILESCREEN);
+
+        } catch (IllegalWineDrinkerException e) {
+            fullDisable(errorLabel, false);
+            errorLabel.setText(e.getMessage());
+        }
     }
 
     /*
@@ -118,23 +130,68 @@ public class SignInScreenController {
      * Otherwise, prompts the user with the reason their login attempt failed (wrong password or no such username in DB)
      */
     @FXML
-    void onLoginButtonClicked(ActionEvent event) {
+    void onLoginButtonClicked() {
         FXWrapper.getInstance().loadScreen(Screen.PROFILESCREEN);
     }
 
     /*
      * method called when the register/login Button is Clicked
+     * not direct FXML button method because called upon initialization
      */
-    @FXML
-    void onToggleSignInButtonClicked(ActionEvent event) {
+    private void toggleMode() {
+        fullDisable(preferencesAnchorPane, !registerMode);
+        toggleLabel.setText((registerMode) ? "Already have an account?" : "Don't have an account?");
+        toggleSignInButton.setText((registerMode) ? "Sign in" : "Register");
+        fullDisable(reEnterPasswordField, !registerMode);
+        fullDisable(reEnterPasswordLabel, !registerMode);
+        fullDisable(loginButton, registerMode);
+        fullDisable(errorLabel, true);
+        registerMode = !registerMode;
+    }
 
+    /*
+     * helper function for toggleMode to disable and make invisible the component in one line
+     * @param component Node object, fx component to disable
+     * @param fullDisable whether to disable or enable the component
+     */
+    private void fullDisable(Node component, boolean fullDisable) {
+        component.setDisable(fullDisable);
+        component.setOpacity((fullDisable) ? 0 : 1);
+    }
+
+    /*
+     * tries to acquire a combo box's selected item (currently String, may be changed)
+     * otherwise throws a IllegalWineDrinker exception with the name of the combo box as the reason
+     */
+    private String getComboInput(ComboBox<String> comboBox) throws IllegalWineDrinkerException {
+        try {
+            return comboBox.getSelectionModel().getSelectedItem();
+        } catch (NullPointerException e) {
+            throw new IllegalWineDrinkerException("Please select a " + comboBox.getPromptText());
+        }
+    }
+
+    /**
+     * does nothing as long as the inputted passwords are matching
+     * @throws IllegalWineDrinkerException thrown if the passwords do not match
+     */
+    private void assertPasswordsMatch() throws IllegalWineDrinkerException {
+        if (!(enterPasswordField.getText().equals(reEnterPasswordField.getText()))) {
+            throw new IllegalWineDrinkerException("Passwords do not match");
+        }
     }
 
     /**
      * sets up combo-boxes, sets Button actions and sets the GUI to login mode
+     * TODO: replace Strings of combobox with enum types
+     * TODO: variety combobox is neither exhaustive nor can in be this long!
      */
     public void initialize() {
-
+        toggleSignInButton.setOnAction(x -> toggleMode());
+        toggleMode();
+        colourPreferenceComboBox.getItems().addAll("Red", "White", "Rose");
+        fullnessPreferenceComboBox.getItems().addAll("Off Dry", "Dry", "Light", "Medium", "Full");
+        varietyPreferenceComboBox.getItems().addAll("Pinot Noir", "Chardonnay", "Sauvignon Blanc", "Cabernet Sauvignon",
+                "Pinot Gris", "Malbec", "Shiraz", "Viognier", "Syrah", "Grenache", "Merlot", "Prosecco");
     }
-
 }

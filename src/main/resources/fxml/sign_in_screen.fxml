@@ -69,9 +69,9 @@
          <ComboBox fx:id="varietyPreferenceComboBox" layoutX="686.0" layoutY="125.0" prefHeight="25.0" prefWidth="118.0" />
          <Label layoutX="507.0" layoutY="167.0" text="ABV Limit (Alcohol by Volume %)" />
          <Slider fx:id="abvLimitSlider" layoutX="445.0" layoutY="193.0" majorTickUnit="5.0" max="25.0" maxWidth="300.0" minWidth="300.0" minorTickCount="4" prefHeight="14.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
-         <Button fx:id="createAccountButton" layoutX="511.0" layoutY="277.0" maxWidth="168.0" minWidth="100.0" mnemonicParsing="false" onAction="#onCreateAccountButtonClicked" prefHeight="24.0" prefWidth="168.0" text="Create account" />
+         <Button layoutX="511.0" layoutY="277.0" maxWidth="168.0" minWidth="100.0" mnemonicParsing="false" onAction="#onCreateAccountButtonClicked" prefHeight="24.0" prefWidth="168.0" text="Create account" />
       </AnchorPane>
-      <Button fx:id="toggleSignInButton" maxWidth="100.0" minWidth="0.0" mnemonicParsing="false" onAction="#onToggleSignInButtonClicked" prefHeight="24.0" prefWidth="100.0" text="Register" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+      <Button fx:id="toggleSignInButton" maxWidth="100.0" minWidth="0.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="100.0" text="Register" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
          <GridPane.margin>
             <Insets top="300.0" />
          </GridPane.margin>
@@ -92,6 +92,11 @@
       <Label fx:id="reEnterPasswordLabel" text="Re-enter Password" GridPane.halignment="CENTER">
          <GridPane.margin>
             <Insets top="100.0" />
+         </GridPane.margin>
+      </Label>
+      <Label fx:id="errorLabel" text="Label" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets top="210.0" />
          </GridPane.margin>
       </Label>
    </GridPane>
