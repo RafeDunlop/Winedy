@@ -1,6 +1,15 @@
 CREATE TABLE wine (
       id INTEGER PRIMARY KEY,
-      name TEXT );
+      name TEXT,
+      type TEXT,
+      country TEXT,
+      year INT,
+      shortDescription TEXT,
+      longDescription TEXT,
+      awards TEXT,
+      pricePerBottle FLOAT,
+      alcoholByVolume FLOAT,
+      volumeInML FLOAT );
 --Split
 CREATE TABLE wineDrinker (
      id INTEGER PRIMARY KEY,
