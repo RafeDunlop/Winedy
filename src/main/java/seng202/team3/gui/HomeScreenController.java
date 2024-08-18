@@ -2,6 +2,8 @@ package seng202.team3.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.shape.Rectangle;
 
 /**
  * Controller for the homeScreen.fxml window
@@ -16,6 +18,12 @@ public class HomeScreenController {
     private Button profileButton;
     @FXML
     private Button helpButton;
+    @FXML
+    private Label winedyLabel;
+    @FXML
+    private Label sloganLabel;
+    @FXML
+    private Rectangle titleBackgroundRectangle;
 
     /**
      * Initialises the button styles to be red-wine-button
@@ -25,6 +33,7 @@ public class HomeScreenController {
         searchButton.getStyleClass().addAll("button", "red-wine-button");
         profileButton.getStyleClass().addAll("button", "red-wine-button");
         helpButton.getStyleClass().addAll("button", "red-wine-button");
+        titleBackgroundRectangle.getStyleClass().add("white-wine-rectangle");
     }
 
     /**
