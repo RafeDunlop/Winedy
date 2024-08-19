@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.shape.Rectangle;
 
 /**
- * Controller for the homeScreen.fxml window
+ * Controller for the home_screen.fxml window
  * @author Krishna Sridhar (nsr36)
  */
 
@@ -41,7 +41,7 @@ public class HomeScreenController {
      */
     @FXML
     public void goToSearch() {
-        FXWrapper.getInstance().loadScreen(Screen.DUMMY1);
+        FXWrapper.getInstance().loadScreen(Screen.SEARCH);
     }
 
     /**

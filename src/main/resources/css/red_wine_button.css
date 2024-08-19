@@ -5,6 +5,17 @@
     -fx-rwb-text-base-colour: #F0F0F0; /* Off-white grey */
 }
 
+.small-red-wine-button {
+    -fx-background-color: derive(-fx-dark-red-wine-colour, 30%);
+    -fx-background-radius: 25px;
+
+    -fx-text-fill: -fx-rwb-text-base-colour;
+
+    -fx-border-color: -fx-dark-red-wine-colour;
+    -fx-border-width: 2px;
+    -fx-border-radius: 23px;
+}
+
 .red-wine-button {
     -fx-background-color: derive(-fx-dark-red-wine-colour, 30%);
     -fx-background-radius: 50px;
@@ -16,12 +27,21 @@
     -fx-border-radius: 45px;
 }
 
+.small-red-wine-button:focused,
 .red-wine-button:focused {
     -fx-background-color: -fx-light-red-wine-colour;
     -fx-background-insets: 5;  /* Insets the button to make it appear as though it is selected */
 
     -fx-border-color: -fx-red-wine-colour;
     -fx-border-insets: 5;  /* Insets the border to match the insets of the background */
+}
+
+.small-red-wine-button:hover {
+    -fx-background-color: -fx-dark-red-wine-colour;
+
+    -fx-font-size: 14;
+
+    -fx-border-color: derive(-fx-dark-red-wine-colour, -30%);
 }
 
 .red-wine-button:hover {
@@ -32,6 +52,7 @@
     -fx-border-color: derive(-fx-dark-red-wine-colour, -30%);
 }
 
+.small-red-wine-button:pressed,
 .red-wine-button:pressed {
     -fx-background-color: -fx-dark-red-wine-colour;
     -fx-background-insets: 10;  /* Insets the button to make it appear as though it is selected */
