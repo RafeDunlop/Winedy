@@ -14,7 +14,9 @@ CREATE TABLE wine (
 CREATE TABLE wineDrinker (
      id INTEGER PRIMARY KEY,
      username TEXT UNIQUE,
-     password TEXT );
+     password TEXT,
+     wineColourPreference TEXT,
+     wineFullnessPreference TEXT);
 --Split
 CREATE TABLE wineList (
       name TEXT,

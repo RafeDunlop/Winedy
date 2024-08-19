@@ -13,11 +13,13 @@ import java.util.*;
  * @author Steven Leishman
  */
 public class WineDrinker {
-    ArrayList<WineList> drinkersWineLists = new ArrayList<>();
-    String username;
-    String wineColourPreference;
-    String wineFullnessPreference;
-    boolean isLoggedIn = false;
+    private ArrayList<WineList> drinkersWineLists = new ArrayList<>();
+    private int databaseID;
+    private String username;
+    private String wineColourPreference;
+    private String wineFullnessPreference;
+    private String password;
+    private boolean isLoggedIn = false;
     DBService dbService;
 
 
@@ -37,21 +39,17 @@ public class WineDrinker {
      * data retrieved from database under given username and password
      *
      * @param username username for database search record
-     * @param password password to authenticate user
+     * @param datebaseID id in database
      */
-    public WineDrinker(String username, String password) {
+    public WineDrinker(int datebaseID, String username, String password, String wColPreference, String wFullPreference) {
+        this.databaseID = databaseID;
         this.username = username;
-        this.dbService = new DBService();
+        this.password = password;
+        this.wineColourPreference = wColPreference;
+        this.wineFullnessPreference = wFullPreference;
+
         List<String> retrievedWineDrinkerData = new ArrayList<>();
-        try {
-            retrievedWineDrinkerData = dbService.readDrinkerDetails(username, password);
-        } catch (WineDrinkerDoesNotExistException e){
-            e.printStackTrace();
-            dbService.writeNewDrinkerRecord(username, password);
-        }
-        for (int i = 0; i < retrievedWineDrinkerData.size(); i++){
-            //do stuff with the data
-        }
+
     }
 
     /**
@@ -91,6 +89,18 @@ public class WineDrinker {
     public String getUsername(){
         return this.username;
     }
+
+    /**
+     * returns the database id of current instance
+     * @return this.databaseID
+     */
+    public int getDatabaseID(){return this.databaseID;}
+
+    /**
+     * get users password for adding into DB
+     * @return password
+     */
+    public String getPassword(){return this.password;}
 
     /**
      * Returns the colour preference of current instance of WineDrinker
