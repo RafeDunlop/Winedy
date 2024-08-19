@@ -99,7 +99,7 @@ public class WineDAO implements DAOInterface<Wine> {
      * @return the insertId of the action
      */
     @Override
-    public int add (Wine toAdd){
+    public int add(Wine toAdd){
         String sql = "INSERT INTO wine (id, name, type, country, year, shortDescription, longDescription, awards, pricePerBottle, alcoholByVolume, volumeInML) values (?,?,?,?,?,?,?,?,?,?,?);";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
