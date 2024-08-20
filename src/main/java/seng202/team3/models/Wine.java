@@ -1,7 +1,5 @@
 package seng202.team3.models;
 
-import java.util.List;
-
 /**
  * Wine class for creating wine objects that will be stored in a database
  */
@@ -33,7 +31,17 @@ public class Wine {
      * @param alcoholByVolume percentage of alcohol content in the bottle
      * @param volumeInMl volume per bottle in ml
      */
-    public Wine(int uniqueWineID, String name, String type, String country, int year, String shortDescription, String longDescription, String awards, float pricePerBottle, float alcoholByVolume, float volumeInMl) {
+    public Wine(int uniqueWineID,
+                String name,
+                String type,
+                String country,
+                int year,
+                String shortDescription,
+                String longDescription,
+                String awards,
+                float pricePerBottle,
+                float alcoholByVolume,
+                float volumeInMl) {
         this.uniqueWineID = uniqueWineID;
         this.name = name;
         this.type = type;
