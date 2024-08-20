@@ -72,11 +72,11 @@ public class FXWrapper {
         try {
             FXMLLoader screenLoader = new FXMLLoader(getClass().getResource("/fxml/" + screen.file));
             Parent root = screenLoader.load();
+            clearPane();
             if (screen.hasNavBar) {
-                clearScreen();
+                loadScreen(Screen.NAVBAR);
                 screenPane.getChildren().add(root);
             } else {
-                clearNavBar();
                 superPane.getChildren().add(root);
             }
         } catch (IOException e) {
@@ -88,21 +88,7 @@ public class FXWrapper {
      * Removes all FXML components, including the navBar
      * @throws NullPointerException thrown if superPane is not set yet via setSuperPane
      */
-    private void clearNavBar() throws NullPointerException {
+    private void clearPane() throws NullPointerException {
         superPane.getChildren().removeAll(superPane.getChildren());
-    }
-
-    /*
-     * Removes all FXML components below the navBar level
-     * if screenPane is not present, initializes navBar (which sets screenPane)
-     * called when switching screens
-     * @throws NullPointerException thrown if screenPane is not set yet via setScreenPane
-     */
-    private void clearScreen() throws NullPointerException {
-        try {
-            screenPane.getChildren().removeAll(screenPane.getChildren());
-        } catch (NullPointerException e) {
-            loadScreen(Screen.NAVBAR);
-        }
     }
 }
