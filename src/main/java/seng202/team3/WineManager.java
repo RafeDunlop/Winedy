@@ -1,7 +1,7 @@
 package seng202.team3;
 
 
-import seng202.team3.io.Importable;
+//import seng202.team3.io.Importable;
 import seng202.team3.models.Wine;
 import seng202.team3.services.WineDAO;
 
@@ -31,18 +31,18 @@ public class WineManager {
      * @param importer importer object to use
      * @param file file to be imported
      */
-    public void addAllWinesFromFile(Importable<Wine> importer, File file) {
-        List<Wine> wines = importer.readFromFile(file);
-        int i = 0;
-        while (i < wines.size()) {
-            if (i + 100 > wines.size()) {
-                wineDAO.addBatch(wines.subList(i, wines.size()));
-            } else {
-                wineDAO.addBatch(wines.subList(i, i + 100));
-            }
-            i += 100;
-        }
-    }
+//    public void addAllWinesFromFile(Importable<Wine> importer, File file) {
+//        List<Wine> wines = importer.readFromFile(file);
+//        int i = 0;
+//        while (i < wines.size()) {
+//            if (i + 100 > wines.size()) {
+//                wineDAO.addBatch(wines.subList(i, wines.size()));
+//            } else {
+//                wineDAO.addBatch(wines.subList(i, i + 100));
+//            }
+//            i += 100;
+//        }
+//    }
 
     /**
      * Adds a wine

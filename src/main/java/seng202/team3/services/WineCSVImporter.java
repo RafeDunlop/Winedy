@@ -1,4 +1,4 @@
-package seng202.team3.io;
+package seng202.team3.services;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class WineCSVImporter implements Importable {
+public class WineCSVImporter{
 
 
 
@@ -21,10 +21,9 @@ public class WineCSVImporter implements Importable {
      * @param file File to read from
      * @return List of objects type T that are read from the file
      */
-    @Override
-    public List<Wine> readFromFile(File file) {
+    public static List<Wine> readFromFile(FileReader file) {
         ArrayList<Wine> wines = new ArrayList<>();
-        try (CSVReader reader = new CSVReader(new FileReader(file))) {
+        try (CSVReader reader = new CSVReader(file)) {
             reader.skip(1);
             String[] line;
             boolean toRead = true;
@@ -43,7 +42,7 @@ public class WineCSVImporter implements Importable {
         }
     }
 
-    private Wine readWineFromLine(String[] line) {
+    private static Wine readWineFromLine(String[] line) {
         try {
             String name = line[0];
             String country = line[1];

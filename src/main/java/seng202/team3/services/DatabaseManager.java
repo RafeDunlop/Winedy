@@ -2,11 +2,14 @@ package seng202.team3.services;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team3.models.Wine;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.*;
+import java.util.List;
 
 /**
  * Singleton class responsible for interaction with SQLite database
@@ -30,6 +33,15 @@ public class DatabaseManager {
         if(!checkDatabaseExists(url)){
             createDatabaseFile(url);
             resetDB();
+            System.out.println("Populating Database...");
+            try {
+                populateWineTables();
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -37,7 +49,7 @@ public class DatabaseManager {
      * Singleton method to get current Instance if exists otherwise create it
      * @return the single instance DatabaseSingleton
      */
-    public static DatabaseManager getInstance() {
+    public static DatabaseManager getInstance(){
         if(instance == null)
             // todo find a way to actually get db within jar
             // The following line can be used to reach a db file within the jar, however this will not be modifiable
@@ -54,7 +66,7 @@ public class DatabaseManager {
      * @throws  if there is already a singleton instance
      * @return current singleton instance
      */
-    public static DatabaseManager initialiseInstanceWithUrl(String url) {
+    public static DatabaseManager initialiseInstanceWithUrl(String url){
         if(instance == null) {
             instance = new DatabaseManager(url);
         }
@@ -162,6 +174,27 @@ public class DatabaseManager {
             log.error("Error working with database initialisation file", e);
         } catch (SQLException e) {
             log.error("Error executing sql statements in database initialisation file", e);
+        }
+    }
+
+    /**
+     * Saves a file of sales to the repository layer using the specified importer functionality
+     * TODO: handle errors gracefully
+     */
+    public void populateWineTables() throws URISyntaxException, FileNotFoundException {
+        FileReader fileReader = new FileReader(String.valueOf(getClass().getResource("/csv/mock_majestic_preprocessed.csv")));
+        System.out.println(String.valueOf(getClass().getResource("/csv/mock_majestic_preprocessed.csv")));
+        //File inputFile = new File(path);
+        List<Wine> wines = WineCSVImporter.readFromFile(fileReader);
+        WineDAO wineDAO = new WineDAO();
+        int i = 0;
+        while (i < wines.size()) {
+            if (i + 100 > wines.size()) {
+                wineDAO.addBatch(wines.subList(i, wines.size()));
+            } else {
+                wineDAO.addBatch(wines.subList(i, i + 100));
+            }
+            i += 100;
         }
     }
 }

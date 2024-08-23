@@ -1,5 +1,6 @@
 package seng202.team3.services;
 
+import seng202.team3.exceptions.WineDrinkerDoesNotExistException;
 import seng202.team3.models.*;
 import java.util.*;
 
@@ -22,7 +23,7 @@ public class DBService {
      * @return List of Strings of user data
      * @throws WineDrinkerDoesNotExistException if no record found in database
      */
-    public List<String>  readDrinkerDetails(String username, String password) throws WineDrinkerDoesNotExistException{
+    public List<String>  readDrinkerDetails(String username, String password) throws WineDrinkerDoesNotExistException {
         boolean mockFlag = false;
         if (mockFlag) {
             throw new WineDrinkerDoesNotExistException("Wine Drinker does not exist");
