@@ -62,10 +62,10 @@ public class WineDAO implements DAOInterface<Wine> {
      * Gets an individual sale from database by id
      *
      * @param id id of sale to get
-     * @return Wine wine from database that matches id
+     * @return Wine from database that matches id
      */
-    @Override
-    public Wine getOne(int id) {
+
+    public Wine getWineByID(int id) {
         Wine newWine = null;
         String sql = "SELECT * FROM wine WHERE id=?";
         try (Connection conn = databaseManager.connect();

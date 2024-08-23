@@ -32,7 +32,7 @@ public class WineDrinkerManager {
      */
     public WineDrinker registerWineDrinker(String username, String password, String reEnteredPassword, String countryPreference, String colourPreference, String fullnessPreference, String grapePreference) {
         try {
-            if (username.equals("") || password.equals("") || reEnteredPassword.equals("") || !password.equals(reEnteredPassword)) {
+            if (username.isEmpty() || password.isEmpty() || reEnteredPassword.isEmpty() || !password.equals(reEnteredPassword)) {
                 return null;
             }
             WineDrinker wineDrinker = new WineDrinker(username, password, countryPreference, colourPreference, fullnessPreference, grapePreference);

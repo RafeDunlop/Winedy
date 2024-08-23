@@ -1,7 +1,7 @@
 package seng202.team3.services;
 
 import java.util.List;
-import seng202.team3.models.DuplicateEntryException;
+import seng202.team3.exceptions.DuplicateEntryException;
 
 /**
  * Interface for Database Access Objects (DAOs) that provides common functionality for database access
@@ -13,12 +13,12 @@ public interface DAOInterface<T> {
      */
     List<T> getAll();
 
-    /**
-     * Gets a single object of type T from the database by id
-     * @param id id of object to get
-     * @return Object of type T that has id given
-     */
-    T getOne(int id);
+//    /**
+//     * Gets a single object of type T from the database by id
+//     * @param id id of object to get
+//     * @return Object of type T that has id given
+//     */
+//    T getOne(int id);
 
     /**
      * Adds a single object of type T to database

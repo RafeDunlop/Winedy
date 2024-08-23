@@ -100,6 +100,6 @@ public class WineManager {
      * @return wine specified by id or null if it doesn't exist
      */
     public Wine getWineById(int id) {
-        return wineDAO.getOne(id);
+        return wineDAO.getWineByID(id);
     }
 }

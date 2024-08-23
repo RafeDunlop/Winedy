@@ -12,11 +12,12 @@ CREATE TABLE wine (
     volumeInML FLOAT );
 --Split
 CREATE TABLE wineDrinker (
-    id INTEGER PRIMARY KEY,
-    username TEXT UNIQUE,
+    username TEXT PRIMARY KEY,
     password TEXT,
-    wineColourPreference TEXT,
-    wineFullnessPreference TEXT);
+    countryPreference TEXT,
+    colourPreference TEXT,
+    fullnessPreference TEXT,
+    grapePreference TEXT);
 --Split
 CREATE TABLE wineList (
     name TEXT,
