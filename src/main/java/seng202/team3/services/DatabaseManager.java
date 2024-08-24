@@ -14,6 +14,7 @@ import java.util.List;
 /**
  * Singleton class responsible for interaction with SQLite database
  * @author Morgan English
+ * @author Yuvraj Singh Fagotra
  */
 public class DatabaseManager {
     private static DatabaseManager instance = null;
@@ -36,9 +37,7 @@ public class DatabaseManager {
             System.out.println("Populating Database...");
             try {
                 populateWineTables();
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            } catch (FileNotFoundException e) {
+            } catch (URISyntaxException | FileNotFoundException e) {
                 e.printStackTrace();
             }
 
@@ -182,10 +181,9 @@ public class DatabaseManager {
      * TODO: handle errors gracefully
      */
     public void populateWineTables() throws URISyntaxException, FileNotFoundException {
-        FileReader fileReader = new FileReader(String.valueOf(getClass().getResource("/csv/mock_majestic_preprocessed.csv")));
-        System.out.println(String.valueOf(getClass().getResource("/csv/mock_majestic_preprocessed.csv")));
+        InputStream inputStream = getClass().getResourceAsStream("/csv/mock_majestic_preprocessed.csv");
         //File inputFile = new File(path);
-        List<Wine> wines = WineCSVImporter.readFromFile(fileReader);
+        List<Wine> wines = WineCSVImporter.readFromFile(inputStream);
         WineDAO wineDAO = new WineDAO();
         int i = 0;
         while (i < wines.size()) {

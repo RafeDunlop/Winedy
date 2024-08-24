@@ -4,9 +4,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import seng202.team3.models.Wine;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,9 +19,9 @@ public class WineCSVImporter{
      * @param file File to read from
      * @return List of objects type T that are read from the file
      */
-    public static List<Wine> readFromFile(FileReader file) {
+    public static List<Wine> readFromFile(InputStream file) {
         ArrayList<Wine> wines = new ArrayList<>();
-        try (CSVReader reader = new CSVReader(file)) {
+        try (CSVReader reader = new CSVReader(new InputStreamReader(file))) {
             reader.skip(1);
             String[] line;
             boolean toRead = true;
@@ -50,12 +48,12 @@ public class WineCSVImporter{
             String sDescription = line[5];
             String lDescription = line[6];
             float price = Float.parseFloat(line[7]);
-            String awards = line[9];
-            float aBV = Float.parseFloat(line[10].substring(0, line[10].length() - 1));
-            float volume = 10 * Float.parseFloat(line[11]);
+            String awards = line[11];
+            float aBV = Float.parseFloat(line[13].substring(0, line[13].length() - 1));
+            float volume = 10 * Float.parseFloat(line[15]);
             //following to be added in preprocessing
-            int year = Integer.parseInt(line[12]);
-            int uniqueID = Integer.parseInt(line[13]);
+            int year = Integer.parseInt(line[18]);
+            int uniqueID = Integer.parseInt(line[19]);
             return new Wine(
                     uniqueID,
                     name,
