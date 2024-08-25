@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.shape.Rectangle;
+import seng202.team3.guiservice.HomeScreenService;
 
 /**
  * Controller for the home_screen.fxml window
@@ -26,13 +27,13 @@ public class HomeScreenController {
     private Rectangle titleBackgroundRectangle;
 
     /**
-     * Initialises the button styles to be red-wine-button
+     * Initialises the three buttons and their styles
      */
     @FXML
     public void initialize() {
-        searchButton.getStyleClass().addAll("button", "red-wine-button");
-        profileButton.getStyleClass().addAll("button", "red-wine-button");
-        helpButton.getStyleClass().addAll("button", "red-wine-button");
+        HomeScreenService.setUpButton(searchButton, "/images/home_screen_search_button.png", "red-wine-button");
+        HomeScreenService.setUpButton(profileButton, "/images/home_screen_profile_button.png", "red-wine-button");
+        HomeScreenService.setUpButton(helpButton, "/images/home_screen_help_button.png", "red-wine-button");
         titleBackgroundRectangle.getStyleClass().add("white-wine-rectangle");
     }
 
@@ -57,7 +58,7 @@ public class HomeScreenController {
      */
     @FXML
     public void goToHelp() {
-        // To implement
+        // ToDo implement
     }
 
 }

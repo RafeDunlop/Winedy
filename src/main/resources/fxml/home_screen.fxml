@@ -10,9 +10,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.image.Image?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.HomeScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.HomeScreenController">
     <children>
         <GridPane prefHeight="800.0" prefWidth="1200.0">
             <columnConstraints>
@@ -29,23 +27,16 @@
                 <RowConstraints maxHeight="100.0" minHeight="10.0" prefHeight="100.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button fx:id="searchButton" mnemonicParsing="false" onAction="#goToSearch" prefHeight="180.0" prefWidth="200.0" text="Search" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                <Button fx:id="searchButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#goToSearch" prefHeight="200.0" prefWidth="220.0" text="Search" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                     <font>
                         <Font size="30.0" />
                     </font>
-                    <graphic>
-                        <ImageView fitWidth="100"
-                                   fitHeight="100"
-                                   preserveRatio="true">
-                            <Image url="/images/homescreen_search.png"/>
-                        </ImageView>
-                    </graphic>
                 </Button>
-                <Button fx:id="profileButton" mnemonicParsing="false" onAction="#goToProfile" prefHeight="180.0" prefWidth="200.0" text="Profile" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                <Button fx:id="profileButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#goToProfile" prefHeight="200.0" prefWidth="220.0" text="Profile" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                     <font>
                         <Font size="30.0" />
                     </font></Button>
-                <Button fx:id="helpButton" mnemonicParsing="false" onAction="#goToHelp" prefHeight="180.0" prefWidth="200.0" text="Help" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                <Button fx:id="helpButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#goToHelp" prefHeight="200.0" prefWidth="220.0" text="Help" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2">
                     <font>
                         <Font size="30.0" />
                     </font></Button>
