@@ -1,0 +1,37 @@
+.root {
+    -fx-hsb-border-colour: "Black";
+    -fx-hsb-body-colour: #F0F0F0; /* Off-white grey */
+    -fx-hsb-hover-colour: derive(#821D38, 99%);
+    -fx-hsb-pressed-colour: derive(-fx-hsb-hover-colour, -30%);
+}
+
+.home-screen-button {
+    -fx-background-color: -fx-hsb-border-colour, -fx-hsb-body-colour;
+    -fx-background-radius: 50px;
+
+    -fx-text-fill: -fx-hsb-border-colour;
+
+    -fx-border-color: -fx-hsb-border-colour;
+    -fx-border-width: 5px;
+    -fx-border-radius: 45px;
+}
+
+.home-screen-button:focused {
+    -fx-background-insets: 5;  /* Insets the button to make it appear as though it is selected */
+
+    -fx-border-insets: 5;  /* Insets the border to match the insets of the background */
+    -fx-border-width: 7px;
+}
+
+.home-screen-button:hover {
+    -fx-background-color: -fx-hsb-hover-colour;
+
+    -fx-font-size: 35;
+}
+
+.home-screen-button:pressed {
+    -fx-background-color: -fx-hsb-pressed-colour;
+    -fx-background-insets: 10;  /* Insets the button to make it appear as though it is selected */
+
+    -fx-border-insets: 10;  /* Insets the border to match the insets of the background */
+}
