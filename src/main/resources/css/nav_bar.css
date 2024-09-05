@@ -1,0 +1,41 @@
+.root {
+    -fx-dark-red-wine-colour: #821D38;  /* Darkest red */
+    -fx-red-wine-colour: derive(-fx-dark-red-wine-colour, 30%);  /* Light red */
+    -fx-light-red-wine-colour: derive(-fx-red-wine-colour, 30%);  /* Lightest, pinky colour */
+    -fx-rwb-text-base-colour: #F0F0F0; /* Off-white grey */
+}
+
+.nav-bar-button {
+    -fx-background-color: derive(-fx-dark-red-wine-colour, 30%);
+    -fx-background-radius: 25px;
+
+    -fx-text-fill: -fx-rwb-text-base-colour;
+
+    -fx-border-color: -fx-dark-red-wine-colour;
+    -fx-border-width: 2px;
+    -fx-border-radius: 23px;
+}
+
+.nav-bar-button:focused {
+    -fx-background-color: -fx-light-red-wine-colour;
+    -fx-background-insets: 5;  /* Insets the button to make it appear as though it is selected */
+
+    -fx-border-color: -fx-red-wine-colour;
+    -fx-border-insets: 5;  /* Insets the border to match the insets of the background */
+}
+
+.nav-bar-button:hover {
+    -fx-background-color: -fx-dark-red-wine-colour;
+
+    -fx-font-size: 14;
+
+    -fx-border-color: derive(-fx-dark-red-wine-colour, -30%);
+}
+
+.nav-bar-button:pressed {
+    -fx-background-color: -fx-dark-red-wine-colour;
+    -fx-background-insets: 10;  /* Insets the button to make it appear as though it is selected */
+
+    -fx-border-color: derive(-fx-dark-red-wine-colour, -30%);
+    -fx-border-insets: 10;  /* Insets the border to match the insets of the background */
+}

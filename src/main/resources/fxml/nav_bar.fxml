@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.NavBarController">
-   <AnchorPane fx:id="screenPane" layoutY="76.0" prefHeight="1004.0" prefWidth="1920.0" />
-   <Button fx:id="homeButton" layoutX="14.0" layoutY="18.0" mnemonicParsing="false" text="Home" />
-   <Button fx:id="searchButton" layoutX="75.0" layoutY="18.0" mnemonicParsing="false" text="Search" />
-   <Button fx:id="profileButton" layoutX="142.0" layoutY="18.0" mnemonicParsing="false" text="Profile" />
-   <Button layoutX="522.0" layoutY="18.0" mnemonicParsing="false" onAction="#onReloadClicked" text="Reload" />
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.NavBarController">
+   <AnchorPane fx:id="screenPane" layoutY="76.0" prefHeight="924.0" prefWidth="1200.0" />
+   <HBox fx:id="buttonHBox" alignment="CENTER" prefHeight="66.0" spacing="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+      <children>
+         <Button fx:id="searchButton" mnemonicParsing="false" prefHeight="66.0" prefWidth="66.0" text="Search" />
+         <Button fx:id="profileButton" mnemonicParsing="false" prefHeight="66.0" prefWidth="66.0" text="Profile" />
+         <Button fx:id="helpButton" mnemonicParsing="false" prefHeight="66.0" prefWidth="66.0" text="Help" />
+         <Button fx:id="reloadButton" mnemonicParsing="false" onAction="#onReloadClicked" prefHeight="66.0" prefWidth="66.0" text="Reload" />
+         <Button fx:id="navigationButton" minWidth="66.0" mnemonicParsing="false" onAction="#onNavigationButtonClicked" prefHeight="66.0" prefWidth="66.0" text="Navigation">
+            <tooltip>
+               <Tooltip text="Navigate!" />
+            </tooltip>
+         </Button>
+      </children>
+   </HBox>
+   <Button fx:id="homeButton" mnemonicParsing="false" prefHeight="66.0" prefWidth="66.0" text="Home" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
 </AnchorPane>

@@ -1,8 +1,14 @@
 package seng202.team3.gui;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.util.Duration;
 
 
 /**
@@ -38,9 +44,38 @@ public class NavBarController {
     private Button profileButton;
 
     /*
+     * Button clicked to open the full navigation bar
+     */
+    @FXML
+    private Button navigationButton;
+
+    /*
+     * Button clicked to go to the Help screen
+     */
+    @FXML
+    private Button helpButton;
+
+    /*
+     * Button clicked to reload the screen
+     */
+    @FXML
+    private Button reloadButton;
+
+    /*
+     * HBox that contains all the hidden navigation buttons
+     */
+    @FXML
+    private HBox buttonHBox;
+
+    /*
      * the currently active screen; stored to not reload a page when clicked
      */
     private Screen selectedScreen;
+
+    /*
+     * Stores whether the nav bar is currently expanded
+     */
+    private boolean expanded = false;
 
     public void initialize() {
         FXWrapper instance = FXWrapper.getInstance();
@@ -53,6 +88,17 @@ public class NavBarController {
         homeButton.getStyleClass().addAll("button", "small-red-wine-button");
         searchButton.getStyleClass().addAll("button", "small-red-wine-button");
         profileButton.getStyleClass().addAll("button", "small-red-wine-button");
+        reloadButton.getStyleClass().addAll("button", "small-red-wine-button");
+        helpButton.getStyleClass().addAll("button", "small-red-wine-button");
+        navigationButton.getStyleClass().addAll("button", "small-red-wine-button");
+
+        buttonHBox.setPrefSize(66, 66);
+        buttonHBox.setMaxWidth(66);
+
+        searchButton.setManaged(false);
+        profileButton.setManaged(false);
+        reloadButton.setManaged(false);
+        helpButton.setManaged(false);
     }
 
     /*
@@ -81,6 +127,47 @@ public class NavBarController {
         if (selectedScreen != screen) {
             FXWrapper.getInstance().loadScreen(screen);
             selectedScreen = screen;
+        }
+    }
+
+    private void expandNavBar() {
+        searchButton.setManaged(true);
+        profileButton.setManaged(true);
+        reloadButton.setManaged(true);
+        helpButton.setManaged(true);
+
+        Timeline timeline = new Timeline();
+
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(2), new KeyValue(buttonHBox.prefWidthProperty(), 350), new KeyValue(buttonHBox.maxWidthProperty(), 350));
+
+        timeline.getKeyFrames().add(keyFrame);
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
+    private void closeNavBar() {
+        searchButton.setManaged(false);
+        profileButton.setManaged(false);
+        reloadButton.setManaged(false);
+        helpButton.setManaged(false);
+
+        Timeline timeline = new Timeline();
+
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(2), new KeyValue(buttonHBox.prefWidthProperty(), 66), new KeyValue(buttonHBox.maxWidthProperty(), 66));
+
+        timeline.getKeyFrames().add(keyFrame);
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
+    @FXML
+    private void onNavigationButtonClicked() {
+        if (expanded) {
+            closeNavBar();
+            expanded = false;
+        } else {
+            expandNavBar();
+            expanded = true;
         }
     }
 }
