@@ -2,11 +2,14 @@ package seng202.team3;
 
 
 //import seng202.team3.io.Importable;
+import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
 import seng202.team3.services.WineDAO;
 
-import java.io.File;
+//import java.io.File;
+import java.util.Arrays;
 import java.util.List;
+
 
 
 /**
@@ -25,12 +28,12 @@ public class WineManager {
         wineDAO = new WineDAO();
     }
 
-    /**
-     * Saves a file of sales to the repository layer using the specified importer functionality
-     * TODO: handle errors gracefully
-     * @param importer importer object to use
-     * @param file file to be imported
-     */
+//    /**
+//     * Saves a file of sales to the repository layer using the specified importer functionality
+//     * TODO: handle errors gracefully
+//     * @param importer importer object to use
+//     * @param file file to be imported
+//     */
 //    public void addAllWinesFromFile(Importable<Wine> importer, File file) {
 //        List<Wine> wines = importer.readFromFile(file);
 //        int i = 0;
@@ -46,38 +49,19 @@ public class WineManager {
 
     /**
      * Adds a wine
+     *
      * @param wine wine to add
-     * @return true if sale added without error
+     * @return -1 if sale added without error
      */
     public int addWine(Wine wine) {
         return wineDAO.add(wine);
     }
 
-//    /**
-//     * Takes in base components of a sale (specifically an address field as text) and creates a new sale object
-//     * using geolocation of address
-//     * @param geolocationManager GeolocationManager implementation to use for geolocation of address
-//     * @param item sale item
-//     * @param price sale price
-//     * @param buyerFName buyer first name
-//     * @param buyerLName buyer last name
-//     * @param address address of sale, to be geolocated
-//     * @return true if successful, false if failed
-//     */
-//    public boolean createAndAddSaleWithAddress(GeolocationManager geolocationManager, String item, float price, String buyerFName, String buyerLName, String address) {
-//        GeoLocationResult locationResult = geolocationManager.queryAddress(address);
-//        Sale sale = new Sale(item, price, buyerFName, buyerLName, locationResult.getLat(), locationResult.getLng());
-//        int id = addSale(sale);
-//        if (id != -1){
-//            sale.setId(id);
-//            return true;
-//        }
-//        return false;
-//    }
 
     /**
-     * Deletes a sale
+     * Deletes a Wine
      * todo work out how to get id for deletion, add id to sale model? add fetch id to saledao?
+     *
      * @param wine wine to delete
      * @return true iff deleted, else false (what if it never existed?)
      */
@@ -88,6 +72,7 @@ public class WineManager {
 
     /**
      * Gets all wines from repository layer
+     *
      * @return List of all wines
      */
     public List<Wine> getAllWines() {
@@ -96,10 +81,44 @@ public class WineManager {
 
     /**
      * Gets sale from persistence by id
+     *
      * @param id id of wine to fetch
      * @return wine specified by id or null if it doesn't exist
      */
     public Wine getWineById(int id) {
         return wineDAO.getWineByID(id);
+    }
+
+    /**
+     * Gets wine search results based on keywords put into the search bar and filters chosen by the wine drinker
+     * @param searchBarInput the user input to the search bar.
+     * @param keywordBank a list of possible keywords that can be recognised on the search bar
+     * @param minYear the earliest year a wine can be from, specified by the wine drinker
+     * @param maxYear the latest year a wine can be from
+     * @param minPrice the minimum price of a wine in the search
+     * @param maxPrice the maximum price of a wine in the search
+     * @param country the specified country the wine should be from
+     * @param type the specified type of wine between red, white and rose
+     * @param shortDescription the specified dryness of the wine
+     * @param grapeName the type of grape that the wine is made of
+     * @return a SearchWineList object containing the search results of a wine search
+     */
+    public SearchWineList searchWines(String searchBarInput, List<String> keywordBank, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice,
+                                      String country, String type, String shortDescription, String grapeName) {
+        List<String> keywords = getKeywords(searchBarInput, keywordBank);
+        return wineDAO.searchWines(keywords, minYear, maxYear, minPrice, maxPrice, country, type, shortDescription, grapeName);
+    }
+
+    /*
+     Gets all the keywords from an input into the search bar.
+     This is based on the input into the search bar searchBarInput and a list of possible keywords keywordBank.
+     */
+    private List<String> getKeywords(String searchBarInput, List<String> keywordBank) { //perhaps keywordBank would be global
+        List<String> searchWordList = Arrays.asList(searchBarInput.split(" "));
+        return searchWordList.stream()
+                .map(String::toLowerCase)
+                .filter(word -> keywordBank.contains(word.toLowerCase()))
+                .distinct()
+                .toList();
     }
 }
