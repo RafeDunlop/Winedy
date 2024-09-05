@@ -213,7 +213,7 @@ public class WineDAO implements DAOInterface<Wine> {
         if (minPrice != null) {
             sql += "AND price >= ? ";
         }
-        if (minPrice != null) {
+        if (maxPrice != null) {
             sql += "AND price <= ? ";
         }
         if (country != null) {
