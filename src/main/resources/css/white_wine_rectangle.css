@@ -1,11 +1,18 @@
+/*
+ * This style sheet defines the white-wine-rectangle style class.
+ */
 .root {
     -fx-white-wine-colour: #EEEDC4;
     -fx-dark-white-wine-colour: derive(-fx-white-wine-colour, -30%);
 }
 
+/*
+ * Rectangle used behind the buttons on the Home Screen.
+ * Has a tan/yellow background with a slightly darker border (stroke) and rounded corners (arc).
+ */
 .white-wine-rectangle {
     -fx-fill: -fx-white-wine-colour;
-    -fx-arc-width: 50px; /* Rounded corners */
+    -fx-arc-width: 50px;
     -fx-arc-height: 50px;
 
     -fx-stroke: -fx-dark-white-wine-colour;

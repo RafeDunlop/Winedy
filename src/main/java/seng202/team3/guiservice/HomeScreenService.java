@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
  * @author Hannah Botting (hbo51)
  */
 public final class HomeScreenService {
+
     /**
      * Adds a graphic to the given Button of the image located at the given path.
      * Used by setUpButton.

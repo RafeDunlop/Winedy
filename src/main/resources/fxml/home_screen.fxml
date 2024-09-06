@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.HomeScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.HomeScreenController">
     <children>
         <GridPane prefHeight="800.0" prefWidth="1200.0">
             <columnConstraints>
@@ -23,19 +23,17 @@
                 <RowConstraints minHeight="10.0" prefHeight="267.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-            <Rectangle fx:id="helpRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="220.0" stroke="BLACK" strokeType="INSIDE" width="240.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-            <Rectangle fx:id="profileRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="220.0" stroke="BLACK" strokeType="INSIDE" width="240.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-            <Rectangle fx:id="searchRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="220.0" stroke="BLACK" strokeType="INSIDE" width="240.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
-                <Button fx:id="searchButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#goToSearch" prefHeight="200.0" prefWidth="220.0" text="Search" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+            <Rectangle fx:id="homeButtonsRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="700.0" stroke="BLACK" strokeType="INSIDE" width="300.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowSpan="3" />
+                <Button fx:id="searchButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#goToSearch" prefHeight="200.0" prefWidth="266.67" text="Search" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                     <font>
                         <Font size="30.0" />
                     </font>
                 </Button>
-                <Button fx:id="profileButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#goToProfile" prefHeight="200.0" prefWidth="220.0" text="Profile" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                <Button fx:id="profileButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#goToProfile" prefHeight="200.0" prefWidth="266.67" text="Profile" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                     <font>
                         <Font size="30.0" />
                     </font></Button>
-                <Button fx:id="helpButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#goToHelp" prefHeight="200.0" prefWidth="220.0" text="Help" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                <Button fx:id="helpButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#goToHelp" prefHeight="200.0" prefWidth="266.67" text="Help" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
                     <font>
                         <Font size="30.0" />
                     </font></Button>

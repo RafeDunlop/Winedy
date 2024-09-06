@@ -1,12 +1,18 @@
+/*
+ * This style sheet defines the home-screen-button style class.
+ */
 .root {
     -fx-hsb-border-colour: "Black";
     -fx-hsb-body-colour: #F0F0F0; /* Off-white grey */
-    -fx-hsb-hover-colour: derive(#821D38, 99%);
-    -fx-hsb-pressed-colour: derive(-fx-hsb-hover-colour, -30%);
+    -fx-hsb-hover-colour: #F7DBE2; /* derive(-fx-hsb-body-colour, -10%); */
 }
 
+/*
+ * White button with a black border that is used for searchButton, profileButton, and helpButton in the Home Screen.
+ * Implements the focused, hover, and pressed pseudo classes.
+ */
 .home-screen-button {
-    -fx-background-color: -fx-hsb-border-colour, -fx-hsb-body-colour;
+    -fx-background-color: -fx-hsb-border-colour, -fx-hsb-body-colour;  /* Body colour leaks out from behind border so apply border colour first */
     -fx-background-radius: 50px;
 
     -fx-text-fill: -fx-hsb-border-colour;
@@ -16,22 +22,34 @@
     -fx-border-radius: 45px;
 }
 
+/*
+ * Defines the focused pseudo-class of the home-screen-button.
+ * Sets the background and border insets to make the button appear to be selected. Increases the border width.
+ */
 .home-screen-button:focused {
-    -fx-background-insets: 5;  /* Insets the button to make it appear as though it is selected */
+    -fx-background-insets: 5;
 
-    -fx-border-insets: 5;  /* Insets the border to match the insets of the background */
+    -fx-border-insets: 5;
     -fx-border-width: 7px;
 }
 
+/*
+ * Defines the hover pseudo-class of the home-screen-button.
+ * Makes the background colour a light pink. Increases the font size to 35
+ */
 .home-screen-button:hover {
-    -fx-background-color: -fx-hsb-hover-colour;
+    -fx-background-color: -fx-hsb-border-colour, -fx-hsb-hover-colour;
 
     -fx-font-size: 35;
 }
 
+/*
+ * Defines the pressed pseudo-class of the home-screen-button.
+ * Sets the background and border insets to make the button appear to be selected.
+ * These insets are larger than the focused insets.
+ */
 .home-screen-button:pressed {
-    -fx-background-color: -fx-hsb-pressed-colour;
-    -fx-background-insets: 10;  /* Insets the button to make it appear as though it is selected */
+    -fx-background-insets: 15;
 
-    -fx-border-insets: 10;  /* Insets the border to match the insets of the background */
+    -fx-border-insets: 15;
 }
