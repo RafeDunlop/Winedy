@@ -174,7 +174,6 @@ class Preprocessor:
 if __name__ == '__main__':
     init_grape_dict(GRAPE_DICT)
     preprocessor = Preprocessor()
-    preprocessor.process()
     
     
     
