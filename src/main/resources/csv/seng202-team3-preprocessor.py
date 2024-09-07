@@ -18,6 +18,12 @@ FILE_NAME_REJECT_OUT = "majestic_rejects.csv"
 REMOVE_YEAR_FROM_NAME = False
 REMOVE_GRAPE_FROM_NAME = False
 
+COUNTRIES = {
+    'USA' 'Italy' 'France' 'New Zealand' 'Portugal' 'Spain' 'Argentina'
+ 'Australia' '' 'Chile' 'Romania' 'South Africa' 'Lebanon' 'Germany'
+ 'Hungary' 'Austria' 'UK' 'Macedonia' 'Greece'
+}
+
 FULLNESS = [
     'DRY', 'LIGHT', 'FULL', 'MEDIUM', 'SWEET', 'OFF DRY'
 ]
@@ -25,6 +31,10 @@ FULLNESS = [
 STYLES = [
     'Rich', 'Big', 'Fruity', 'Smooth', 'Rose', 'Crisp', 'Sweet', 'Dessert', '&', 'Fortified'
 ]
+
+TYPES = {
+    'White', 'Rose', 'Red', 'Dessert', '&', 'Fortified'
+}
 
 COL_TYPES = { #discludes ABV as needs needs % symbol removed
     'Name': str,
@@ -92,7 +102,7 @@ class Preprocessor:
 
         for column in [column[0] for column in list(COL_TYPES.items()) if column[1] == str]:
             self.df[column] = self.df[column].apply(lambda x: x if pd.notnull(x) else '')
-        for style in ['Rose', 'White', 'Red']:
+        for style in ['Rose', 'White', 'Red', 'Dessert & Fortified']:
             self.df['Style'] = self.df['Style'].str.replace(style, '')        
         self.df['ABV'] = self.df['ABV'].str.replace('%', '')
         self.df['ABV'] = self.df['ABV'].astype(float)
@@ -102,43 +112,68 @@ class Preprocessor:
         
         self.df['ID'] = range(len(self.df))
         self.df['Year'] = pd.Series().astype(str)
-        self.df.rename(columns = {'Short Description': 'Fullness'}, inplace = True) 
+        self.df.rename(columns = {'Short Description': 'Fullness', 'Per Bottle Price': 'Price'}, inplace = True) 
         
         self.rejects = pd.DataFrame().reindex_like(self.df)
         self.rejects['Reason'] = pd.Series()
         self.reject_i = 0
-        self.rejected = set()
+        self.rejected = []
                 
         self.process()
     
     def reject(self, to_reject, reason):
         if to_reject.at['ID'] not in self.rejected:
-            self.rejected.add(to_reject.at['ID'])
+            self.rejected.append(to_reject.at['ID'])
             self.rejects.loc[self.reject_i] = to_reject
             self.rejects.at[self.reject_i, 'Reason'] = reason
             self.reject_i += 1
-            print(reason) 
         
     def process(self):
         self.set_grapes()
         self.find_years()
+        self.validate_wines()
+        
+        self.rejected.reverse()
+        for reject_i in self.rejected:
+            self.df = self.df.drop([reject_i], axis = 0)
+        
+        
         
         self.df.to_csv(FILE_NAME_OUT, index = False)
         self.rejects.to_csv(FILE_NAME_REJECT_OUT, index = False)
 
     def validate_wines(self):
         for row in [self.df.loc[row_i] for row_i in range(len(self.df))]:
-            try:
-                pycountry.countries.search_fuzzy(row.at['Country'])
-            except LookupError:
+            if not self.is_country(row.at['Country']):
                 self.reject(row, "country not recognised")
-                return
-            if row.at['Fullness'] not in FULLNESS:
+            elif row.at['Type'] not in TYPES:
+                self.reject(row, "type not recognised")
+            elif row.at['Fullness'] not in FULLNESS:
                 self.reject(row, "fullness not recognised")
-                return
-            if self.df.isnull().at[row.at['ID'], 'Price']:
+            elif self.df.isnull().at[row.at['ID'], 'Price']:
                 self.reject(row, "no price listed")
+            elif self.is_number(row.at["Long Description"]):
+                self.reject(row, "Long description malformed")
+            elif any([not self.is_number(string) for string in 
+                      [row.at[field] for field in ['Price', 'ABV', 'Volume']]]):
+                self.reject(row, "non-number contained in Price, ABV or Volume entry")
+            if not self.is_number(row.at['Price']):
+                print(row.at['Price'])
                 
+    def is_number(self, string):
+        try:
+            float(string)
+            return True
+        except ValueError:
+            return False
+        
+    def is_country(self, country):
+        try:
+            pycountry.countries.search_fuzzy(country)
+            return True
+        except LookupError:
+            return False      
+               
     def find_years(self):
         for row_i in range(len(self.df)):
             for year_cand in range(START_YEAR, END_YEAR+1):
@@ -154,7 +189,7 @@ class Preprocessor:
     def set_grapes(self):
         for row_i in range(len(self.df)):
             first = True
-            new = ''
+            new = None
             for grape in GRAPES:
                 if grape in self.df.at[row_i, 'Name'] or grape in self.df.at[row_i, 'Grape']:
                     if first:
@@ -162,9 +197,9 @@ class Preprocessor:
                         new = GRAPE_DICT[grape]
                     else:
                         new += ', ' + GRAPE_DICT[grape]
-                    print(grape + '-->' + GRAPE_DICT[grape])
+                    
             self.df.at[row_i, 'Grape'] = new
-            if new == '':
+            if new == None:
                 self.reject(self.df.loc[row_i], "no grapes could be parsed")
         if REMOVE_GRAPE_FROM_NAME:
             for grape in GRAPES:
