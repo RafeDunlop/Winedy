@@ -7,13 +7,15 @@ public class Wine {
     private int uniqueWineID;
     private String name;
     private String type;
+    private String style;
     private String personalWineEntry;
     private String country;
     private int year;
-    private String shortDescription;
+    private String[] grapes;
+    private String fullness;
     private String longDescription;
-    private float pricePerBottle;
-    private String awards; //this should be a list
+    private float price;
+    private String[] awards;
     private float alcoholByVolume;
     private float volumeInMl;
 
@@ -24,35 +26,39 @@ public class Wine {
      * @param type of wine, either red, white or rose
      * @param country that the wine was made in
      * @param year the year that the wine was made
-     * @param shortDescription 1-2 word description of the wine
+     * @param fullness 1-2 word description of the fullness of the wine, e.g. "dry"
      * @param longDescription longer description of the wine
      * @param awards List of awards the wine has won
-     * @param pricePerBottle float of the price per bottle
+     * @param price float of the price per bottle
      * @param alcoholByVolume percentage of alcohol content in the bottle
      * @param volumeInMl volume per bottle in ml
      */
     public Wine(int uniqueWineID,
                 String name,
-                String type,
                 String country,
-                int year,
-                String shortDescription,
+                String type,
+                String style,
+                String[] grapes,
+                String fullness,
                 String longDescription,
-                String awards,
-                float pricePerBottle,
+                float price,
+                String[] awards,
                 float alcoholByVolume,
-                float volumeInMl) {
+                float volumeInMl,
+                int year) {
         this.uniqueWineID = uniqueWineID;
         this.name = name;
-        this.type = type;
         this.country = country;
-        this.year = year;
-        this.shortDescription = shortDescription;
+        this.type = type;
+        this.style = style;
+        this.grapes = grapes;
+        this.fullness = fullness;
         this.longDescription = longDescription;
+        this.price = price;
         this.awards = awards;
-        this.pricePerBottle = pricePerBottle;
         this.alcoholByVolume = alcoholByVolume;
         this.volumeInMl = volumeInMl;
+        this.year = year;
     }
 
     /**
@@ -106,8 +112,8 @@ public class Wine {
      * Gets the one-word description of the wine
      * @return Short description of the wine
      */
-    public String getShortDescription() {
-        return shortDescription;
+    public String getFullness() {
+        return fullness;
     }
 
     /**
@@ -123,15 +129,23 @@ public class Wine {
      * @return price of the wine
      */
     public float getPricePerBottle() {
-        return pricePerBottle;
+        return price;
     }
 
     /**
-     * Gets the list of awards the wine has won
-     * @return the list of the wine's awards
+     * Gets the array of awards the wine has won
+     * @return the array of the wine's awards
      */
-    public String getAwards() {
+    public String[] getAwards() {
         return awards;
+    }
+
+    /**
+     * gets the array of grape types the wine is made from
+     * @return the array of the wine's grapes
+     */
+    public String[] getGrapes() {
+        return grapes;
     }
 
     /**
@@ -148,6 +162,14 @@ public class Wine {
      */
     public float getVolumeInMl() {
         return volumeInMl;
+    }
+
+    /**
+     * Gets the style of the wine which classifies its type (or colour), e.g. crisp, fruity
+     * @return the style of the wine
+     */
+    public String getStyle() {
+        return style;
     }
 
     /**
@@ -198,10 +220,10 @@ public class Wine {
 
     /**
      * Sets the short description of the wine
-     * @param shortDescription a String containing one or two words describing the wine
+     * @param fullness a String containing one or two words describing the wine
      */
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
+    public void setFullness(String fullness) {
+        this.fullness = fullness;
     }
 
     /**
@@ -217,14 +239,14 @@ public class Wine {
      * @param pricePerBottle a float with the price of the bottle
      */
     public void setPricePerBottle(float pricePerBottle) {
-        this.pricePerBottle = pricePerBottle;
+        this.price = pricePerBottle;
     }
 
     /**
      * Sets the list of awards the wine has won
      * @param awards A list of the awards
      */
-    public void setAwards(String awards) { this.awards = awards; }
+    public void setAwards(String[] awards) { this.awards = awards; }
 
     /**
      * Sets the alcohol percentage of the wine
