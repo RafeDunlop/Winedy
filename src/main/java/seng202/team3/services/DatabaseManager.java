@@ -181,7 +181,7 @@ public class DatabaseManager {
      * TODO: handle errors gracefully
      */
     public void populateWineTables() throws URISyntaxException, FileNotFoundException {
-        InputStream inputStream = getClass().getResourceAsStream("/csv/mock_majestic_preprocessed.csv");
+        InputStream inputStream = getClass().getResourceAsStream("/csv/majestic_df_preprocessed.csv");
         //File inputFile = new File(path);
         List<Wine> wines = WineCSVImporter.readFromFile(inputStream);
         WineDAO wineDAO = new WineDAO();
