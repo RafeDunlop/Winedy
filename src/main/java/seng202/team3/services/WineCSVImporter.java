@@ -2,6 +2,8 @@ package seng202.team3.services;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team3.models.Wine;
 
 import java.io.*;
@@ -11,7 +13,7 @@ import java.util.List;
 
 public class WineCSVImporter{
 
-
+    private static final Logger log = LogManager.getLogger(WineCSVImporter.class);
 
     /**
      * Reads objects of type Wine from file
@@ -35,7 +37,7 @@ public class WineCSVImporter{
             }
             return wines;
         } catch (IOException | CsvValidationException e) {
-            e.printStackTrace();
+            log.error(e);
             return Collections.emptyList();
         }
     }
@@ -45,29 +47,34 @@ public class WineCSVImporter{
             String name = line[0];
             String country = line[1];
             String type = line[2];
-            String sDescription = line[5];
+            String style = line[3];
+            String[] grapes = line[4].split(", ");
+            String fullness = line[5];
+
             String lDescription = line[6];
             float price = Float.parseFloat(line[7]);
-            String awards = line[11];
-            float aBV = Float.parseFloat(line[13].substring(0, line[13].length() - 1));
-            float volume = 10 * Float.parseFloat(line[15]);
+            String[] awards = line[8].split(", ");
+            float aBV = Float.parseFloat(line[9]);
+            float volume = 10 * Float.parseFloat(line[10]);
             //following to be added in preprocessing
-            int year = Integer.parseInt(line[18]);
-            int uniqueID = Integer.parseInt(line[19]);
+            int uniqueID = Integer.parseInt(line[11]);
+            int year = line[12].equals("Unknown") ? 0 : Integer.parseInt(line[12]);
             return new Wine(
                     uniqueID,
                     name,
-                    type,
                     country,
-                    year,
-                    sDescription,
+                    type,
+                    style,
+                    grapes,
+                    fullness,
                     lDescription,
-                    awards,
                     price,
+                    awards,
                     aBV,
-                    volume);
+                    volume,
+                    year);
         } catch (NumberFormatException e) {
-            e.printStackTrace();
+            log.error(e);
             return null;
         }
     }

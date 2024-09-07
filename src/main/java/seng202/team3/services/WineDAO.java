@@ -38,19 +38,8 @@ public class WineDAO implements DAOInterface<Wine> {
              Statement stmt = conn.createStatement();
              ResultSet resultSet = stmt.executeQuery(sqlQuery)) {
             while (resultSet.next()) {
-                Wine wine = new Wine( resultSet.getInt("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("type"),
-                        resultSet.getString("country"),
-                        resultSet.getInt("year"),
-                        resultSet.getString("shortDesription"),
-                        resultSet.getString("longDescription"),
-                        resultSet.getString("awards"),
-                        resultSet.getFloat("pricePerBottle"),
-                        resultSet.getFloat("alcoholByVolume"),
-                        resultSet.getFloat("volumeInML"));
+                Wine wine = getWineFromResultSet(resultSet);
                 wines.add(wine);
-
             }
             return wines;
         } catch (SQLException sqlException) {
@@ -61,7 +50,7 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     /**
-     * Gets an individual sale from database by id
+     * Gets an individual wine from database by id
      *
      * @param id id of sale to get
      * @return Wine from database that matches id
@@ -75,17 +64,7 @@ public class WineDAO implements DAOInterface<Wine> {
             ps.setInt(1, id);
             try (ResultSet resultSet = ps.executeQuery()) {
                 while (resultSet.next()) {
-                    newWine = new Wine( resultSet.getInt("id"),
-                            resultSet.getString("name"),
-                            resultSet.getString("type"),
-                            resultSet.getString("country"),
-                            resultSet.getInt("year"),
-                            resultSet.getString("shortDescription"),
-                            resultSet.getString("longDescription"),
-                            resultSet.getString("awards"),
-                            resultSet.getFloat("pricePerBottle"),
-                            resultSet.getFloat("alcoholByVolume"),
-                            resultSet.getFloat("volumeInML"));
+                    newWine = getWineFromResultSet(resultSet);
                 }
                 return newWine;
             }
@@ -102,20 +81,10 @@ public class WineDAO implements DAOInterface<Wine> {
      */
     @Override
     public int add(Wine toAdd){
-        String sql = "INSERT INTO wine (id, name, type, country, year, shortDescription, longDescription, awards, pricePerBottle, alcoholByVolume, volumeInML) values (?,?,?,?,?,?,?,?,?,?,?);";
+        String sql = "INSERT INTO wine (id, name, country, style, type, fullness, longDescription, pricePerBottle, alcoholByVolume, volumeInML, year) values (?,?,?,?,?,?,?,?,?,?,?);";
         try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1,toAdd.getUniqueWineID());
-            ps.setString(2, toAdd.getName());
-            ps.setString(3, toAdd.getType());
-            ps.setString(4, toAdd.getCountry());
-            ps.setInt(5, toAdd.getYear());
-            ps.setString(6, toAdd.getShortDescription());
-            ps.setString(7, toAdd.getLongDescription());
-            ps.setString(8, toAdd.getAwards());
-            ps.setFloat(9, toAdd.getPricePerBottle());
-            ps.setFloat(10, toAdd.getAlcoholByVolume());
-            ps.setFloat(11, toAdd.getVolumeInMl());
+            PreparedStatement ps = conn.prepareStatement(sql)) {
+            setParams(ps, toAdd);
             ps.executeUpdate();
             ResultSet resultSet = ps.getGeneratedKeys();
             int insertId = -1;
@@ -135,22 +104,12 @@ public class WineDAO implements DAOInterface<Wine> {
      * @param toAdd a list of wines to add to the database
      */
     public void addBatch (List < Wine > toAdd) {
-        String sql = "INSERT OR IGNORE INTO wine (id, name, type, country, year, shortDescription, longDescription, awards, pricePerBottle, alcoholByVolume, volumeInML) values (?,?,?,?,?,?,?,?,?,?,?);";
+        String sql = "INSERT OR IGNORE INTO wine (id, name, country, style, type, fullness, longDescription, pricePerBottle, alcoholByVolume, volumeInML, year) values (?,?,?,?,?,?,?,?,?,?,?);";
         try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+            PreparedStatement ps = conn.prepareStatement(sql)) {
             conn.setAutoCommit(false);
             for (Wine wine : toAdd) {
-                ps.setInt(1,wine.getUniqueWineID());
-                ps.setString(2, wine.getName());
-                ps.setString(3, wine.getType());
-                ps.setString(4, wine.getCountry());
-                ps.setInt(5, wine.getYear());
-                ps.setString(6, wine.getShortDescription());
-                ps.setString(7, wine.getLongDescription());
-                ps.setString(8, wine.getAwards());
-                ps.setFloat(9, wine.getPricePerBottle());
-                ps.setFloat(10, wine.getAlcoholByVolume());
-                ps.setFloat(11, wine.getVolumeInMl());
+                setParams(ps, wine);
                 ps.addBatch();
             }
             ps.executeBatch();
@@ -162,6 +121,42 @@ public class WineDAO implements DAOInterface<Wine> {
         } catch (SQLException sqlException) {
             log.error(sqlException);
         }
+    }
+
+    /**
+     * loads the Wine's single valued attributes into teh prepared statement
+     * @param ps prepared statement to be executed by a caller function
+     * @param wine the wine object to be loaded into the statement
+     * @throws SQLException if the loading encounters a problem
+     */
+    private void setParams(PreparedStatement ps, Wine wine) throws SQLException {
+        ps.setInt(1,wine.getUniqueWineID());
+        ps.setString(2, wine.getName());
+        ps.setString(3, wine.getCountry());
+        ps.setString(4, wine.getType());
+        ps.setString(5, wine.getStyle());
+        ps.setString(6, wine.getFullness());
+        ps.setString(7, wine.getLongDescription());
+        ps.setFloat(8, wine.getPricePerBottle());
+        ps.setFloat(9, wine.getAlcoholByVolume());
+        ps.setFloat(10, wine.getVolumeInMl());
+        ps.setInt(11, wine.getYear());
+    }
+
+    private Wine getWineFromResultSet(ResultSet resultSet) throws SQLException {
+        return new Wine( resultSet.getInt("id"),
+                resultSet.getString("name"),
+                resultSet.getString("country"),
+                resultSet.getString("type"),
+                resultSet.getString("style"),
+                null, //grapes
+                resultSet.getString("fullness"),
+                resultSet.getString("longDescription"),
+                resultSet.getFloat("pricePerBottle"),
+                null, //awards
+                resultSet.getFloat("alcoholByVolume"),
+                resultSet.getFloat("volumeInML"),
+                resultSet.getInt("year"));
     }
 
     /**
