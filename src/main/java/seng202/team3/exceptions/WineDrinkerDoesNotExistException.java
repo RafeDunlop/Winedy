@@ -1,4 +1,4 @@
-package seng202.team3.models;
+package seng202.team3.exceptions;
 
 public class WineDrinkerDoesNotExistException extends Exception {
     public WineDrinkerDoesNotExistException() {}
