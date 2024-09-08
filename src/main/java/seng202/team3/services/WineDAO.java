@@ -176,6 +176,7 @@ public class WineDAO implements DAOInterface<Wine> {
             }
             psWine.executeBatch();
             psGrape.executeBatch();
+            psAward.executeBatch();
             ResultSet resultSet = psWine.getGeneratedKeys();
             while (resultSet.next()){
                 log.info(resultSet.getLong(1));
@@ -213,7 +214,7 @@ public class WineDAO implements DAOInterface<Wine> {
 
     private void setAwardParams(PreparedStatement ps, int wineID, String name) throws SQLException {
         ps.setInt(1, wineID);
-        ps.setString(1, name);
+        ps.setString(2, name);
     }
 
 

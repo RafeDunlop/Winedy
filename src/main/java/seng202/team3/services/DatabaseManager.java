@@ -148,7 +148,7 @@ public class DatabaseManager {
 
     /**
      * Reads and executes all statements within the sql file provided
-     * Note that each statement must be separated by '--SPLIT' this is not a desired limitation but allows for a much
+     * Note that each statement must be separated by '--Split' this is not a desired limitation but allows for a much
      * wider range of statement types.
      * @param sqlFile input stream of file containing sql statements for execution (separated by --SPLIT)
      */
@@ -160,7 +160,7 @@ public class DatabaseManager {
                 sb.append(s);
             }
 
-            String[] individualStatements = sb.toString().split("--SPLIT");
+            String[] individualStatements = sb.toString().split("--Split");
             try (Connection conn = this.connect();
                  Statement statement = conn.createStatement()) {
                 for (String singleStatement : individualStatements) {
