@@ -18,73 +18,73 @@ import seng202.team3.models.IllegalWineDrinkerException;
  */
 public class SignInScreenController {
 
-    /*
+    /**
      *slider to select maximum Alcohol By Volume user's would like to see appear
      */
     @FXML
     private Slider abvLimitSlider;
 
-     /*
+     /**
       *combobox for selecting red/white
       */
     @FXML
     private ComboBox<String> colourPreferenceComboBox;
 
-    /*
+    /**
     field for entering password
      */
     @FXML
     private PasswordField enterPasswordField;
 
-    /*
+    /**
     comboBox for selecting the fullness of your preferred wines
      */
     @FXML
     private ComboBox<String> fullnessPreferenceComboBox;
 
-    /*
+    /**
     button clicked upon logging in
      */
     @FXML
     private Button loginButton;
 
-    /*
+    /**
     label for explaining register/login (toggle) button
      */
     @FXML
     private Label toggleLabel;
 
-    /*
+    /**
     anchorPane for all preference-related FX components (to disable/enable in tandem)
      */
     @FXML
     private AnchorPane preferencesAnchorPane;
 
-    /*
+    /**
     TextField for re-entering password in register mode
      */
     @FXML
     private PasswordField reEnterPasswordField;
 
-    /*
+    /**
     Label for explaining reEnterPasswordField. Stored to disable in login mode
      */
     @FXML
     private Label reEnterPasswordLabel;
 
-    /*
+    /**
     Button for switching between register and login mode
      */
     @FXML
     private Button toggleSignInButton;
 
-    /*
+    /**
     TextField for enterring user's username
      */
     @FXML
     private TextField usernameTextField;
 
-    /*
+    /**
     ComboBox for variety selection
      */
     @FXML
@@ -93,12 +93,12 @@ public class SignInScreenController {
     @FXML
     private Label errorLabel;
 
-    /*
+    /**
     state variable (state design pattern) to decide if the UI is in register mode (true) or login mode (false)
      */
     private boolean registerMode = false;
 
-    /*
+    /**
      * method called when the createAccountButton is clicked
      *
      * determines whether the user has inputted a valid WineDrinker and if so, creates, stores it and logs it in.
@@ -123,7 +123,7 @@ public class SignInScreenController {
         }
     }
 
-    /*
+    /**
      * method called when the login button is clicked
      *
      * determines whether inputted credentials reference a valid WineDrinker object, and if so, logs the user in.
@@ -134,7 +134,7 @@ public class SignInScreenController {
         FXWrapper.getInstance().loadScreen(Screen.PROFILESCREEN);
     }
 
-    /*
+    /**
      * method called when the register/login Button is Clicked
      * not direct FXML button method because called upon initialization
      */
@@ -149,7 +149,7 @@ public class SignInScreenController {
         registerMode = !registerMode;
     }
 
-    /*
+    /**
      * helper function for toggleMode to disable and make invisible the component in one line
      * @param component Node object, fx component to disable
      * @param fullDisable whether to disable or enable the component
@@ -159,7 +159,7 @@ public class SignInScreenController {
         component.setOpacity((fullDisable) ? 0 : 1);
     }
 
-    /*
+    /**
      * tries to acquire a combo box's selected item (currently String, may be changed)
      * otherwise throws a IllegalWineDrinker exception with the name of the combo box as the reason
      */
