@@ -5,38 +5,27 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-
-/**
- * Controller for the search_screen.fxml window
- * @author
- */
+import org.controlsfx.control.RangeSlider;
 
 public class SearchScreenController {
-    @FXML
-    private ComboBox<?> StyleCombo;
 
     @FXML
-    private Label colourComboBox;
+    private ComboBox<String> colourComboBox;
+
+    @FXML
+    private ComboBox<String> countryComboBox;
 
     @FXML
     private DatePicker endDatePicker;
 
     @FXML
-    private Slider priceRangeSlider;
+    private ComboBox<String> fullnessComboBox;
 
     @FXML
-    private ComboBox<?> producerComboBox;
-
-    @FXML
-    private Button recommendWinesButton;
-
-    @FXML
-    private ComboBox<?> regionComboBox;
+    private RangeSlider priceRangeSlider;
 
     @FXML
     private TextField searchBarTextField;
@@ -45,32 +34,44 @@ public class SearchScreenController {
     private Button searchButton;
 
     @FXML
-    private ListView<?> searchListView;
-
-    @FXML
-    private Button searchWithFiltersButton;
+    private ListView<?> searchResultsListView;
 
     @FXML
     private DatePicker startDatePicker;
 
     @FXML
-    private ComboBox<?> varietyComboBox;
+    private ComboBox<String> styleComboBox;
+
+    @FXML
+    private ComboBox<String> typeComboBox;
+
+    @FXML
+    private ComboBox<String> varietyComboBox;
 
     @FXML
     private AnchorPane wineDetailsAnchorPane;
-
-    @FXML
-    void onRecommendWinesButton(ActionEvent event) {
-
-    }
 
     @FXML
     void onSearchButtonClicked(ActionEvent event) {
 
     }
 
-    @FXML
-    void onSearchWithFiltersButton(ActionEvent event) {
-
+    public void initialize() {
+        colourComboBox.getItems().addAll("White", "Rose", "Red", "Dessert & Fortified");
+        fullnessComboBox.getItems().addAll("DRY", "LIGHT", "FULL", "MEDIUM", "SWEET", "OFF DRY");
+        styleComboBox.getItems().addAll("Rich", "Big", "Fruity", "Smooth", "Rose", "Crisp", "Sweet", "Dessert & Fortified");
+        countryComboBox.getItems().addAll("USA", "Italy", "France", "New Zealand", "Portugal", "Spain", "Argentina",
+        "Australia", "Chile", "Romania", "South Africa", "Lebanon", "Germany",
+        "Hungary", "Austria", "UK", "Macedonia", "Greece");
+        varietyComboBox.getItems().addAll("Chardonnay", "Nero d\'Avola", "Viognier", "Sauvignon Blanc", "Zinfandel",
+                "Cabernet Sauvignon", "Merlot", "Pinot Noir", "Syrah", "Grenache", "Riesling",
+                "Malbec", "Tempranillo", "Sangiovese", "Barbera", "Shiraz", "Pinot Grigio",
+                "Chenin Blanc", "Petit Verdot", "Mourvedre", "Gruner Veltliner", "Gewurztraminer",
+                "Carmenere", "Albariño", "Cortese", "Fiano", "Nebbiolo", "Gamay",
+                "Torrontes", "Cabernet Franc", "Cinsault", "Mourvèdre", "Chenin Blanc", "Pinotage",
+                "Marsanne", "Sangiovese", "Carignan", "Roussanne", "Bourboulenc", "Clairette",
+                "Semillon", "Gewürztraminer", "Grüner Veltliner", "Verdejo",
+                "Melon de Bourgogne", "Harslevelu","Furmint", "Bonarda", "Grenache Blanc",
+                "Palomino", "Carménère", "Rioja");
     }
 }

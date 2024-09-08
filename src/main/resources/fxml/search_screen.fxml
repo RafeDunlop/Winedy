@@ -6,14 +6,14 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import org.controlsfx.control.RangeSlider?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.SearchScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.SearchScreenController">
    <children>
       <GridPane prefHeight="720.0" prefWidth="1200.0">
         <columnConstraints>
@@ -21,13 +21,13 @@
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="10.0" prefWidth="400.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="150.0" minHeight="150.0" prefHeight="150.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="570.0" minHeight="570.0" prefHeight="570.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="150.0" minHeight="136.0" prefHeight="147.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="584.0" minHeight="570.0" prefHeight="573.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <TextField fx:id="searchBarTextField" maxWidth="600.0" minWidth="600.0" prefHeight="25.0" prefWidth="600.0" promptText="Search for a wine..." GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets right="100.0" top="25.0" />
+                  <Insets right="170.0" top="25.0" />
                </GridPane.margin>
             </TextField>
             <Button fx:id="searchButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onSearchButtonClicked" prefWidth="100.0" text="Search" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
@@ -35,83 +35,83 @@
                   <Insets top="25.0" />
                </GridPane.margin>
             </Button>
-            <ListView fx:id="searchListView" maxHeight="500.0" maxWidth="750.0" minHeight="500.0" minWidth="750.0" prefHeight="500.0" prefWidth="750.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
             <AnchorPane fx:id="wineDetailsAnchorPane" maxHeight="500.0" maxWidth="300.0" minHeight="500.0" minWidth="300.0" prefHeight="500.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-            <Label text="Producer">
+            <Label text="Colour">
                <GridPane.margin>
-                  <Insets left="50.0" />
-               </GridPane.margin>
-            </Label>
-            <Label text="Region">
-               <GridPane.margin>
-                  <Insets left="225.0" />
+                  <Insets left="20.0" />
                </GridPane.margin>
             </Label>
             <Label text="Variety">
                <GridPane.margin>
-                  <Insets left="400.0" />
+                  <Insets left="180.0" />
+               </GridPane.margin>
+            </Label>
+            <Label text="Fullness">
+               <GridPane.margin>
+                  <Insets left="340.0" />
                </GridPane.margin>
             </Label>
             <Label fx:id="colourComboBox" text="Style">
                <GridPane.margin>
-                  <Insets left="575.0" />
+                  <Insets left="500.0" />
                </GridPane.margin>
             </Label>
-            <ComboBox fx:id="producerComboBox" prefWidth="150.0">
+            <ComboBox fx:id="colourComboBox" prefWidth="140.0">
                <GridPane.margin>
-                  <Insets left="50.0" top="50.0" />
+                  <Insets left="20.0" top="50.0" />
                </GridPane.margin>
             </ComboBox>
-            <ComboBox fx:id="regionComboBox" prefWidth="150.0">
+            <ComboBox fx:id="varietyComboBox" prefWidth="140.0">
                <GridPane.margin>
-                  <Insets left="225.0" top="50.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <ComboBox fx:id="varietyComboBox" prefWidth="150.0">
-               <GridPane.margin>
-                  <Insets left="400.0" top="50.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <ComboBox fx:id="StyleCombo" prefWidth="150.0">
-               <GridPane.margin>
-                  <Insets left="575.0" top="50.0" />
+                  <Insets left="180.0" top="50.0" />
                </GridPane.margin>
             </ComboBox>
             <DatePicker fx:id="startDatePicker" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" promptText="Start Date" GridPane.columnIndex="1">
                <GridPane.margin>
-                  <Insets left="200.0" top="50.0" />
+                  <Insets left="240.0" top="50.0" />
                </GridPane.margin>
             </DatePicker>
             <DatePicker fx:id="endDatePicker" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" promptText="End Date" GridPane.columnIndex="1" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets bottom="10.0" left="200.0" />
+                  <Insets bottom="10.0" left="240.0" />
                </GridPane.margin>
             </DatePicker>
             <Label text="Date Range" GridPane.columnIndex="1">
                <GridPane.margin>
-                  <Insets left="200.0" />
+                  <Insets left="240.0" />
                </GridPane.margin>
             </Label>
-            <Label text="Price Range ($)" GridPane.columnSpan="2" GridPane.halignment="LEFT">
+            <Label text="Price Range ($)" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="LEFT">
                <GridPane.margin>
-                  <Insets left="750.0" />
+                  <Insets left="80.0" />
                </GridPane.margin>
             </Label>
-            <Button fx:id="searchWithFiltersButton" maxWidth="150.0" minWidth="150.0" mnemonicParsing="false" onAction="#onSearchWithFiltersButton" prefHeight="25.0" prefWidth="150.0" text="Search With Filters" GridPane.columnIndex="1" GridPane.valignment="TOP">
+            <RangeSlider fx:id="priceRangeSlider" blockIncrement="1.0" highValue="50.0" highValueChanging="true" lowValue="10.0" lowValueChanging="true" majorTickUnit="50.0" max="200.0" maxWidth="220.0" minorTickCount="4" prefHeight="16.0" prefWidth="200.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets top="25.0" />
+                  <Insets bottom="40.0" left="15.0" />
                </GridPane.margin>
-            </Button>
-            <Button fx:id="recommendWinesButton" maxWidth="150.0" minWidth="150.0" mnemonicParsing="false" onAction="#onRecommendWinesButton" prefHeight="25.0" prefWidth="150.0" text="Recommend Wines" GridPane.columnIndex="1" GridPane.valignment="TOP">
+            </RangeSlider>
+            <ComboBox fx:id="styleComboBox" prefWidth="140.0">
                <GridPane.margin>
-                  <Insets left="150.0" top="25.0" />
+                  <Insets left="500.0" top="50.0" />
                </GridPane.margin>
-            </Button>
-            <Slider fx:id="priceRangeSlider" maxWidth="225.0" minWidth="225.0" minorTickCount="4" prefWidth="225.0" showTickLabels="true" showTickMarks="true" GridPane.columnSpan="2" GridPane.halignment="LEFT">
+            </ComboBox>
+            <ComboBox fx:id="fullnessComboBox" prefWidth="150.0">
                <GridPane.margin>
-                  <Insets left="750.0" top="70.0" />
+                  <Insets left="340.0" top="50.0" />
                </GridPane.margin>
-            </Slider>
+            </ComboBox>
+            <Label text="Country">
+               <GridPane.margin>
+                  <Insets left="660.0" />
+               </GridPane.margin>
+            </Label>
+            <ListView fx:id="searchResultsListView" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+            <ComboBox fx:id="countryComboBox" prefWidth="150.0">
+               <GridPane.margin>
+                  <Insets left="660.0" top="50.0" />
+               </GridPane.margin>
+            </ComboBox>
          </children>
       </GridPane>
    </children>
