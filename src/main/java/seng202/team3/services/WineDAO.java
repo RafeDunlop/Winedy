@@ -268,9 +268,9 @@ public class WineDAO implements DAOInterface<Wine> {
         sql += "WHERE ";
         for (int i = 0; i < keywords.size(); i++) {
             if (i == keywords.size() - 1) {
-                sql += "(LOWER(name) LIKE ? OR LOWER(longDescription) LIKE ?) ";
+                sql += "(LOWER(name) LIKE ? OR LOWER(style) LIKE ? OR LOWER(longDescription) LIKE ?) ";
             } else {
-                sql += "(LOWER(name) LIKE ? OR LOWER(longDescription) LIKE ?) OR ";
+                sql += "(LOWER(name) LIKE ? OR LOWER(style) LIKE ? LOWER(longDescription) LIKE ?) OR ";
             }
         }
 
@@ -305,10 +305,11 @@ public class WineDAO implements DAOInterface<Wine> {
     private void setUpSearchPreparedStatement(PreparedStatement ps, List<String> keywords, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice, String country, String type, String shortDescription, String grapeName) throws SQLException {
         int i = 0;
         for (; i < keywords.size(); i++) {
-            ps.setString(2 * i + 1, keywords.get(i));
-            ps.setString(2 * i + 2, keywords.get(i));
+            ps.setString(3 * i + 1, keywords.get(i));
+            ps.setString(3 * i + 2, keywords.get(i));
+            ps.setString(3 * i + 3, keywords.get(i));
         }
-        i = 2 * i + 1;
+        i = 3 * i + 1;
         if (minYear != null) {
             ps.setInt(i, minYear);
             i++;
