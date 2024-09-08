@@ -18,10 +18,10 @@
 
 .nav-bar-button:focused {
     -fx-background-color: -fx-light-red-wine-colour;
-    -fx-background-insets: 5;  /* Insets the button to make it appear as though it is selected */
+    -fx-background-insets: 2;  /* Insets the button to make it appear as though it is selected */
 
     -fx-border-color: -fx-red-wine-colour;
-    -fx-border-insets: 5;  /* Insets the border to match the insets of the background */
+    -fx-border-insets: 2;  /* Insets the border to match the insets of the background */
 }
 
 .nav-bar-button:hover {
@@ -34,8 +34,8 @@
 
 .nav-bar-button:pressed {
     -fx-background-color: -fx-dark-red-wine-colour;
-    -fx-background-insets: 10;  /* Insets the button to make it appear as though it is selected */
+    -fx-background-insets: 5;  /* Insets the button to make it appear as though it is selected */
 
     -fx-border-color: derive(-fx-dark-red-wine-colour, -30%);
-    -fx-border-insets: 10;  /* Insets the border to match the insets of the background */
+    -fx-border-insets: 5;  /* Insets the border to match the insets of the background */
 }

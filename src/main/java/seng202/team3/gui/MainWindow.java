@@ -29,6 +29,7 @@ public class MainWindow extends Application {
         Scene scene = new Scene(root, 1200, 800);
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/red_wine_button.css")).toExternalForm());
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/white_wine_rectangle.css")).toExternalForm());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/nav_bar.css")).toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
