@@ -2,42 +2,72 @@ package seng202.team3.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.image.ImageView;
+import seng202.team3.guiservice.HomeScreenService;
 
 /**
- * Controller for the home_screen.fxml window
+ * Used by JavaFX as the controller for home_screen.fxml
  * @author Krishna Sridhar (nsr36)
  */
-
 public class HomeScreenController {
 
+    /*
+     * Button that is clicked to open the wine search screen
+     */
     @FXML
     private Button searchButton;
+
+    /*
+     * Button that is clicked to open the profile screen. First opens the sign in screen if not logged in.
+     */
     @FXML
     private Button profileButton;
+
+    /*
+     * Button that is clicked to open the help screen.
+     */
     @FXML
     private Button helpButton;
-    @FXML
-    private Label winedyLabel;
-    @FXML
-    private Label sloganLabel;
+
+    /*
+     * Rectangle located behind the Winedy title. Purely for style.
+     */
     @FXML
     private Rectangle titleBackgroundRectangle;
 
+    /*
+     * Image view located on the titleBackgroundRectangle. Is initialized to contain the Image of the Winedy title.
+     */
+    @FXML
+    ImageView winedyImageView;
+
+    /*
+     * Rectangle located behind the Buttons. Purely for style.
+     */
+    @FXML
+    private Rectangle homeButtonsRectangle;
+
     /**
-     * Initialises the button styles to be red-wine-button
+     * Used by JavaFX to initialise the Home Screen.
+     * Initialises the three buttons and their styles.
+     * Sets the styles of the titleBackgroundRectangle and homeButtonsRectangle.
+     * Inserts an Image of the winedy_logo into winedyImageView.
      */
     @FXML
     public void initialize() {
-        searchButton.getStyleClass().addAll("button", "red-wine-button");
-        profileButton.getStyleClass().addAll("button", "red-wine-button");
-        helpButton.getStyleClass().addAll("button", "red-wine-button");
+        HomeScreenService.setUpButton(searchButton, "/images/home_screen_search_button.png", "home-screen-button");
+        HomeScreenService.setUpButton(profileButton, "/images/home_screen_profile_button.png", "home-screen-button");
+        HomeScreenService.setUpButton(helpButton, "/images/home_screen_help_button.png", "home-screen-button");
         titleBackgroundRectangle.getStyleClass().add("white-wine-rectangle");
+        homeButtonsRectangle.getStyleClass().add("red-wine-rectangle");
+        winedyImageView.setImage(new Image("/images/winedy_logo.png"));
     }
 
     /**
-     * When search button is pressed, launch the nav bar and search window
+     * Used by JavaFX as the onAction of searchButton.
+     * Launches the Nav Bar and the Search Screen.
      */
     @FXML
     public void goToSearch() {
@@ -45,7 +75,8 @@ public class HomeScreenController {
     }
 
     /**
-     * When profile button is pressed, launch the nav bar and profile window
+     * Used by JavaFX as the onAction of profileButton.
+     * Launches the Nav Bar and the Sign In Screen.
      */
     @FXML
     public void goToProfile() {
@@ -53,11 +84,11 @@ public class HomeScreenController {
     }
 
     /**
-     * When help button is pressed, launch the nav bar and help window
+     * Used by JavaFX as the onAction of helpButton.
+     * Launches the Nav Bar and the Help Screen.
      */
     @FXML
     public void goToHelp() {
-        // To implement
+        // FXWrapper.getInstance().loadScreen(Screen.HELPSCREEN); // TODO: Implement the Help Screen so this can be uncommented
     }
-
 }

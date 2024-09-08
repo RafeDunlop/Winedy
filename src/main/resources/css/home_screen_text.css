@@ -1,0 +1,14 @@
+/*
+ * TODO: Delete this file if unused.
+ */
+.root {
+    -fx-hst-red-wine-colour: #821D38;
+}
+
+.last-letter {
+    -fx-fill: -fx-hst-red-wine-colour;
+}
+
+.letters {
+    -fx-fill: "black";
+}
