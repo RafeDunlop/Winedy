@@ -68,17 +68,17 @@ public class WineDAO implements DAOInterface<Wine> {
 
     @Nullable
     private String[] getMultivaluedAttribute(int wineId, String sql) {
-        String[] multivaluedAtrributeList = new String[10];
+        String[] multivaluedAttributeList = new String[10];
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, wineId);
             try (ResultSet resultSet = ps.executeQuery()) {
                 int i = 0;
                 while (resultSet.next()) {
-                    multivaluedAtrributeList[i] = resultSet.getString("name");
+                    multivaluedAttributeList[i] = resultSet.getString("name");
                     i++;
                 }
-                return multivaluedAtrributeList;
+                return multivaluedAttributeList;
             }
         } catch (SQLException sqlException) {
             log.error(sqlException);
@@ -268,9 +268,9 @@ public class WineDAO implements DAOInterface<Wine> {
         sql += "WHERE ";
         for (int i = 0; i < keywords.size(); i++) {
             if (i == keywords.size() - 1) {
-                sql += "(name LIKE ? OR shortDescription LIKE ? OR longDescription LIKE ?) ";
+                sql += "(LOWER(name) LIKE ? OR LOWER(style) LIKE ? OR LOWER(longDescription) LIKE ?) ";
             } else {
-                sql += "(name LIKE ? OR shortDescription LIKE ? OR longDescription LIKE ?) OR ";
+                sql += "(LOWER(name) LIKE ? OR LOWER(style) LIKE ? LOWER(longDescription) LIKE ?) OR ";
             }
         }
 

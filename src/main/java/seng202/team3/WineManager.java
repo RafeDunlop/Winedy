@@ -92,7 +92,6 @@ public class WineManager {
     /**
      * Gets wine search results based on keywords put into the search bar and filters chosen by the wine drinker
      * @param searchBarInput the user input to the search bar.
-     * @param keywordBank a list of possible keywords that can be recognised on the search bar
      * @param minYear the earliest year a wine can be from, specified by the wine drinker
      * @param maxYear the latest year a wine can be from
      * @param minPrice the minimum price of a wine in the search
@@ -103,21 +102,20 @@ public class WineManager {
      * @param grapeName the type of grape that the wine is made of
      * @return a SearchWineList object containing the search results of a wine search
      */
-    public SearchWineList searchWines(String searchBarInput, List<String> keywordBank, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice,
+    public SearchWineList searchWines(String searchBarInput, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice,
                                       String country, String type, String shortDescription, String grapeName) {
-        List<String> keywords = getKeywords(searchBarInput, keywordBank);
+        List<String> keywords = getWordsFromSearchBar(searchBarInput);
         return wineDAO.searchWines(keywords, minYear, maxYear, minPrice, maxPrice, country, type, shortDescription, grapeName);
     }
 
     /*
      Gets all the keywords from an input into the search bar.
-     This is based on the input into the search bar searchBarInput and a list of possible keywords keywordBank.
+     This is based on the input into the search bar searchBarInput
      */
-    private List<String> getKeywords(String searchBarInput, List<String> keywordBank) { //perhaps keywordBank would be global
+    private List<String> getWordsFromSearchBar(String searchBarInput) { //perhaps keywordBank would be global
         List<String> searchWordList = Arrays.asList(searchBarInput.split(" "));
         return searchWordList.stream()
                 .map(String::toLowerCase)
-                .filter(word -> keywordBank.contains(word.toLowerCase()))
                 .distinct()
                 .toList();
     }
