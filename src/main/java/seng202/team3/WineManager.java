@@ -20,12 +20,21 @@ import java.util.List;
 public class WineManager {
     private final WineDAO wineDAO;
 
+    private static WineManager instance;
+
     /**
      * Creates a new SalesManager object and creates a private SaleDAO object it will later use for all database
      * interactions
      */
-    public WineManager() {
+    private WineManager() {
         wineDAO = new WineDAO();
+    }
+
+    public static WineManager getInstance() {
+        if (instance == null) {
+            instance = new WineManager();
+        }
+        return instance;
     }
 
 //    /**
