@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.util.Duration;
+import seng202.team3.guiservice.NavBarService;
 
 
 /**
@@ -94,12 +95,12 @@ public class NavBarController {
         searchButton.setOnAction(x -> onButtonClick(Screen.SEARCH));
         profileButton.setOnAction(x -> onProfileButtonClicked());
 
-        homeButton.getStyleClass().addAll("button", "nav-bar-button");
-        searchButton.getStyleClass().addAll("button", "nav-bar-button");
-        profileButton.getStyleClass().addAll("button", "nav-bar-button");
-        reloadButton.getStyleClass().addAll("button", "nav-bar-button");
-        helpButton.getStyleClass().addAll("button", "nav-bar-button");
-        navigationButton.getStyleClass().addAll("button", "nav-bar-button");
+        NavBarService.setUpButton(homeButton, "/images/nav_bar_home_button.png", "nav-bar-button", true);
+        NavBarService.setUpButton(searchButton, "/images/home_screen_search_button.png", "nav-bar-button", false);
+        NavBarService.setUpButton(profileButton, "/images/home_screen_profile_button.png", "nav-bar-button", false);
+        NavBarService.setUpButton(reloadButton, "/images/nav_bar_reload_button.png", "nav-bar-button", false);
+        NavBarService.setUpButton(helpButton, "/images/home_screen_help_button.png", "nav-bar-button", false);
+        NavBarService.setUpButton(navigationButton, "/images/nav_bar_navigate_button.png", "nav-bar-button", true);
 
         buttonHBox.setPrefSize(66, 66);
         buttonHBox.setMaxWidth(66);
