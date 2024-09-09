@@ -20,12 +20,21 @@ import java.util.List;
 public class WineManager {
     private final WineDAO wineDAO;
 
+    private static WineManager instance;
+
     /**
      * Creates a new SalesManager object and creates a private SaleDAO object it will later use for all database
      * interactions
      */
-    public WineManager() {
+    private WineManager() {
         wineDAO = new WineDAO();
+    }
+
+    public static WineManager getInstance() {
+        if (instance == null) {
+            instance = new WineManager();
+        }
+        return instance;
     }
 
 //    /**
@@ -113,6 +122,9 @@ public class WineManager {
      This is based on the input into the search bar searchBarInput
      */
     private List<String> getWordsFromSearchBar(String searchBarInput) { //perhaps keywordBank would be global
+        if (searchBarInput.isEmpty()) {
+            return null;
+        }
         List<String> searchWordList = Arrays.asList(searchBarInput.split(" "));
         return searchWordList.stream()
                 .map(String::toLowerCase)

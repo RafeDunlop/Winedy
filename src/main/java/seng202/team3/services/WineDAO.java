@@ -18,6 +18,7 @@ import java.lang.String;
 public class WineDAO implements DAOInterface<Wine> {
     private final DatabaseManager databaseManager;
     private static final Logger log = LogManager.getLogger(WineDAO.class);
+    private boolean hasOne = false;
 
     /**
      * Creates a new WineDAO object and gets a reference to the database singleton
@@ -260,44 +261,55 @@ public class WineDAO implements DAOInterface<Wine> {
         throw new NotImplementedException();
     }
 
+    private String addAnd() {
+        if (!hasOne) {
+            hasOne = true;
+            return " ";
+        }
+        return "AND ";
+    }
+
     /* Sets up the SQL query string for a wine search based on the existence of the provided parameters */
     private String setUpSearchQuery(List<String> keywords, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice, String country, String type, String shortDescription, String grapeName) {
+        hasOne = false;
         String sql = "SELECT * FROM wine ";
         if (grapeName != null) {
             sql += "JOIN grape ON id = wineId ";
         }
         sql += "WHERE ";
-        for (int i = 0; i < keywords.size(); i++) {
-            if (i == keywords.size() - 1) {
-                sql += "(LOWER(name) LIKE ? OR LOWER(style) LIKE ? OR LOWER(longDescription) LIKE ?) ";
-            } else {
-                sql += "(LOWER(name) LIKE ? OR LOWER(style) LIKE ? LOWER(longDescription) LIKE ?) OR ";
+        if (keywords != null) {
+            for (int i = 0; i < keywords.size(); i++) {
+                if (i == keywords.size() - 1) {
+                    sql += "(LOWER(name) LIKE ? OR LOWER(style) LIKE ? OR LOWER(longDescription) LIKE ?) ";
+                } else {
+                    sql += "(LOWER(name) LIKE ? OR LOWER(style) LIKE ? LOWER(longDescription) LIKE ?) OR ";
+                }
             }
         }
-
         if (minYear != null) {
-            sql += "AND  year >= ? ";
+            sql += addAnd() + "year >= ? ";
         }
         if (maxYear != null) {
-            sql += "AND  year <= ? ";
+            sql += addAnd() + "year <= ? ";
         }
         if (minPrice != null) {
-            sql += "AND price >= ? ";
+            sql += addAnd() + "pricePerBottle >= ? ";
         }
         if (maxPrice != null) {
-            sql += "AND price <= ? ";
+            sql += addAnd() + "pricePerBottle <= ? ";
         }
         if (country != null) {
-            sql += "AND country=? ";
+            sql += addAnd() + "country=? ";
         }
+        System.out.println(type);
         if (type != null) {
-            sql += "AND type=? ";
+            sql += addAnd() + "type=? ";
         }
         if (shortDescription != null) {
-            sql += "AND shortDescription=? ";
+            sql += addAnd() + "style=? ";
         }
         if (grapeName != null) {
-            sql += "AND grape.name=? ";
+            sql += addAnd() + "grape.name=? ";
         }
         return sql;
     }
@@ -305,10 +317,12 @@ public class WineDAO implements DAOInterface<Wine> {
     /* Adds the required parameters to a PreparedStatement */
     private void setUpSearchPreparedStatement(PreparedStatement ps, List<String> keywords, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice, String country, String type, String shortDescription, String grapeName) throws SQLException {
         int i = 0;
-        for (; i < keywords.size(); i++) {
-            ps.setString(3 * i + 1, keywords.get(i));
-            ps.setString(3 * i + 2, keywords.get(i));
-            ps.setString(3 * i + 3, keywords.get(i));
+        if (keywords != null) {
+            for (; i < keywords.size(); i++) {
+                ps.setString(3 * i + 1, keywords.get(i));
+                ps.setString(3 * i + 2, keywords.get(i));
+                ps.setString(3 * i + 3, keywords.get(i));
+            }
         }
         i = 3 * i + 1;
         if (minYear != null) {
@@ -359,6 +373,7 @@ public class WineDAO implements DAOInterface<Wine> {
      */
     public SearchWineList searchWines(List<String> keywords, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice, String country, String type, String shortDescription, String grapeName) {
         String sql = setUpSearchQuery(keywords, minYear, maxYear, minPrice, maxPrice, country, type, shortDescription, grapeName);
+        System.out.println(sql);
         SearchWineList searchResults = new SearchWineList();
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
