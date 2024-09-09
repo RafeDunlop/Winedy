@@ -45,7 +45,6 @@ public class WineDrinkerManager {
      * @param currentUser the WineDrinker to be stored
      */
     public void setCurrentUser (WineDrinker currentUser) {
-        System.out.println("set called");
         this.currentUser = currentUser;
     }
 

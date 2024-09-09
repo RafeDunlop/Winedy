@@ -25,13 +25,13 @@ public class ProfileScreenController {
     private Slider abvLimitSlider;
 
     @FXML
-    private ComboBox<?> colourPreferenceComboBox;
+    private ComboBox<String> colourPreferenceComboBox;
 
     @FXML
     private Button editUsernameButton;
 
     @FXML
-    private ComboBox<?> fullnessPreferenceComboBox;
+    private ComboBox<String> fullnessPreferenceComboBox;
 
     @FXML
     private Button newListButton;
@@ -46,7 +46,7 @@ public class ProfileScreenController {
     private TextField usernameTextField;
 
     @FXML
-    private ComboBox<?> varietyPreferenceComboBox;
+    private ComboBox<String> varietyPreferenceComboBox;
 
     /**
      * Changes textfield to an editable box and saves the username
@@ -85,5 +85,12 @@ public class ProfileScreenController {
 
     public void initialize() {
         usernameTextField.setText(wineDrinkerManager.getCurrentUser().getUsername());
+        colourPreferenceComboBox.getItems().addAll("Red", "White", "Rose");
+        colourPreferenceComboBox.getSelectionModel().select(WineDrinkerManager.getInstance().getCurrentUser().getColourPreference());
+        fullnessPreferenceComboBox.getItems().addAll("Off Dry", "Dry", "Light", "Medium", "Full");
+        fullnessPreferenceComboBox.getSelectionModel().select(WineDrinkerManager.getInstance().getCurrentUser().getFullnessPreference());
+        varietyPreferenceComboBox.getItems().addAll("Pinot Noir", "Chardonnay", "Sauvignon Blanc", "Cabernet Sauvignon",
+                "Pinot Gris", "Malbec", "Shiraz", "Viognier", "Syrah", "Grenache", "Merlot", "Prosecco");
+        varietyPreferenceComboBox.getSelectionModel().select(WineDrinkerManager.getInstance().getCurrentUser().getGrapePreference());
     }
 }
