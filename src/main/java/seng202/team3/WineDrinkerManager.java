@@ -5,22 +5,56 @@ import org.apache.logging.log4j.Logger;
 import seng202.team3.exceptions.UnauthorisedWineDrinkerException;
 import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
 import seng202.team3.exceptions.WineDrinkerDoesNotExistException;
+import seng202.team3.models.Wine;
 import seng202.team3.models.WineDrinker;
 import seng202.team3.services.WineDrinkerDAO;
 
-/** WineDrinkerManager class to handle all actions for wine drinkers. This acts as an MVC controller taking requests
+/** Singleton manager for interactions involving wineDrinker
+ * WineDrinkerManager class to handle all actions for wine drinkers. This acts as an MVC controller taking requests
  * from the view and completing these using relevant model/repository layer actions
+ * Author/s Sophia Copley (sco207), Steven Leishman (sle159)
  */
 public class WineDrinkerManager {
     private static final Logger log = LogManager.getLogger(WineDrinkerManager.class);
     private final WineDrinkerDAO wineDrinkerDAO;
+    private WineDrinker currentUser;
+
+    private static WineDrinkerManager instance;
 
     /**
      * Creates a new WineDrinkerManager object and creates a private WineDrinkerDAO object that it will later
      * use for all database interactions
      */
-    public WineDrinkerManager() {
+    private WineDrinkerManager() {
         wineDrinkerDAO = new WineDrinkerDAO();
+    }
+
+    /**
+     * Get the singleton instance of WineDrinkerManager
+     * @return instance -
+     */
+    public static WineDrinkerManager getInstance() {
+        if (instance == null) {
+            instance = new WineDrinkerManager();
+        }
+        return instance;
+    }
+
+    /**
+     * Set the currentUser WineDrinker object
+     * @param currentUser the WineDrinker to be stored
+     */
+    public void setCurrentUser (WineDrinker currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    /**
+     * Returns currentUser WineDrinker object that holds the
+     * current info of the user
+     * @return currentUser - WineDrinker object
+     */
+    public WineDrinker getCurrentUser() {
+        return currentUser;
     }
 
     /**

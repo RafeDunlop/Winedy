@@ -19,6 +19,7 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
     private static final Logger log = LogManager.getLogger(WineDrinkerDAO.class);
 
     public WineDrinkerDAO(){database = DatabaseManager.getInstance();}
+
     /**
      * @return 
      */
