@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/20" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileScreenController">
    <children>
       <GridPane prefHeight="720.0" prefWidth="1200.0">
         <columnConstraints>
@@ -26,7 +26,7 @@
         </rowConstraints>
          <children>
             <ListView fx:id="searchListView" maxHeight="500.0" maxWidth="750.0" minHeight="500.0" minWidth="750.0" prefHeight="500.0" prefWidth="750.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <Button fx:id="editUsernameButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onEditUsernameButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Edit Username" GridPane.valignment="CENTER">
+            <Button fx:id="editUsernameButton" maxWidth="170.0" minWidth="100.0" mnemonicParsing="false" onAction="#onEditUsernameButtonClicked" prefHeight="25.0" prefWidth="143.0" text="Edit Username" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets left="50.0" top="50.0" />
                </GridPane.margin>

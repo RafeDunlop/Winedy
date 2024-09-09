@@ -9,14 +9,21 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import seng202.team3.WineDrinkerManager;
+import seng202.team3.guiservice.SignInScreenService;
 import seng202.team3.models.IllegalWineDrinkerException;
+import seng202.team3.models.Wine;
+import seng202.team3.models.WineDrinker;
 
 /**
  * controller for sign_in_screen.fxml. Handles logging in, registering and setting initial preferences
  *
- * @author Rafe Dunlop (rdu46)
+ * @author Rafe Dunlop (rdu46), Steven Leishman (sle159)
  */
 public class SignInScreenController {
+
+    private SignInScreenService signInScreenService;
+    private WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
 
     /**
      *slider to select maximum Alcohol By Volume user's would like to see appear
@@ -109,12 +116,15 @@ public class SignInScreenController {
         try {
             String username = usernameTextField.getText(); //replace with method to check input against constraints
             String password = enterPasswordField.getText(); //""
-            assertPasswordsMatch();
+            String secondPassword = reEnterPasswordField.getText();
+            signInScreenService.validatePasswordsMatch(password, secondPassword);
             String colour = getComboInput(colourPreferenceComboBox);
             String fullness = getComboInput(fullnessPreferenceComboBox);
             String variety = getComboInput(varietyPreferenceComboBox);
             int ABVLimit = (int) abvLimitSlider.getValue();
 
+            WineDrinker curUser = new WineDrinker(username, password, null, colour, fullness, variety); //TODO ABV In database and winedrinker
+            wineDrinkerManager.setCurrentUser(curUser);
             FXWrapper.getInstance().loadScreen(Screen.PROFILESCREEN);
 
         } catch (IllegalWineDrinkerException e) {
@@ -131,6 +141,11 @@ public class SignInScreenController {
      */
     @FXML
     void onLoginButtonClicked() {
+        String username = usernameTextField.getText();
+        String password = enterPasswordField.getText();
+        //TODO Add get from database
+        WineDrinker curUser = new WineDrinker(username, password, null, null, null, null);
+        wineDrinkerManager.setCurrentUser(curUser);
         FXWrapper.getInstance().loadScreen(Screen.PROFILESCREEN);
     }
 
@@ -171,15 +186,6 @@ public class SignInScreenController {
         }
     }
 
-    /**
-     * does nothing as long as the inputted passwords are matching
-     * @throws IllegalWineDrinkerException thrown if the passwords do not match
-     */
-    private void assertPasswordsMatch() throws IllegalWineDrinkerException {
-        if (!(enterPasswordField.getText().equals(reEnterPasswordField.getText()))) {
-            throw new IllegalWineDrinkerException("Passwords do not match");
-        }
-    }
 
     /**
      * sets up combo-boxes, sets Button actions and sets the GUI to login mode
@@ -187,6 +193,7 @@ public class SignInScreenController {
      * TODO: variety combobox is neither exhaustive nor can in be this long!
      */
     public void initialize() {
+        this.signInScreenService = new SignInScreenService();
         toggleSignInButton.setOnAction(x -> toggleMode());
         toggleMode();
         colourPreferenceComboBox.getItems().addAll("Red", "White", "Rose");

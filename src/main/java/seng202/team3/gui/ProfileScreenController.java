@@ -1,19 +1,26 @@
 package seng202.team3.gui;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import seng202.team3.WineDrinkerManager;
+import seng202.team3.models.Wine;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;
 
 /**
  * Controller for the profile_screen.fxml window
- * @author
+ * @author Steven Leishman (sle159)
  */
 
 public class ProfileScreenController {
+    private WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
+
     @FXML
     private Slider abvLimitSlider;
 
@@ -41,9 +48,29 @@ public class ProfileScreenController {
     @FXML
     private ComboBox<?> varietyPreferenceComboBox;
 
+    /**
+     * Changes textfield to an editable box and saves the username
+     *
+     */
     @FXML
-    void onEditUsernameButtonClicked(ActionEvent event) {
+    void onEditUsernameButtonClicked() {
+        usernameTextField.setEditable(true);
+        editUsernameButton.setText("Save New Username");
+        editUsernameButton.setOnAction(e->{saveUsernameInfo();});
+        usernameTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if(keyEvent.getCode().equals(KeyCode.ENTER)) {
+                    saveUsernameInfo();
+                }
+            }
+        });
+    }
 
+    private void saveUsernameInfo(){
+        usernameTextField.setEditable(false);
+        editUsernameButton.setText("Edit Username");
+        editUsernameButton.setOnAction(e->{onEditUsernameButtonClicked();});
     }
 
     @FXML
@@ -54,5 +81,9 @@ public class ProfileScreenController {
     @FXML
     void onRemoveListButtonClicked(ActionEvent event) {
 
+    }
+
+    public void initialize() {
+        usernameTextField.setText(wineDrinkerManager.getCurrentUser().getUsername());
     }
 }

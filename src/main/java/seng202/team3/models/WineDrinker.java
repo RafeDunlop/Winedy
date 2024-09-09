@@ -39,15 +39,8 @@ public class WineDrinker {
         this.colourPreference = colourPreference;
         this.fullnessPreference = fullnessPreference;
         this.grapePreference = grapePreference;
+        //TODO Add something with ABV?
 
-    }
-
-    /**
-     * Reads preferences of user
-     * TODO DISCUSS VALIDITY OF THIS, POSSIBLE REDUNDANCY
-     */
-    void readPreferences() {
-        //make a request to db for preferences
     }
 
 

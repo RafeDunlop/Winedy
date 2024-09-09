@@ -173,6 +173,7 @@ public class WineDAO implements DAOInterface<Wine> {
                     psAward.addBatch();
                 }
                 psWine.addBatch();
+                psGrape.addBatch();
             }
             psWine.executeBatch();
             psGrape.executeBatch();
