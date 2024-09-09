@@ -72,6 +72,7 @@ public class SearchScreenController {
     void onSearchButtonClicked(ActionEvent event) {
         searchResultsListView.getItems().removeAll(searchResultsListView.getItems());
         WineManager wineManager = WineManager.getInstance();
+        System.out.println(selectedColour);
         SearchWineList results = wineManager.searchWines(
                 searchBarTextField.getText(),
                 lowYear,
@@ -79,7 +80,7 @@ public class SearchScreenController {
                 (float) priceRangeSlider.getLowValue(),
                 (float) priceRangeSlider.getHighValue(),
                 selectedCountry,
-                selectedCountry,
+                selectedColour,
                 selectedFullness,
                 selectedVariety);
         ArrayList<String> stringList = new ArrayList<>();
@@ -107,10 +108,10 @@ public class SearchScreenController {
                 "Melon de Bourgogne", "Harslevelu","Furmint", "Bonarda", "Grenache Blanc",
                 "Palomino", "Carménère", "Rioja");
         colourComboBox.setOnAction(select -> selectedColour = colourComboBox.getSelectionModel().getSelectedItem());
-        fullnessComboBox.setOnAction(select -> selectedColour = fullnessComboBox.getSelectionModel().getSelectedItem());
-        styleComboBox.setOnAction(select -> selectedColour = styleComboBox.getSelectionModel().getSelectedItem());
-        countryComboBox.setOnAction(select -> selectedColour = countryComboBox.getSelectionModel().getSelectedItem());
-        varietyComboBox.setOnAction(select -> selectedColour = varietyComboBox.getSelectionModel().getSelectedItem());
+        fullnessComboBox.setOnAction(select -> selectedFullness = fullnessComboBox.getSelectionModel().getSelectedItem());
+        styleComboBox.setOnAction(select -> selectedStyle = styleComboBox.getSelectionModel().getSelectedItem());
+        countryComboBox.setOnAction(select -> selectedCountry = countryComboBox.getSelectionModel().getSelectedItem());
+        varietyComboBox.setOnAction(select -> selectedVariety = varietyComboBox.getSelectionModel().getSelectedItem());
         startDatePicker.setOnAction(event -> lowYear = startDatePicker.getValue().getYear());
         endDatePicker.setOnAction(event -> highYear = endDatePicker.getValue().getYear());
     }

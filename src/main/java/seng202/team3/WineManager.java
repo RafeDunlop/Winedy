@@ -122,6 +122,9 @@ public class WineManager {
      This is based on the input into the search bar searchBarInput
      */
     private List<String> getWordsFromSearchBar(String searchBarInput) { //perhaps keywordBank would be global
+        if (searchBarInput.isEmpty()) {
+            return null;
+        }
         List<String> searchWordList = Arrays.asList(searchBarInput.split(" "));
         return searchWordList.stream()
                 .map(String::toLowerCase)
