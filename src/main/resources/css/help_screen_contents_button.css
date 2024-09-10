@@ -1,0 +1,31 @@
+/*
+ * This style sheets defines the help-screen-contents-button style class.
+ */
+.root {
+
+}
+
+/*
+ * Button used in the table of contents of the Help Screen.
+ * Has a transparent background.
+ */
+.help-screen-contents-button {
+    -fx-background-color: transparent;
+}
+
+/*
+ * Defines the hover pseudo-class of the help-screen-contents-button.
+ */
+.help-screen-contents-button:hover {
+    -fx-text-fill: derive(#EEEDC4, -30%);
+
+    -fx-border-color: derive(#EEEDC4, -30%);
+    -fx-border-radius: 30px;
+}
+
+/*
+ * Defines the pressed pseudo-class of the help-screen-contents-button.
+ */
+.help-screen-contents-button:pressed {
+    -fx-border-insets: 5;
+}

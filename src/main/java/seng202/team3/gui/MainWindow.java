@@ -40,6 +40,7 @@ public class MainWindow extends Application {
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/home_screen_button.css")).toExternalForm());
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/red_wine_rectangle.css")).toExternalForm());
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/home_screen_text.css")).toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/help_screen_contents_button.css")).toExternalForm());
         } catch (NullPointerException e) {
             log.error("Error loading CSS style sheets. Did you misspell the path?", e);
         }
