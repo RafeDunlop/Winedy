@@ -81,6 +81,7 @@ public class SearchScreenController {
                 (float) priceRangeSlider.getHighValue(),
                 selectedCountry,
                 selectedColour,
+                selectedStyle,
                 selectedFullness,
                 selectedVariety);
         ArrayList<String> stringList = new ArrayList<>();
