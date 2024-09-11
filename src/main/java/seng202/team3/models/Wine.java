@@ -211,6 +211,14 @@ public class Wine {
     }
 
     /**
+     * Sets the style of the wine
+     * @param style the style the wine to set to
+     */
+    public void setStyle(String style) {
+        this.style = style;
+    }
+
+    /**
      * Sets the year the wine is from
      * @param year the year the wine was made
      */

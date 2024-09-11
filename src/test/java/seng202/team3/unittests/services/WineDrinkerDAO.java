@@ -1,4 +1,4 @@
 package seng202.team3.unittests.services;
 
-public class WineDrinkerDao {
+public class WineDrinkerDAO {
 }
