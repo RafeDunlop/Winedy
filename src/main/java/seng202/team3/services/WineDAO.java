@@ -282,7 +282,7 @@ public class WineDAO implements DAOInterface<Wine> {
                 if (i == keywords.size() - 1) {
                     sql += "(LOWER(name) LIKE ? OR LOWER(style) LIKE ? OR LOWER(longDescription) LIKE ?) ";
                 } else {
-                    sql += "(LOWER(name) LIKE ? OR LOWER(style) LIKE ? LOWER(longDescription) LIKE ?) OR ";
+                    sql += "(LOWER(name) LIKE ? OR LOWER(style) LIKE ? OR LOWER(longDescription) LIKE ?) OR ";
                 }
             }
         }
