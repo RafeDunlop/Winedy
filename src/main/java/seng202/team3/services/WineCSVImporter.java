@@ -42,7 +42,7 @@ public class WineCSVImporter{
         }
     }
 
-    private static Wine readWineFromLine(String[] line) {
+    public static Wine readWineFromLine(String[] line) {
         try {
             String name = line[0];
             String country = line[1];
