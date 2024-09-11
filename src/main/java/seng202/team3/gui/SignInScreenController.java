@@ -115,7 +115,8 @@ public class SignInScreenController {
     private void onCreateAccountButtonClicked() {
         try {
             String username = usernameTextField.getText(); //replace with method to check input against constraints
-            String password = enterPasswordField.getText(); //""
+            signInScreenService.validateRegisteringUsername(username);
+            String password = enterPasswordField.getText();
             String secondPassword = reEnterPasswordField.getText();
             signInScreenService.validatePasswordsMatch(password, secondPassword);
             String colour = getComboInput(colourPreferenceComboBox);
@@ -130,6 +131,7 @@ public class SignInScreenController {
         } catch (IllegalWineDrinkerException e) {
             fullDisable(errorLabel, false);
             errorLabel.setText(e.getMessage());
+            errorLabel.setStyle("-fx-text-fill: red;");
         }
     }
 

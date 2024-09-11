@@ -7,6 +7,7 @@ import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
 import seng202.team3.exceptions.WineDrinkerDoesNotExistException;
 import seng202.team3.models.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
 
@@ -28,6 +29,7 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
     }
 
 
+
     /**
      * Gets a WineDrinker object from the database based on their username
      * @param username unique username to identify a WineDrinker
@@ -37,7 +39,7 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
 
     public WineDrinker getWineDrinkerFromUsername(String username) throws WineDrinkerDoesNotExistException {
         WineDrinker retrievedWineDrinker = null;
-        String sqlQuery = "SELECT * FROM wineDrinker where username";
+        String sqlQuery = "SELECT * FROM wineDrinker where username=?";
         try(Connection conn = database.connect();
             PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
             preparedStatement.setString(1, username);
@@ -125,19 +127,27 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
     }
 
     /**
-     * @param id id of object to delete 
+     * @param username username of record to delete
      */
-    @Override
-    public void delete(int id) {
-        String sqlQuery = "DELETE FROM wineDrinker WHERE id=?";
+
+    public void deleteByUsername(String username) {
+        String sqlQuery = "DELETE FROM wineDrinker WHERE username=?";
         try(Connection conn = database.connect();
             PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, username);
             preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
             System.out.println("Exception here = " + sqlException);
         }
     }
+
+    /**
+     * Delete object by ID TODO this is redudant, but required by our DAO interface
+     * @param id id of object to delete
+     */
+    @Override
+    public void delete(int id ){}
+
 
     /**
      * @param toUpdate Object that needs to be updated (this object must be able to identify itself and its previous self) 

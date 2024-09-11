@@ -5,9 +5,10 @@ import org.apache.logging.log4j.Logger;
 import seng202.team3.exceptions.UnauthorisedWineDrinkerException;
 import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
 import seng202.team3.exceptions.WineDrinkerDoesNotExistException;
-import seng202.team3.models.Wine;
 import seng202.team3.models.WineDrinker;
 import seng202.team3.services.WineDrinkerDAO;
+
+import java.util.List;
 
 /** Singleton manager for interactions involving wineDrinker
  * WineDrinkerManager class to handle all actions for wine drinkers. This acts as an MVC controller taking requests
@@ -98,5 +99,17 @@ public class WineDrinkerManager {
             log.error(e);
             return null;
         }
-    }
+   }
+
+
+   public WineDrinker getWineDrinker(String username){
+       WineDrinker drinker;
+       try {
+            drinker = wineDrinkerDAO.getWineDrinkerFromUsername(username);
+       } catch (WineDrinkerDoesNotExistException e) {
+           log.error(e);
+           return null;
+       }
+       return drinker;
+   }
 }
