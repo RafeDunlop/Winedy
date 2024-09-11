@@ -2,7 +2,7 @@ CREATE TABLE wine (
     id INTEGER PRIMARY KEY,
     name TEXT,
     country TEXT,
-    type TEXT,
+    colour TEXT,
     style TEXT,
     fullness TEXT,
     longDescription TEXT,

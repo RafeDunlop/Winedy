@@ -46,7 +46,7 @@ public class WineCSVImporter{
         try {
             String name = line[0];
             String country = line[1];
-            String type = line[2];
+            String colour = line[2];
             String style = line[3];
             String[] grapes = line[4].split(", ");
             String fullness = line[5];
@@ -63,7 +63,7 @@ public class WineCSVImporter{
                     uniqueID,
                     name,
                     country,
-                    type,
+                    colour,
                     style,
                     grapes,
                     fullness,

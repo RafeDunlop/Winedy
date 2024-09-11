@@ -24,7 +24,7 @@ import java.util.List;
      * provided by this class.
      */
     public List<Wine> getWineList() {
-        return List.copyOf(wineList);
+        return wineList;
     }
 
     /**
