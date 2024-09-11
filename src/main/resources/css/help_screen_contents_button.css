@@ -1,11 +1,6 @@
 /*
  * This style sheets defines the help-screen-contents-button style class.
- */
-.root {
-
-}
-
-/*
+ *
  * Button used in the table of contents of the Help Screen.
  * Has a transparent background.
  */
@@ -15,6 +10,8 @@
 
 /*
  * Defines the hover pseudo-class of the help-screen-contents-button.
+ * Sets the text-fill and border-radius to an cream/yellow colour slightly darker than the background.
+ * Sets the border radius to 30px to make the border appear rounded.
  */
 .help-screen-contents-button:hover {
     -fx-text-fill: derive(#EEEDC4, -30%);
@@ -25,7 +22,8 @@
 
 /*
  * Defines the pressed pseudo-class of the help-screen-contents-button.
+ * Sets the border-insets to 5px to give feedback of the button being selected.
  */
 .help-screen-contents-button:pressed {
-    -fx-border-insets: 5;
+    -fx-border-insets: 5px;
 }

@@ -28,73 +28,90 @@
          <children>
             <Rectangle fx:id="contentsRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="620.0" stroke="BLACK" strokeType="INSIDE" width="300.0" GridPane.halignment="CENTER" GridPane.rowSpan="3" />
             <Rectangle fx:id="informationRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="620.0" stroke="BLACK" strokeType="INSIDE" width="700.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowSpan="3" />
-            <ScrollPane hbarPolicy="NEVER" maxHeight="580.0" maxWidth="260.0" prefHeight="200.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.rowSpan="3">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="260.0" prefHeight="200.0" prefWidth="200.0">
+            <ScrollPane fx:id="contentsScrollPane" hbarPolicy="NEVER" maxHeight="580.0" maxWidth="260.0" prefHeight="200.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.rowSpan="3">
+               <content>
+                  <VBox maxWidth="245.0">
                      <children>
-                        <VBox maxHeight="580.0" maxWidth="260.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <Label text="Contents:">
-                                 <font>
-                                    <Font name="System Bold" size="30.0" />
-                                 </font>
-                              </Label>
-                              <Button fx:id="aboutWinedyButton" mnemonicParsing="false" text="About Winedy">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Button>
-                              <Button fx:id="howToUseWinedyButton" mnemonicParsing="false" text="How to use Winedy:">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Button>
-                              <Button fx:id="createAnAccountButton" mnemonicParsing="false" text="Create an account">
-                                 <VBox.margin>
-                                    <Insets left="20.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Button>
-                              <Button fx:id="signinButton" mnemonicParsing="false" text="Sign-in">
-                                 <VBox.margin>
-                                    <Insets left="20.0" />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Button>
-                           </children>
-                        </VBox>
+                        <Label text="Contents:">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="aboutWinedyButton" mnemonicParsing="false" text="About Winedy">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="howToUseWinedyButton" mnemonicParsing="false" text="How to use Winedy:">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="createAnAccountButton" mnemonicParsing="false" text="Create an account">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="signinButton" mnemonicParsing="false" text="Sign-in">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
                      </children>
-                  </AnchorPane>
-              </content>
+                  </VBox>
+               </content>
             </ScrollPane>
-            <ScrollPane hbarPolicy="NEVER" maxHeight="580.0" maxWidth="660.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowSpan="3">
-              <content>
-                <AnchorPane minHeight="10000.0" minWidth="660.0" prefWidth="660.0">
+            <ScrollPane fx:id="informationScrollPane" hbarPolicy="NEVER" maxHeight="580.0" maxWidth="660.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowSpan="3">
+               <content>
+                  <VBox maxWidth="640.0">
                      <children>
-                        <VBox maxWidth="660.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <Label maxWidth="660.0" text="About Winedy:">
-                                 <font>
-                                    <Font name="System Bold" size="30.0" />
-                                 </font>
-                              </Label>
-                              <Label maxWidth="660.0" text="Cats are fascinating creatures known for their independence and playful nature. With their sleek fur, sharp claws, and keen senses, they are both graceful and agile. Cats often exhibit quirky behaviors, such as chasing after laser pointers, curling up in the smallest of boxes, or suddenly sprinting across the room for no apparent reason. Despite their aloof demeanor, many cats form strong bonds with their human companions, offering purrs and headbutts as signs of affection. Whether they're lounging in a sunny spot or stalking imaginary prey, cats bring a unique charm and joy to any household. 🐱" wrapText="true" />
-                              <Label maxWidth="660.0" text="Kiwis are unique and fascinating birds native to New Zealand, known for their distinctive characteristics and significant cultural importance. These flightless birds belong to the genus *Apteryx* and are recognized by their long, slender bills and small, vestigial wings hidden beneath their shaggy, hair-like feathers. Unlike most birds, kiwis have nostrils at the tip of their beaks, which they use to sniff out insects, worms, and other invertebrates from the forest floor. Their keen sense of smell is one of the most developed among birds, compensating for their relatively poor eyesight. Kiwis are nocturnal creatures, emerging from their burrows at night to forage for food. They are solitary and territorial, often defending their home ranges with surprising vigor.The kiwi's reproductive habits are equally remarkable. The female kiwi lays one of the largest eggs in relation to body size of any bird species, sometimes weighing up to 20% of her body weight. This enormous egg contains a high proportion of yolk, providing the developing chick with ample nutrients. Once the egg is laid, the male typically takes on the responsibility of incubating it, a process that can last up to 80 days. Upon hatching, the chick is fully feathered and relatively independent, capable of leaving the nest within a few days to start foraging on its own.Kiwis hold a special place in New Zealand's culture and identity. They are considered a national symbol and are deeply embedded in the country's folklore and traditions. The term &quot;Kiwi&quot; is also used colloquially to refer to New Zealanders themselves, reflecting the bird's iconic status. Conservation efforts are crucial for the survival of kiwi populations, as they face numerous threats from habitat destruction, introduced predators like stoats and dogs, and human encroachment. Various conservation programs, including predator control and breeding initiatives, are in place to protect these unique birds and ensure their continued presence in New Zealand's ecosystems.In addition to their ecological and cultural significance, kiwis have also captured the imagination of people worldwide. Their unusual appearance, endearing behaviors, and the challenges they face in the wild make them a subject of interest and admiration. Whether seen as a symbol of national pride or a fascinating example of evolutionary adaptation, kiwis continue to inspire and captivate those who learn about them." wrapText="true" />
-                              <Label text="How to use Winedy:">
-                                 <font>
-                                    <Font name="System Bold" size="30.0" />
-                                 </font>
-                              </Label>
-                              <Label text="Wine, a beverage with a rich history spanning thousands of years, is a testament to the art and science of viticulture and winemaking. Originating from ancient civilizations, wine has evolved into a complex and diverse drink enjoyed by millions around the world. The process begins in the vineyard, where grapevines are meticulously cultivated to produce the best possible fruit. Factors such as soil composition, climate, and grape variety play crucial roles in determining the characteristics of the wine. Once harvested, the grapes undergo fermentation, a process where yeast converts the sugars in the grapes into alcohol and carbon dioxide. This transformation is carefully monitored and controlled to achieve the desired flavor profile.The aging process is another critical phase in winemaking. Wines can be aged in various types of containers, including stainless steel tanks, oak barrels, or even clay amphorae, each imparting unique qualities to the final product. Oak barrels, for instance, can add notes of vanilla, spice, and toast, while also allowing for subtle oxygenation that softens the wine's tannins. The duration of aging can vary significantly, from a few months to several decades, depending on the style of wine being produced.Wine is not just a drink; it is an experience that engages all the senses. The visual appeal of a wine, from its color and clarity to the way it swirls in the glass, sets the stage for the tasting experience. The aroma, or &quot;nose,&quot; of a wine can reveal a multitude of scents, ranging from fruity and floral to earthy and spicy. Tasting the wine involves assessing its balance, structure, and finish, with each sip offering a new layer of complexity.The cultural significance of wine cannot be overstated. It has been a central element in religious rituals, social gatherings, and culinary traditions across the globe. From the grand châteaux of Bordeaux to the sun-drenched vineyards of Tuscany, wine regions have become synonymous with their unique styles and heritage. Wine tourism has flourished as enthusiasts seek to explore these regions, learn about the winemaking process, and taste wines directly from the source.In recent years, the wine industry has also embraced sustainability and innovation. Organic and biodynamic farming practices are becoming more prevalent, aiming to produce high-quality wines while minimizing environmental impact. Technological advancements, such as precision viticulture and climate-controlled fermentation, have further refined the art of winemaking.Ultimately, wine is a celebration of nature, craftsmanship, and tradition. Whether enjoyed casually with friends or savored during a special occasion, wine has the power to bring people together and create lasting memories. Its enduring appeal lies in its ability to evolve and surprise, offering an endless journey of discovery for those who appreciate its nuances and complexities. Cheers to the timeless allure of wine! 🍷" wrapText="true" />
-                           </children>
-                        </VBox>
+                        <Label maxWidth="660.0" text="About Winedy:">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                        <Label maxWidth="660.0" text="Cats are fascinating creatures known for their independence and playful nature. With their sleek fur, sharp claws, and keen senses, they are both graceful and agile. Cats often exhibit quirky behaviors, such as chasing after laser pointers, curling up in the smallest of boxes, or suddenly sprinting across the room for no apparent reason. Despite their aloof demeanor, many cats form strong bonds with their human companions, offering purrs and headbutts as signs of affection. Whether they're lounging in a sunny spot or stalking imaginary prey, cats bring a unique charm and joy to any household. 🐱" wrapText="true">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label maxWidth="660.0" text="Kiwis are unique and fascinating birds native to New Zealand, known for their distinctive characteristics and significant cultural importance. These flightless birds belong to the genus *Apteryx* and are recognized by their long, slender bills and small, vestigial wings hidden beneath their shaggy, hair-like feathers. Unlike most birds, kiwis have nostrils at the tip of their beaks, which they use to sniff out insects, worms, and other invertebrates from the forest floor. Their keen sense of smell is one of the most developed among birds, compensating for their relatively poor eyesight. Kiwis are nocturnal creatures, emerging from their burrows at night to forage for food. They are solitary and territorial, often defending their home ranges with surprising vigor.The kiwi's reproductive habits are equally remarkable. The female kiwi lays one of the largest eggs in relation to body size of any bird species, sometimes weighing up to 20% of her body weight. This enormous egg contains a high proportion of yolk, providing the developing chick with ample nutrients. Once the egg is laid, the male typically takes on the responsibility of incubating it, a process that can last up to 80 days. Upon hatching, the chick is fully feathered and relatively independent, capable of leaving the nest within a few days to start foraging on its own.Kiwis hold a special place in New Zealand's culture and identity. They are considered a national symbol and are deeply embedded in the country's folklore and traditions. The term &quot;Kiwi&quot; is also used colloquially to refer to New Zealanders themselves, reflecting the bird's iconic status. Conservation efforts are crucial for the survival of kiwi populations, as they face numerous threats from habitat destruction, introduced predators like stoats and dogs, and human encroachment. Various conservation programs, including predator control and breeding initiatives, are in place to protect these unique birds and ensure their continued presence in New Zealand's ecosystems.In addition to their ecological and cultural significance, kiwis have also captured the imagination of people worldwide. Their unusual appearance, endearing behaviors, and the challenges they face in the wild make them a subject of interest and admiration. Whether seen as a symbol of national pride or a fascinating example of evolutionary adaptation, kiwis continue to inspire and captivate those who learn about them." wrapText="true">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="How to use Winedy:">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Label>
+                        <Label text="- Create an account">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label text="Wine, a beverage with a rich history spanning thousands of years, is a testament to the art and science of viticulture and winemaking. Originating from ancient civilizations, wine has evolved into a complex and diverse drink enjoyed by millions around the world. The process begins in the vineyard, where grapevines are meticulously cultivated to produce the best possible fruit. Factors such as soil composition, climate, and grape variety play crucial roles in determining the characteristics of the wine. Once harvested, the grapes undergo fermentation, a process where yeast converts the sugars in the grapes into alcohol and carbon dioxide. This transformation is carefully monitored and controlled to achieve the desired flavor profile.The aging process is another critical phase in winemaking. Wines can be aged in various types of containers, including stainless steel tanks, oak barrels, or even clay amphorae, each imparting unique qualities to the final product. Oak barrels, for instance, can add notes of vanilla, spice, and toast, while also allowing for subtle oxygenation that softens the wine's tannins. The duration of aging can vary significantly, from a few months to several decades, depending on the style of wine being produced.Wine is not just a drink; it is an experience that engages all the senses. The visual appeal of a wine, from its color and clarity to the way it swirls in the glass, sets the stage for the tasting experience. The aroma, or &quot;nose,&quot; of a wine can reveal a multitude of scents, ranging from fruity and floral to earthy and spicy. Tasting the wine involves assessing its balance, structure, and finish, with each sip offering a new layer of complexity.The cultural significance of wine cannot be overstated. It has been a central element in religious rituals, social gatherings, and culinary traditions across the globe. From the grand châteaux of Bordeaux to the sun-drenched vineyards of Tuscany, wine regions have become synonymous with their unique styles and heritage. Wine tourism has flourished as enthusiasts seek to explore these regions, learn about the winemaking process, and taste wines directly from the source.In recent years, the wine industry has also embraced sustainability and innovation. Organic and biodynamic farming practices are becoming more prevalent, aiming to produce high-quality wines while minimizing environmental impact. Technological advancements, such as precision viticulture and climate-controlled fermentation, have further refined the art of winemaking.Ultimately, wine is a celebration of nature, craftsmanship, and tradition. Whether enjoyed casually with friends or savored during a special occasion, wine has the power to bring people together and create lasting memories. Its enduring appeal lies in its ability to evolve and surprise, offering an endless journey of discovery for those who appreciate its nuances and complexities. Cheers to the timeless allure of wine! 🍷" wrapText="true">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label text="- Sign-in">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
                      </children>
-                  </AnchorPane>
-              </content>
+                  </VBox>
+               </content>
             </ScrollPane>
          </children>
       </GridPane>
