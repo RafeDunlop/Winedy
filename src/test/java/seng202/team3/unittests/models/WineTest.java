@@ -2,9 +2,7 @@ package seng202.team3.unittests.models;
 
 import org.junit.jupiter.api.Test;
 import seng202.team3.models.Wine;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the Wine model class
