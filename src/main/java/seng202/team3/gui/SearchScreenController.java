@@ -72,7 +72,6 @@ public class SearchScreenController {
     void onSearchButtonClicked(ActionEvent event) {
         searchResultsListView.getItems().removeAll(searchResultsListView.getItems());
         WineManager wineManager = WineManager.getInstance();
-        System.out.println(selectedColour);
         SearchWineList results = wineManager.searchWines(
                 searchBarTextField.getText(),
                 lowYear,
@@ -81,11 +80,11 @@ public class SearchScreenController {
                 (float) priceRangeSlider.getHighValue(),
                 selectedCountry,
                 selectedColour,
-                selectedStyle,
                 selectedFullness,
                 selectedVariety);
         ArrayList<String> stringList = new ArrayList<>();
         results.getWineList().forEach(wine -> stringList.add(wine.getName()));
+        stringList.forEach(string -> System.out.println(string));
         String[] stringArray = new String[stringList.size()];
         stringArray = stringList.toArray(stringArray);
         searchResultsListView.getItems().addAll(stringArray);

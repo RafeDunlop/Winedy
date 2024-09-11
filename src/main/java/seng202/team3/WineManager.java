@@ -112,9 +112,9 @@ public class WineManager {
      * @return a SearchWineList object containing the search results of a wine search
      */
     public SearchWineList searchWines(String searchBarInput, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice,
-                                      String country, String colour, String style, String fullness, String grapeName) {
+                                      String country, String colour, String fullness, String grapeName) {
         List<String> keywords = getWordsFromSearchBar(searchBarInput);
-        return wineDAO.searchWines(keywords, minYear, maxYear, minPrice, maxPrice, country, colour, style, fullness, grapeName);
+        return wineDAO.searchWines(keywords, minYear, maxYear, minPrice, maxPrice, country, colour, fullness, grapeName);
     }
 
     /*
