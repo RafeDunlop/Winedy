@@ -2,12 +2,15 @@ package seng202.team3.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import org.controlsfx.control.RangeSlider;
 import seng202.team3.WineManager;
 import seng202.team3.models.SearchWineList;
@@ -37,7 +40,7 @@ public class SearchScreenController {
     private Button searchButton;
 
     @FXML
-    private ListView<String> searchResultsListView;
+    private VBox searchResultsVBox;
 
     @FXML
     private DatePicker startDatePicker;
@@ -70,7 +73,7 @@ public class SearchScreenController {
 
     @FXML
     void onSearchButtonClicked(ActionEvent event) {
-        searchResultsListView.getItems().removeAll(searchResultsListView.getItems());
+        searchResultsVBox.getChildren().clear();
         WineManager wineManager = WineManager.getInstance();
         SearchWineList results = wineManager.searchWines(
                 searchBarTextField.getText(),
@@ -84,16 +87,38 @@ public class SearchScreenController {
                 selectedVariety);
         ArrayList<String> stringList = new ArrayList<>();
         results.getWineList().forEach(wine -> stringList.add(wine.getName()));
-        stringList.forEach(string -> System.out.println(string));
         String[] stringArray = new String[stringList.size()];
         stringArray = stringList.toArray(stringArray);
-        searchResultsListView.getItems().addAll(stringArray);
+        fillVbox(stringArray);
     }
 
+    private void fillVbox(String[] searchResults) {
+        int rows = searchResults.length / 3 + searchResults.length % 3;
+        for (int i = 0; i < rows; i++) {
+            HBox hbox = new HBox(10); // 10px
+            hbox.setSpacing(20);
+            hbox.setPadding(new Insets(10, 15, 10, 15));
+            hbox.setPrefWidth(797); // Set preferred width for the HBox
+            Button button1 = new Button(searchResults[3*i]);
+            button1.setPrefSize(240,240);
+            hbox.getChildren().add(button1);
+            if (3 * i + 1 < searchResults.length) {
+                Button button2 = new Button(searchResults[3 * i + 1]);
+                hbox.getChildren().add(button2);
+                button2.setPrefSize(240,240);
+            }
+            if (3 * i + 2 < searchResults.length) {
+                Button button3 = new Button(searchResults[3 * i + 2]);
+                hbox.getChildren().add(button3);
+                button3.setPrefSize(240,240);
+            }
+            searchResultsVBox.getChildren().add(hbox);
+        }
+
+    }
     public void initialize() {
         colourComboBox.getItems().addAll("White", "Rose", "Red", "Dessert & Fortified");
         fullnessComboBox.getItems().addAll("DRY", "LIGHT", "FULL", "MEDIUM", "SWEET", "OFF DRY");
-        styleComboBox.getItems().addAll("Rich", "Big", "Fruity", "Smooth", "Rose", "Crisp", "Sweet", "Dessert & Fortified");
         countryComboBox.getItems().addAll("USA", "Italy", "France", "New Zealand", "Portugal", "Spain", "Argentina",
         "Australia", "Chile", "Romania", "South Africa", "Lebanon", "Germany",
         "Hungary", "Austria", "UK", "Macedonia", "Greece");
@@ -109,7 +134,6 @@ public class SearchScreenController {
                 "Palomino", "Carménère", "Rioja");
         colourComboBox.setOnAction(select -> selectedColour = colourComboBox.getSelectionModel().getSelectedItem());
         fullnessComboBox.setOnAction(select -> selectedFullness = fullnessComboBox.getSelectionModel().getSelectedItem());
-        styleComboBox.setOnAction(select -> selectedStyle = styleComboBox.getSelectionModel().getSelectedItem());
         countryComboBox.setOnAction(select -> selectedCountry = countryComboBox.getSelectionModel().getSelectedItem());
         varietyComboBox.setOnAction(select -> selectedVariety = varietyComboBox.getSelectionModel().getSelectedItem());
         startDatePicker.setOnAction(event -> lowYear = startDatePicker.getValue().getYear());

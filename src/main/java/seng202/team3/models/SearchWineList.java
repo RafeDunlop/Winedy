@@ -6,10 +6,6 @@ import java.util.List;
 public class SearchWineList extends WineList {
     int currentWineRecordIndex; // may not be int
 
-    @Override
-    public void addWineToList(Wine wine) {
-        // To implement
-    }
 
     @Override
     public void removeWineFromList(Wine wine) {
