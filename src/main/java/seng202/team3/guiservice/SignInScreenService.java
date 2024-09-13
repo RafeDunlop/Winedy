@@ -26,7 +26,7 @@ public class SignInScreenService {
      */
     public void validateRegisteringPasswords(String password1, String password2) throws IllegalWineDrinkerException {
         if (!matchRegex(password1)){
-            throw new IllegalWineDrinkerException("Passwords must be between 5 and 16 characters");
+            throw new IllegalWineDrinkerException("Passwords must be between 5 and 16 characters and must be alpha-numeric");
         } else if (!(password1.equals(password2))) {
             throw new IllegalWineDrinkerException("Passwords do not match");
         }
@@ -48,7 +48,7 @@ public class SignInScreenService {
      */
     public void validateRegisteringUsername(String username) throws IllegalWineDrinkerException {
         if (!matchRegex(username)) {
-            throw new IllegalWineDrinkerException("Username must be between 5 and 16 characters and cannot contain any spaces");
+            throw new IllegalWineDrinkerException("Username must be between 5 and 16 characters and must be alpha-numeric");
         } else if (wineDrinkerManager.getWineDrinker(username) != null) {
             throw new IllegalWineDrinkerException("Username is already taken");
         }
@@ -62,9 +62,9 @@ public class SignInScreenService {
      */
     public void validateLoginDetails(String username, String password) throws IllegalWineDrinkerException{
         if(!matchRegex(username)){
-            throw new IllegalWineDrinkerException("Username must be between 5 and 16 characters and cannot contain any spaces");
+            throw new IllegalWineDrinkerException("Username must be between 5 and 16 characters and must be alpha-numeric");
         } else if(!matchRegex(password)) {
-            throw new IllegalWineDrinkerException("Password must be between 5 and 16 characters");
+            throw new IllegalWineDrinkerException("Password must be between 5 and 16 characters and must be alpha-numeric");
         }
 
     }

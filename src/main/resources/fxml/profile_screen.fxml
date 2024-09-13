@@ -102,6 +102,11 @@
                   <Insets bottom="100.0" />
                </GridPane.margin>
             </Slider>
+            <Button fx:id="logoutButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onLogoutButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Logout" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </GridPane.margin>
+            </Button>
          </children>
       </GridPane>
    </children>
