@@ -4,6 +4,8 @@ import seng202.team3.WineDrinkerManager;
 import seng202.team3.gui.SignInScreenController;
 import seng202.team3.models.IllegalWineDrinkerException;
 
+import java.util.regex.Pattern;
+
 
 /**
  * A service class for the sign in screen
@@ -13,6 +15,7 @@ import seng202.team3.models.IllegalWineDrinkerException;
  */
 public class SignInScreenService {
     private WineDrinkerManager wineDrinkerManager;
+    private final String regex = "^[a-zA-Z0-9]{5,16}$";
 
     public SignInScreenService() {
         this.wineDrinkerManager = WineDrinkerManager.getInstance();
@@ -21,14 +24,22 @@ public class SignInScreenService {
      * does nothing as long as the inputted passwords are matching
      * @throws IllegalWineDrinkerException thrown if the passwords do not match
      */
-    public void validatePasswordsMatch(String password1, String password2) throws IllegalWineDrinkerException {
-        if (!password1.matches("^[a-zA-Z0-9]{5,16}$")){
+    public void validateRegisteringPasswords(String password1, String password2) throws IllegalWineDrinkerException {
+        if (!matchRegex(password1)){
             throw new IllegalWineDrinkerException("Passwords must be between 5 and 16 characters");
         } else if (!(password1.equals(password2))) {
             throw new IllegalWineDrinkerException("Passwords do not match");
         }
     }
 
+    /**
+     * Matches inputted string to predefined regex
+     * @param inputString string to be matched
+     * @return true if string matches regex, otherwise false
+     */
+    private boolean matchRegex(String inputString) {
+        return inputString.matches(regex);
+    }
 
     /**
      * Checks the inputted username against a regex and if it is not already in use
@@ -36,10 +47,25 @@ public class SignInScreenService {
      * @throws IllegalWineDrinkerException thrown if username does not pass checks
      */
     public void validateRegisteringUsername(String username) throws IllegalWineDrinkerException {
-        if (!username.matches("^[a-zA-Z0-9]{3,16}$")) {
-            throw new IllegalWineDrinkerException("Username must be between 3 and 16 characters and cannot contain any spaces");
+        if (!matchRegex(username)) {
+            throw new IllegalWineDrinkerException("Username must be between 5 and 16 characters and cannot contain any spaces");
         } else if (wineDrinkerManager.getWineDrinker(username) != null) {
             throw new IllegalWineDrinkerException("Username is already taken");
         }
+    }
+
+    /**
+     * Validate username and password for login details
+     * @param username username to validate
+     * @param password password to validate
+     * @throws IllegalWineDrinkerException thrown if details don't match regex
+     */
+    public void validateLoginDetails(String username, String password) throws IllegalWineDrinkerException{
+        if(!matchRegex(username)){
+            throw new IllegalWineDrinkerException("Username must be between 5 and 16 characters and cannot contain any spaces");
+        } else if(!matchRegex(password)) {
+            throw new IllegalWineDrinkerException("Password must be between 5 and 16 characters");
+        }
+
     }
 }

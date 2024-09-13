@@ -10,9 +10,9 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import seng202.team3.WineDrinkerManager;
+import seng202.team3.exceptions.UnauthorisedWineDrinkerException;
 import seng202.team3.guiservice.SignInScreenService;
 import seng202.team3.models.IllegalWineDrinkerException;
-import seng202.team3.models.Wine;
 import seng202.team3.models.WineDrinker;
 
 /**
@@ -118,7 +118,7 @@ public class SignInScreenController {
             signInScreenService.validateRegisteringUsername(username);
             String password = enterPasswordField.getText();
             String secondPassword = reEnterPasswordField.getText();
-            signInScreenService.validatePasswordsMatch(password, secondPassword);
+            signInScreenService.validateRegisteringPasswords(password, secondPassword);
             String colour = getComboInput(colourPreferenceComboBox);
             String fullness = getComboInput(fullnessPreferenceComboBox);
             String variety = getComboInput(varietyPreferenceComboBox);
@@ -126,6 +126,7 @@ public class SignInScreenController {
 
             WineDrinker curUser = new WineDrinker(username, password, null, colour, fullness, variety); //TODO ABV In database and winedrinker
             wineDrinkerManager.setCurrentUser(curUser);
+            wineDrinkerManager.registerWineDrinker();
             FXWrapper.getInstance().loadScreen(Screen.PROFILESCREEN);
 
         } catch (IllegalWineDrinkerException e) {
@@ -143,12 +144,18 @@ public class SignInScreenController {
      */
     @FXML
     void onLoginButtonClicked() {
-        String username = usernameTextField.getText();
-        String password = enterPasswordField.getText();
-        //TODO Add get from database
-        WineDrinker curUser = new WineDrinker(username, password, null, null, null, null);
-        wineDrinkerManager.setCurrentUser(curUser);
-        FXWrapper.getInstance().loadScreen(Screen.PROFILESCREEN);
+        try {
+            String username = usernameTextField.getText();
+            String password = enterPasswordField.getText();
+            signInScreenService.validateLoginDetails(username, password);
+            wineDrinkerManager.loginCurrentUser(username, password);
+            FXWrapper.getInstance().loadScreen(Screen.PROFILESCREEN);
+
+        } catch (IllegalWineDrinkerException e) {
+            fullDisable(errorLabel, false);
+            errorLabel.setText(e.getMessage());
+            errorLabel.setStyle("-fx-text-fill: red;");
+        }
     }
 
     /**

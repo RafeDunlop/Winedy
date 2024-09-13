@@ -37,7 +37,7 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
      * @throws WineDrinkerDoesNotExistException if a wine drinker with that username does not exist
      */
 
-    public WineDrinker getWineDrinkerFromUsername(String username) throws WineDrinkerDoesNotExistException {
+    public WineDrinker getWineDrinkerFromUsername(String username) {
         WineDrinker retrievedWineDrinker = null;
         String sqlQuery = "SELECT * FROM wineDrinker where username=?";
         try(Connection conn = database.connect();
@@ -53,13 +53,14 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
                             resultSet.getString("fullnessPreference"),
                             resultSet.getString("grapePreference"));
                 }
-                return retrievedWineDrinker;
+
             }
         } catch(SQLException sqlException) {
             log.error(sqlException);
             System.out.println("Exception here = " + sqlException);
         }
-        throw new WineDrinkerDoesNotExistException(String.format("No Wine Drinker with username %s found", username));
+
+        return retrievedWineDrinker;
     }
 
 //    /**
@@ -99,7 +100,7 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
      */
     @Override
     public int add(WineDrinker toAdd) throws WineDrinkerAlreadyExistsException {
-        String sqlQuery = "INSERT INTO wineDrinker(username, password, countryPreference, colourPreference, fullnessPreference, grapePreference) values (?,?,?,?,?,?,?,?);";
+        String sqlQuery = "INSERT INTO wineDrinker(username, password, countryPreference, colourPreference, fullnessPreference, grapePreference) values (?,?,?,?,?,?);";
         try (Connection conn = database.connect();
             PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
             preparedStatement.setString(1, toAdd.getUsername());
