@@ -3,6 +3,7 @@ package seng202.team3.gui;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -55,16 +56,22 @@ public class HelpScreenController {
     Button createAnAccountButton;
 
     /*
-     * ScrollPane that contains the table of contents.
+     * ScrollPane that contains the VBox that contains the table of contents.
      */
     @FXML
     ScrollPane contentsScrollPane;
 
     /*
-     * ScrollPane that contains the help information.
+     * ScrollPane that contains the VBox that contains the help information.
      */
     @FXML
     ScrollPane informationScrollPane;
+
+    /*
+     * VBox that contains the help information.
+     */
+    @FXML
+    VBox informationVBox;
 
     /**
      * Method used by JavaFX when initialising the Help Screen.
@@ -81,8 +88,8 @@ public class HelpScreenController {
             createAnAccountButton.getStyleClass().add("help-screen-contents-button");
             signinButton.getStyleClass().add("help-screen-contents-button");
 
-            contentsScrollPane.getStyleClass().add("help-screen-scroll-pane");
-            informationScrollPane.getStyleClass().add("help-screen-scroll-pane");
+            contentsScrollPane.getStyleClass().add("white-wine-scroll-pane");
+            informationScrollPane.getStyleClass().add("red-wine-scroll-pane");
         } catch (NullPointerException e) {
             log.warn("Error loading CSS style classes. Did you misspell their names?");
         }

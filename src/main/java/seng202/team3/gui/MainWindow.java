@@ -7,9 +7,12 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team3.App;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
 
 /**
@@ -33,17 +36,18 @@ public class MainWindow extends Application {
         Scene scene = new Scene(root, 1200, 800);
 
         try {
-            //TODO: write looping method to make this cleaner
-            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/red_wine_button.css")).toExternalForm());
-            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/white_wine_rectangle.css")).toExternalForm());
-            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/nav_bar.css")).toExternalForm());
-            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/home_screen_button.css")).toExternalForm());
-            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/red_wine_rectangle.css")).toExternalForm());
-            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/home_screen_text.css")).toExternalForm());
-            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/help_screen_contents_button.css")).toExternalForm());
-            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/help_screen_scroll_pane.css")).toExternalForm());
+            Path cssPath = Paths.get(Objects.requireNonNull(getClass().getResource("/css")).toURI());
+
+            Files.list(cssPath).forEach(path -> {
+                if (path.toString().endsWith(".css")) { // This should always be true but prevents errors from occurring if someone adds a non css file
+                    String cssFilePath = "/css/" + path.getFileName().toString();
+                    scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(cssFilePath)).toExternalForm());
+                }
+            });
         } catch (NullPointerException e) {
             log.error("Error loading CSS style sheets. Did you misspell the path?", e);
+        } catch (URISyntaxException e) {
+            log.error("A file could not be parsed as a URI reference.", e);
         }
 
         primaryStage.setScene(scene);
