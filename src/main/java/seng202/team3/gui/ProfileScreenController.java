@@ -37,6 +37,9 @@ public class ProfileScreenController {
     private Button newListButton;
 
     @FXML
+    private Button logoutButton;
+
+    @FXML
     private Button removeListButton;
 
     @FXML
@@ -74,13 +77,19 @@ public class ProfileScreenController {
     }
 
     @FXML
-    void onNewListButtonClicked(ActionEvent event) {
+    void onNewListButtonClicked() {
 
     }
 
     @FXML
-    void onRemoveListButtonClicked(ActionEvent event) {
+    void onRemoveListButtonClicked() {
 
+    }
+    @FXML
+    void onLogoutButtonClicked(){
+        wineDrinkerManager.setCurrentUser(null);
+        //TODO Save data?
+        FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
     }
 
     public void initialize() {
