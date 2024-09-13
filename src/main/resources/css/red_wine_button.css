@@ -1,0 +1,94 @@
+/*
+ * This style sheet defines two style classes:
+ *     small-red-wine-button
+ *     red-wine-button
+ * These classes were developed as defaults for styling buttons and will likely be removed
+ */
+.root {
+    -fx-dark-red-wine-colour: #821D38;  /* Darkest red */
+    -fx-red-wine-colour: derive(-fx-dark-red-wine-colour, 30%);  /* Light red */
+    -fx-light-red-wine-colour: derive(-fx-red-wine-colour, 30%);  /* Lightest, pinky colour */
+    -fx-rwb-text-base-colour: #F0F0F0; /* Off-white grey */
+}
+
+/*
+ * A class to be used on small buttons.
+ * A red-wine coloured button that implements the focussed, hover, and pressed pseudo-classes.
+ * Differs from red-wine-button in that the background radius, border radius, and border width are smaller.
+ */
+.small-red-wine-button {
+    -fx-background-color: derive(-fx-dark-red-wine-colour, 30%);
+    -fx-background-radius: 25px;
+
+    -fx-text-fill: -fx-rwb-text-base-colour;
+
+    -fx-border-color: -fx-dark-red-wine-colour;
+    -fx-border-width: 2px;
+    -fx-border-radius: 23px;
+}
+
+/*
+ * A class to be used on larger buttons.
+ * A red-wine coloured button that implements the focussed, hover, and pressed pseudo-classes.
+ */
+.red-wine-button {
+    -fx-background-color: derive(-fx-dark-red-wine-colour, 30%);
+    -fx-background-radius: 50px;
+
+    -fx-text-fill: -fx-rwb-text-base-colour;
+
+    -fx-border-color: -fx-dark-red-wine-colour;
+    -fx-border-width: 5px;
+    -fx-border-radius: 45px;
+}
+
+/*
+ * Defines the focused pseudo-class for both button classes.
+ * Lightens the background and border colour. Sets the background and border insets to make the button
+ *     appear to be selected.
+ */
+.small-red-wine-button:focused,
+.red-wine-button:focused {
+    -fx-background-color: -fx-light-red-wine-colour;
+    -fx-background-insets: 5;
+
+    -fx-border-color: -fx-red-wine-colour;
+    -fx-border-insets: 5;
+}
+
+/*
+ * Defines the hover pseudo-class for small-red-wine-button.
+ * Darkens the background and border colour. Increases the size of the font to 14.
+ */
+.small-red-wine-button:hover {
+    -fx-background-color: -fx-dark-red-wine-colour;
+
+    -fx-font-size: 14;
+
+    -fx-border-color: derive(-fx-dark-red-wine-colour, -30%);
+}
+
+/*
+ * Defines the hover pseudo-class for small-red-wine-button.
+ * Darkens the background and border colour. Increases the size of the font to 35.
+ */
+.red-wine-button:hover {
+    -fx-background-color: -fx-dark-red-wine-colour;
+
+    -fx-font-size: 35;
+
+    -fx-border-color: derive(-fx-dark-red-wine-colour, -30%);
+}
+
+/*
+ * Defines the pressed pseudo-class for both both button classes.
+ * Lightens the background and border colour. Sets the background and border insets to make the button.
+ */
+.small-red-wine-button:pressed,
+.red-wine-button:pressed {
+    -fx-background-color: -fx-dark-red-wine-colour;
+    -fx-background-insets: 10;  /* Insets the button to make it appear as though it is selected */
+
+    -fx-border-color: derive(-fx-dark-red-wine-colour, -30%);
+    -fx-border-insets: 10;  /* Insets the border to match the insets of the background */
+}

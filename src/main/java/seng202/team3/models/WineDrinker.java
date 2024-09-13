@@ -13,53 +13,34 @@ import java.util.*;
  * @author Steven Leishman
  */
 public class WineDrinker {
-    ArrayList<WineList> drinkersWineLists = new ArrayList<>();
-    String username;
-    String wineColourPreference;
-    String wineFullnessPreference;
-    boolean isLoggedIn = false;
-    DBService dbService;
+    private ArrayList<WineList> drinkersWineLists = new ArrayList<>();
+    private String username;
+    private String password;
+    private String countryPreference;
+    private String colourPreference;
+    private String fullnessPreference;
+    private String grapePreference;
 
 
-    /**
-     * Initialise Blank WineDrinker object
-     */
-    public WineDrinker() {
-        this.username = null;
-        this.wineColourPreference = null;
-        this.wineFullnessPreference = null;
-        this.dbService = new DBService();
-
-    }
 
     /**
-     * Initialises WineDrinker object and DBService instance and stores
-     * data retrieved from database under given username and password
-     *
-     * @param username username for database search record
-     * @param password password to authenticate user
+     * Initialises WineDrinker object with some given parameters
+     * @param username unique username to identify the WineDrinker
+     * @param password password for the WineDrinker to get into the account
+     * @param countryPreference a WineDrinker's preferred country of wine
+     * @param colourPreference a Wine Drinker's preferred colour of wine
+     * @param fullnessPreference a WineDrinker's preferred colour of wine
+     * @param grapePreference a WineDrinker's preferred grape variety
      */
-    public WineDrinker(String username, String password) {
+    public WineDrinker(String username, String password, String countryPreference, String colourPreference, String fullnessPreference, String grapePreference) {
         this.username = username;
-        this.dbService = new DBService();
-        List<String> retrievedWineDrinkerData = new ArrayList<>();
-        try {
-            retrievedWineDrinkerData = dbService.readDrinkerDetails(username, password);
-        } catch (WineDrinkerDoesNotExistException e){
-            e.printStackTrace();
-            dbService.writeNewDrinkerRecord(username, password);
-        }
-        for (int i = 0; i < retrievedWineDrinkerData.size(); i++){
-            //do stuff with the data
-        }
-    }
+        this.password = password;
+        this.countryPreference = countryPreference;
+        this.colourPreference = colourPreference;
+        this.fullnessPreference = fullnessPreference;
+        this.grapePreference = grapePreference;
+        //TODO Add something with ABV?
 
-    /**
-     * Reads preferences of user
-     * TODO DISCUSS VALIDITY OF THIS, POSSIBLE REDUNDANCY
-     */
-    void readPreferences() {
-        //make a request to db for preferences
     }
 
 
@@ -93,26 +74,96 @@ public class WineDrinker {
     }
 
     /**
-     * Returns the colour preference of current instance of WineDrinker
-     * @return this.wineColourPreference
+     * get users password for adding into DB
+     * @return password
      */
-    public String getWineColourPreference(){
-        return this.wineColourPreference;
+    public String getPassword(){return this.password;}
+
+    /**
+     * Gets a string containing the WineDrinker's country preference
+     * @return preferred country of wine
+     */
+    public String getCountryPreference() {
+        return countryPreference;
     }
 
     /**
-     * Returns the wineFullness of current instance of WineDrinker
-     * @return this.wineFullnessPreference
+     * Gets a string containing a WineDrinker's wine colour preference
+     * @return preferred colour of wine out of red, white and rose
      */
-    public String getWineFullnessPreference(){
-        return this.wineFullnessPreference;
+    public String getColourPreference() {
+        return colourPreference;
     }
 
     /**
-     * sets username to inputted value
-     * @param username username to set to
+     * Gets a string with a WineDrinker's wine fullness preference
+     * @return preferred fullness of wine
+     */
+    public String getFullnessPreference() {
+        return fullnessPreference;
+    }
+
+    /**
+     * Gets a string with the WineDrinker's preferred grape variety
+     * @return the preferred grape variety
+     */
+    public String getGrapePreference() {
+        return grapePreference;
+    }
+
+    /**
+     * Sets the WineDrinker's list of WineLists that they own
+     * @param drinkersWineLists
+     */
+    public void setDrinkersWineLists(ArrayList<WineList> drinkersWineLists) {
+        this.drinkersWineLists = drinkersWineLists;
+    }
+
+    /**
+     * Sets the WineDrinker's unique username
+     * @param username unique username for the WineDrinker
      */
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    /**
+     * Sets the WineDrinker's password for their account
+     * @param password WineDrinker's personal password
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * Sets the WineDrinkers preference of country for their wine
+     * @param countryPreference String containing a wine country that a Wine Drinker prefers
+     */
+    public void setCountryPreference(String countryPreference) {
+        this.countryPreference = countryPreference;
+    }
+
+    /**
+     * Sets the WineDrinker's preferred wine colour
+     * @param colourPreference the preferred wine colour out of red, white and rose
+     */
+    public void setColourPreference(String colourPreference) {
+        this.colourPreference = colourPreference;
+    }
+
+    /**
+     * Sets the Wine Drinker's preferred wine fullness
+     * @param fullnessPreference the preferred fullness
+     */
+    public void setFullnessPreference(String fullnessPreference) {
+        this.fullnessPreference = fullnessPreference;
+    }
+
+    /**
+     * Sets the WineDrinker's preferred grape for their wine
+     * @param grapePreference type of grape the WineDrinker prefers
+     */
+    public void setGrapePreference(String grapePreference) {
+        this.grapePreference = grapePreference;
     }
 }

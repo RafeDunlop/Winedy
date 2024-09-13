@@ -1,0 +1,20 @@
+/*
+ * This style sheet defines the red-wine-rectangle style class.
+ */
+.root {
+    -fx-dark-red-wine-colour: derive(#821D38, 30%);
+    -fx-red-wine-colour: derive(-fx-dark-red-wine-colour, 30%);
+}
+
+/*
+ * Rectangle used behind the buttons on the Home Screen.
+ * Has a red background with a slightly darker border (stroke) and rounded corners (arc).
+ */
+.red-wine-rectangle {
+    -fx-fill: -fx-red-wine-colour;
+    -fx-arc-width: 50px;
+    -fx-arc-height: 50px;
+
+    -fx-stroke: -fx-dark-red-wine-colour;
+    -fx-stroke-width: 5px;
+}

@@ -3,7 +3,6 @@ package seng202.team3.models;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 /**
  *This class represents a list of wines (stored as Wine objects). The list is stored as an Arraylist which is kept private.
  *
@@ -25,7 +24,7 @@ import java.util.List;
      * provided by this class.
      */
     public List<Wine> getWineList() {
-        return List.copyOf(wineList);
+        return wineList;
     }
 
     /**

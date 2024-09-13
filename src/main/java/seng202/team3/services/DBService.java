@@ -1,5 +1,6 @@
 package seng202.team3.services;
 
+import seng202.team3.exceptions.WineDrinkerDoesNotExistException;
 import seng202.team3.models.*;
 import java.util.*;
 
@@ -12,24 +13,24 @@ import java.util.*;
 public class DBService {
 
 
-    /**
-     * searches DB for users record under username
-     * returns list of strings of users saved data
-     * or if no data exists throw exception
-     *
-     * @param username - users username to search
-     * @param password - users chosen password to match
-     * @return List of Strings of user data
-     * @throws WineDrinkerDoesNotExistException if no record found in database
-     */
-    public List<String>  readDrinkerDetails(String username, String password) throws WineDrinkerDoesNotExistException{
-        boolean mockFlag = false;
-        if (mockFlag) {
-            throw new WineDrinkerDoesNotExistException("Wine Drinker does not exist");
-        }
-
-        return new ArrayList<>();
-    }
+//    /**
+//     * searches DB for users record under username
+//     * returns list of strings of users saved data
+//     * or if no data exists throw exception
+//     *
+//     * @param username - users username to search
+//     * @param password - users chosen password to match
+//     * @return List of Strings of user data
+//     * @throws WineDrinkerDoesNotExistException if no record found in database
+//     */
+//    public List<String>  readDrinkerDetails(String username, String password) throws WineDrinkerDoesNotExistException {
+//        boolean mockFlag = false;
+//        if (mockFlag) {
+//            throw new WineDrinkerDoesNotExistException("Wine Drinker does not exist");
+//        }
+//
+//        return new ArrayList<>();
+//    }
 
     /**
      * writes a wineDrinker record to the database from input

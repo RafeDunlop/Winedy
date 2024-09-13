@@ -13,23 +13,23 @@ import java.io.IOException;
  */
 public class FXWrapper {
 
-    /**
+    /*
      * container below navigation bar for screens featuring the navigation bar
      */
     private AnchorPane screenPane;
 
-    /**
+    /*
      * higher level container for all GUI in the application
      */
     private Pane superPane;
 
-    /**
+    /*
      * instance variable, stores the only copy of this class that may exist.
      */
     private static FXWrapper instance;
 
-    /**
-     * private (almost) default constructor to prevent instantiation outside this class
+    /*
+     * private default constructor to prevent instantiation outside this class
      */
     private FXWrapper() {
         screenPane = null;
@@ -65,44 +65,30 @@ public class FXWrapper {
     }
 
     /**
-     * loads dummy1.fxml into the screen below navbar
-     * not for release
-     * @throws IOException thrown if the FXMLLoader.load() method encounters a problem
+     * loads specified screen passed via enum
+     * @param screen Enum which contains fxml path and
      */
-    protected void launchDummy1() throws IOException {
-        clearScreen();
-        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/dummy1.fxml"));
-        Parent root = baseLoader.load();
-        screenPane.getChildren().add(root);
-
+    protected void loadScreen(Screen screen) {
+        try {
+            FXMLLoader screenLoader = new FXMLLoader(getClass().getResource("/fxml/" + screen.file));
+            Parent root = screenLoader.load();
+            clearPane();
+            if (screen.hasNavBar) {
+                loadScreen(Screen.NAVBAR);
+                screenPane.getChildren().add(root);
+            } else {
+                superPane.getChildren().add(root);
+            }
+        } catch (IOException e) {
+            e.printStackTrace(); //TODO: replace with error logging
+        }
     }
 
-    /**
-     * loads dummy2.fxml into the screen below navbar
-     * not for release
-     * @throws IOException thrown if the FXMLLoader.load() method encounters a problem
-     */
-    protected void launchDummy2() throws IOException {
-        clearScreen();
-        FXMLLoader baseLoader = new FXMLLoader(getClass().getResource("/fxml/dummy2.fxml"));
-        Parent root = baseLoader.load();
-        screenPane.getChildren().add(root);
-    }
-
-    /**
+    /*
      * Removes all FXML components, including the navBar
      * @throws NullPointerException thrown if superPane is not set yet via setSuperPane
      */
-    protected void clearNavBar() throws NullPointerException {
+    private void clearPane() throws NullPointerException {
         superPane.getChildren().removeAll(superPane.getChildren());
-    }
-
-    /**
-     * Removes all FXML components below the navBar level
-     * called when switching screens
-     * @throws NullPointerException thrown if screenPane is not set yet via setScreenPane
-     */
-    protected void clearScreen() throws NullPointerException {
-        screenPane.getChildren().removeAll(screenPane.getChildren());
     }
 }

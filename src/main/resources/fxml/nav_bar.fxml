@@ -1,13 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="superPane" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.NavBarController">
-   <AnchorPane fx:id="screenPane" layoutY="76.0" prefHeight="1004.0" prefWidth="1920.0"/>
-   <Button layoutX="31.0" layoutY="30.0" mnemonicParsing="false" onAction="#dummy1Clicked" text="DummyButton1"/>
-   <Button layoutX="150.0" layoutY="30.0" mnemonicParsing="false" onAction="#dummy2Clicked" text="DummyButton2"/>
-   <TextField fx:id="dummyText" layoutX="288.0" layoutY="30.0"/>
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.NavBarController">
+   <AnchorPane fx:id="screenPane" layoutY="76.0" prefHeight="924.0" prefWidth="1200.0" />
+   <HBox fx:id="buttonHBox" alignment="CENTER" prefHeight="66.0" spacing="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+      <children>
+         <Button fx:id="navigationButton" minWidth="66.0" mnemonicParsing="false" onMouseEntered="#onNavigationMouseEntered" onMouseExited="#onNavigationMouseExited" prefHeight="66.0" prefWidth="66.0" text="Navigation">
+            <font>
+               <Font size="10.0" />
+            </font>
+         </Button>
+         <Button fx:id="searchButton" minWidth="0.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="66.0" text="Search">
+            <font>
+               <Font size="10.0" />
+            </font>
+            <tooltip>
+               <Tooltip text="Search" />
+            </tooltip></Button>
+         <Button fx:id="profileButton" minWidth="0.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="66.0" text="Profile">
+            <font>
+               <Font size="10.0" />
+            </font>
+            <tooltip>
+               <Tooltip text="Profile" />
+            </tooltip></Button>
+         <Button fx:id="helpButton" minWidth="0.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="66.0" text="Help">
+            <font>
+               <Font size="10.0" />
+            </font>
+            <tooltip>
+               <Tooltip text="Help" />
+            </tooltip></Button>
+         <Button fx:id="reloadButton" minWidth="0.0" mnemonicParsing="false" onAction="#onReloadClicked" prefHeight="66.0" prefWidth="66.0" text="Reload">
+            <font>
+               <Font size="10.0" />
+            </font>
+            <tooltip>
+               <Tooltip text="Reload" />
+            </tooltip></Button>
+      </children>
+   </HBox>
+   <Button fx:id="homeButton" mnemonicParsing="false" prefHeight="66.0" prefWidth="66.0" text="Home" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+      <font>
+         <Font size="10.0" />
+      </font></Button>
 </AnchorPane>
