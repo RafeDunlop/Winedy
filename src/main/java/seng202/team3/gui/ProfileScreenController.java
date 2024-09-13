@@ -19,7 +19,7 @@ import javafx.scene.input.KeyCode;
  */
 
 public class ProfileScreenController {
-    private WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
+    private WineDrinkerManager wineDrinkerManager;
 
     @FXML
     private Slider abvLimitSlider;
@@ -84,13 +84,14 @@ public class ProfileScreenController {
     }
 
     public void initialize() {
+        wineDrinkerManager = WineDrinkerManager.getInstance();
         usernameTextField.setText(wineDrinkerManager.getCurrentUser().getUsername());
         colourPreferenceComboBox.getItems().addAll("Red", "White", "Rose");
-        colourPreferenceComboBox.getSelectionModel().select(WineDrinkerManager.getInstance().getCurrentUser().getColourPreference());
+        colourPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getColourPreference());
         fullnessPreferenceComboBox.getItems().addAll("Off Dry", "Dry", "Light", "Medium", "Full");
-        fullnessPreferenceComboBox.getSelectionModel().select(WineDrinkerManager.getInstance().getCurrentUser().getFullnessPreference());
+        fullnessPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getFullnessPreference());
         varietyPreferenceComboBox.getItems().addAll("Pinot Noir", "Chardonnay", "Sauvignon Blanc", "Cabernet Sauvignon",
                 "Pinot Gris", "Malbec", "Shiraz", "Viognier", "Syrah", "Grenache", "Merlot", "Prosecco");
-        varietyPreferenceComboBox.getSelectionModel().select(WineDrinkerManager.getInstance().getCurrentUser().getGrapePreference());
+        varietyPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getGrapePreference());
     }
 }

@@ -7,6 +7,7 @@ import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
 import seng202.team3.exceptions.WineDrinkerDoesNotExistException;
 import seng202.team3.models.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
 
@@ -28,6 +29,7 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
     }
 
 
+
     /**
      * Gets a WineDrinker object from the database based on their username
      * @param username unique username to identify a WineDrinker
@@ -35,9 +37,9 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
      * @throws WineDrinkerDoesNotExistException if a wine drinker with that username does not exist
      */
 
-    public WineDrinker getWineDrinkerFromUsername(String username) throws WineDrinkerDoesNotExistException {
+    public WineDrinker getWineDrinkerFromUsername(String username) {
         WineDrinker retrievedWineDrinker = null;
-        String sqlQuery = "SELECT * FROM wineDrinker where username";
+        String sqlQuery = "SELECT * FROM wineDrinker where username=?";
         try(Connection conn = database.connect();
             PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
             preparedStatement.setString(1, username);
@@ -51,13 +53,14 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
                             resultSet.getString("fullnessPreference"),
                             resultSet.getString("grapePreference"));
                 }
-                return retrievedWineDrinker;
+
             }
         } catch(SQLException sqlException) {
             log.error(sqlException);
             System.out.println("Exception here = " + sqlException);
         }
-        throw new WineDrinkerDoesNotExistException(String.format("No Wine Drinker with username %s found", username));
+
+        return retrievedWineDrinker;
     }
 
 //    /**
@@ -97,7 +100,7 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
      */
     @Override
     public int add(WineDrinker toAdd) throws WineDrinkerAlreadyExistsException {
-        String sqlQuery = "INSERT INTO wineDrinker(username, password, countryPreference, colourPreference, fullnessPreference, grapePreference) values (?,?,?,?,?,?,?,?);";
+        String sqlQuery = "INSERT INTO wineDrinker(username, password, countryPreference, colourPreference, fullnessPreference, grapePreference) values (?,?,?,?,?,?);";
         try (Connection conn = database.connect();
             PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
             preparedStatement.setString(1, toAdd.getUsername());
@@ -125,19 +128,27 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
     }
 
     /**
-     * @param id id of object to delete 
+     * @param username username of record to delete
      */
-    @Override
-    public void delete(int id) {
-        String sqlQuery = "DELETE FROM wineDrinker WHERE id=?";
+
+    public void deleteByUsername(String username) {
+        String sqlQuery = "DELETE FROM wineDrinker WHERE username=?";
         try(Connection conn = database.connect();
             PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
-            preparedStatement.setInt(1, id);
+            preparedStatement.setString(1, username);
             preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
             System.out.println("Exception here = " + sqlException);
         }
     }
+
+    /**
+     * Delete object by ID TODO this is redudant, but required by our DAO interface
+     * @param id id of object to delete
+     */
+    @Override
+    public void delete(int id ){}
+
 
     /**
      * @param toUpdate Object that needs to be updated (this object must be able to identify itself and its previous self) 

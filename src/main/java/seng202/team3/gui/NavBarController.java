@@ -10,6 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.util.Duration;
+import seng202.team3.WineDrinkerManager;
 
 
 /**
@@ -130,8 +131,12 @@ public class NavBarController {
      * Method to load the correct profile screen (depending on whether the user is logged in)
      */
     private void onProfileButtonClicked() {
-        //determine is user is logged in, if so, load the profile screen, otherwise
-        onButtonClick(Screen.SIGNINSCREEN);
+        if (WineDrinkerManager.getInstance().getCurrentUser() == null) {
+            onButtonClick(Screen.SIGNINSCREEN);
+        } else {
+            onButtonClick(Screen.PROFILESCREEN);
+        }
+
     }
 
     /**
