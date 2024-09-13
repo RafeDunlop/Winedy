@@ -1,5 +1,7 @@
 package seng202.team3.gui;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -15,6 +17,10 @@ import org.controlsfx.control.RangeSlider;
 import seng202.team3.WineManager;
 import seng202.team3.models.SearchWineList;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class SearchScreenController {
 
@@ -23,9 +29,6 @@ public class SearchScreenController {
 
     @FXML
     private ComboBox<String> countryComboBox;
-
-    @FXML
-    private DatePicker endDatePicker;
 
     @FXML
     private ComboBox<String> fullnessComboBox;
@@ -43,13 +46,11 @@ public class SearchScreenController {
     private VBox searchResultsVBox;
 
     @FXML
-    private DatePicker startDatePicker;
+    private ComboBox<Integer> startDateComboBox;
 
     @FXML
-    private ComboBox<String> styleComboBox;
+    private ComboBox<Integer> endDateComboBox;
 
-    @FXML
-    private ComboBox<String> typeComboBox;
 
     @FXML
     private ComboBox<String> varietyComboBox;
@@ -117,12 +118,15 @@ public class SearchScreenController {
 
     }
     public void initialize() {
-        colourComboBox.getItems().addAll("White", "Rose", "Red", "Dessert & Fortified");
-        fullnessComboBox.getItems().addAll("DRY", "LIGHT", "FULL", "MEDIUM", "SWEET", "OFF DRY");
-        countryComboBox.getItems().addAll("USA", "Italy", "France", "New Zealand", "Portugal", "Spain", "Argentina",
+        priceRangeSlider.setLowValue(0);
+        priceRangeSlider.setHighValue(200);
+        startDateComboBox.getStyleClass().add("date-combo-box");
+        colourComboBox.getItems().addAll("", "White", "Rose", "Red", "Dessert & Fortified");
+        fullnessComboBox.getItems().addAll("", "DRY", "LIGHT", "FULL", "MEDIUM", "SWEET", "OFF DRY");
+        countryComboBox.getItems().addAll("", "USA", "Italy", "France", "New Zealand", "Portugal", "Spain", "Argentina",
         "Australia", "Chile", "Romania", "South Africa", "Lebanon", "Germany",
         "Hungary", "Austria", "UK", "Macedonia", "Greece");
-        varietyComboBox.getItems().addAll("Chardonnay", "Nero d\'Avola", "Viognier", "Sauvignon Blanc", "Zinfandel",
+        varietyComboBox.getItems().addAll("", "Chardonnay", "Nero d\'Avola", "Viognier", "Sauvignon Blanc", "Zinfandel",
                 "Cabernet Sauvignon", "Merlot", "Pinot Noir", "Syrah", "Grenache", "Riesling",
                 "Malbec", "Tempranillo", "Sangiovese", "Barbera", "Shiraz", "Pinot Grigio",
                 "Chenin Blanc", "Petit Verdot", "Mourvedre", "Gruner Veltliner", "Gewurztraminer",
@@ -131,12 +135,28 @@ public class SearchScreenController {
                 "Marsanne", "Sangiovese", "Carignan", "Roussanne", "Bourboulenc", "Clairette",
                 "Semillon", "Gewürztraminer", "Grüner Veltliner", "Verdejo",
                 "Melon de Bourgogne", "Harslevelu","Furmint", "Bonarda", "Grenache Blanc",
-                "Palomino", "Carménère", "Rioja");
-        colourComboBox.setOnAction(select -> selectedColour = colourComboBox.getSelectionModel().getSelectedItem());
-        fullnessComboBox.setOnAction(select -> selectedFullness = fullnessComboBox.getSelectionModel().getSelectedItem());
-        countryComboBox.setOnAction(select -> selectedCountry = countryComboBox.getSelectionModel().getSelectedItem());
-        varietyComboBox.setOnAction(select -> selectedVariety = varietyComboBox.getSelectionModel().getSelectedItem());
-        startDatePicker.setOnAction(event -> lowYear = startDatePicker.getValue().getYear());
-        endDatePicker.setOnAction(event -> highYear = endDatePicker.getValue().getYear());
+                "Palomino", "Carménère", "Rioja"); // This is good for now, but what if we add more wines to the database
+        List<Integer> years = IntStream.rangeClosed(2007, 2019)
+                                            .boxed()
+                                            .collect(Collectors.toList());
+        ObservableList<Integer> yearList = FXCollections.observableArrayList();
+        yearList.addAll(years);
+        startDateComboBox.getItems().addAll(yearList);
+        endDateComboBox.getItems().addAll(yearList);
+        colourComboBox.setOnAction(select -> selectedColour = (colourComboBox.getSelectionModel().getSelectedItem() == "") ? null : colourComboBox.getSelectionModel().getSelectedItem());
+        fullnessComboBox.setOnAction(select -> selectedFullness = (fullnessComboBox.getSelectionModel().getSelectedItem() == "") ? null : fullnessComboBox.getSelectionModel().getSelectedItem());
+        countryComboBox.setOnAction(select -> selectedCountry = (countryComboBox.getSelectionModel().getSelectedItem() == "") ? null : countryComboBox.getSelectionModel().getSelectedItem());
+        varietyComboBox.setOnAction(select -> selectedVariety = (varietyComboBox.getSelectionModel().getSelectedItem() == "") ? null : varietyComboBox.getSelectionModel().getSelectedItem());
+        startDateComboBox.setOnAction(event -> {
+            lowYear = startDateComboBox.getSelectionModel().getSelectedItem();
+            System.out.println("Start Date Selected");
+            endDateComboBox.setItems(endDateComboBox.getItems().filtered(year -> lowYear != null && year >= lowYear));
+            System.out.println(lowYear);
+        });
+        endDateComboBox.setOnAction(event -> {
+            highYear = endDateComboBox.getSelectionModel().getSelectedItem();
+            startDateComboBox.setItems(startDateComboBox.getItems().filtered(year ->  highYear != null && year <= highYear));
+        });
+
     }
 }

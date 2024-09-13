@@ -1,0 +1,7 @@
+/* This style sheet styles the date combo box on the search screen */
+root {
+    -fx-hsb-text-colour: #d51a1a;
+}
+.date-combo-box .prompt-text {
+    -fx-text-fill: fx-hsb-text-colour; /* Set the color of the prompt text */
+}
