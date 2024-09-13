@@ -3,6 +3,8 @@ package seng202.team3.gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -94,12 +96,15 @@ public class SearchScreenController {
     }
 
     private void fillVbox(String[] searchResults) {
-        int rows = searchResults.length / 3 + searchResults.length % 3;
+        int rows = searchResults.length / 3;
+        if (searchResults.length % 3 != 0) {
+            rows += 1;
+        }
         for (int i = 0; i < rows; i++) {
             HBox hbox = new HBox(10); // 10px
             hbox.setSpacing(20);
             hbox.setPadding(new Insets(10, 15, 10, 15));
-            hbox.setPrefWidth(797); // Set preferred width for the HBox
+            hbox.setPrefWidth(800); // Set preferred width for the HBox
             Button button1 = new Button(searchResults[3*i]);
             button1.setPrefSize(240,240);
             hbox.getChildren().add(button1);
@@ -136,26 +141,34 @@ public class SearchScreenController {
                 "Semillon", "Gewürztraminer", "Grüner Veltliner", "Verdejo",
                 "Melon de Bourgogne", "Harslevelu","Furmint", "Bonarda", "Grenache Blanc",
                 "Palomino", "Carménère", "Rioja"); // This is good for now, but what if we add more wines to the database
-        List<Integer> years = IntStream.rangeClosed(2007, 2019)
-                                            .boxed()
-                                            .collect(Collectors.toList());
-        ObservableList<Integer> yearList = FXCollections.observableArrayList();
-        yearList.addAll(years);
-        startDateComboBox.getItems().addAll(yearList);
-        endDateComboBox.getItems().addAll(yearList);
         colourComboBox.setOnAction(select -> selectedColour = (colourComboBox.getSelectionModel().getSelectedItem() == "") ? null : colourComboBox.getSelectionModel().getSelectedItem());
         fullnessComboBox.setOnAction(select -> selectedFullness = (fullnessComboBox.getSelectionModel().getSelectedItem() == "") ? null : fullnessComboBox.getSelectionModel().getSelectedItem());
         countryComboBox.setOnAction(select -> selectedCountry = (countryComboBox.getSelectionModel().getSelectedItem() == "") ? null : countryComboBox.getSelectionModel().getSelectedItem());
         varietyComboBox.setOnAction(select -> selectedVariety = (varietyComboBox.getSelectionModel().getSelectedItem() == "") ? null : varietyComboBox.getSelectionModel().getSelectedItem());
+        initialiseDateRangeComboBoxes();
+    }
+    private void initialiseDateRangeComboBoxes() {
+        List<Integer> years = IntStream.rangeClosed(2007, 2019)
+                .boxed()
+                .collect(Collectors.toList());
+        ObservableList<Integer> yearList = FXCollections.observableArrayList();
+        yearList.add(0);
+        yearList.addAll(years);
+        startDateComboBox.getItems().addAll(yearList);
+        endDateComboBox.getItems().addAll(yearList);
         startDateComboBox.setOnAction(event -> {
             lowYear = startDateComboBox.getSelectionModel().getSelectedItem();
-            System.out.println("Start Date Selected");
+            EventHandler<ActionEvent> endDateComboBoxOnAction= endDateComboBox.getOnAction();
+            endDateComboBox.setOnAction(null);
             endDateComboBox.setItems(endDateComboBox.getItems().filtered(year -> lowYear != null && year >= lowYear));
-            System.out.println(lowYear);
+            endDateComboBox.setOnAction(endDateComboBoxOnAction);
         });
         endDateComboBox.setOnAction(event -> {
             highYear = endDateComboBox.getSelectionModel().getSelectedItem();
+            EventHandler<ActionEvent> startDateComboBoxOnAction = startDateComboBox.getOnAction();
+            startDateComboBox.setOnAction(null);
             startDateComboBox.setItems(startDateComboBox.getItems().filtered(year ->  highYear != null && year <= highYear));
+            startDateComboBox.setOnAction(startDateComboBoxOnAction);
         });
 
     }
