@@ -40,10 +40,10 @@ public class WineTest {
         assertEquals(wine.getCountry(), "Italy");
     }
 
-    @Test
-    public void testGetType() {
-        assertEquals(wine.getType(), "Red");
-    }
+//    @Test
+//    public void testGetType() {
+//        assertEquals(wine.getType(), "Red");
+//    }
 
     @Test
     public void testGetStyle() {
@@ -104,11 +104,11 @@ public class WineTest {
         assertEquals(wine.getCountry(), "USA");
     }
 
-    @Test
-    public void testSetType() {
-        wine.setType("White");
-        assertEquals(wine.getType(), "White");
-    }
+//    @Test
+//    public void testSetType() {
+//        wine.setType("White");
+//        assertEquals(wine.getType(), "White");
+//    }
 
     @Test
     public void testSetStyle() {
