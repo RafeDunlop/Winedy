@@ -151,18 +151,24 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
 
 
     /**
-     * @param toUpdate Object that needs to be updated (this object must be able to identify itself and its previous self) 
+     * @param user User that needs to be updated (this object must be able to identify itself and its previous self)
      */
     @Override
-    public void update(WineDrinker toUpdate) {
-//        String sqlQuery = "UPDATE wineDrinker SET wineColourPreference = ?  WHERE id=?";
-//        try(Connection conn = database.connect();
-//            PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
-//            preparedStatement.setInt(1, id);
-//            preparedStatement.executeUpdate();
-//        } catch (SQLException sqlException) {
-//            System.out.println("Exception here = " + sqlException);
-//        }
-//
+    public void update(WineDrinker user) {
+        String sqlQuery = "UPDATE wineDrinker SET countryPreference=?, colourPreference=?, fullnessPreference=?, grapePreference=?, varietyPreference=?, abvLimit=?  WHERE username=?";
+        try(Connection conn = database.connect();
+            PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
+            preparedStatement.setString(1, user.getCountryPreference());
+            preparedStatement.setString(2, user.getColourPreference());
+            preparedStatement.setString(3, user.getFullnessPreference());
+            preparedStatement.setString(4, user.getGrapePreference());
+            preparedStatement.setString(5, user.getVarietyPreference());
+            preparedStatement.setDouble(6, user.getAbvLimit());
+            preparedStatement.setString(7, user.getUsername());
+            preparedStatement.executeUpdate();
+        } catch (SQLException sqlException) {
+            System.out.println("Exception here = " + sqlException);
+        }
+
     }
 }
