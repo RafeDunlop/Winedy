@@ -17,13 +17,15 @@ CREATE TABLE wineDrinker (
     countryPreference TEXT,
     colourPreference TEXT,
     fullnessPreference TEXT,
-    grapePreference TEXT);
+    grapePreference TEXT,
+    varietyPreference TEXT,
+    abvLimit double);
 --Split
 CREATE TABLE wineList (
     name TEXT,
     userId INTEGER,
     PRIMARY KEY(name, userId),
-    FOREIGN KEY(userId) REFERENCES wineDrinker(id) );
+    FOREIGN KEY(userId) REFERENCES wineDrinker(username) );
 --Split
 CREATE TABLE contains (
     note TEXT,
