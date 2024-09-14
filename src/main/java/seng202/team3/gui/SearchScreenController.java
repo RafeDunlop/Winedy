@@ -24,6 +24,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static java.awt.Color.red;
+
 public class SearchScreenController {
 
     @FXML
@@ -126,7 +128,7 @@ public class SearchScreenController {
         priceRangeSlider.setLowValue(0);
         priceRangeSlider.setHighValue(200);
         startDateComboBox.getStyleClass().add("date-combo-box");
-        colourComboBox.getItems().addAll("", "White", "Rose", "Red", "Dessert & Fortified");
+        colourComboBox.getItems().addAll("", "White", "Rose", "Red");
         fullnessComboBox.getItems().addAll("", "DRY", "LIGHT", "FULL", "MEDIUM", "SWEET", "OFF DRY");
         countryComboBox.getItems().addAll("", "USA", "Italy", "France", "New Zealand", "Portugal", "Spain", "Argentina",
         "Australia", "Chile", "Romania", "South Africa", "Lebanon", "Germany",
@@ -148,11 +150,13 @@ public class SearchScreenController {
         initialiseDateRangeComboBoxes();
     }
     private void initialiseDateRangeComboBoxes() {
+        startDateComboBox.getStyleClass().add("date-combo-box");
+        endDateComboBox.getStyleClass().add("date-combo-box");
         List<Integer> years = IntStream.rangeClosed(2007, 2019)
                 .boxed()
                 .collect(Collectors.toList());
         ObservableList<Integer> yearList = FXCollections.observableArrayList();
-        yearList.add(0);
+        yearList.add(null);
         yearList.addAll(years);
         startDateComboBox.getItems().addAll(yearList);
         endDateComboBox.getItems().addAll(yearList);
@@ -160,14 +164,14 @@ public class SearchScreenController {
             lowYear = startDateComboBox.getSelectionModel().getSelectedItem();
             EventHandler<ActionEvent> endDateComboBoxOnAction= endDateComboBox.getOnAction();
             endDateComboBox.setOnAction(null);
-            endDateComboBox.setItems(endDateComboBox.getItems().filtered(year -> lowYear != null && year >= lowYear));
+            endDateComboBox.setItems(yearList.filtered(year -> year == null || lowYear == null || year >= lowYear));
             endDateComboBox.setOnAction(endDateComboBoxOnAction);
         });
         endDateComboBox.setOnAction(event -> {
             highYear = endDateComboBox.getSelectionModel().getSelectedItem();
             EventHandler<ActionEvent> startDateComboBoxOnAction = startDateComboBox.getOnAction();
             startDateComboBox.setOnAction(null);
-            startDateComboBox.setItems(startDateComboBox.getItems().filtered(year ->  highYear != null && year <= highYear));
+            startDateComboBox.setItems(yearList.filtered(year ->  year == null || highYear == null || year <= highYear));
             startDateComboBox.setOnAction(startDateComboBoxOnAction);
         });
 

@@ -97,7 +97,7 @@
                   <VBox fx:id="searchResultsVBox" />
                </content>
             </ScrollPane>
-            <ComboBox fx:id="startDateComboBox" prefWidth="130.0" promptText="Start year" styleClass="prompt-text" stylesheets="@../css/date_combo_box.css">
+            <ComboBox fx:id="startDateComboBox" prefWidth="130.0" promptText="Start year">
                <GridPane.margin>
                   <Insets left="660.0" top="50.0" />
                </GridPane.margin>
