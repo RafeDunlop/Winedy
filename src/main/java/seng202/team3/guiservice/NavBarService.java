@@ -1,5 +1,6 @@
 package seng202.team3.guiservice;
 
+import javafx.beans.property.DoubleProperty;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,14 +23,24 @@ public class NavBarService {
      * Used by setUpButton.
      * @param button The Button the image graphic is being added to
      * @param imagePath The path the image is located at
+     * @param isInvisible A boolean with the truth value of the image being initially invisible
+     * @return The image view object created
      */
-    private static void addImageGraphicToButton(Button button, String imagePath) {
+    private static ImageView addImageGraphicToButton(Button button, String imagePath, boolean isInvisible) {
         Image image = new Image(imagePath);
         ImageView imageView = new ImageView(image);
 
-        imageView.setFitHeight(50);
         imageView.setPreserveRatio(true);
+        if (isInvisible) {
+            imageView.setOpacity(0);
+            imageView.setFitHeight(1);
+        } else {
+            imageView.setFitHeight(50);
+        }
+
         button.setGraphic(imageView);
+
+        return imageView;
     }
 
     /**
@@ -38,11 +49,13 @@ public class NavBarService {
      * @param button The button to be set up
      * @param imagePath The path the image is located at
      * @param styleName The name of the CSS style to be added to the button
+     * @param isInvisible A boolean with the truth value of the button being initially invisible
+     * @return The ImageView object added to the button
      */
-    public static void setUpButton(Button button, String imagePath, String styleName, boolean isManaged) {
+    public static ImageView setUpButton(Button button, String imagePath, String styleName, boolean isInvisible) {
         button.getStyleClass().add(styleName);
-        button.setManaged(isManaged);
         button.setText("");
-        addImageGraphicToButton(button, imagePath);
+
+        return addImageGraphicToButton(button, imagePath, isInvisible);
     }
 }
