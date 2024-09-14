@@ -9,6 +9,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import seng202.team3.WineDrinkerManager;
+import seng202.team3.guiservice.ProfileScreenService;
 import seng202.team3.models.Wine;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
@@ -20,6 +21,7 @@ import javafx.scene.input.KeyCode;
 
 public class ProfileScreenController {
     private WineDrinkerManager wineDrinkerManager;
+    private ProfileScreenService profileScreenService;
 
     @FXML
     private Slider abvLimitSlider;
@@ -35,6 +37,9 @@ public class ProfileScreenController {
 
     @FXML
     private Button newListButton;
+
+    @FXML
+    private Button savePreferencesButton;
 
     @FXML
     private Button logoutButton;
@@ -92,8 +97,18 @@ public class ProfileScreenController {
         FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
     }
 
+    @FXML
+    void onSavePreferencesButtonClicked(){
+        String colour = colourPreferenceComboBox.valueProperty().getValue();
+        String fullness = fullnessPreferenceComboBox.valueProperty().getValue();
+        String variety =  varietyPreferenceComboBox.valueProperty().getValue();
+        double abvLimit = abvLimitSlider.getValue();
+        profileScreenService.savePreferences(colour, fullness, variety, abvLimit);
+    }
+
     public void initialize() {
         wineDrinkerManager = WineDrinkerManager.getInstance();
+        profileScreenService = new ProfileScreenService();
         usernameTextField.setText(wineDrinkerManager.getCurrentUser().getUsername());
         colourPreferenceComboBox.getItems().addAll("Red", "White", "Rose");
         colourPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getColourPreference());
