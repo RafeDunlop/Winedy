@@ -51,7 +51,8 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
                             resultSet.getString("countryPreference"),
                             resultSet.getString("colourPreference"),
                             resultSet.getString("fullnessPreference"),
-                            resultSet.getString("grapePreference"));
+                            resultSet.getString("grapePreference"),
+                            resultSet.getDouble("abvLimit"));
                 }
 
             }
@@ -155,16 +156,15 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
      */
     @Override
     public void update(WineDrinker user) {
-        String sqlQuery = "UPDATE wineDrinker SET countryPreference=?, colourPreference=?, fullnessPreference=?, grapePreference=?, varietyPreference=?, abvLimit=?  WHERE username=?";
+        String sqlQuery = "UPDATE wineDrinker SET countryPreference=?, colourPreference=?, fullnessPreference=?, grapePreference=?, abvLimit=?  WHERE username=?";
         try(Connection conn = database.connect();
             PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
             preparedStatement.setString(1, user.getCountryPreference());
             preparedStatement.setString(2, user.getColourPreference());
             preparedStatement.setString(3, user.getFullnessPreference());
             preparedStatement.setString(4, user.getGrapePreference());
-            preparedStatement.setString(5, user.getVarietyPreference());
-            preparedStatement.setDouble(6, user.getAbvLimit());
-            preparedStatement.setString(7, user.getUsername());
+            preparedStatement.setDouble(5, user.getAbvLimit());
+            preparedStatement.setString(6, user.getUsername());
             preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
             System.out.println("Exception here = " + sqlException);

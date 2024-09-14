@@ -18,11 +18,11 @@ public class ProfileScreenService {
         this.wineDrinkerDAO = new WineDrinkerDAO();
     }
 
-    public void savePreferences(String colour, String fullness, String variety, double abvLimit){
+    public void savePreferences(String colour, String fullness, String grapeVariety, double abvLimit){
         WineDrinker wineDrinker = wineDrinkerManager.getCurrentUser();
         wineDrinker.setColourPreference(colour);
         wineDrinker.setFullnessPreference(fullness);
-        wineDrinker.setVarietyPreference(variety);
+        wineDrinker.setGrapePreference(grapeVariety);
         wineDrinker.setAbvLimit(abvLimit);
         wineDrinkerDAO.update(wineDrinker);
     }

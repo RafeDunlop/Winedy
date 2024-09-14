@@ -101,9 +101,9 @@ public class ProfileScreenController {
     void onSavePreferencesButtonClicked(){
         String colour = colourPreferenceComboBox.valueProperty().getValue();
         String fullness = fullnessPreferenceComboBox.valueProperty().getValue();
-        String variety =  varietyPreferenceComboBox.valueProperty().getValue();
+        String grapeVariety =  varietyPreferenceComboBox.valueProperty().getValue();
         double abvLimit = abvLimitSlider.getValue();
-        profileScreenService.savePreferences(colour, fullness, variety, abvLimit);
+        profileScreenService.savePreferences(colour, fullness, grapeVariety, abvLimit);
     }
 
     public void initialize() {
@@ -117,5 +117,6 @@ public class ProfileScreenController {
         varietyPreferenceComboBox.getItems().addAll("Pinot Noir", "Chardonnay", "Sauvignon Blanc", "Cabernet Sauvignon",
                 "Pinot Gris", "Malbec", "Shiraz", "Viognier", "Syrah", "Grenache", "Merlot", "Prosecco");
         varietyPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getGrapePreference());
+        abvLimitSlider.setValue(wineDrinkerManager.getCurrentUser().getAbvLimit());
     }
 }

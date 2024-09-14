@@ -18,7 +18,6 @@ CREATE TABLE wineDrinker (
     colourPreference TEXT,
     fullnessPreference TEXT,
     grapePreference TEXT,
-    varietyPreference TEXT,
     abvLimit double);
 --Split
 CREATE TABLE wineList (

@@ -20,7 +20,6 @@ public class WineDrinker {
     private String colourPreference;
     private String fullnessPreference;
     private String grapePreference;
-    private String varietyPreference;
     private double abvLimit;
 
 
@@ -34,15 +33,14 @@ public class WineDrinker {
      * @param fullnessPreference a WineDrinker's preferred colour of wine
      * @param grapePreference a WineDrinker's preferred grape variety
      */
-    public WineDrinker(String username, String password, String countryPreference, String colourPreference, String fullnessPreference, String grapePreference) {
+    public WineDrinker(String username, String password, String countryPreference, String colourPreference, String fullnessPreference, String grapePreference, double abvLimit) {
         this.username = username;
         this.password = password;
         this.countryPreference = countryPreference;
         this.colourPreference = colourPreference;
         this.fullnessPreference = fullnessPreference;
         this.grapePreference = grapePreference;
-        this.varietyPreference = null;
-        this.abvLimit = 0;
+        this.abvLimit = abvLimit;
 
     }
 
@@ -186,19 +184,5 @@ public class WineDrinker {
         this.abvLimit = abvLimit;
     }
 
-    /**
-     * Gets the Wine Drinker's preferred wine variety
-     * @return the preferred wine variety
-     */
-    public String getVarietyPreference() {
-        return varietyPreference;
-    }
 
-    /**
-     * Sets the Wine Drinker's preferred wine variety
-     * @param variety the new wine variety preference
-     */
-    public void setVarietyPreference(String variety) {
-        this.varietyPreference = variety;
-    }
 }
