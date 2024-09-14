@@ -16,8 +16,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.RangeSlider;
+import org.jetbrains.annotations.NotNull;
 import seng202.team3.WineManager;
+import seng202.team3.guiservice.SearchScreenService;
 import seng202.team3.models.SearchWineList;
+import seng202.team3.models.Wine;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -80,6 +84,7 @@ public class SearchScreenController {
     void onSearchButtonClicked(ActionEvent event) {
         searchResultsVBox.getChildren().clear();
         WineManager wineManager = WineManager.getInstance();
+
         SearchWineList results = wineManager.searchWines(
                 searchBarTextField.getText(),
                 lowYear,
@@ -90,76 +95,76 @@ public class SearchScreenController {
                 selectedColour,
                 selectedFullness,
                 selectedVariety);
-        ArrayList<String> stringList = new ArrayList<>();
-        results.getWineList().forEach(wine -> stringList.add(wine.getName()));
-        String[] stringArray = new String[stringList.size()];
-        stringArray = stringList.toArray(stringArray);
-        fillVbox(stringArray);
+
+        List<Wine> resultsList = results.getWineList();
+        Wine[] resultsArray = new Wine[resultsList.size()];
+        resultsArray = resultsList.toArray(resultsArray);
+
+        fillVbox(resultsArray);
     }
 
-    private void fillVbox(String[] searchResults) {
-        int rows = searchResults.length / 3;
-        if (searchResults.length % 3 != 0) {
-            rows += 1;
-        }
+    private void fillVbox(Wine[] searchResults) {
+        int length = searchResults.length;
+        int rows = (length % 3 == 0)? length / 3 : length / 3 + 1;
+
         for (int i = 0; i < rows; i++) {
             HBox hbox = new HBox(10); // 10px
             hbox.setSpacing(20);
             hbox.setPadding(new Insets(10, 15, 10, 15));
             hbox.setPrefWidth(800); // Set preferred width for the HBox
-            Button button1 = new Button(searchResults[3*i]);
-            button1.setPrefSize(240,240);
+
+            Button button1 = SearchScreenService.generateWineButton(searchResults[3*i]);
             hbox.getChildren().add(button1);
+
             if (3 * i + 1 < searchResults.length) {
-                Button button2 = new Button(searchResults[3 * i + 1]);
+                Button button2 = SearchScreenService.generateWineButton(searchResults[3 * i + 1]);
                 hbox.getChildren().add(button2);
-                button2.setPrefSize(240,240);
             }
+
             if (3 * i + 2 < searchResults.length) {
-                Button button3 = new Button(searchResults[3 * i + 2]);
+                Button button3 = SearchScreenService.generateWineButton(searchResults[3 * i + 2]);
                 hbox.getChildren().add(button3);
-                button3.setPrefSize(240,240);
             }
+
             searchResultsVBox.getChildren().add(hbox);
         }
 
     }
+
     public void initialize() {
         priceRangeSlider.setLowValue(0);
         priceRangeSlider.setHighValue(200);
+
         startDateComboBox.getStyleClass().add("date-combo-box");
         colourComboBox.getItems().addAll("", "White", "Rose", "Red");
         fullnessComboBox.getItems().addAll("", "DRY", "LIGHT", "FULL", "MEDIUM", "SWEET", "OFF DRY");
         countryComboBox.getItems().addAll("", "USA", "Italy", "France", "New Zealand", "Portugal", "Spain", "Argentina",
         "Australia", "Chile", "Romania", "South Africa", "Lebanon", "Germany",
         "Hungary", "Austria", "UK", "Macedonia", "Greece");
-        varietyComboBox.getItems().addAll("", "Chardonnay", "Nero d\'Avola", "Viognier", "Sauvignon Blanc", "Zinfandel",
-                "Cabernet Sauvignon", "Merlot", "Pinot Noir", "Syrah", "Grenache", "Riesling",
-                "Malbec", "Tempranillo", "Sangiovese", "Barbera", "Shiraz", "Pinot Grigio",
-                "Chenin Blanc", "Petit Verdot", "Mourvedre", "Gruner Veltliner", "Gewurztraminer",
-                "Carmenere", "Albariño", "Cortese", "Fiano", "Nebbiolo", "Gamay",
-                "Torrontes", "Cabernet Franc", "Cinsault", "Mourvèdre", "Chenin Blanc", "Pinotage",
-                "Marsanne", "Sangiovese", "Carignan", "Roussanne", "Bourboulenc", "Clairette",
-                "Semillon", "Gewürztraminer", "Grüner Veltliner", "Verdejo",
-                "Melon de Bourgogne", "Harslevelu","Furmint", "Bonarda", "Grenache Blanc",
-                "Palomino", "Carménère", "Rioja"); // This is good for now, but what if we add more wines to the database
+        SearchScreenService.setUpVarietyComboBox(varietyComboBox);
+
         colourComboBox.setOnAction(select -> selectedColour = (colourComboBox.getSelectionModel().getSelectedItem() == "") ? null : colourComboBox.getSelectionModel().getSelectedItem());
         fullnessComboBox.setOnAction(select -> selectedFullness = (fullnessComboBox.getSelectionModel().getSelectedItem() == "") ? null : fullnessComboBox.getSelectionModel().getSelectedItem());
         countryComboBox.setOnAction(select -> selectedCountry = (countryComboBox.getSelectionModel().getSelectedItem() == "") ? null : countryComboBox.getSelectionModel().getSelectedItem());
         varietyComboBox.setOnAction(select -> selectedVariety = (varietyComboBox.getSelectionModel().getSelectedItem() == "") ? null : varietyComboBox.getSelectionModel().getSelectedItem());
+
         initialiseDateRangeComboBoxes();
     }
+
     private void initialiseDateRangeComboBoxes() {
         startDateComboBox.getStyleClass().add("date-combo-box");
         endDateComboBox.getStyleClass().add("date-combo-box");
+
         List<Integer> years = IntStream.rangeClosed(2007, 2019)
                 .boxed()
                 .collect(Collectors.toList());
         ObservableList<Integer> yearList = FXCollections.observableArrayList();
         yearList.add(null);
         yearList.addAll(years);
+
         startDateComboBox.getItems().addAll(yearList);
         endDateComboBox.getItems().addAll(yearList);
+
         startDateComboBox.setOnAction(event -> {
             lowYear = startDateComboBox.getSelectionModel().getSelectedItem();
             EventHandler<ActionEvent> endDateComboBoxOnAction= endDateComboBox.getOnAction();
@@ -167,6 +172,7 @@ public class SearchScreenController {
             endDateComboBox.setItems(yearList.filtered(year -> year == null || lowYear == null || year >= lowYear));
             endDateComboBox.setOnAction(endDateComboBoxOnAction);
         });
+
         endDateComboBox.setOnAction(event -> {
             highYear = endDateComboBox.getSelectionModel().getSelectedItem();
             EventHandler<ActionEvent> startDateComboBoxOnAction = startDateComboBox.getOnAction();
