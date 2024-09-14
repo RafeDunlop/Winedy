@@ -51,7 +51,8 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
                             resultSet.getString("countryPreference"),
                             resultSet.getString("colourPreference"),
                             resultSet.getString("fullnessPreference"),
-                            resultSet.getString("grapePreference"));
+                            resultSet.getString("grapePreference"),
+                            resultSet.getDouble("abvLimit"));
                 }
 
             }
@@ -151,18 +152,23 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
 
 
     /**
-     * @param toUpdate Object that needs to be updated (this object must be able to identify itself and its previous self) 
+     * @param user User that needs to be updated (this object must be able to identify itself and its previous self)
      */
     @Override
-    public void update(WineDrinker toUpdate) {
-//        String sqlQuery = "UPDATE wineDrinker SET wineColourPreference = ?  WHERE id=?";
-//        try(Connection conn = database.connect();
-//            PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
-//            preparedStatement.setInt(1, id);
-//            preparedStatement.executeUpdate();
-//        } catch (SQLException sqlException) {
-//            System.out.println("Exception here = " + sqlException);
-//        }
-//
+    public void update(WineDrinker user) {
+        String sqlQuery = "UPDATE wineDrinker SET countryPreference=?, colourPreference=?, fullnessPreference=?, grapePreference=?, abvLimit=?  WHERE username=?";
+        try(Connection conn = database.connect();
+            PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
+            preparedStatement.setString(1, user.getCountryPreference());
+            preparedStatement.setString(2, user.getColourPreference());
+            preparedStatement.setString(3, user.getFullnessPreference());
+            preparedStatement.setString(4, user.getGrapePreference());
+            preparedStatement.setDouble(5, user.getAbvLimit());
+            preparedStatement.setString(6, user.getUsername());
+            preparedStatement.executeUpdate();
+        } catch (SQLException sqlException) {
+            System.out.println("Exception here = " + sqlException);
+        }
+
     }
 }
