@@ -60,9 +60,9 @@ public class WineDAOTest {
         File databaseFile = new File(databasePath);
         if (databaseFile.exists()) {
             if (databaseFile.delete()) {
-                System.out.println("Database file deleted successfully.");
+                System.out.println("Existing database file deleted successfully.");
             } else {
-                System.out.println("Failed to delete the database file.");
+                System.out.println("Failed to delete the existing database file.");
             }
         }
         DatabaseManager.REMOVE_INSTANCE();
