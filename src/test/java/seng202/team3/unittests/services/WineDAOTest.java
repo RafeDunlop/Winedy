@@ -5,12 +5,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
-import seng202.team3.models.WineList;
 import seng202.team3.services.DatabaseManager;
 import seng202.team3.services.WineDAO;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
