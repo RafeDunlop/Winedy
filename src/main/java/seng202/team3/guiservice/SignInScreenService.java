@@ -1,10 +1,7 @@
 package seng202.team3.guiservice;
 
 import seng202.team3.WineDrinkerManager;
-import seng202.team3.gui.SignInScreenController;
-import seng202.team3.models.IllegalWineDrinkerException;
-
-import java.util.regex.Pattern;
+import seng202.team3.exceptions.IllegalWineDrinkerException;
 
 
 /**

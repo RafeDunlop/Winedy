@@ -1,4 +1,4 @@
-package seng202.team3.models;
+package seng202.team3.exceptions;
 
 /**
  * exception thrown when user attempts to register a wine drinker which does not conform, likely because of
