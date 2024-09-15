@@ -26,13 +26,13 @@ import seng202.team3.WineDrinkerManager;
 public class NavBarController {
 
     /*
-     * the container for all screens featuring the navigation bar
+     * The container for all screens featuring the navigation bar
      */
     @FXML
     private AnchorPane screenPane;
 
     /*
-     * button clicked to go to the Home screen
+     * Button clicked to go to the Home screen
      */
     @FXML
     private Button homeButton;
@@ -125,6 +125,7 @@ public class NavBarController {
 
         homeButton.setOnAction(x -> onButtonClick(Screen.HOME));
         searchButton.setOnAction(x -> onButtonClick(Screen.SEARCH));
+        helpButton.setOnAction(x -> onButtonClick(Screen.HELPSCREEN));
         profileButton.setOnAction(x -> onProfileButtonClicked());
 
         NavBarService.setUpButton(homeButton, "/images/nav_bar_home_button.png", "nav-bar-button", false);

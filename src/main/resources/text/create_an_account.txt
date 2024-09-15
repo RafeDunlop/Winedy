@@ -1,0 +1,9 @@
+To create an account on Winedy, navigate to the sign-in screen by either first clicking on the home screen button in the navigation bar and then clicking on the profile button on the home screen, or clicking on the profile screen in the navigation bar.
+
+If you are already logged into an account, the profile screen will be displayed. Click on the sign-out button to be redirected to the sign-in screen.
+
+Click the register button to open the hidden account registering options. Enter your desired username and password. Re-enter your password, this is done to ensure that the password was correctly typed in. Make sure to enter your preferences in! if you're unsure what these are, hover over them to read more.
+
+Click create account to create your account and be logged in. If the system has any issues creating your account, these will be displayed in the middle of the page. Fix these issues before attempting to create your account again.
+
+Congratulations! your account has how been created, and you can now enjoy Winedy's full capabilities.

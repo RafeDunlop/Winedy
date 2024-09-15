@@ -94,6 +94,6 @@ public class HomeScreenController {
      */
     @FXML
     public void goToHelp() {
-        // FXWrapper.getInstance().loadScreen(Screen.HELPSCREEN); // TODO: Implement the Help Screen so this can be uncommented
+        FXWrapper.getInstance().loadScreen(Screen.HELPSCREEN);
     }
 }
