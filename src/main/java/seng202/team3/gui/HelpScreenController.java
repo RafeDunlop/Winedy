@@ -2,11 +2,25 @@ package seng202.team3.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.tools.picocli.CommandLine;
+import seng202.team3.guiservice.HelpScreenService;
+import seng202.team3.guiservice.HomeScreenService;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Used by JavaFX as the controller for help_screen.fxml
@@ -73,12 +87,31 @@ public class HelpScreenController {
     @FXML
     VBox informationVBox;
 
+    /*
+     * Label that contains the text of the About Winedy section
+     */
+    @FXML
+    Label aboutWinedyLabel;
+
+    /*
+     * Label that contains the text of the Create an Account section
+     */
+    @FXML
+    Label createAnAccountLabel;
+
+    /*
+     * Label that contains the text of the Sign-in section
+     */
+    @FXML
+    Label signinLabel;
+
     /**
      * Method used by JavaFX when initialising the Help Screen.
      */
     @FXML
     public void initialize() {
         log.info("Help Screen loaded.");
+
         try {
             contentsRectangle.getStyleClass().add("white-wine-rectangle");
             informationRectangle.getStyleClass().add("red-wine-rectangle");
@@ -92,6 +125,14 @@ public class HelpScreenController {
             informationScrollPane.getStyleClass().add("red-wine-scroll-pane");
         } catch (NullPointerException e) {
             log.warn("Error loading CSS style classes. Did you misspell their names?");
+        }
+
+        try {
+            aboutWinedyLabel.setText(HelpScreenService.getContentFromFile("/text/about_winedy.txt"));
+            createAnAccountLabel.setText(HelpScreenService.getContentFromFile("/text/create_an_account.txt"));
+            signinLabel.setText(HelpScreenService.getContentFromFile("/text/sign_in.txt"));
+        } catch (Exception e) {
+            log.error("Error loading txt files. Did you misspell their path", e);
         }
     }
 }
