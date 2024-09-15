@@ -16,11 +16,16 @@ import java.util.stream.Collectors;
  */
 public final class HelpScreenService {
 
+    /**
+     * Returns the content of the file at the given path as a String
+     *
+     * @param filePath
+     * @return A String of the file content at the given path
+     */
     public static String getContentFromFile(String filePath) {
         return new BufferedReader(
                 new InputStreamReader(Objects.requireNonNull(HelpScreenController.class.getResourceAsStream(filePath)), StandardCharsets.UTF_8))
                 .lines()
                 .collect(Collectors.joining("\n"));
-
     }
 }
