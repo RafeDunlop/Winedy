@@ -36,10 +36,11 @@ public class MainWindow extends Application {
             //TODO: write looping method to make this cleaner
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/red_wine_button.css")).toExternalForm());
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/white_wine_rectangle.css")).toExternalForm());
-            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/nav_bar.css")).toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/nav_bar_button.css")).toExternalForm());
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/home_screen_button.css")).toExternalForm());
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/red_wine_rectangle.css")).toExternalForm());
             scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/home_screen_text.css")).toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/css/nav_bar_rectangle.css")).toExternalForm());
         } catch (NullPointerException e) {
             log.error("Error loading CSS style sheets. Did you misspell the path?", e);
         }
