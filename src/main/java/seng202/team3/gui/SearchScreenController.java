@@ -9,6 +9,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import org.controlsfx.control.RangeSlider;
+import seng202.team3.WineManager;
+import seng202.team3.models.SearchWineList;
+import java.util.ArrayList;
 
 public class SearchScreenController {
 
@@ -34,7 +37,7 @@ public class SearchScreenController {
     private Button searchButton;
 
     @FXML
-    private ListView<?> searchResultsListView;
+    private ListView<String> searchResultsListView;
 
     @FXML
     private DatePicker startDatePicker;
@@ -51,9 +54,40 @@ public class SearchScreenController {
     @FXML
     private AnchorPane wineDetailsAnchorPane;
 
+    private String selectedColour = null;
+
+    private String selectedVariety = null;
+
+    private String selectedFullness = null;
+
+    private String selectedStyle = null;
+
+    private String selectedCountry = null;
+
+    private Integer lowYear = null;
+
+    private Integer highYear = null;
+
     @FXML
     void onSearchButtonClicked(ActionEvent event) {
-
+        searchResultsListView.getItems().removeAll(searchResultsListView.getItems());
+        WineManager wineManager = WineManager.getInstance();
+        SearchWineList results = wineManager.searchWines(
+                searchBarTextField.getText(),
+                lowYear,
+                highYear,
+                (float) priceRangeSlider.getLowValue(),
+                (float) priceRangeSlider.getHighValue(),
+                selectedCountry,
+                selectedColour,
+                selectedFullness,
+                selectedVariety);
+        ArrayList<String> stringList = new ArrayList<>();
+        results.getWineList().forEach(wine -> stringList.add(wine.getName()));
+        stringList.forEach(string -> System.out.println(string));
+        String[] stringArray = new String[stringList.size()];
+        stringArray = stringList.toArray(stringArray);
+        searchResultsListView.getItems().addAll(stringArray);
     }
 
     public void initialize() {
@@ -73,5 +107,12 @@ public class SearchScreenController {
                 "Semillon", "Gewürztraminer", "Grüner Veltliner", "Verdejo",
                 "Melon de Bourgogne", "Harslevelu","Furmint", "Bonarda", "Grenache Blanc",
                 "Palomino", "Carménère", "Rioja");
+        colourComboBox.setOnAction(select -> selectedColour = colourComboBox.getSelectionModel().getSelectedItem());
+        fullnessComboBox.setOnAction(select -> selectedFullness = fullnessComboBox.getSelectionModel().getSelectedItem());
+        styleComboBox.setOnAction(select -> selectedStyle = styleComboBox.getSelectionModel().getSelectedItem());
+        countryComboBox.setOnAction(select -> selectedCountry = countryComboBox.getSelectionModel().getSelectedItem());
+        varietyComboBox.setOnAction(select -> selectedVariety = varietyComboBox.getSelectionModel().getSelectedItem());
+        startDatePicker.setOnAction(event -> lowYear = startDatePicker.getValue().getYear());
+        endDatePicker.setOnAction(event -> highYear = endDatePicker.getValue().getYear());
     }
 }

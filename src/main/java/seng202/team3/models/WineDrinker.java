@@ -20,6 +20,7 @@ public class WineDrinker {
     private String colourPreference;
     private String fullnessPreference;
     private String grapePreference;
+    private double abvLimit;
 
 
 
@@ -32,22 +33,15 @@ public class WineDrinker {
      * @param fullnessPreference a WineDrinker's preferred colour of wine
      * @param grapePreference a WineDrinker's preferred grape variety
      */
-    public WineDrinker(String username, String password, String countryPreference, String colourPreference, String fullnessPreference, String grapePreference) {
+    public WineDrinker(String username, String password, String countryPreference, String colourPreference, String fullnessPreference, String grapePreference, double abvLimit) {
         this.username = username;
         this.password = password;
         this.countryPreference = countryPreference;
         this.colourPreference = colourPreference;
         this.fullnessPreference = fullnessPreference;
         this.grapePreference = grapePreference;
+        this.abvLimit = abvLimit;
 
-    }
-
-    /**
-     * Reads preferences of user
-     * TODO DISCUSS VALIDITY OF THIS, POSSIBLE REDUNDANCY
-     */
-    void readPreferences() {
-        //make a request to db for preferences
     }
 
 
@@ -119,6 +113,14 @@ public class WineDrinker {
     }
 
     /**
+     * Gets the Wine Drinker's preferred abv limit
+     * @return abv limit preference
+     */
+    public double getAbvLimit() {
+        return abvLimit;
+    }
+
+    /**
      * Sets the WineDrinker's list of WineLists that they own
      * @param drinkersWineLists
      */
@@ -173,4 +175,14 @@ public class WineDrinker {
     public void setGrapePreference(String grapePreference) {
         this.grapePreference = grapePreference;
     }
+
+    /**
+     * Sets the Wine Drinker's preferred abv limit
+     * @param abvLimit the new abv limit preference
+     */
+    public void setAbvLimit(double abvLimit) {
+        this.abvLimit = abvLimit;
+    }
+
+
 }

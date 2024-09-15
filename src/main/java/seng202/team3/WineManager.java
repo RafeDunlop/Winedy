@@ -20,12 +20,21 @@ import java.util.List;
 public class WineManager {
     private final WineDAO wineDAO;
 
+    private static WineManager instance;
+
     /**
      * Creates a new SalesManager object and creates a private SaleDAO object it will later use for all database
      * interactions
      */
-    public WineManager() {
+    private WineManager() {
         wineDAO = new WineDAO();
+    }
+
+    public static WineManager getInstance() {
+        if (instance == null) {
+            instance = new WineManager();
+        }
+        return instance;
     }
 
 //    /**
@@ -97,15 +106,15 @@ public class WineManager {
      * @param minPrice the minimum price of a wine in the search
      * @param maxPrice the maximum price of a wine in the search
      * @param country the specified country the wine should be from
-     * @param type the specified type of wine between red, white and rose
-     * @param shortDescription the specified dryness of the wine
-     * @param grapeName the type of grape that the wine is made of
+     * @param colour the specified colour of wine between red, white and rose
+     * @param fullness the specified dryness of the wine
+     * @param grapeName the colour of grape that the wine is made of
      * @return a SearchWineList object containing the search results of a wine search
      */
     public SearchWineList searchWines(String searchBarInput, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice,
-                                      String country, String type, String shortDescription, String grapeName) {
+                                      String country, String colour, String fullness, String grapeName) {
         List<String> keywords = getWordsFromSearchBar(searchBarInput);
-        return wineDAO.searchWines(keywords, minYear, maxYear, minPrice, maxPrice, country, type, shortDescription, grapeName);
+        return wineDAO.searchWines(keywords, minYear, maxYear, minPrice, maxPrice, country, colour, fullness, grapeName);
     }
 
     /*
@@ -113,6 +122,9 @@ public class WineManager {
      This is based on the input into the search bar searchBarInput
      */
     private List<String> getWordsFromSearchBar(String searchBarInput) { //perhaps keywordBank would be global
+        if (searchBarInput.isEmpty()) {
+            return null;
+        }
         List<String> searchWordList = Arrays.asList(searchBarInput.split(" "));
         return searchWordList.stream()
                 .map(String::toLowerCase)
