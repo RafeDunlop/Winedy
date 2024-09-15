@@ -126,9 +126,9 @@ public class WineDAO implements DAOInterface<Wine> {
         String sqlGrape = "INSERT INTO grape (wineId, name) VALUES (?, ?)";
         String sqlAward = "INSERT INTO award (wineId, name) VALUES (?, ?)";
         try (Connection conn = databaseManager.connect();
-            PreparedStatement psWine = conn.prepareStatement(sqlWine);
-            PreparedStatement psGrape = conn.prepareStatement(sqlGrape);
-            PreparedStatement psAward = conn.prepareStatement(sqlAward)) {
+             PreparedStatement psWine = conn.prepareStatement(sqlWine);
+             PreparedStatement psGrape = conn.prepareStatement(sqlGrape);
+             PreparedStatement psAward = conn.prepareStatement(sqlAward)) {
             setWineParams(psWine, toAdd);
             for (String grape : toAdd.getGrapes()) {
                 setGrapeParams(psGrape, toAdd.getUniqueWineID(), grape);
@@ -159,9 +159,9 @@ public class WineDAO implements DAOInterface<Wine> {
         String sqlGrape = "INSERT INTO grape (wineId, name) VALUES (?, ?)";
         String sqlAward = "INSERT INTO award (wineId, name) VALUES (?, ?)";
         try (Connection conn = databaseManager.connect();
-            PreparedStatement psWine = conn.prepareStatement(sqlWine);
-            PreparedStatement psGrape = conn.prepareStatement(sqlGrape);
-            PreparedStatement psAward = conn.prepareStatement(sqlAward)) {
+             PreparedStatement psWine = conn.prepareStatement(sqlWine);
+             PreparedStatement psGrape = conn.prepareStatement(sqlGrape);
+             PreparedStatement psAward = conn.prepareStatement(sqlAward)) {
             conn.setAutoCommit(false);
             for (Wine wine : toAdd) {
                 setWineParams(psWine, wine);
@@ -387,6 +387,7 @@ public class WineDAO implements DAOInterface<Wine> {
                     String[] grapeList = getGrapesByID(resultSet.getInt("id"));
                     String[] awardList = getAwardsByID(resultSet.getInt("id"));
                     searchedWine = getWineFromResultSet(resultSet, grapeList, awardList);
+                    System.out.println(searchedWine.getName());
                     searchResults.addWineToList(searchedWine);
                 }
                 return searchResults;

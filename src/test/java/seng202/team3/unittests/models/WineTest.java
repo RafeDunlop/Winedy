@@ -27,131 +27,120 @@ public class WineTest {
 
     @Test
     public void testGetUniqueWineID() {
-        assertEquals(wine.getUniqueWineID(), 1);
+        assertEquals(1, wine.getUniqueWineID());
     }
 
     @Test
     public void testGetName() {
-        assertEquals(wine.getName(), "Nero Oro Appassimento 2018, Sicily");
+        assertEquals("Nero Oro Appassimento 2018, Sicily", wine.getName());
     }
 
     @Test
     public void testGetCountry() {
-        assertEquals(wine.getCountry(), "Italy");
+        assertEquals("Italy", wine.getCountry());
     }
-
-//    @Test
-//    public void testGetType() {
-//        assertEquals(wine.getType(), "Red");
-//    }
 
     @Test
     public void testGetStyle() {
-        assertEquals(wine.getStyle(), "Big");
+        assertEquals("Big", wine.getStyle());
     }
 
     @Test
     public void testGetGrapes() {
-        assertArrayEquals(wine.getGrapes(), new String[]{"Nero d'Avola"});
+        assertArrayEquals(new String[]{"Nero d'Avola"}, wine.getGrapes());
     }
 
     @Test
     public void testGetFullness() {
-        assertEquals(wine.getFullness(), "FULL");
+        assertEquals("FULL", wine.getFullness());
     }
     @Test
     public void testGetLongDescription() {
-        assertEquals(wine.getLongDescription(), "Nero Oro is made by a winemaker who's scored a perfect 100 Parker Points.");
+        assertEquals("Nero Oro is made by a winemaker who's scored a perfect 100 Parker Points.", wine.getLongDescription());
     }
     @Test
     public void testGetPricePerBottle() {
-        assertEquals(wine.getPricePerBottle(), (float) 9.99);
+        assertEquals(9.99f, wine.getPricePerBottle());
     }
     @Test
     public void testGetAwards() {
-        assertArrayEquals(wine.getAwards(), new String[]{"IWC 2019 - Commended Award", "Decanter 2019 - Bronze Award"});
+        assertArrayEquals(new String[]{"IWC 2019 - Commended Award", "Decanter 2019 - Bronze Award"}, wine.getAwards());
     }
     @Test
     public void testGetAlcoholByVolume() {
-        assertEquals(wine.getAlcoholByVolume(), (float) 14);
+        assertEquals(14f, wine.getAlcoholByVolume());
     }
 
     @Test
     public void testGetVolumeInML() {
-        assertEquals(wine.getVolumeInMl(), 75);
+        assertEquals(75, wine.getVolumeInMl());
     }
 
     @Test
     public void testGetYear() {
-        assertEquals(wine.getYear(), 2018);
+        assertEquals(2018, wine.getYear());
     }
 
     @Test
     public void testSetUniqueWineID() {
         wine.setUniqueWineID(4);
-        assertEquals(wine.getUniqueWineID(), 4);
+        assertEquals(4, wine.getUniqueWineID());
     }
 
     @Test
     public void testSetName() {
         wine.setName("Definition Zinfandel 2017, Lodi");
-        assertEquals(wine.getName(), "Definition Zinfandel 2017, Lodi");
+        assertEquals("Definition Zinfandel 2017, Lodi", wine.getName());
     }
 
     @Test
     public void testSetCountry() {
         wine.setCountry("USA");
-        assertEquals(wine.getCountry(), "USA");
+        assertEquals("USA", wine.getCountry());
     }
-
-//    @Test
-//    public void testSetType() {
-//        wine.setType("White");
-//        assertEquals(wine.getType(), "White");
-//    }
 
     @Test
     public void testSetStyle() {
         wine.setStyle("Fruity");
-        assertEquals(wine.getStyle(), "Fruity");
+        assertEquals("Fruity", wine.getStyle());
     }
 
     @Test
     public void testSetFullness() {
         wine.setFullness("DRY");
-        assertEquals(wine.getFullness(), "DRY");
+        assertEquals("DRY", wine.getFullness());
     }
     @Test
     public void testSetLongDescription() {
         wine.setLongDescription("The Definition range captures the quintessential qualities of the world's greatest wine styles.");
-        assertEquals(wine.getLongDescription(), "The Definition range captures the quintessential qualities of the world's greatest wine styles.");
+        assertEquals("The Definition range captures the quintessential qualities of the world's greatest wine styles.", wine.getLongDescription());
     }
     @Test
     public void testSetPricePerBottle() {
-        wine.setPricePerBottle((float) 14.99);
-        assertEquals(wine.getPricePerBottle(), (float) 14.99);
+        wine.setPricePerBottle(14.99f);
+        assertEquals(14.99f, wine.getPricePerBottle());
     }
     @Test
     public void testSetAwards() {
         wine.setAwards(new String[]{"IWC 2019 - Bronze Award", "IWC 2018 - Commended Award"});
-        assertArrayEquals(wine.getAwards(), new String[]{"IWC 2019 - Bronze Award", "IWC 2018 - Commended Award"});
+        assertArrayEquals(new String[]{"IWC 2019 - Bronze Award", "IWC 2018 - Commended Award"}, wine.getAwards());
     }
     @Test
     public void testSetAlcoholByVolume() {
-        wine.setAlcoholByVolume((float) 13);
-        assertEquals(wine.getAlcoholByVolume(), (float) 13);
+        wine.setAlcoholByVolume(13f);
+        assertEquals(13f, wine.getAlcoholByVolume());
     }
 
     @Test
     public void testSetVolumeInML() {
         wine.setVolumeInMl(80);
-        assertEquals(wine.getVolumeInMl(), 80);
+        assertEquals(80, wine.getVolumeInMl());
     }
 
     @Test
     public void testSetYear() {
         wine.setYear(2017);
-        assertEquals(wine.getYear(), 2017);
+        assertEquals(2017, wine.getYear());
     }
 
 }

@@ -15,16 +15,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DatabaseManagerTest {
     private DatabaseManager databaseManager;
-    private final String databasePath = "./build/classes/java/database.db";
+    private final String DATABASE_PATH = "./build/classes/java/database.db";
 
     @BeforeEach
     public void setup() {
-        File databaseFile = new File(databasePath);
+        File databaseFile = new File(DATABASE_PATH);
         if (databaseFile.exists()) {
             if (databaseFile.delete()) {
-                System.out.println("Database file deleted successfully.");
+                System.out.println("Existing database file deleted successfully.");
             } else {
-                System.out.println("Failed to delete the database file.");
+                System.out.println("Failed to delete the existing database file.");
             }
         }
         DatabaseManager.REMOVE_INSTANCE();
@@ -59,7 +59,7 @@ public class DatabaseManagerTest {
     public void testCheckDatabaseExists() {
         Connection conn = databaseManager.connect();
         try {
-            assertTrue(databaseManager.checkDatabaseExists("jdbc:sqlite:"+databasePath));
+            assertTrue(databaseManager.checkDatabaseExists("jdbc:sqlite:"+DATABASE_PATH));
             conn.close();
         }
         catch (SQLException e) {
