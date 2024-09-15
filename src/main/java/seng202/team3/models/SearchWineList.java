@@ -41,8 +41,8 @@ public class SearchWineList extends WineList {
      * @param wine object to be removed
      */
     @Override
-    public void removeWineFromList(Wine wine) {
-        searchWineList.remove(wine);
+    public boolean removeWineFromList(Wine wine) {
+        return searchWineList.remove(wine);
     }
 
 }
