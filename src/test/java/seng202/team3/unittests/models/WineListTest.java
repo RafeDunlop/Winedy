@@ -1,5 +1,6 @@
 package seng202.team3.unittests.models;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import seng202.team3.models.Wine;
@@ -15,7 +16,6 @@ public class WineListTest {
 
     @BeforeAll
     public static void setup() {
-        toTest = new WineList();
         toAdd = new Wine(
                 0,
                 null,
@@ -30,6 +30,11 @@ public class WineListTest {
                 0,
                 0,
                 0);
+    }
+
+    @BeforeEach
+    public void resetList() {
+        toTest = new WineList();
     }
 
     @Test
