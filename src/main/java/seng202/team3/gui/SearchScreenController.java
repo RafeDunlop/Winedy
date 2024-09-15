@@ -136,7 +136,7 @@ public class SearchScreenController {
     public void initialize() {
         searchBarTextField.setOnAction(this::onSearchButtonClicked);
         priceRangeSlider.setLowValue(0);
-        priceRangeSlider.setHighValue(200);
+        priceRangeSlider.setHighValue(220);
 
         startDateComboBox.getStyleClass().add("date-combo-box");
         colourComboBox.getItems().addAll("", "White", "Rose", "Red");
