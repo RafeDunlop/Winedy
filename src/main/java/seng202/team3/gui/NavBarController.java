@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import seng202.team3.guiservice.NavBarService;
 
@@ -71,6 +72,12 @@ public class NavBarController {
     private HBox buttonHBox;
 
     /*
+     * Rectangle located behind the Nav Bar buttons
+     */
+    @FXML
+    private Rectangle navBarRectangle;
+
+    /*
      * The currently active screen; stored to not reload a page when clicked
      */
     private Screen selectedScreen;
@@ -111,6 +118,8 @@ public class NavBarController {
     public void initialize() {
         FXWrapper instance = FXWrapper.getInstance();
         instance.setScreenPane(screenPane);
+
+        navBarRectangle.getStyleClass().add("nav-bar-rectangle");
 
         homeButton.setOnAction(x -> onButtonClick(Screen.HOME));
         searchButton.setOnAction(x -> onButtonClick(Screen.SEARCH));
@@ -208,7 +217,7 @@ public class NavBarController {
     }
 
     /**
-     * Animates the compression of the Nav Bar TODO: Make this work properly :(
+     * Animates the compression of the Nav Bar
      */
     private void closeNavBar() {
         Timeline timeline = new Timeline();
