@@ -6,7 +6,7 @@ package seng202.team3.models;
 public class Wine {
     private int uniqueWineID;
     private String name;
-    private String type;
+    private String colour;
     private String style;
     private String personalWineEntry;
     private String country;
@@ -23,7 +23,7 @@ public class Wine {
      * Constructor for the Wine object
      * @param uniqueWineID identifying value for the wine
      * @param name of the wine
-     * @param type of wine, either red, white or rose
+     * @param colour of wine, either red, white or rose
      * @param country that the wine was made in
      * @param year the year that the wine was made
      * @param fullness 1-2 word description of the fullness of the wine, e.g. "dry"
@@ -36,7 +36,7 @@ public class Wine {
     public Wine(int uniqueWineID,
                 String name,
                 String country,
-                String type,
+                String colour,
                 String style,
                 String[] grapes,
                 String fullness,
@@ -49,7 +49,7 @@ public class Wine {
         this.uniqueWineID = uniqueWineID;
         this.name = name;
         this.country = country;
-        this.type = type;
+        this.colour = colour;
         this.style = style;
         this.grapes = grapes;
         this.fullness = fullness;
@@ -78,10 +78,10 @@ public class Wine {
     }
 
     /**
-     * Gets the type of the wine
-     * @return Wine type, either red, white or rose
+     * Gets the colour of the wine
+     * @return Wine colour, either red, white or rose
      */
-    public String getType() { return type;}
+    public String getColour() { return colour;}
 
     /**
      * Gets the wine entry recorded by the wine drinker
@@ -165,7 +165,7 @@ public class Wine {
     }
 
     /**
-     * Gets the style of the wine which classifies its type (or colour), e.g. crisp, fruity
+     * Gets the style of the wine which classifies its colour (or colour), e.g. crisp, fruity
      * @return the style of the wine
      */
     public String getStyle() {
@@ -188,11 +188,11 @@ public class Wine {
         this.name = name;
     }
     /**
-     * Sets the type of wine
-     * @param type of wine, either red, white or rose
+     * Sets the colour of wine
+     * @param colour of wine, either red, white or rose
      */
-    public void setType(String type) {
-        this.type = type;
+    public void setColour(String colour) {
+        this.colour = colour;
     }
     /**
      * Sets the personal wine entry for a wine drinker
@@ -208,6 +208,14 @@ public class Wine {
      */
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    /**
+     * Sets the style of the wine
+     * @param style the style the wine to set to
+     */
+    public void setStyle(String style) {
+        this.style = style;
     }
 
     /**

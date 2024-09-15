@@ -36,7 +36,7 @@ public class DatabaseManager {
             resetDB();
             System.out.println("Populating Database...");
             try {
-                populateWineTables();
+                populateWineTables("/csv/majestic_df_preprocessed.csv");
             } catch (URISyntaxException | FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -112,7 +112,7 @@ public class DatabaseManager {
      * Gets path to the database relative to the jar file
      * @return jdbc encoded url location of database
      */
-    private String getDatabasePath() {
+    public String getDatabasePath() {
         String path = DatabaseManager.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         path = URLDecoder.decode(path, StandardCharsets.UTF_8);
         File jarDir = new File(path);
@@ -124,7 +124,7 @@ public class DatabaseManager {
      * @param url expected location to check for database
      * @return True if database exists else false
      */
-    private boolean checkDatabaseExists(String url){
+    public boolean checkDatabaseExists(String url){
         File f = new File(url.substring(12));
         return f.exists();
     }
@@ -133,7 +133,7 @@ public class DatabaseManager {
      * Creates a database file at the location specified by the url
      * @param url url to creat database at
      */
-    private void createDatabaseFile(String url){
+    public void createDatabaseFile(String url){
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
                 DatabaseMetaData meta = conn.getMetaData();
@@ -180,8 +180,8 @@ public class DatabaseManager {
      * Saves a file of sales to the repository layer using the specified importer functionality
      * TODO: handle errors gracefully
      */
-    public void populateWineTables() throws URISyntaxException, FileNotFoundException {
-        InputStream inputStream = getClass().getResourceAsStream("/csv/majestic_df_preprocessed.csv");
+    public void populateWineTables(String filePath) throws URISyntaxException, FileNotFoundException {
+        InputStream inputStream = getClass().getResourceAsStream(filePath);
         //File inputFile = new File(path);
         List<Wine> wines = WineCSVImporter.readFromFile(inputStream);
         WineDAO wineDAO = new WineDAO();

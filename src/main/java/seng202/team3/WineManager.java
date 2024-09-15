@@ -106,15 +106,15 @@ public class WineManager {
      * @param minPrice the minimum price of a wine in the search
      * @param maxPrice the maximum price of a wine in the search
      * @param country the specified country the wine should be from
-     * @param type the specified type of wine between red, white and rose
-     * @param shortDescription the specified dryness of the wine
-     * @param grapeName the type of grape that the wine is made of
+     * @param colour the specified colour of wine between red, white and rose
+     * @param fullness the specified dryness of the wine
+     * @param grapeName the colour of grape that the wine is made of
      * @return a SearchWineList object containing the search results of a wine search
      */
     public SearchWineList searchWines(String searchBarInput, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice,
-                                      String country, String type, String shortDescription, String grapeName) {
+                                      String country, String colour, String fullness, String grapeName) {
         List<String> keywords = getWordsFromSearchBar(searchBarInput);
-        return wineDAO.searchWines(keywords, minYear, maxYear, minPrice, maxPrice, country, type, shortDescription, grapeName);
+        return wineDAO.searchWines(keywords, minYear, maxYear, minPrice, maxPrice, country, colour, fullness, grapeName);
     }
 
     /*

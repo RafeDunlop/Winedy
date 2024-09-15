@@ -9,6 +9,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import seng202.team3.WineDrinkerManager;
+import seng202.team3.guiservice.ProfileScreenService;
 import seng202.team3.models.Wine;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
@@ -19,7 +20,8 @@ import javafx.scene.input.KeyCode;
  */
 
 public class ProfileScreenController {
-    private WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
+    private WineDrinkerManager wineDrinkerManager;
+    private ProfileScreenService profileScreenService;
 
     @FXML
     private Slider abvLimitSlider;
@@ -35,6 +37,12 @@ public class ProfileScreenController {
 
     @FXML
     private Button newListButton;
+
+    @FXML
+    private Button savePreferencesButton;
+
+    @FXML
+    private Button logoutButton;
 
     @FXML
     private Button removeListButton;
@@ -74,23 +82,41 @@ public class ProfileScreenController {
     }
 
     @FXML
-    void onNewListButtonClicked(ActionEvent event) {
+    void onNewListButtonClicked() {
 
     }
 
     @FXML
-    void onRemoveListButtonClicked(ActionEvent event) {
+    void onRemoveListButtonClicked() {
 
+    }
+    @FXML
+    void onLogoutButtonClicked(){
+        wineDrinkerManager.setCurrentUser(null);
+        //TODO Save data?
+        FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
+    }
+
+    @FXML
+    void onSavePreferencesButtonClicked(){
+        String colour = colourPreferenceComboBox.valueProperty().getValue();
+        String fullness = fullnessPreferenceComboBox.valueProperty().getValue();
+        String grapeVariety =  varietyPreferenceComboBox.valueProperty().getValue();
+        double abvLimit = abvLimitSlider.getValue();
+        profileScreenService.savePreferences(colour, fullness, grapeVariety, abvLimit);
     }
 
     public void initialize() {
+        wineDrinkerManager = WineDrinkerManager.getInstance();
+        profileScreenService = new ProfileScreenService();
         usernameTextField.setText(wineDrinkerManager.getCurrentUser().getUsername());
         colourPreferenceComboBox.getItems().addAll("Red", "White", "Rose");
-        colourPreferenceComboBox.getSelectionModel().select(WineDrinkerManager.getInstance().getCurrentUser().getColourPreference());
+        colourPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getColourPreference());
         fullnessPreferenceComboBox.getItems().addAll("Off Dry", "Dry", "Light", "Medium", "Full");
-        fullnessPreferenceComboBox.getSelectionModel().select(WineDrinkerManager.getInstance().getCurrentUser().getFullnessPreference());
+        fullnessPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getFullnessPreference());
         varietyPreferenceComboBox.getItems().addAll("Pinot Noir", "Chardonnay", "Sauvignon Blanc", "Cabernet Sauvignon",
                 "Pinot Gris", "Malbec", "Shiraz", "Viognier", "Syrah", "Grenache", "Merlot", "Prosecco");
-        varietyPreferenceComboBox.getSelectionModel().select(WineDrinkerManager.getInstance().getCurrentUser().getGrapePreference());
+        varietyPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getGrapePreference());
+        abvLimitSlider.setValue(wineDrinkerManager.getCurrentUser().getAbvLimit());
     }
 }

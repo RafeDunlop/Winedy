@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.image.ImageView;
+import seng202.team3.WineDrinkerManager;
 import seng202.team3.guiservice.HomeScreenService;
 
 /**
@@ -80,7 +81,11 @@ public class HomeScreenController {
      */
     @FXML
     public void goToProfile() {
-        FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
+        if (WineDrinkerManager.getInstance().getCurrentUser() == null) {
+            FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
+        } else {
+            FXWrapper.getInstance().loadScreen(Screen.PROFILESCREEN);
+        }
     }
 
     /**
