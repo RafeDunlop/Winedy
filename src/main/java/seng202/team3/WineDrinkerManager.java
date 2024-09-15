@@ -2,9 +2,8 @@ package seng202.team3;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team3.exceptions.UnauthorisedWineDrinkerException;
 import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
-import seng202.team3.models.IllegalWineDrinkerException;
+import seng202.team3.exceptions.IllegalWineDrinkerException;
 import seng202.team3.models.WineDrinker;
 import seng202.team3.services.WineDrinkerDAO;
 

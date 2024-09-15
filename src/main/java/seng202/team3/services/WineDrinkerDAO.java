@@ -25,7 +25,8 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
      * @return 
      */
     @Override
-    public List<WineDrinker> getAll() { throw new NotImplementedException("WineDrinkerDAO get all method not yet implemented");
+    public List<WineDrinker> getAll() {
+        throw new NotImplementedException("WineDrinkerDAO get all method not yet implemented");
     }
 
 
