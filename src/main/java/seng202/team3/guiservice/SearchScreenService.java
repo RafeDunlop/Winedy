@@ -4,6 +4,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import seng202.team3.gui.FXWrapper;
+import seng202.team3.gui.NestedScreen;
 import seng202.team3.models.Wine;
 
 import static javafx.scene.control.ContentDisplay.TOP;
@@ -34,17 +38,21 @@ public class SearchScreenService {
     /**
      * Creates and returns a Button that contains an image graphic relevant to the colour of the given wine and the
      * title of the given wine.
-     * @param wineToDisplay The wine to be displayed on the button
+     *
+     * @param wineToDisplay    The wine to be displayed on the button
+     * @param screenAnchorPane
      * @return a Button
      */
-    public static Button generateWineButton(Wine wineToDisplay) {
+    public static Button generateWineButton(Wine wineToDisplay, AnchorPane screenAnchorPane) {
         Button wineButton = new Button(wineToDisplay.getName());
         wineButton.setPrefSize(240,240);
         wineButton.setWrapText(true);
         addImageGraphicToButton(wineButton, "/images/" + wineToDisplay.getColour() + "_wine_image.png");
         wineButton.setContentDisplay(TOP);
+        wineButton.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineView(screenAnchorPane, wineToDisplay));
         return wineButton;
     }
+
 
     /**
      * Adds all variety strings to the variety ComboBox.
