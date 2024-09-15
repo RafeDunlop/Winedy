@@ -106,7 +106,9 @@ public class WineDAOTest {
 
     @Test
     void testSearchWines() {
-        // to implement
+        List<String> keywords = Arrays.asList("Waihopai");
+        SearchWineList searchWineList = wineDAO.searchWines(keywords, 2018, 2018, 0.0f, 20.0f, "New Zealand", "White", "DRY", "Sauvignon Blanc");
+        assertEquals("The Ned Waihopai River Sauvignon Blanc 2018 Marlborough", searchWineList.getWineList().getFirst().getName());
     }
 
 }
