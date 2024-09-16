@@ -1,7 +1,10 @@
 package seng202.team3.gui;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.shape.Rectangle;
 import seng202.team3.models.Wine;
 
 import java.util.Arrays;
@@ -47,11 +50,20 @@ public class IndividualWineViewController {
     @FXML
     private Label wineAwardsLabel;
     private Wine wineToDisplay;
+
+    @FXML
+    private Rectangle rectangle;
+
+    @FXML
+    private ScrollPane descriptionScrollPane;
     public IndividualWineViewController(Wine wineToDisplay) {
         this.wineToDisplay = wineToDisplay;
     }
     @FXML
     public void initialize() {
+        rectangle.getStyleClass().add("white-wine-rectangle");
+        descriptionScrollPane.getStyleClass().add("individual-wine-view-scroll-pane");
+        descriptionLabel.setStyle("-fx-background-color: transparent");
         wineNameLabel.setText(wineToDisplay.getName());
         fullnessLabel.setText(wineToDisplay.getFullness());
         priceLabel.setText("$" + wineToDisplay.getPricePerBottle());
@@ -73,7 +85,7 @@ public class IndividualWineViewController {
         } else {
             wineDescriptionLabel.setText("This wine does not have a description");
         }
-        if (!(Arrays.stream(wineToDisplay.getAwards()).allMatch(award -> award == null || award == ""))) {
+        if (!(Arrays.stream(wineToDisplay.getAwards()).allMatch(award -> award == null || award.equals("")))) {
             awardsLabel.setVisible(true);
             System.out.println(wineToDisplay.getAwards()[0]);
             String awards = Arrays.asList(wineToDisplay.getAwards())
@@ -82,6 +94,7 @@ public class IndividualWineViewController {
                                                     .collect(Collectors.joining("\n"));
             wineAwardsLabel.setText(awards);
         } else {
+            wineAwardsLabel.setAlignment(Pos.TOP_CENTER);
             wineAwardsLabel.setText("This wine does not have any awards");
         }
 
