@@ -4,6 +4,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import seng202.team3.models.Wine;
 
 import java.io.IOException;
 
@@ -13,22 +16,27 @@ import java.io.IOException;
  */
 public class FXWrapper {
 
-    /*
+    /**
      * container below navigation bar for screens featuring the navigation bar
      */
     private AnchorPane screenPane;
 
-    /*
+    /**
+     *
+     */
+    private static final Logger log = LogManager.getLogger(FXWrapper.class);
+
+    /**
      * higher level container for all GUI in the application
      */
     private Pane superPane;
 
-    /*
+    /**
      * instance variable, stores the only copy of this class that may exist.
      */
     private static FXWrapper instance;
 
-    /*
+    /**
      * private default constructor to prevent instantiation outside this class
      */
     private FXWrapper() {
@@ -57,7 +65,7 @@ public class FXWrapper {
      * provides the singleton instance of SuperWrapper so that it is available to any GUI Controller class
      * @return the SuperWrapper instance which can be used to call non-static methods
      */
-    protected static FXWrapper getInstance() {
+    public static FXWrapper getInstance() {
         if (instance == null) {
             instance = new FXWrapper();
         }
@@ -68,11 +76,11 @@ public class FXWrapper {
      * loads specified screen passed via enum
      * @param screen Enum which contains fxml path and
      */
-    protected void loadScreen(Screen screen) {
+    public void loadScreen(Screen screen) {
         try {
             FXMLLoader screenLoader = new FXMLLoader(getClass().getResource("/fxml/" + screen.file));
             Parent root = screenLoader.load();
-            clearPane();
+            clearPane(superPane);
             if (screen.hasNavBar) {
                 loadScreen(Screen.NAVBAR);
                 screenPane.getChildren().add(root);
@@ -80,15 +88,39 @@ public class FXWrapper {
                 superPane.getChildren().add(root);
             }
         } catch (IOException e) {
-            e.printStackTrace(); //TODO: replace with error logging
+            log.error(e);
         }
     }
 
-    /*
+    public void loadNestedScreen(Pane toNest, NestedScreen toLoad) {
+        try {
+           FXMLLoader screenLoader = new FXMLLoader(getClass().getResource("/fxml/" + toLoad.file));
+           Parent leaf = screenLoader.load();
+           clearPane(toNest);
+           toNest.getChildren().add(leaf);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+    public void loadIndividualWineView(Pane toNest, Wine wineToDisplay) {
+        try {
+            FXMLLoader individualWineViewLoader = new FXMLLoader(getClass().getResource("/fxml/individual_wine_view.fxml"));
+            individualWineViewLoader.setControllerFactory(param -> new IndividualWineViewController(wineToDisplay));
+            Parent leaf = individualWineViewLoader.load();
+            clearPane(toNest);
+            toNest.getChildren().add(leaf);
+        } catch (IOException e) {
+            e.printStackTrace();
+            log.error(e);
+        }
+    }
+
+    /**
      * Removes all FXML components, including the navBar
      * @throws NullPointerException thrown if superPane is not set yet via setSuperPane
      */
-    private void clearPane() throws NullPointerException {
-        superPane.getChildren().removeAll(superPane.getChildren());
+    public void clearPane(Pane toClear) throws NullPointerException {
+        toClear.getChildren().removeAll(toClear.getChildren());
     }
+
 }

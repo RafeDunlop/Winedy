@@ -1,0 +1,38 @@
+/*
+ * This style sheets defines the search-screen-scroll-pane style class.
+ */
+.root {
+    -fx-iwvsp-main-colour: #EEEDC4;
+    -fx-iwvsp-scroll-colour: derive(#EEEDC4, -30%);
+}
+
+/*
+* A ScrollPane used to control the viewpoint of the wine information section of the Search Screen.
+* Everything is transparent other than the thumb.
+* ScrollBar styles are only defined for the vertical pseudo class as this ScrollPane has no horizontal ScrollBar.
+*/
+.individual-wine-view-scroll-pane,
+.individual-wine-view-scroll-pane .viewport,
+.individual-wine-view-scroll-pane .scroll-bar:vertical,
+.individual-wine-view-scroll-pane .scroll-bar:vertical .increment-button,
+.individual-wine-view-scroll-pane .scroll-bar:vertical .decrement-button,
+.individual-wine-view-scroll-pane .scroll-bar:vertical .decrement-arrow,
+.individual-wine-view-scroll-pane .scroll-bar:vertical .increment-arrow,
+.individual-wine-view-scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+/*
+ * Defines the thumb class of the vertical pseudo class of the scroll-bar class of the red-wine-scroll-pane class.
+ * Sets the background-colour to a red/pink colour slightly darker than the background.
+ */
+.individual-wine-view-scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: -fx-iwvsp-scroll-colour;
+}
+
+.individual-wine-view-scroll-pane .scroll-bar:vertical .decrement-arrow,
+.individual-wine-view-scroll-pane .scroll-bar:vertical .increment-arrow {
+    -fx-background-color: -fx-iwvsp-scroll-colour;
+    -fx-scale-x: 1.5;
+    -fx-scale-y: 1.5;
+}
