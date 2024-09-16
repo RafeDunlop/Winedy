@@ -6,6 +6,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team3.models.Wine;
 
 import java.io.IOException;
 
@@ -64,7 +65,7 @@ public class FXWrapper {
      * provides the singleton instance of SuperWrapper so that it is available to any GUI Controller class
      * @return the SuperWrapper instance which can be used to call non-static methods
      */
-    protected static FXWrapper getInstance() {
+    public static FXWrapper getInstance() {
         if (instance == null) {
             instance = new FXWrapper();
         }
@@ -75,7 +76,7 @@ public class FXWrapper {
      * loads specified screen passed via enum
      * @param screen Enum which contains fxml path and
      */
-    protected void loadScreen(Screen screen) {
+    public void loadScreen(Screen screen) {
         try {
             FXMLLoader screenLoader = new FXMLLoader(getClass().getResource("/fxml/" + screen.file));
             Parent root = screenLoader.load();
@@ -91,13 +92,25 @@ public class FXWrapper {
         }
     }
 
-    public void loadNestedScreen(Pane toNest, Screen toLoad) {
+    public void loadNestedScreen(Pane toNest, NestedScreen toLoad) {
         try {
            FXMLLoader screenLoader = new FXMLLoader(getClass().getResource("/fxml/" + toLoad.file));
            Parent leaf = screenLoader.load();
            clearPane(toNest);
            toNest.getChildren().add(leaf);
         } catch (IOException e) {
+            log.error(e);
+        }
+    }
+    public void loadIndividualWineView(Pane toNest, Wine wineToDisplay) {
+        try {
+            FXMLLoader individualWineViewLoader = new FXMLLoader(getClass().getResource("/fxml/individual_wine_view.fxml"));
+            individualWineViewLoader.setControllerFactory(param -> new IndividualWineViewController(wineToDisplay));
+            Parent leaf = individualWineViewLoader.load();
+            clearPane(toNest);
+            toNest.getChildren().add(leaf);
+        } catch (IOException e) {
+            e.printStackTrace();
             log.error(e);
         }
     }

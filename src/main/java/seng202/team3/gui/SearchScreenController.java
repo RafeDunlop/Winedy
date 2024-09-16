@@ -13,6 +13,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.RangeSlider;
@@ -28,7 +29,6 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static java.awt.Color.red;
 
 public class SearchScreenController {
 
@@ -64,6 +64,9 @@ public class SearchScreenController {
     private ComboBox<String> varietyComboBox;
 
     @FXML
+    GridPane searchScreenGridPane;
+
+    @FXML
     private AnchorPane wineDetailsAnchorPane;
 
     private String selectedColour = null;
@@ -95,7 +98,6 @@ public class SearchScreenController {
                 selectedColour,
                 selectedFullness,
                 selectedVariety);
-
         List<Wine> resultsList = results.getWineList();
         Wine[] resultsArray = new Wine[resultsList.size()];
         resultsArray = resultsList.toArray(resultsArray);
@@ -113,16 +115,16 @@ public class SearchScreenController {
             hbox.setPadding(new Insets(10, 15, 10, 15));
             hbox.setPrefWidth(800); // Set preferred width for the HBox
 
-            Button button1 = SearchScreenService.generateWineButton(searchResults[3*i]);
+            Button button1 = SearchScreenService.generateWineButton(searchResults[3*i], wineDetailsAnchorPane);
             hbox.getChildren().add(button1);
 
             if (3 * i + 1 < searchResults.length) {
-                Button button2 = SearchScreenService.generateWineButton(searchResults[3 * i + 1]);
+                Button button2 = SearchScreenService.generateWineButton(searchResults[3 * i + 1], wineDetailsAnchorPane);
                 hbox.getChildren().add(button2);
             }
 
             if (3 * i + 2 < searchResults.length) {
-                Button button3 = SearchScreenService.generateWineButton(searchResults[3 * i + 2]);
+                Button button3 = SearchScreenService.generateWineButton(searchResults[3 * i + 2], wineDetailsAnchorPane);
                 hbox.getChildren().add(button3);
             }
 
@@ -132,8 +134,9 @@ public class SearchScreenController {
     }
 
     public void initialize() {
+        searchBarTextField.setOnAction(this::onSearchButtonClicked);
         priceRangeSlider.setLowValue(0);
-        priceRangeSlider.setHighValue(200);
+        priceRangeSlider.setHighValue(220);
 
         startDateComboBox.getStyleClass().add("date-combo-box");
         colourComboBox.getItems().addAll("", "White", "Rose", "Red");
