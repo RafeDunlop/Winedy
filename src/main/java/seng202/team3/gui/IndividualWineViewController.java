@@ -63,6 +63,7 @@ public class IndividualWineViewController {
     public void initialize() {
         rectangle.getStyleClass().add("white-wine-rectangle");
         descriptionScrollPane.getStyleClass().add("individual-wine-view-scroll-pane");
+
         descriptionLabel.setStyle("-fx-background-color: transparent");
         wineNameLabel.setText(wineToDisplay.getName());
         fullnessLabel.setText(wineToDisplay.getFullness());

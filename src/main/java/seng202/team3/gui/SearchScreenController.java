@@ -86,6 +86,7 @@ public class SearchScreenController {
     @FXML
     void onSearchButtonClicked(ActionEvent event) {
         searchResultsVBox.getChildren().clear();
+        FXWrapper.getInstance().clearPane(wineDetailsAnchorPane);
         WineManager wineManager = WineManager.getInstance();
 
         SearchWineList results = wineManager.searchWines(
@@ -155,8 +156,8 @@ public class SearchScreenController {
     }
 
     private void initialiseDateRangeComboBoxes() {
-        startDateComboBox.getStyleClass().add("date-combo-box");
-        endDateComboBox.getStyleClass().add("date-combo-box");
+        //startDateComboBox.getStyleClass().add("date-combo-box");
+        //endDateComboBox.getStyleClass().add("date-combo-box");
 
         List<Integer> years = IntStream.rangeClosed(2007, 2019)
                 .boxed()

@@ -119,7 +119,8 @@ public class FXWrapper {
      * Removes all FXML components, including the navBar
      * @throws NullPointerException thrown if superPane is not set yet via setSuperPane
      */
-    private void clearPane(Pane toClear) throws NullPointerException {
+    public void clearPane(Pane toClear) throws NullPointerException {
         toClear.getChildren().removeAll(toClear.getChildren());
     }
+
 }
