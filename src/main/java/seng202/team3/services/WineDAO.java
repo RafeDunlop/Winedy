@@ -380,14 +380,12 @@ public class WineDAO implements DAOInterface<Wine> {
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             setUpSearchPreparedStatement(ps, keywords, minYear, maxYear, minPrice, maxPrice, country, colour, fullness, grapeName);
-            System.out.println(ps);
             try (ResultSet resultSet = ps.executeQuery()) {
                 Wine searchedWine;
                 while (resultSet.next()) {
                     String[] grapeList = getGrapesByID(resultSet.getInt("id"));
                     String[] awardList = getAwardsByID(resultSet.getInt("id"));
                     searchedWine = getWineFromResultSet(resultSet, grapeList, awardList);
-                    System.out.println(searchedWine.getName());
                     searchResults.addWineToList(searchedWine);
                 }
                 return searchResults;

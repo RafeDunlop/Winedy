@@ -88,7 +88,6 @@ public class IndividualWineViewController {
         }
         if (!(Arrays.stream(wineToDisplay.getAwards()).allMatch(award -> award == null || award.equals("")))) {
             awardsLabel.setVisible(true);
-            System.out.println(wineToDisplay.getAwards()[0]);
             String awards = Arrays.asList(wineToDisplay.getAwards())
                                                     .stream()
                                                     .filter(award -> award != null)
