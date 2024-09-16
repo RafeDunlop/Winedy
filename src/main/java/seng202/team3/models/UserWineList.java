@@ -8,11 +8,6 @@ public class UserWineList extends WineList {
         super.addWineToList(wine);
     }
 
-    @Override
-    public void removeWineFromList(Wine wine) {
-        // To implement
-    }
-
     public void editWineListName(String newName) {
         // To implement
     }

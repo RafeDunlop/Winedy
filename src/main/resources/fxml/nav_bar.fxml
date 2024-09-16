@@ -4,10 +4,12 @@
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.NavBarController">
-   <AnchorPane fx:id="screenPane" layoutY="76.0" prefHeight="924.0" prefWidth="1200.0" />
+   <Rectangle fx:id="navBarRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="76.0" stroke="BLACK" strokeType="INSIDE" width="1200.0" />
+   <AnchorPane fx:id="screenPane" layoutY="76.0" prefHeight="724.0" prefWidth="1200.0" />
    <HBox fx:id="buttonHBox" alignment="CENTER" prefHeight="66.0" spacing="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
       <children>
          <Button fx:id="navigationButton" minWidth="66.0" mnemonicParsing="false" onMouseEntered="#onNavigationMouseEntered" onMouseExited="#onNavigationMouseExited" prefHeight="66.0" prefWidth="66.0" text="Navigation">
