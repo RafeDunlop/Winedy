@@ -54,24 +54,16 @@ public class DatabaseManager {
             // The following line can be used to reach a db file within the jar, however this will not be modifiable
             // instance = new DatabaseManager("jdbc:sqlite:./src/main/resources/database.db");
             instance = new DatabaseManager(null);
-
         return instance;
     }
 
     /**
-     * WARNING Allows for setting specific database url (currently only needed for test databases, but may be useful
-     * in future) USE WITH CAUTION. This does not override the current singleton instance so must be the first call.
-     * @param url string url of database to load (this needs to be full url e.g. "jdbc:sqlite:./src/...")
-     * @throws  if there is already a singleton instance
-     * @return current singleton instance
+     * Copy of getInstance method where a url can be passed into the function
+     * @return the single instance DatabaseSingleton
      */
-    public static DatabaseManager initialiseInstanceWithUrl(String url){
-        if(instance == null) {
+    public static DatabaseManager getInstance(String url){
+        if(instance == null)
             instance = new DatabaseManager(url);
-        }
-        else {
-            //throw new InstanceAlreadyExistsException("Database Manager instance already exists, cannot create with url: " + url);
-        }
         return instance;
     }
 
@@ -112,7 +104,7 @@ public class DatabaseManager {
      * Gets path to the database relative to the jar file
      * @return jdbc encoded url location of database
      */
-    public String getDatabasePath() {
+    private String getDatabasePath() {
         String path = DatabaseManager.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         path = URLDecoder.decode(path, StandardCharsets.UTF_8);
         File jarDir = new File(path);
@@ -124,7 +116,7 @@ public class DatabaseManager {
      * @param url expected location to check for database
      * @return True if database exists else false
      */
-    public boolean checkDatabaseExists(String url){
+    private boolean checkDatabaseExists(String url){
         File f = new File(url.substring(12));
         return f.exists();
     }
@@ -133,7 +125,7 @@ public class DatabaseManager {
      * Creates a database file at the location specified by the url
      * @param url url to creat database at
      */
-    public void createDatabaseFile(String url){
+    private void createDatabaseFile(String url){
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
                 DatabaseMetaData meta = conn.getMetaData();
@@ -180,7 +172,7 @@ public class DatabaseManager {
      * Saves a file of sales to the repository layer using the specified importer functionality
      * TODO: handle errors gracefully
      */
-    public void populateWineTables(String filePath) throws URISyntaxException, FileNotFoundException {
+    private void populateWineTables(String filePath) throws URISyntaxException, FileNotFoundException {
         InputStream inputStream = getClass().getResourceAsStream(filePath);
         //File inputFile = new File(path);
         List<Wine> wines = WineCSVImporter.readFromFile(inputStream);
