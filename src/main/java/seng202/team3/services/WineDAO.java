@@ -386,7 +386,6 @@ public class WineDAO implements DAOInterface<Wine> {
                     String[] grapeList = getGrapesByID(resultSet.getInt("id"));
                     String[] awardList = getAwardsByID(resultSet.getInt("id"));
                     searchedWine = getWineFromResultSet(resultSet, grapeList, awardList);
-                    System.out.println(searchedWine.getName());
                     searchResults.addWineToList(searchedWine);
                 }
                 return searchResults;
