@@ -13,7 +13,6 @@ import java.util.List;
 
 /**
  * Singleton class responsible for interaction with SQLite database
- * @author Morgan English
  * @author Yuvraj Singh Fagotra
  */
 public class DatabaseManager {
@@ -33,12 +32,13 @@ public class DatabaseManager {
         }
         if(!checkDatabaseExists(url)){
             createDatabaseFile(url);
+            log.info("Resetting database");
             resetDB();
-            System.out.println("Populating Database...");
+            log.info("Populating database");
             try {
                 populateWineTables("/csv/majestic_df_preprocessed.csv");
             } catch (URISyntaxException | FileNotFoundException e) {
-                e.printStackTrace();
+                log.error("Error populating database", e);
             }
 
         }
@@ -49,21 +49,21 @@ public class DatabaseManager {
      * @return the single instance DatabaseSingleton
      */
     public static DatabaseManager getInstance(){
-        if(instance == null)
-            // todo find a way to actually get db within jar
-            // The following line can be used to reach a db file within the jar, however this will not be modifiable
-            // instance = new DatabaseManager("jdbc:sqlite:./src/main/resources/database.db");
+        if (instance == null) {
             instance = new DatabaseManager(null);
+        }
         return instance;
     }
 
     /**
-     * Copy of getInstance method where a url can be passed into the function
-     * @return the single instance DatabaseSingleton
+     * getInstance method where a url can be passed into the function. This function can handle the case where the url is
+     * null as well.
+     * @return the single instance DatabaseSingleton for a database located at the given url
      */
     public static DatabaseManager getInstance(String url){
-        if(instance == null)
-            instance = new DatabaseManager(url);
+        if (instance == null) {
+                instance = new DatabaseManager(url);
+        }
         return instance;
     }
 
@@ -83,15 +83,15 @@ public class DatabaseManager {
         try {
             conn = DriverManager.getConnection(this.url);
         } catch (SQLException e) {
-            log.error(e);
+            log.error("Error connecting to database", e);
         }
         return conn;
     }
 
     /**
-     * Initialises the database if it does not exist using the sql script included in resources
+     * Initialises the database using the sql script included in resources
      */
-    public void resetDB() {
+    private void resetDB() {
         try {
             InputStream in = getClass().getResourceAsStream("/sql/initialise_wine_database.sql");
             executeSQLScript(in);
@@ -125,11 +125,11 @@ public class DatabaseManager {
      * Creates a database file at the location specified by the url
      * @param url url to creat database at
      */
-    private void createDatabaseFile(String url){
+    private void createDatabaseFile(String url) {
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
                 DatabaseMetaData meta = conn.getMetaData();
-                String metaDriverLog = String.format("A new database has been created. The driver name is %s", meta.getDriverName());
+                String metaDriverLog = String.format("A new database has been created at %s. The driver name is %s", meta.getURL(), meta.getDriverName());
                 log.info(metaDriverLog);
             }
         } catch (SQLException e) {
@@ -169,12 +169,11 @@ public class DatabaseManager {
     }
 
     /**
-     * Saves a file of sales to the repository layer using the specified importer functionality
-     * TODO: handle errors gracefully
+     * Populates the wine table in the database with the wine data from the file specified by the filePath.
+     * @param filePath The path of the input file that contains the data
      */
     private void populateWineTables(String filePath) throws URISyntaxException, FileNotFoundException {
         InputStream inputStream = getClass().getResourceAsStream(filePath);
-        //File inputFile = new File(path);
         List<Wine> wines = WineCSVImporter.readFromFile(inputStream);
         WineDAO wineDAO = new WineDAO();
         int i = 0;
