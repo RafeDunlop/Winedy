@@ -19,7 +19,6 @@ public class DatabaseManagerTest {
     public void setup() {
         DatabaseManager.REMOVE_INSTANCE();
         databaseManager = DatabaseManager.getInstance(DATABASE_PATH);
-
     }
 
     @Test
@@ -58,4 +57,5 @@ public class DatabaseManagerTest {
         Connection conn = dbManager.connect();
         Assertions.assertNull(conn);
     }
+
 }
