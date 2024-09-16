@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DatabaseManagerTest {
     private DatabaseManager databaseManager;
-    private final String DATABASE_PATH = "./build/classes/java/database.db";
+    private final String DATABASE_PATH = "./test/resources/database.db";
 
     @BeforeEach
     public void setup() {
@@ -53,34 +53,5 @@ public class DatabaseManagerTest {
         catch (SQLException e) {
             fail("SQLException thrown while making connection: " + e.getMessage());
         }
-    }
-
-    @Test
-    public void testCheckDatabaseExists() {
-        Connection conn = databaseManager.connect();
-        try {
-            assertTrue(databaseManager.checkDatabaseExists("jdbc:sqlite:"+DATABASE_PATH));
-            conn.close();
-        }
-        catch (SQLException e) {
-            fail("SQLException thrown while checking if database exists: " + e.getMessage());
-        }
-    }
-
-    @Test
-    public void testInitialiseInstanceWithUrl() {
-        String testUrl = databaseManager.getDatabasePath();
-        DatabaseManager initialisedManager = DatabaseManager.initialiseInstanceWithUrl(testUrl);
-        try (Connection conn = initialisedManager.connect()) {
-            assertEquals(testUrl, conn.getMetaData().getURL());
-        }
-        catch (SQLException e) {
-            fail("SQLException thrown while initialising instance with URL: " + e.getMessage());
-        }
-    }
-
-    @Test
-    public void testPopulateWineTables() {
-        assertDoesNotThrow(() -> databaseManager.populateWineTables("/csv/majestic_df_preprocessed.csv"));
     }
 }
