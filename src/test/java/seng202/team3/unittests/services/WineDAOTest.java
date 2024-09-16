@@ -56,7 +56,7 @@ public class WineDAOTest {
 
     @BeforeEach
     public void setup() {
-        String databasePath = "./build/classes/java/database.db";
+        String databasePath = "jdbc:sqlite:./src/test/resources/test_database.db";
         File databaseFile = new File(databasePath);
         if (databaseFile.exists()) {
             if (databaseFile.delete()) {
