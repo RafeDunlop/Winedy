@@ -3,29 +3,22 @@ package seng202.team3.gui;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.RangeSlider;
-import org.jetbrains.annotations.NotNull;
 import seng202.team3.WineManager;
-import seng202.team3.guiservice.SearchScreenService;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -116,16 +109,16 @@ public class SearchScreenController {
             hbox.setPadding(new Insets(10, 15, 10, 15));
             hbox.setPrefWidth(800); // Set preferred width for the HBox
 
-            Button button1 = SearchScreenService.generateWineButton(searchResults[3*i], wineDetailsAnchorPane);
+            Button button1 = GuiService.generateWineButton(searchResults[3 * i], wineDetailsAnchorPane, 240, 240);
             hbox.getChildren().add(button1);
 
             if (3 * i + 1 < searchResults.length) {
-                Button button2 = SearchScreenService.generateWineButton(searchResults[3 * i + 1], wineDetailsAnchorPane);
+                Button button2 = GuiService.generateWineButton(searchResults[2 * i  + 1], wineDetailsAnchorPane, 240, 240);
                 hbox.getChildren().add(button2);
             }
 
             if (3 * i + 2 < searchResults.length) {
-                Button button3 = SearchScreenService.generateWineButton(searchResults[3 * i + 2], wineDetailsAnchorPane);
+                Button button3 = GuiService.generateWineButton(searchResults[3 * i + 2], wineDetailsAnchorPane, 240, 240);
                 hbox.getChildren().add(button3);
             }
 
@@ -145,7 +138,7 @@ public class SearchScreenController {
         countryComboBox.getItems().addAll("", "USA", "Italy", "France", "New Zealand", "Portugal", "Spain", "Argentina",
         "Australia", "Chile", "Romania", "South Africa", "Lebanon", "Germany",
         "Hungary", "Austria", "UK", "Macedonia", "Greece");
-        SearchScreenService.setUpVarietyComboBox(varietyComboBox);
+        setUpVarietyComboBox(varietyComboBox);
 
         colourComboBox.setOnAction(select -> selectedColour = (colourComboBox.getSelectionModel().getSelectedItem() == "") ? null : colourComboBox.getSelectionModel().getSelectedItem());
         fullnessComboBox.setOnAction(select -> selectedFullness = (fullnessComboBox.getSelectionModel().getSelectedItem() == "") ? null : fullnessComboBox.getSelectionModel().getSelectedItem());
@@ -185,5 +178,22 @@ public class SearchScreenController {
             startDateComboBox.setOnAction(startDateComboBoxOnAction);
         });
 
+    }
+
+    /**
+     * Adds all variety strings to the variety ComboBox.
+     * Created to modularise the initialize method in SearchScreenController to make it more readable nad maintainable.
+     * TODO: Change to querying the data base for a table of all unique variety types
+     * @param varietyComboBox the ComboBox the strings are added to
+     */
+    public static void setUpVarietyComboBox(ComboBox<String> varietyComboBox) {
+        varietyComboBox.getItems().addAll("", "Albariño", "Barbera", "Bonarda", "Bourboulenc", "Cabernet Franc",
+                "Cabernet Sauvignon", "Carignan", "Carmenere", "Carménère", "Chardonnay", "Chenin Blanc", "Chenin Blanc",
+                "Cinsault", "Clairette", "Cortese", "Fiano","Furmint", "Gamay", "Gewurztraminer", "Gewürztraminer",
+                "Grenache", "Grenache Blanc", "Gruner Veltliner", "Grüner Veltliner", "Harslevelu", "Malbec", "Marsanne",
+                "Melon de Bourgogne", "Merlot", "Mourvedre", "Mourvèdre", "Nebbiolo", "Nero d\'Avola", "Palomino",
+                "Petit Verdot", "Pinotage", "Pinot Grigio", "Pinot Noir", "Riesling", "Rioja", "Roussanne", "Sangiovese",
+                "Sangiovese", "Sauvignon Blanc", "Semillon", "Shiraz", "Syrah", "Tempranillo",
+                "Torrontes", "Verdejo", "Viognier", "Zinfandel"); // This is good for now, but what if we add more wines to the database
     }
 }

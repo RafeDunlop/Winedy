@@ -6,7 +6,6 @@ import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.image.ImageView;
 import seng202.team3.WineDrinkerManager;
-import seng202.team3.guiservice.HomeScreenService;
 
 /**
  * Used by JavaFX as the controller for home_screen.fxml
@@ -58,9 +57,9 @@ public class HomeScreenController {
      */
     @FXML
     public void initialize() {
-        HomeScreenService.setUpButton(searchButton, "/images/home_screen_search_button.png", "home-screen-button");
-        HomeScreenService.setUpButton(profileButton, "/images/home_screen_profile_button.png", "home-screen-button");
-        HomeScreenService.setUpButton(helpButton, "/images/home_screen_help_button.png", "home-screen-button");
+        setUpHomeButton(searchButton, "/images/home_screen_search_button.png");
+        setUpHomeButton(profileButton, "/images/home_screen_profile_button.png");
+        setUpHomeButton(helpButton, "/images/home_screen_help_button.png");
         titleBackgroundRectangle.getStyleClass().add("white-wine-rectangle");
         homeButtonsRectangle.getStyleClass().add("red-wine-rectangle");
         winedyImageView.setImage(new Image("/images/winedy_logo.png"));
@@ -95,5 +94,16 @@ public class HomeScreenController {
     @FXML
     public void goToHelp() {
         FXWrapper.getInstance().loadScreen(Screen.HELPSCREEN);
+    }
+
+    /**
+     * Sets up the given button to have the home-screen-button style class and an image 100x100 pixels in size.
+     * Used by the initialize method to set up the home screen buttons on launch.
+     * @param button The button to be set up
+     * @param imagePath The path the image is located at.
+     */
+    private void setUpHomeButton(Button button, String imagePath) {
+        button.getStyleClass().add("home-screen-button");
+        GuiService.addImageGraphicToButton(button, imagePath, 100, 100, false);
     }
 }
