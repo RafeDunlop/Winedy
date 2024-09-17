@@ -123,7 +123,7 @@ public class SignInScreenController {
             String variety = getComboInput(varietyPreferenceComboBox);
             int ABVLimit = (int) abvLimitSlider.getValue();
 
-            WineDrinker curUser = new WineDrinker(username, password, null, colour, fullness, variety, ABVLimit); //TODO ABV In database and winedrinker
+            WineDrinker curUser = new WineDrinker(username, password, null, colour, fullness, variety, ABVLimit);
             wineDrinkerManager.setCurrentUser(curUser);
             wineDrinkerManager.registerWineDrinker();
             FXWrapper.getInstance().loadScreen(Screen.PROFILESCREEN);
