@@ -18,7 +18,7 @@ import java.util.List;
  * @author Morgan English
  */
 public class WineManager {
-    private final WineDAO wineDAO;
+    private WineDAO wineDAO;
 
     private static WineManager instance;
 
@@ -130,5 +130,8 @@ public class WineManager {
                 .map(String::toLowerCase)
                 .distinct()
                 .toList();
+    }
+    public void setWineDAO(WineDAO wineDAO) {
+        this.wineDAO = wineDAO;
     }
 }
