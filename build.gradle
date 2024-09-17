@@ -140,11 +140,22 @@ jacoco {
     toolVersion = "0.8.9"
 }
 
-jacocoTestReport {
+jacocoTestReport (){
+
     executionData fileTree(project.rootDir) {
         include '**/*.exec'
     }
     reports {
         html.destination file("${buildDir}/reports/tests/coverage/")
     }
+}
+
+/*From chat gpt. Build was failing and the errors suggested to declare a dependency to startScript to fix the errors. I tried
+doing that but didn't know the proper syntax. So I used the following prompt,
+"fix this error
+ Reason: Task ':jacocoTestReport' uses this output of task ':startScripts' without declaring an explicit or implicit
+ dependency. This can lead to incorrect results being produced, depending on what order the tasks are executed."
+* */
+tasks.named('jacocoTestReport') {
+    dependsOn 'startScripts'
 }
