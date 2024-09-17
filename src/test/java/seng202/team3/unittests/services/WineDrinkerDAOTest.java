@@ -1,17 +1,79 @@
 package seng202.team3.unittests.services;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
 import seng202.team3.models.WineDrinker;
+import seng202.team3.services.DatabaseManager;
 import seng202.team3.services.WineDrinkerDAO;
 
-public class WineDrinkerDAOTest {
-    WineDrinkerDAO wineDrinkerDAO = new WineDrinkerDAO("jdbc:sqlite:./src/test/resources/test_database.db");
-    private String username = "Username";
-    private String password = "Password";
+import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-    private WineDrinker wineDrinker = new WineDrinker(username, password, null, null, null,null,0);
+import static org.junit.Assert.fail;
+
+public class WineDrinkerDAOTest {
+    String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
+    WineDrinkerDAO wineDrinkerDAO;
+    DatabaseManager databaseManager;
+    private final String username = "TestUser1";
+    private final String password = "TestUserPassword";
+
+    private final WineDrinker testWineDrinker = new WineDrinker(username, password, null, null, null,null,0);
+
+    @BeforeAll
+    public static void deleteTestDB() {
+        File file = new File("./src/test/resources/test_database.db");
+        file.delete();
+    }
+
+    @BeforeEach
+    public void setup() {
+        DatabaseManager.REMOVE_INSTANCE();
+        databaseManager = DatabaseManager.getInstance(DATABASE_PATH);
+        wineDrinkerDAO = new WineDrinkerDAO(DATABASE_PATH);
+
+        try {
+            wineDrinkerDAO.add(testWineDrinker);
+        } catch (WineDrinkerAlreadyExistsException e) {
+            Assertions.fail("Failed to register test user");
+        }
+    }
+
+    @AfterEach
+    public void cleanup() {
+        File file = new File(DATABASE_PATH.substring(12));
+        file.delete();
+    }
+
+
     @Test
     public void testGetNonExistingUser() {
+        Assertions.assertNull(wineDrinkerDAO.getWineDrinkerFromUsername("InvalidUser"));
+    }
 
+    @Test
+    public void testRegisterExistingUser() {
+        try {
+            wineDrinkerDAO.add(testWineDrinker);
+            Assertions.fail();
+        } catch (WineDrinkerAlreadyExistsException e) {
+            Assertions.assertNotNull(e);
+        }
+    }
+
+    @Test
+    public void testUpdateUser() {
+        String colour = "White";
+        testWineDrinker.setColourPreference(colour);
+        wineDrinkerDAO.update(testWineDrinker);
+        Assertions.assertEquals(colour, wineDrinkerDAO.getWineDrinkerFromUsername(username).getColourPreference());
+    }
+
+    @Test void testDeleteUser() {
+        wineDrinkerDAO.deleteByUsername(username);
+        Assertions.assertNull(wineDrinkerDAO.getWineDrinkerFromUsername("InvalidUser"));
     }
 }

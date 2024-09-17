@@ -32,7 +32,7 @@ public class DatabaseManagerTest {
 
     @AfterEach
     public void cleanup() {
-        File file = new File("./src/test/resources/test_database.db");
+        File file = new File(DATABASE_PATH.substring(12));
         file.delete();
     }
 
