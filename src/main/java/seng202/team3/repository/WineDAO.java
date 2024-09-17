@@ -1,4 +1,4 @@
-package seng202.team3.services;
+package seng202.team3.repository;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
@@ -25,6 +25,14 @@ public class WineDAO implements DAOInterface<Wine> {
      */
     public WineDAO() {
         databaseManager = DatabaseManager.getInstance();
+    }
+
+    /**
+     * Creates a new WineDAO object and gets a reference to the database singleton for a database at the specified url.
+     * Used for testing.
+     */
+    public WineDAO(String url) {
+        databaseManager = DatabaseManager.getInstance(url);
     }
 
     /**

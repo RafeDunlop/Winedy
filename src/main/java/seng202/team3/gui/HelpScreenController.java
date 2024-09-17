@@ -8,19 +8,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.tools.picocli.CommandLine;
-import seng202.team3.guiservice.HelpScreenService;
-import seng202.team3.guiservice.HomeScreenService;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * Used by JavaFX as the controller for help_screen.fxml
@@ -128,9 +115,9 @@ public class HelpScreenController {
         }
 
         try {
-            aboutWinedyLabel.setText(HelpScreenService.getContentFromFile("/text/about_winedy.txt"));
-            createAnAccountLabel.setText(HelpScreenService.getContentFromFile("/text/create_an_account.txt"));
-            signinLabel.setText(HelpScreenService.getContentFromFile("/text/sign_in.txt"));
+            aboutWinedyLabel.setText(GuiService.getContentFromFile("/text/about_winedy.txt"));
+            createAnAccountLabel.setText(GuiService.getContentFromFile("/text/create_an_account.txt"));
+            signinLabel.setText(GuiService.getContentFromFile("/text/sign_in.txt"));
         } catch (Exception e) {
             log.error("Error loading txt files. Did you misspell their path", e);
         }

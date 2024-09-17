@@ -1,13 +1,10 @@
-package seng202.team3.services;
+package seng202.team3.repository;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team3.exceptions.DuplicateEntryException;
 import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
-import seng202.team3.exceptions.WineDrinkerDoesNotExistException;
 import seng202.team3.models.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
 
@@ -35,7 +32,6 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
      * Gets a WineDrinker object from the database based on their username
      * @param username unique username to identify a WineDrinker
      * @return the wine drinker that has been fetched from the database
-     * @throws WineDrinkerDoesNotExistException if a wine drinker with that username does not exist
      */
 
     public WineDrinker getWineDrinkerFromUsername(String username) {
@@ -65,40 +61,10 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
         return retrievedWineDrinker;
     }
 
-//    /**
-//     * @param id id of object to get
-//     * @return
-//     */
-//    @Override
-//    public WineDrinker getOne(int id) {
-//        WineDrinker retrievedWineDrinker = null;
-//        String sqlQuery = "SELECT * FROM wineDrinker where id=?";
-//        try(Connection conn = database.connect();
-//            PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
-//            preparedStatement.setInt(1, id);
-//            try(ResultSet resultSet = preparedStatement.executeQuery(sqlQuery)){
-//                while(resultSet.next()) {
-//                    retrievedWineDrinker = new WineDrinker(
-//                            resultSet.getString("username"),
-//                            resultSet.getString("password"),
-//                            resultSet.getString("countryPreference"),
-//                            resultSet.getString("colourPreference"),
-//                            resultSet.getString("fullnessPreference"),
-//                            resultSet.getString("grapePreference"));
-//
-//                }
-//                return retrievedWineDrinker;
-//            }
-//        } catch (SQLException sqlException) {
-//            System.out.println("Exception here = " + sqlException);
-//            return null;
-//        }
-//    }
-
     /**
      * @param toAdd object of type T to add 
      * @return
-     * @throws DuplicateEntryException
+     * @throws WineDrinkerAlreadyExistsException
      */
     @Override
     public int add(WineDrinker toAdd) throws WineDrinkerAlreadyExistsException {

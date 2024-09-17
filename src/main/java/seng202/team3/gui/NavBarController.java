@@ -13,8 +13,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-import seng202.team3.guiservice.NavBarService;
-import seng202.team3.WineDrinkerManager;
+import seng202.team3.services.WineDrinkerManager;
 
 
 /**
@@ -128,12 +127,13 @@ public class NavBarController {
         helpButton.setOnAction(x -> onButtonClick(Screen.HELPSCREEN));
         profileButton.setOnAction(x -> onProfileButtonClicked());
 
-        NavBarService.setUpButton(homeButton, "/images/nav_bar_home_button.png", "nav-bar-button", false);
-        searchButtonImageView = NavBarService.setUpButton(searchButton, "/images/home_screen_search_button.png", "nav-bar-button", true);
-        profileButtonImageView = NavBarService.setUpButton(profileButton, "/images/home_screen_profile_button.png", "nav-bar-button", true);
-        reloadButtonImageView = NavBarService.setUpButton(reloadButton, "/images/nav_bar_reload_button.png", "nav-bar-button", true);
-        helpButtonImageView = NavBarService.setUpButton(helpButton, "/images/home_screen_help_button.png", "nav-bar-button", true);
-        NavBarService.setUpButton(navigationButton, "/images/nav_bar_navigate_button.png", "nav-bar-button", false);
+        setUpNavButton(homeButton, "/images/nav_bar_home_button.png", false);
+        setUpNavButton(navigationButton, "/images/nav_bar_navigate_button.png", false);
+
+        searchButtonImageView = setUpNavButton(searchButton, "/images/home_screen_search_button.png", true);
+        profileButtonImageView = setUpNavButton(profileButton, "/images/home_screen_profile_button.png", true);
+        reloadButtonImageView = setUpNavButton(reloadButton, "/images/nav_bar_reload_button.png", true);
+        helpButtonImageView = setUpNavButton(helpButton, "/images/home_screen_help_button.png", true);
 
         buttonHBox.setPrefSize(66, 66); // Prevents a little glitch in the animation where the HBox expands for a split second
         buttonHBox.setMaxWidth(66);
@@ -265,5 +265,12 @@ public class NavBarController {
     @FXML
     private void onNavigationMouseExited() {
         expansionHoverPause.stop();
+    }
+
+    private ImageView setUpNavButton(Button button, String imagePath, boolean isInvisible) {
+        button.getStyleClass().add("nav-bar-button");
+        button.setText("");
+
+        return GuiService.addImageGraphicToButton(button, imagePath, 50, 50, isInvisible);
     }
 }
