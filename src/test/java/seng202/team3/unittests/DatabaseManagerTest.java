@@ -9,8 +9,9 @@ import java.sql.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for the DatabaseManager service class
+ * Unit tests for DatabaseManager
  * @author Krishna Sridhar
+ * @author Yuvraj Fagotra (yfa50)
  */
 
 public class DatabaseManagerTest {

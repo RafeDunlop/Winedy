@@ -1,5 +1,6 @@
 package seng202.team3.unittests.services;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
@@ -51,6 +52,11 @@ public class WineDAOTest {
             75,
             2018);
 
+    @AfterAll
+    public static void cleanUp() {
+        File file = new File("./src/test/resources/test_database.db");
+        file.delete();
+    }
     @Test
     void testAdd() {
         int insertId = wineDAO.add(WINE_1);
