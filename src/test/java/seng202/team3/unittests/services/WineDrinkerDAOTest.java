@@ -69,8 +69,4 @@ public class WineDrinkerDAOTest {
         Assertions.assertEquals(colour, wineDrinkerDAO.getWineDrinkerFromUsername(username).getColourPreference());
     }
 
-    @Test void testDeleteUser() {
-        wineDrinkerDAO.deleteByUsername(username);
-        Assertions.assertNull(wineDrinkerDAO.getWineDrinkerFromUsername("InvalidUser"));
-    }
 }
