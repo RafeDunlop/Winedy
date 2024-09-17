@@ -11,6 +11,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Class responsible for reading and importing data from a wine csv file
+ *
+ * @author Rafe Dunlop (rdu46)
+ */
 public class WineCSVImporter{
 
     private static final Logger log = LogManager.getLogger(WineCSVImporter.class);
@@ -42,6 +47,12 @@ public class WineCSVImporter{
         }
     }
 
+    /**
+     * Reads a single line of data from the csv file into a wine object
+     *
+     * @param line An array of strings from a line in a csv file
+     * @return A wine object associated with the line of the csv file
+     */
     public static Wine readWineFromLine(String[] line) {
         try {
             String name = line[0];

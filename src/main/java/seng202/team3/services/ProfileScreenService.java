@@ -8,13 +8,13 @@ import seng202.team3.repository.WineDrinkerDAO;
  * @author Yuvraj (yfa50)
  */
 public class ProfileScreenService {
-
+    /**
+     * WineDrinkerManager to handle wine drinker related tasks
+     */
     private WineDrinkerManager wineDrinkerManager;
-    private WineDrinkerDAO wineDrinkerDAO;
 
     public ProfileScreenService() {
         this.wineDrinkerManager = WineDrinkerManager.getInstance();
-        this.wineDrinkerDAO = new WineDrinkerDAO();
     }
 
     public void savePreferences(String colour, String fullness, String grapeVariety, double abvLimit){
@@ -23,6 +23,6 @@ public class ProfileScreenService {
         wineDrinker.setFullnessPreference(fullness);
         wineDrinker.setGrapePreference(grapeVariety);
         wineDrinker.setAbvLimit(abvLimit);
-        wineDrinkerDAO.update(wineDrinker);
+        wineDrinkerManager.updateWineDrinker(wineDrinker);
     }
 }

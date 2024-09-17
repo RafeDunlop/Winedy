@@ -3,6 +3,11 @@ package seng202.team3.gui;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 
+/**
+ * Controller for the external pane that all screens are loaded to
+ *
+ * @author Rafe Dunlop (rdu46)
+ */
 public class SuperPaneController {
 
     /**

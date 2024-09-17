@@ -59,7 +59,7 @@ public class ProfileScreenController {
      *
      */
     @FXML
-    void onEditUsernameButtonClicked() {
+    public void onEditUsernameButtonClicked() {
         usernameTextField.setEditable(true);
         editUsernameButton.setText("Save New Username");
         editUsernameButton.setOnAction(e->{saveUsernameInfo();});

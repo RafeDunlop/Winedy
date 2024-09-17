@@ -5,7 +5,7 @@ import java.util.List;
 /**
  *This class represents a list of wines (stored as Wine objects). The list is stored as an Arraylist which is kept private.
  *
- * @author Yuvraj Singh Fagotra
+ * @author Yuvraj Singh Fagotra (yfa50)
  */
     public class WineList {
     private final List<Wine> wineList;

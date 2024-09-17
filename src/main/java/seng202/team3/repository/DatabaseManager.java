@@ -13,11 +13,24 @@ import java.util.List;
 
 /**
  * Singleton class responsible for interaction with SQLite database
- * @author Yuvraj Singh Fagotra
+ *
+ * @author Yuvraj Singh Fagotra (Yfa50)
  */
 public class DatabaseManager {
+
+    /**
+     * Database instance
+     */
     private static DatabaseManager instance = null;
+
+    /**
+     * Logger for robust error logging
+     */
     private static final Logger log = LogManager.getLogger(DatabaseManager.class);
+
+    /**
+     * Database url
+     */
     private final String url;
 
     /**

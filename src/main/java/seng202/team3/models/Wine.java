@@ -2,21 +2,65 @@ package seng202.team3.models;
 
 /**
  * Wine class for creating wine objects that will be stored in a database
+ *
+ * @author Sophia Copley (sco207)
  */
 public class Wine {
+    /**
+     * unique ID for the wine
+     */
     private int uniqueWineID;
+    /**
+     * Wine name
+     */
     private String name;
+    /**
+     * Wine colour out of red, white and rose
+     */
     private String colour;
+    /**
+     * Wine style
+     */
     private String style;
+    /**
+     * Personal wine entry associated with the wine that has been entered by the WineDrinker
+     */
     private String personalWineEntry;
+    /**
+     * Country that the wine is from
+     */
     private String country;
+    /**
+     * Year that the wine was made
+     */
     private int year;
+    /**
+     * List of grapes that the wines contain
+     */
     private String[] grapes;
+    /**
+     * Wine fullness
+     */
     private String fullness;
+    /**
+     * Long description of the wine
+     */
     private String longDescription;
+    /**
+     * Price of the wine
+     */
     private float price;
+    /**
+     * List of awards
+     */
     private String[] awards;
+    /**
+     * Percentage of alcohol per unit volume in the wine
+     */
     private float alcoholByVolume;
+    /**
+     * Volume of the wine bottle
+     */
     private float volumeInMl;
 
     /**
