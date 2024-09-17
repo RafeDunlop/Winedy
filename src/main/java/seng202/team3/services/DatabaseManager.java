@@ -175,7 +175,7 @@ public class DatabaseManager {
     private void populateWineTables(String filePath) throws URISyntaxException, FileNotFoundException {
         InputStream inputStream = getClass().getResourceAsStream(filePath);
         List<Wine> wines = WineCSVImporter.readFromFile(inputStream);
-        WineDAO wineDAO = new WineDAO();
+        WineDAO wineDAO = new WineDAO(url);
         int i = 0;
         while (i < wines.size()) {
             if (i + 100 > wines.size()) {

@@ -23,8 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class WineDAOTest {
     private final int CSV_LENGTH = 473;
     private final int HIGHEST_ID = 782;
-    private WineDAO wineDAO = new WineDAO();
-    private DatabaseManager databaseManager;
+    private WineDAO wineDAO = new WineDAO("jdbc:sqlite:./src/test/resources/test_database.db");
+
     private final Wine WINE_1 = new Wine(
             HIGHEST_ID + 1,
             "Nero Oro Appassimento 2018, Sicily",
@@ -53,12 +53,6 @@ public class WineDAOTest {
             (float) 13,
             75,
             2018);
-
-    @BeforeEach
-    public void setup() {
-        DatabaseManager.REMOVE_INSTANCE();
-        databaseManager = DatabaseManager.getInstance();
-    }
 
     @Test
     void testAdd() {
