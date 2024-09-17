@@ -1,12 +1,9 @@
 package seng202.team3.unittests.services;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
-import seng202.team3.services.DatabaseManager;
-import seng202.team3.services.WineDAO;
+import seng202.team3.repository.WineDAO;
 
 import java.io.File;
 import java.util.Arrays;

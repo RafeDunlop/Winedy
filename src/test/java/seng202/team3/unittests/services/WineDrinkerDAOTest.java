@@ -3,16 +3,10 @@ package seng202.team3.unittests.services;
 import org.junit.jupiter.api.*;
 import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
 import seng202.team3.models.WineDrinker;
-import seng202.team3.services.DatabaseManager;
-import seng202.team3.services.WineDrinkerDAO;
+import seng202.team3.repository.DatabaseManager;
+import seng202.team3.repository.WineDrinkerDAO;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-import static org.junit.Assert.fail;
 
 public class WineDrinkerDAOTest {
     String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
