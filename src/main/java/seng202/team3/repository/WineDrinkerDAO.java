@@ -82,7 +82,7 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
      *
      * @param toAdd object of type T to add
      * @return the insert id associated with a wine drinker
-     * @throws WineDrinkerAlreadyExistsException
+     * @throws WineDrinkerAlreadyExistsException if method is called with a WineDrinker with a username that already exists
      */
     @Override
     public int add(WineDrinker toAdd) throws WineDrinkerAlreadyExistsException {

@@ -1,6 +1,5 @@
 package seng202.team3.services;
 
-import com.password4j.Hash;
 import com.password4j.Password;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -88,11 +87,9 @@ public class WineDrinkerManager {
 
     /**
      * Authorises and fetches a wine drinker by checking that the username and password match the relevant WineDrinker
-     *
      * Uses the data to populate the currentUser object
      * @param username username entered by the WineDrinker
      * @param password password to check for WineDrinker
-     * @return WineDrinker object corresponding to the provided username and password is the authentication succeeds
      */
    public void loginCurrentUser(String username, String password) throws IllegalWineDrinkerException{
 

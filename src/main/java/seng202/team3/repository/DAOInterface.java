@@ -21,6 +21,7 @@ public interface DAOInterface<T> {
      * Adds a single object of type T to database
      * @param toAdd object of type T to add
      * @return object insert id if inserted correctly
+     * @throws WineDrinkerAlreadyExistsException if method is called with a WineDrinker with a username that already exists
      */
     int add(T toAdd) throws WineDrinkerAlreadyExistsException;
 
