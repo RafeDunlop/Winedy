@@ -40,7 +40,6 @@ public class DatabaseManager {
             } catch (URISyntaxException | FileNotFoundException e) {
                 log.error("Error populating database", e);
             }
-
         }
     }
 
@@ -173,6 +172,9 @@ public class DatabaseManager {
      * @param filePath The path of the input file that contains the data
      */
     private void populateWineTables(String filePath) throws URISyntaxException, FileNotFoundException {
+        if (!checkDatabaseExists(url)) {
+            throw new FileNotFoundException();
+        }
         InputStream inputStream = getClass().getResourceAsStream(filePath);
         List<Wine> wines = WineCSVImporter.readFromFile(inputStream);
         WineDAO wineDAO = new WineDAO(url);
