@@ -29,6 +29,13 @@ public class DatabaseManagerTest {
     }
 
     @Test
+    public void testDatabaseInstanceWithoutUrl() {
+        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager dbManager = DatabaseManager.getInstance();
+        Assertions.assertEquals(dbManager, DatabaseManager.getInstance());
+    }
+
+    @Test
     public void testSingletonInstance() {
         DatabaseManager instance = DatabaseManager.getInstance();
         assertSame(instance, databaseManager);
@@ -57,5 +64,6 @@ public class DatabaseManagerTest {
         Connection conn = dbManager.connect();
         Assertions.assertNull(conn);
     }
+
 
 }
