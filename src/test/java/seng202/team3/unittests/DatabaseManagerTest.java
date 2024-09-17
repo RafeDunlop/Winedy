@@ -1,10 +1,8 @@
 package seng202.team3.unittests;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import seng202.team3.services.DatabaseManager;
-import java.io.File;
+import java.lang.reflect.Field;
 import java.sql.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,43 +13,57 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DatabaseManagerTest {
     private DatabaseManager databaseManager;
-    private final String DATABASE_PATH = "./test/resources/database.db";
+    private final String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
 
     @BeforeEach
     public void setup() {
-        File databaseFile = new File(DATABASE_PATH);
-        if (databaseFile.exists()) {
-            if (databaseFile.delete()) {
-                System.out.println("Existing database file deleted successfully.");
-            } else {
-                System.out.println("Failed to delete the existing database file.");
-            }
-        }
         DatabaseManager.REMOVE_INSTANCE();
-        databaseManager = DatabaseManager.getInstance();
+        databaseManager = DatabaseManager.getInstance(DATABASE_PATH);
     }
 
-    @AfterEach
-    public void removeInstance() {
+    @Test
+    public void testDatabaseInstanceWithUrl() {
         DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager dbManager = DatabaseManager.getInstance(DATABASE_PATH);
+        Assertions.assertEquals(dbManager, DatabaseManager.getInstance());
+    }
+
+    @Test
+    public void testDatabaseInstanceWithoutUrl() {
+        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager dbManager = DatabaseManager.getInstance();
+        Assertions.assertEquals(dbManager, DatabaseManager.getInstance());
     }
 
     @Test
     public void testSingletonInstance() {
-        DatabaseManager instance1 = DatabaseManager.getInstance();
-        DatabaseManager instance2 = DatabaseManager.getInstance();
-        assertSame(instance1, instance2);
+        DatabaseManager instance = DatabaseManager.getInstance();
+        assertSame(instance, databaseManager);
     }
 
     @Test
-    public void testConnect() {
+    public void testConnect() throws SQLException {
         Connection conn = databaseManager.connect();
-        try {
-            assertFalse(conn.isClosed());
-            conn.close();
-        }
-        catch (SQLException e) {
-            fail("SQLException thrown while making connection: " + e.getMessage());
-        }
+        Assertions.assertNotNull(conn);
+        Assertions.assertEquals(conn.getMetaData().getURL(), DATABASE_PATH);
+        conn.close();
     }
+
+    @Test
+    public void testRemoveInstance() throws NoSuchFieldException, IllegalAccessException {
+        DatabaseManager.REMOVE_INSTANCE();
+        Field instance = databaseManager.getClass().getDeclaredField("instance");
+        instance.setAccessible(true);
+        Assertions.assertNull(instance.get(databaseManager));
+    }
+
+    @Test
+    public void testConnectionWithInvalidPath() {
+        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager dbManager = DatabaseManager.getInstance("jdbc:sqlite:InvalidFolder/Invalid.db");
+        Connection conn = dbManager.connect();
+        Assertions.assertNull(conn);
+    }
+
+
 }

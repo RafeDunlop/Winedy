@@ -28,6 +28,14 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     /**
+     * Creates a new WineDAO object and gets a reference to the database singleton for a database at the specified url.
+     * Used for testing.
+     */
+    public WineDAO(String url) {
+        databaseManager = DatabaseManager.getInstance(url);
+    }
+
+    /**
      * Gets all wines in the database and converts them into wine objects
      *
      * @return a list of all sales
