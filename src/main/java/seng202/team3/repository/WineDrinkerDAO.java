@@ -1,4 +1,6 @@
 package seng202.team3.repository;
+import com.password4j.Hash;
+import com.password4j.Password;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -85,10 +87,12 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
     @Override
     public int add(WineDrinker toAdd) throws WineDrinkerAlreadyExistsException {
         String sqlQuery = "INSERT INTO wineDrinker(username, password, countryPreference, colourPreference, fullnessPreference, grapePreference) values (?,?,?,?,?,?);";
+        Hash hash = Password.hash(toAdd.getPassword()).withBcrypt();
+        String password = hash.getSalt()+":"+hash.getResult();
         try (Connection conn = database.connect();
             PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
             preparedStatement.setString(1, toAdd.getUsername());
-            preparedStatement.setString(2, toAdd.getPassword());
+            preparedStatement.setString(2, password);
             preparedStatement.setString(3, toAdd.getCountryPreference());
             preparedStatement.setString(4, toAdd.getColourPreference());
             preparedStatement.setString(5, toAdd.getFullnessPreference());

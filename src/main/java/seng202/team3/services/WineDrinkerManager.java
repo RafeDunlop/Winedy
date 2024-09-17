@@ -1,5 +1,7 @@
 package seng202.team3.services;
 
+import com.password4j.Hash;
+import com.password4j.Password;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
@@ -96,7 +98,8 @@ public class WineDrinkerManager {
 
         WineDrinker wineDrinker = wineDrinkerDAO.getWineDrinkerFromUsername(username);
         if (wineDrinker != null) {
-            if (password.equals(wineDrinker.getPassword())) {
+            String[] saltPass = wineDrinker.getPassword().split(":");
+            if (Password.check(password, saltPass[1]).addSalt(saltPass[0]).withBcrypt()) {
                 setCurrentUser(wineDrinker);
             } else {
                 throw new IllegalWineDrinkerException("Password Incorrect");
