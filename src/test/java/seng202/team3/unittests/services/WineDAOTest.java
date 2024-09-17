@@ -1,10 +1,12 @@
 package seng202.team3.unittests.services;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
 import seng202.team3.repository.WineDAO;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,6 +52,11 @@ public class WineDAOTest {
             75,
             2018);
 
+    @AfterAll
+    public static void cleanUp() {
+        File file = new File("./src/test/resources/test_database.db");
+        file.delete();
+    }
     @Test
     void testAddUniqueWine() {
         int insertId = wineDAO.add(WINE_1);

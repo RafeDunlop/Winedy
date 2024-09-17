@@ -32,6 +32,7 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
      *  Creates a WineDrinkerDAO object and gets a reference to the database singleton
      */
     public WineDrinkerDAO(){database = DatabaseManager.getInstance();}
+    public WineDrinkerDAO(String url){database = DatabaseManager.getInstance(url);}
 
     /**
      * TODO: implement for deliverable 3
@@ -69,9 +70,8 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
                 }
 
             }
-        } catch(SQLException sqlException) {
-            log.error(sqlException);
-            System.out.println("Exception here = " + sqlException);
+        } catch(SQLException e) {
+            log.error("Error retrieving user from database", e);
         }
 
         return retrievedWineDrinker;
@@ -80,7 +80,7 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
     /**
      * Adds Wine Drinker to the database
      *
-     * @param toAdd object of type T to add 
+     * @param toAdd object of type T to add
      * @return the insert id associated with a wine drinker
      * @throws WineDrinkerAlreadyExistsException
      */
@@ -97,6 +97,7 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
             preparedStatement.setString(4, toAdd.getColourPreference());
             preparedStatement.setString(5, toAdd.getFullnessPreference());
             preparedStatement.setString(6, toAdd.getGrapePreference());
+            preparedStatement.setDouble(7, toAdd.getAbvLimit());
 
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
@@ -105,12 +106,11 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
                 insertId = resultSet.getInt(1);
             }
             return insertId;
-        } catch (SQLException sqlException) {
-            System.out.println("Exception here = " + sqlException);
-            if (sqlException.getErrorCode() == 19) {
+        } catch (SQLException e) {
+            if (e.getErrorCode() == 19) {
                 throw new WineDrinkerAlreadyExistsException("An account with this username already exists");
             }
-            log.error(sqlException);
+            log.error("Error inserting user into database", e);
             return -1;
         }
     }
@@ -144,8 +144,8 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
             preparedStatement.setDouble(5, user.getAbvLimit());
             preparedStatement.setString(6, user.getUsername());
             preparedStatement.executeUpdate();
-        } catch (SQLException sqlException) {
-            System.out.println("Exception here = " + sqlException);
+        } catch (SQLException e) {
+            log.error("Error updating user in database", e);
         }
 
     }
