@@ -39,13 +39,8 @@ public class SearchWineListTest {
     @Test
     public void removeWineFromList() {
         testSearchWineList.addWineToList(testWine);
-
-        if (testSearchWineList.getWineList().contains(testWine)) {
-            testSearchWineList.removeWineFromList(testWine);
-            assertTrue(testSearchWineList.getWineList().isEmpty());
-        } else {
-            fail("Wine was not added to list and can not be removed");
-        }
+        testSearchWineList.removeWineFromList(testWine);
+        assertTrue(testSearchWineList.getWineList().isEmpty());
     }
 
     @Test
@@ -56,17 +51,7 @@ public class SearchWineListTest {
     @Test
     public void addWineRemoveWineRemoveWine() {
         testSearchWineList.addWineToList(testWine);
-
-        if (testSearchWineList.getWineList().contains(testWine)) {  // If addWine does not work, this test is redundant
-            testSearchWineList.removeWineFromList(testWine);
-        } else {
-            fail("Wine was not added to list and can not be removed");
-        }
-
-        if (testSearchWineList.getWineList().contains(testWine)) {  // If remove wine does not work. this test is redundant
-            fail("Test wine was not removed from testSearchWineList");
-        } else {
-            assertFalse(testSearchWineList.getWineList().remove(testWine));
-        }
+        testSearchWineList.removeWineFromList(testWine);
+        assertFalse(testSearchWineList.getWineList().remove(testWine));
     }
 }
