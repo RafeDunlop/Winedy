@@ -1,8 +1,7 @@
-package seng202.team3.guiservice;
+package seng202.team3.services;
 
-import seng202.team3.WineDrinkerManager;
 import seng202.team3.models.WineDrinker;
-import seng202.team3.services.WineDrinkerDAO;
+import seng202.team3.repository.WineDrinkerDAO;
 
 /**
  * Service class for the profile screen

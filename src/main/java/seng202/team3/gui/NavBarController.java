@@ -13,7 +13,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-import seng202.team3.WineDrinkerManager;
+import seng202.team3.services.WineDrinkerManager;
 
 
 /**

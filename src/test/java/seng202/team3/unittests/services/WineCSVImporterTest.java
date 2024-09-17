@@ -3,7 +3,7 @@ package seng202.team3.unittests.services;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import seng202.team3.models.Wine;
-import seng202.team3.services.WineCSVImporter;
+import seng202.team3.repository.WineCSVImporter;
 
 import java.io.InputStream;
 import java.util.List;
