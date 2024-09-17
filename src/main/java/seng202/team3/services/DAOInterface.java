@@ -1,7 +1,8 @@
 package seng202.team3.services;
 
+import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
+
 import java.util.List;
-import seng202.team3.exceptions.DuplicateEntryException;
 
 /**
  * Interface for Database Access Objects (DAOs) that provides common functionality for database access
@@ -13,20 +14,13 @@ public interface DAOInterface<T> {
      */
     List<T> getAll();
 
-//    /**
-//     * Gets a single object of type T from the database by id
-//     * @param id id of object to get
-//     * @return Object of type T that has id given
-//     */
-//    T getOne(int id);
 
     /**
      * Adds a single object of type T to database
      * @param toAdd object of type T to add
-     * @throws DuplicateEntryException if the object already exists
      * @return object insert id if inserted correctly
      */
-    int add(T toAdd) throws DuplicateEntryException;
+    int add(T toAdd) throws WineDrinkerAlreadyExistsException;
 
     /**
      * Deletes and object from database that matches id given
