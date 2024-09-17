@@ -4,10 +4,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.gui.MainWindow;
-import seng202.team3.services.DatabaseManager;
-import seng202.team3.services.WineDAO;
-
-import java.io.File;
+import seng202.team3.repository.DatabaseManager;
 
 /**
  * Default entry point class
