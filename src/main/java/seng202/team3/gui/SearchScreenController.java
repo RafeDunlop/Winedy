@@ -113,7 +113,7 @@ public class SearchScreenController {
             hbox.getChildren().add(button1);
 
             if (3 * i + 1 < searchResults.length) {
-                Button button2 = GuiService.generateWineButton(searchResults[2 * i  + 1], wineDetailsAnchorPane, 240, 240);
+                Button button2 = GuiService.generateWineButton(searchResults[3 * i  + 1], wineDetailsAnchorPane, 240, 240);
                 hbox.getChildren().add(button2);
             }
 

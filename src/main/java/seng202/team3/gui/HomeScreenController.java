@@ -5,47 +5,37 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.image.ImageView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team3.services.WineDrinkerManager;
 
 /**
  * Used by JavaFX as the controller for home_screen.fxml
+ *
  * @author Krishna Sridhar (nsr36)
  */
 public class HomeScreenController {
 
-    /*
-     * Button that is clicked to open the wine search screen
+    /**
+     * Logger for logging successful screen loading
      */
+    private static final Logger log = LogManager.getLogger(HomeScreenController.class);
+
     @FXML
     private Button searchButton;
 
-    /*
-     * Button that is clicked to open the profile screen. First opens the sign in screen if not logged in.
-     */
     @FXML
     private Button profileButton;
 
-    /*
-     * Button that is clicked to open the help screen.
-     */
     @FXML
     private Button helpButton;
 
-    /*
-     * Rectangle located behind the Winedy title. Purely for style.
-     */
     @FXML
     private Rectangle titleBackgroundRectangle;
 
-    /*
-     * Image view located on the titleBackgroundRectangle. Is initialized to contain the Image of the Winedy title.
-     */
     @FXML
     ImageView winedyImageView;
 
-    /*
-     * Rectangle located behind the Buttons. Purely for style.
-     */
     @FXML
     private Rectangle homeButtonsRectangle;
 
@@ -63,6 +53,8 @@ public class HomeScreenController {
         titleBackgroundRectangle.getStyleClass().add("white-wine-rectangle");
         homeButtonsRectangle.getStyleClass().add("red-wine-rectangle");
         winedyImageView.setImage(new Image("/images/winedy_logo.png"));
+
+        log.info("HomeScreen initialized");
     }
 
     /**

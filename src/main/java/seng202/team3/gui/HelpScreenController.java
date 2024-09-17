@@ -11,94 +11,57 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * Used by JavaFX as the controller for help_screen.fxml
+ *
  * @author Hannah Botting (hbo51)
  */
 public class HelpScreenController {
 
-    /*
-     * Logger for logging!
+    /**
+     * Logger for robust error logging
      */
     private static final Logger log = LogManager.getLogger(HelpScreenController.class);
 
-    /*
-     * The rectangle behind the table of contents.
-     */
     @FXML
-    Rectangle contentsRectangle;
+    private Rectangle contentsRectangle;
 
-    /*
-     * The rectangle behind the help information.
-     */
     @FXML
-    Rectangle informationRectangle;
+    private Rectangle informationRectangle;
 
-    /*
-     * Button within the table of contents that links to the 'About Winedy' section.
-     */
     @FXML
-    Button aboutWinedyButton;
+    private Button aboutWinedyButton;
 
-    /*
-     * Button within the table of contents that links to the 'How to use Winedy' section.
-     */
     @FXML
-    Button howToUseWinedyButton;
+    private Button howToUseWinedyButton;
 
-    /*
-     * Button within the table of contents that links to the 'Sign-in' section.
-     */
     @FXML
-    Button signinButton;
+    private Button signinButton;
 
-    /*
-     * Button within the table of contents that links to the 'Create an Account' section.
-     */
     @FXML
-    Button createAnAccountButton;
+    private Button createAnAccountButton;
 
-    /*
-     * ScrollPane that contains the VBox that contains the table of contents.
-     */
     @FXML
-    ScrollPane contentsScrollPane;
+    private ScrollPane contentsScrollPane;
 
-    /*
-     * ScrollPane that contains the VBox that contains the help information.
-     */
     @FXML
-    ScrollPane informationScrollPane;
+    private ScrollPane informationScrollPane;
 
-    /*
-     * VBox that contains the help information.
-     */
     @FXML
-    VBox informationVBox;
+    private VBox informationVBox;
 
-    /*
-     * Label that contains the text of the About Winedy section
-     */
     @FXML
-    Label aboutWinedyLabel;
+    private Label aboutWinedyLabel;
 
-    /*
-     * Label that contains the text of the Create an Account section
-     */
     @FXML
-    Label createAnAccountLabel;
+    private Label createAnAccountLabel;
 
-    /*
-     * Label that contains the text of the Sign-in section
-     */
     @FXML
-    Label signinLabel;
+    private Label signinLabel;
 
     /**
      * Method used by JavaFX when initialising the Help Screen.
      */
     @FXML
     public void initialize() {
-        log.info("Help Screen loaded.");
-
         try {
             contentsRectangle.getStyleClass().add("white-wine-rectangle");
             informationRectangle.getStyleClass().add("red-wine-rectangle");
@@ -118,6 +81,7 @@ public class HelpScreenController {
             aboutWinedyLabel.setText(GuiService.getContentFromFile("/text/about_winedy.txt"));
             createAnAccountLabel.setText(GuiService.getContentFromFile("/text/create_an_account.txt"));
             signinLabel.setText(GuiService.getContentFromFile("/text/sign_in.txt"));
+            log.info("Help Screen loaded.");
         } catch (Exception e) {
             log.error("Error loading txt files. Did you misspell their path", e);
         }
