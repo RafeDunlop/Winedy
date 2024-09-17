@@ -1,10 +1,10 @@
-package seng202.team3.services;
+package seng202.team3;
 
 
 //import seng202.team3.io.Importable;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
-import seng202.team3.repository.WineDAO;
+import seng202.team3.services.WineDAO;
 
 //import java.io.File;
 import java.util.Arrays;

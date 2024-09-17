@@ -1,5 +1,6 @@
-package seng202.team3.services;
+package seng202.team3.guiservice;
 
+import seng202.team3.WineDrinkerManager;
 import seng202.team3.exceptions.IllegalWineDrinkerException;
 
 

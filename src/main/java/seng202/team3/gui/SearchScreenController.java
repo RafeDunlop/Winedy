@@ -14,7 +14,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.RangeSlider;
-import seng202.team3.services.WineManager;
+import seng202.team3.WineManager;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
 

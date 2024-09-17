@@ -1,4 +1,4 @@
-package seng202.team3.repository;
+package seng202.team3.services;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;

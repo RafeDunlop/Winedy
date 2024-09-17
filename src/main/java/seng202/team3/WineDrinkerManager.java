@@ -1,11 +1,11 @@
-package seng202.team3.services;
+package seng202.team3;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
 import seng202.team3.exceptions.IllegalWineDrinkerException;
 import seng202.team3.models.WineDrinker;
-import seng202.team3.repository.WineDrinkerDAO;
+import seng202.team3.services.WineDrinkerDAO;
 
 /** Singleton manager for interactions involving wineDrinker
  * WineDrinkerManager class to handle all actions for wine drinkers. This acts as an MVC controller taking requests

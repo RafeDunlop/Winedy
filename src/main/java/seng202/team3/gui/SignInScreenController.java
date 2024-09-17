@@ -9,8 +9,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import seng202.team3.services.WineDrinkerManager;
-import seng202.team3.services.SignInScreenService;
+import seng202.team3.WineDrinkerManager;
+import seng202.team3.guiservice.SignInScreenService;
 import seng202.team3.exceptions.IllegalWineDrinkerException;
 import seng202.team3.models.WineDrinker;
 

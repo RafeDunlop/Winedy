@@ -1,4 +1,4 @@
-package seng202.team3.repository;
+package seng202.team3.services;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

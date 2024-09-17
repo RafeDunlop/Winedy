@@ -96,7 +96,7 @@
          <Label layoutX="722.0" layoutY="104.0" text="Variety" />
          <ComboBox fx:id="varietyPreferenceComboBox" layoutX="686.0" layoutY="125.0" prefHeight="25.0" prefWidth="118.0" />
          <Label layoutX="507.0" layoutY="167.0" text="ABV Limit (Alcohol by Volume %)" />
-         <Slider fx:id="abvLimitSlider" layoutX="445.0" layoutY="193.0" majorTickUnit="5.0" max="25.0" maxWidth="300.0" minWidth="300.0" minorTickCount="4" prefHeight="14.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="25.0" />
+         <Slider fx:id="abvLimitSlider" layoutX="445.0" layoutY="193.0" majorTickUnit="5.0" max="25.0" maxWidth="300.0" minWidth="300.0" minorTickCount="4" prefHeight="14.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
          <Button layoutX="511.0" layoutY="277.0" maxWidth="168.0" minWidth="100.0" mnemonicParsing="false" onAction="#onCreateAccountButtonClicked" prefHeight="24.0" prefWidth="168.0" text="Create account" />
       </AnchorPane>
    </GridPane>

@@ -1,4 +1,4 @@
-package seng202.team3.repository;
+package seng202.team3.services;
 
 import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
 

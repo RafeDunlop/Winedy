@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.image.ImageView;
-import seng202.team3.services.WineDrinkerManager;
+import seng202.team3.WineDrinkerManager;
 
 /**
  * Used by JavaFX as the controller for home_screen.fxml

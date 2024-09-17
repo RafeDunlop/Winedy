@@ -2,8 +2,9 @@ package seng202.team3.unittests;
 
 import org.junit.After;
 import org.junit.jupiter.api.*;
+import seng202.team3.services.DatabaseManager;
+
 import java.io.File;
-import seng202.team3.repository.DatabaseManager;
 import java.lang.reflect.Field;
 import java.sql.*;
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,4 +1,0 @@
-This is a Junit test.
-
-
-Hello World!

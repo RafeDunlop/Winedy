@@ -4,15 +4,11 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import seng202.team3.gui.FXWrapper;
 import seng202.team3.gui.HelpScreenController;
 import seng202.team3.models.Wine;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
@@ -27,7 +23,6 @@ import static javafx.scene.control.ContentDisplay.TOP;
  * @author Hannah Botting (hbo51)
  */
 public final class GuiService {
-    private static final Logger log = LogManager.getLogger(GuiService.class);
 
     /**
      * Returns the content of the file at the given path as a String
@@ -35,12 +30,10 @@ public final class GuiService {
      * @return A String of the file content at the given path
      */
     public static String getContentFromFile(String filePath) {
-        try (InputStream inputStream = Objects.requireNonNull(GuiService.class.getResourceAsStream(filePath))) {
-            return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            log.error("IO Exception occured");
-            return null;
-        }
+        return new BufferedReader(
+                new InputStreamReader(Objects.requireNonNull(HelpScreenController.class.getResourceAsStream(filePath)), StandardCharsets.UTF_8))
+                .lines()
+                .collect(Collectors.joining("\n"));
     }
 
     /**
