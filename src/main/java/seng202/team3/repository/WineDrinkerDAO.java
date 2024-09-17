@@ -82,7 +82,7 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
      *
      * @param toAdd object of type T to add 
      * @return the insert id associated with a wine drinker
-     * @throws WineDrinkerAlreadyExistsException
+     * @throws WineDrinkerAlreadyExistsException if method is called with a WineDrinker with a username that already exists
      */
     @Override
     public int add(WineDrinker toAdd) throws WineDrinkerAlreadyExistsException {
@@ -106,11 +106,10 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
             }
             return insertId;
         } catch (SQLException sqlException) {
-            System.out.println("Exception here = " + sqlException);
             if (sqlException.getErrorCode() == 19) {
                 throw new WineDrinkerAlreadyExistsException("An account with this username already exists");
             }
-            log.error(sqlException);
+            log.error(sqlException.getMessage(), sqlException);
             return -1;
         }
     }
