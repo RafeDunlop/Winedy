@@ -3,8 +3,6 @@ package seng202.team3.unittests.gui;
 import org.junit.jupiter.api.Test;
 import seng202.team3.gui.GuiService;
 
-import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
