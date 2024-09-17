@@ -10,10 +10,13 @@ import javafx.scene.layout.AnchorPane;
 
 /**
  * Controller for the profile_list_view_screen.fxml window
- * @author
+ * Not implemented in deliverable 2 (coming in deliverable 3)
+ * Will display the contents of a user's list
+ *
+ * @author Krishna Sridhar (nsr36)
  */
-
 public class ProfileListViewScreenController {
+
     @FXML
     private Button goBackButton;
 
@@ -35,18 +38,21 @@ public class ProfileListViewScreenController {
     @FXML
     private TextField wineListNameTextField;
 
+    /**
+     * method called when the back button is clicked
+     */
     @FXML
-    void onGoBackButtonClicked(ActionEvent event) {
+    private void onGoBackButtonClicked() {}
 
-    }
-
+    /**
+     * method called when the remove all button is clicked
+     */
     @FXML
-    void onRemoveAllButtonClicked(ActionEvent event) {
+    private void onRemoveAllButtonClicked() {}
 
-    }
-
+    /**
+     * method called when the rename button is clicked
+     */
     @FXML
-    void onRenameButtonClicked(ActionEvent event) {
-
-    }
+    void onRenameButtonClicked() {}
 }

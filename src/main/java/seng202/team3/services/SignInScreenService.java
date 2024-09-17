@@ -4,13 +4,18 @@ import seng202.team3.exceptions.IllegalWineDrinkerException;
 
 
 /**
- * A service class for the sign in screen
- * used by SignInScreenController
- *  handles logic for sign in
- *  Author/s Steven Leishman (sle159)
+ * A service class for the sign in screen used by SignInScreenController handles logic for sign in
+ *
+ *  @author Steven Leishman (sle159)
  */
 public class SignInScreenService {
+    /**
+     * WineDrinkerManager to handle wine drinker related tasks
+     */
     private WineDrinkerManager wineDrinkerManager;
+    /**
+     * Regular expression string to define the valid characters for the username and password
+     */
     private final String regex = "^[a-zA-Z0-9]{5,16}$";
 
     public SignInScreenService() {
@@ -18,6 +23,7 @@ public class SignInScreenService {
     }
     /**
      * does nothing as long as the inputted passwords are matching
+     *
      * @throws IllegalWineDrinkerException thrown if the passwords do not match
      */
     public void validateRegisteringPasswords(String password1, String password2) throws IllegalWineDrinkerException {
@@ -30,6 +36,7 @@ public class SignInScreenService {
 
     /**
      * Matches inputted string to predefined regex
+     *
      * @param inputString string to be matched
      * @return true if string matches regex, otherwise false
      */
@@ -39,6 +46,7 @@ public class SignInScreenService {
 
     /**
      * Checks the inputted username against a regex and if it is not already in use
+     *
      * @param username string username to compare
      * @throws IllegalWineDrinkerException thrown if username does not pass checks
      */
@@ -52,6 +60,7 @@ public class SignInScreenService {
 
     /**
      * Validate username and password for login details
+     *
      * @param username username to validate
      * @param password password to validate
      * @throws IllegalWineDrinkerException thrown if details don't match regex

@@ -11,15 +11,28 @@ import java.sql.*;
 
 /**
  * Wine Drinker DAO class that handles all user related actions to the database
+ *
+ * @author Steven Leishman (sle159)
  */
 public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
+
+    /**
+     * Database manager instance to manage database connections
+     */
     private final DatabaseManager database;
+
+    /**
+     * Logger for robust error logging
+     */
     private static final Logger log = LogManager.getLogger(WineDrinkerDAO.class);
 
+    /**
+     *  Creates a WineDrinkerDAO object and gets a reference to the database singleton
+     */
     public WineDrinkerDAO(){database = DatabaseManager.getInstance();}
 
     /**
-     * @return 
+     * TODO: implement for deliverable 3
      */
     @Override
     public List<WineDrinker> getAll() {
@@ -30,6 +43,7 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
 
     /**
      * Gets a WineDrinker object from the database based on their username
+     *
      * @param username unique username to identify a WineDrinker
      * @return the wine drinker that has been fetched from the database
      */
@@ -62,8 +76,10 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
     }
 
     /**
+     * Adds Wine Drinker to the database
+     *
      * @param toAdd object of type T to add 
-     * @return
+     * @return the insert id associated with a wine drinker
      * @throws WineDrinkerAlreadyExistsException
      */
     @Override
@@ -95,31 +111,22 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
         }
     }
 
-    /**
-     * @param username username of record to delete
-     */
-
-    public void deleteByUsername(String username) {
-        String sqlQuery = "DELETE FROM wineDrinker WHERE username=?";
-        try(Connection conn = database.connect();
-            PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
-            preparedStatement.setString(1, username);
-            preparedStatement.executeUpdate();
-        } catch (SQLException sqlException) {
-            System.out.println("Exception here = " + sqlException);
-        }
-    }
 
     /**
-     * Delete object by ID TODO this is redudant, but required by our DAO interface
+     * Delete object by ID
+     *
      * @param id id of object to delete
      */
     @Override
-    public void delete(int id ){}
+    public void delete(int id ){
+        throw new NotImplementedException("WineDrinkerDAO get all method not yet implemented");
+    }
 
 
     /**
-     * @param user User that needs to be updated (this object must be able to identify itself and its previous self)
+     * Updates the Wine Drinker's details
+     *
+     * @param user User that has updated preferences and needs their data stored in the database to be documents
      */
     @Override
     public void update(WineDrinker user) {

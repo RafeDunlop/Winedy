@@ -14,9 +14,9 @@ import javafx.scene.input.KeyCode;
 
 /**
  * Controller for the profile_screen.fxml window
+ *
  * @author Steven Leishman (sle159)
  */
-
 public class ProfileScreenController {
     private WineDrinkerManager wineDrinkerManager;
     private ProfileScreenService profileScreenService;
@@ -59,7 +59,7 @@ public class ProfileScreenController {
      *
      */
     @FXML
-    void onEditUsernameButtonClicked() {
+    public void onEditUsernameButtonClicked() {
         usernameTextField.setEditable(true);
         editUsernameButton.setText("Save New Username");
         editUsernameButton.setOnAction(e->{saveUsernameInfo();});

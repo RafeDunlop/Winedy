@@ -24,75 +24,41 @@ public class SignInScreenController {
     private SignInScreenService signInScreenService;
     private WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
 
-    /**
-     *slider to select maximum Alcohol By Volume user's would like to see appear
-     */
+
     @FXML
     private Slider abvLimitSlider;
 
-     /**
-      *combobox for selecting red/white
-      */
     @FXML
     private ComboBox<String> colourPreferenceComboBox;
 
-    /**
-    field for entering password
-     */
     @FXML
     private PasswordField enterPasswordField;
 
-    /**
-    comboBox for selecting the fullness of your preferred wines
-     */
     @FXML
     private ComboBox<String> fullnessPreferenceComboBox;
 
-    /**
-    button clicked upon logging in
-     */
     @FXML
     private Button loginButton;
 
-    /**
-    label for explaining register/login (toggle) button
-     */
     @FXML
     private Label toggleLabel;
 
-    /**
-    anchorPane for all preference-related FX components (to disable/enable in tandem)
-     */
     @FXML
     private AnchorPane preferencesAnchorPane;
 
-    /**
-    TextField for re-entering password in register mode
-     */
     @FXML
     private PasswordField reEnterPasswordField;
 
-    /**
-    Label for explaining reEnterPasswordField. Stored to disable in login mode
-     */
     @FXML
     private Label reEnterPasswordLabel;
 
-    /**
-    Button for switching between register and login mode
-     */
+
     @FXML
     private Button toggleSignInButton;
 
-    /**
-    TextField for enterring user's username
-     */
     @FXML
     private TextField usernameTextField;
 
-    /**
-    ComboBox for variety selection
-     */
     @FXML
     private ComboBox<String> varietyPreferenceComboBox;
 
