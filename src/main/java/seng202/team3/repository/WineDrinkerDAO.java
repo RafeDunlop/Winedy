@@ -31,7 +31,6 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
     /**
      *  Creates a WineDrinkerDAO object and gets a reference to the database singleton
      */
-    public WineDrinkerDAO(){database = DatabaseManager.getInstance();}
     public WineDrinkerDAO(String url){database = DatabaseManager.getInstance(url);}
 
     /**
