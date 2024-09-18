@@ -28,6 +28,7 @@ We have also included a basic setup of the Gradle project and Tasks required for
 - Build plugins:
     - JavaFX Gradle plugin for working with (and packaging) JavaFX applications easily
 
+The app only requires the jar file to run. When the jar file is run, the database is created automatically in the same location as the jar file. If the user moves the jar file to a different location, the app will recognise that the database no longer exists and create a new database in the new location.
 
 ## Importing Project (Using IntelliJ)
 IntelliJ has built-in support for Gradle. To import your project:
