@@ -42,7 +42,7 @@ public class SearchStepDefinitions {
 
     @When("search with the phrase {string}")
     public void searchWithPhrase(String phrase) {
-        keywords = List.of(phrase.split(" "));
+        this.keywords = List.of(phrase.split(" "));
         SearchWineList searchWineList = wineDAO.searchWines(keywords, null, null, null, null, null, null, null, null);
         addWines(searchWineList);
     }
@@ -84,6 +84,8 @@ public class SearchStepDefinitions {
                 matching++;
             }
         }
+        System.out.println(searchWineList.getWineList().size());
+        System.out.println(matching);
         assertTrue(searchWineList.getWineList().size() == matching);
     }
 }
