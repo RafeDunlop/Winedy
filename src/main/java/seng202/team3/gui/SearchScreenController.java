@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -146,6 +147,7 @@ public class SearchScreenController {
         int rows = (length % 3 == 0)? length / 3 : length / 3 + 1;
         if (length == 0) {
             Label noSearchResultsLabel = new Label("No Wines were found for your search!");
+            searchResultsVBox.setAlignment(Pos.CENTER);
             searchResultsVBox.getChildren().add(noSearchResultsLabel);
         }
         for (int i = 0; i < rows; i++) {
