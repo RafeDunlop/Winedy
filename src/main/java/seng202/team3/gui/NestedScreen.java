@@ -1,11 +1,12 @@
 package seng202.team3.gui;
 
 /**
- *enum detailing necessary field for LoadNestedScreen method in FXWrapper. Used for loading nested screens
+ * enum detailing necessary field for LoadNestedScreen method in FXWrapper. Used for loading nested screens
  *
- *@author Rafe Dunlop (rdu46), Krishna Sridhar (nsr36)
+ * @author Rafe Dunlop (rdu46)
  */
 public enum NestedScreen {
+
     WINE("individual_wine_view.fxml");
 
     /**
@@ -13,6 +14,10 @@ public enum NestedScreen {
      */
     public final String file;
 
+    /**
+     * enum constructor for NestedScreen.
+     * @param fxmlFile the name of the fxml file "i.e. screen.fxml"
+     */
     NestedScreen(String fxmlFile) {
         this.file = fxmlFile;
     }

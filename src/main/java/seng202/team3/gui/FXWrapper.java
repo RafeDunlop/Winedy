@@ -12,6 +12,7 @@ import java.io.IOException;
 
 /**
  * Contains all methods for loading JavaFX classes
+ *
  * @author Rafe Dunlop (rdu46)
  */
 public class FXWrapper {
@@ -22,7 +23,7 @@ public class FXWrapper {
     private AnchorPane screenPane;
 
     /**
-     *
+     *Logger for robust error logging
      */
     private static final Logger log = LogManager.getLogger(FXWrapper.class);
 
@@ -92,6 +93,12 @@ public class FXWrapper {
         }
     }
 
+    /**
+     * method for loading screens which are nested within other screens
+     * this method is unused for deliverable two but will be used in later releases
+     * @param toNest the Pane object that the screen is loaded into
+     * @param toLoad a member of the NestedScreen enum which specifies teh screen to be loaded
+     */
     public void loadNestedScreen(Pane toNest, NestedScreen toLoad) {
         try {
            FXMLLoader screenLoader = new FXMLLoader(getClass().getResource("/fxml/" + toLoad.file));
@@ -102,6 +109,12 @@ public class FXWrapper {
             log.error(e);
         }
     }
+
+    /**
+     * loads the screen onto which the wine details are displayed
+     * @param toNest the Pane to load the wine details onto
+     * @param wineToDisplay the wine to be passed to the constructor so that its information can be displayed
+     */
     public void loadIndividualWineView(Pane toNest, Wine wineToDisplay) {
         try {
             FXMLLoader individualWineViewLoader = new FXMLLoader(getClass().getResource("/fxml/individual_wine_view.fxml"));
@@ -110,7 +123,6 @@ public class FXWrapper {
             clearPane(toNest);
             toNest.getChildren().add(leaf);
         } catch (IOException e) {
-            e.printStackTrace();
             log.error(e);
         }
     }

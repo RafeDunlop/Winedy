@@ -13,6 +13,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team3.services.WineDrinkerManager;
 
 
@@ -20,98 +22,71 @@ import seng202.team3.services.WineDrinkerManager;
  controller for the navigation bar (nav_bar.fxml)
  which is the container for all screens except for the landing screen
  (currently only contains features for demonstration)
+
  @author Rafe Dunlop (rdu46)
  */
 public class NavBarController {
 
-    /*
-     * The container for all screens featuring the navigation bar
+    /**
+     * Logger for robust error logging
      */
+    private static final Logger log = LogManager.getLogger(NavBarController.class);
+
     @FXML
     private AnchorPane screenPane;
 
-    /*
-     * Button clicked to go to the Home screen
-     */
     @FXML
     private Button homeButton;
 
-    /*
-     * Button clicked to go to the Search screen
-     */
     @FXML
     private Button searchButton;
 
-    /*
-     * Button clicked to go to the Profile screen
-     */
     @FXML
     private Button profileButton;
 
-    /*
-     * Button clicked to open the full navigation bar
-     */
     @FXML
     private Button navigationButton;
 
-    /*
-     * Button clicked to go to the Help screen
-     */
     @FXML
     private Button helpButton;
 
-    /*
-     * Button clicked to reload the screen
-     */
     @FXML
-    private Button reloadButton;
+    private Button reloadButton; // to be implemented  for deliverable 3 (currently does nothing)
 
-    /*
-     * HBox that contains all the hidden navigation buttons
-     */
     @FXML
     private HBox buttonHBox;
 
-    /*
-     * Rectangle located behind the Nav Bar buttons
-     */
     @FXML
     private Rectangle navBarRectangle;
 
-    /*
-     * The currently active screen; stored to not reload a page when clicked
-     */
     private Screen selectedScreen;
 
-    /*
-     * Stores whether the nav bar is currently expanded
-     */
     private boolean expanded = false;
 
-    /*
+    /**
      * PauseTransition used by the navigation button to delay its on mouse entered action.
      */
-    PauseTransition expansionHoverPause;
+    private PauseTransition expansionHoverPause;
 
-    /*
+    /**
      * ImageView used as the graphic of the search button, used by expandNavBar() and closeNavBar() to animate the Nav Bar.
      */
-    ImageView searchButtonImageView;
+    private ImageView searchButtonImageView;
 
-    /*
+    /**
      * ImageView used as the graphic of the profile button, used by expandNavBar() and closeNavBar() to animate the Nav Bar.
      */
-    ImageView profileButtonImageView;
+    private ImageView profileButtonImageView;
 
-    /*
+    /**
      * ImageView used as the graphic of the reload button, used by expandNavBar() and closeNavBar() to animate the Nav Bar.
      */
-    ImageView reloadButtonImageView;
+    private ImageView reloadButtonImageView;
 
-    /*
+    /**
      * ImageView used as the graphic of the help button, used by expandNavBar() and closeNavBar() to animate the Nav Bar.
      */
-    ImageView helpButtonImageView;
+    private ImageView helpButtonImageView;
 
     /**
      * Method used by JavaFX when initialising the Nav Bar.
@@ -149,6 +124,7 @@ public class NavBarController {
                 expanded = false;
             }
         });
+        log.info("Navbar successfully loaded");
     }
 
     /**
@@ -223,7 +199,7 @@ public class NavBarController {
     }
 
     /**
-     * Animates the compression of the Nav Bar
+     * Animates the compression of the Nav Bar using a Timeline and Keyframe
      */
     private void closeNavBar() {
         Timeline timeline = new Timeline();
@@ -252,7 +228,7 @@ public class NavBarController {
     }
 
     /**
-     * Used by JavaFX as the onMouseEntered of navigationButton.
+     * Used by JavaFX as the onMouseEntered of navigationButton. Starts the PauseTransition
      */
     @FXML
     private void onNavigationMouseEntered() {
@@ -267,6 +243,13 @@ public class NavBarController {
         expansionHoverPause.stop();
     }
 
+    /**
+     * method for setting up a button with an icon image and stylesheet
+     * @param button the Button on which to load images and the stylesheet
+     * @param imagePath the relative path of the image to be loaded ont the button as its icon
+     * @param isInvisible boolean, whether to set the button's image to be visible
+     * @return the ImageView associated with the button
+     */
     private ImageView setUpNavButton(Button button, String imagePath, boolean isInvisible) {
         button.getStyleClass().add("nav-bar-button");
         button.setText("");

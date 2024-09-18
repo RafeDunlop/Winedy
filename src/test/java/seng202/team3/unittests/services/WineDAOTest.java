@@ -1,15 +1,17 @@
 package seng202.team3.unittests.services;
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
 import seng202.team3.repository.WineDAO;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the WineDAO service class
@@ -19,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class WineDAOTest {
     private final int CSV_LENGTH = 473;
     private final int HIGHEST_ID = 782;
-    private WineDAO wineDAO = new WineDAO("jdbc:sqlite:./src/test/resources/test_database.db");
+    private final WineDAO wineDAO = new WineDAO("jdbc:sqlite:./src/test/resources/test_database.db");
 
     private final Wine WINE_1 = new Wine(
             HIGHEST_ID + 1,
@@ -50,10 +52,22 @@ public class WineDAOTest {
             75,
             2018);
 
+    @AfterAll
+    public static void cleanUp() {
+        File file = new File("./src/test/resources/test_database.db");
+        file.delete();
+    }
     @Test
-    void testAdd() {
+    void testAddUniqueWine() {
         int insertId = wineDAO.add(WINE_1);
         assertEquals(HIGHEST_ID + 1, insertId);
+        wineDAO.delete(insertId);
+    }
+
+    @Test
+    void testAddNonUniqueWine() {
+        int insertId = wineDAO.add(WINE_1);
+        assertDoesNotThrow(() -> wineDAO.add(WINE_1));
         wineDAO.delete(insertId);
     }
 
@@ -68,7 +82,7 @@ public class WineDAOTest {
     }
 
     @Test
-    void testGetWineByID() {
+    void testGetExistingWineByID() {
         int insertId = wineDAO.add(WINE_1);
         Wine retrievedWine = wineDAO.getWineByID(insertId);
         assertEquals(WINE_1.getLongDescription(), retrievedWine.getLongDescription());
@@ -76,10 +90,21 @@ public class WineDAOTest {
     }
 
     @Test
-    void testDelete() {
+    void testGetNonExistingWineByID() {
+        Wine retrievedWine = wineDAO.getWineByID(HIGHEST_ID + 1);
+        assertNull(retrievedWine);
+    }
+
+    @Test
+    void testDeleteExistingWine() {
         int insertId = wineDAO.add(WINE_2);
         wineDAO.delete(insertId);
         assertNull(wineDAO.getWineByID(insertId));
+    }
+
+    @Test
+    void testDeleteNonExistingWine() {
+        assertDoesNotThrow(() -> wineDAO.delete(WINE_2.getUniqueWineID()));
     }
 
     @Test
@@ -91,4 +116,10 @@ public class WineDAOTest {
         wineDAO.delete(insertId);
     }
 
+    @Test
+    void testSearchWinesNoKeywordsAndFilters() {
+        List<String> keywords = new ArrayList<>();
+        SearchWineList searchWineList = wineDAO.searchWines(keywords, null, null, 0.0f, 220.0f, null, null, null, null);
+        assertEquals(CSV_LENGTH, searchWineList.getWineList().size());
+    }
 }
