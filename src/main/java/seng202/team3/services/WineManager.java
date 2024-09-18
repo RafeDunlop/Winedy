@@ -22,7 +22,7 @@ public class WineManager {
     /**
      * Wine DAO instance to handle database related actions with a Wine
      */
-    private final WineDAO wineDAO;
+    private WineDAO wineDAO;
     /**
      * Singleton instance of WineManager
      */
