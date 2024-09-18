@@ -47,9 +47,9 @@ public class MainWindow extends Application {
                 "/css/nav_bar_rectangle.css",
                 "/css/red_wine_button.css",
                 "/css/red_wine_rectangle.css",
-                "/css/red_wine_button.css",
                 "/css/white_wine_rectangle.css",
-                "/css/white_wine_scroll_pane.css"
+                "/css/white_wine_scroll_pane.css",
+                "/css/red_wine_scroll_pane.css"
         };
         try {
             for (String cssFilePath : cssPaths) {

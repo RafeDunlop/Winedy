@@ -15,7 +15,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.SearchScreenController">
    <children>
-      <GridPane fx:id="searchScreenGridPane" prefHeight="720.0" prefWidth="1200.0">
+      <GridPane prefHeight="720.0" prefWidth="1200.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="800.0" minWidth="800.0" prefWidth="800.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="10.0" prefWidth="400.0" />
@@ -31,7 +31,7 @@
                   <Insets right="170.0" top="25.0" />
                </GridPane.margin>
             </TextField>
-            <Button fx:id="searchButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onSearchButtonClicked" prefWidth="100.0" text="Search" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+            <Button maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onSearchButtonClicked" prefWidth="100.0" text="Search" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets right="20.0" top="25.0" />
                </GridPane.margin>
@@ -72,11 +72,6 @@
                   <Insets left="80.0" />
                </GridPane.margin>
             </Label>
-            <RangeSlider fx:id="priceRangeSlider" blockIncrement="1.0" highValue="50.0" highValueChanging="true" lowValue="10.0" lowValueChanging="true" majorTickUnit="50.0" max="220.0" maxWidth="220.0" minorTickCount="4" prefHeight="16.0" prefWidth="200.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
-               <GridPane.margin>
-                  <Insets left="15.0" top="75.0" />
-               </GridPane.margin>
-            </RangeSlider>
             <ComboBox fx:id="fullnessComboBox" prefWidth="130.0">
                <GridPane.margin>
                   <Insets left="340.0" top="75.0" />
@@ -107,6 +102,11 @@
                   <Insets left="660.0" top="100.0" />
                </GridPane.margin>
             </ComboBox>
+            <RangeSlider fx:id="priceRangeSlider" blockIncrement="1.0" highValue="50.0" highValueChanging="true" lowValue="10.0" lowValueChanging="true" majorTickUnit="50.0" max="220.0" maxWidth="220.0" minorTickCount="4" prefHeight="16.0" prefWidth="200.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets left="15.0" top="75.0" />
+               </GridPane.margin>
+            </RangeSlider>
          </children>
       </GridPane>
    </children>

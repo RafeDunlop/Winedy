@@ -15,3 +15,6 @@ build/
 
 # Gradle
 .gradle/
+
+# Database - for test database
+*.db

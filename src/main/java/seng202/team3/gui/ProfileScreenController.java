@@ -1,6 +1,5 @@
 package seng202.team3.gui;
 
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -9,8 +8,6 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.ProfileScreenService;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.KeyCode;
 
 /**
  * Controller for the profile_screen.fxml window
@@ -18,8 +15,6 @@ import javafx.scene.input.KeyCode;
  * @author Steven Leishman (sle159)
  */
 public class ProfileScreenController {
-    private WineDrinkerManager wineDrinkerManager;
-    private ProfileScreenService profileScreenService;
 
     @FXML
     private Slider abvLimitSlider;
@@ -53,58 +48,22 @@ public class ProfileScreenController {
 
     @FXML
     private ComboBox<String> varietyPreferenceComboBox;
+    /**
+     * The current instance of WineDrinkerManager
+     */
+    private WineDrinkerManager wineDrinkerManager;
+    /**
+     * Instance of the ProfileScreenServiceClass, used for data validation
+     */
+    private ProfileScreenService profileScreenService;
 
     /**
-     * Changes textfield to an editable box and saves the username
-     *
+     * Method called by JavaFX when initialising the profile screen.
      */
-    @FXML
-    public void onEditUsernameButtonClicked() {
-        usernameTextField.setEditable(true);
-        editUsernameButton.setText("Save New Username");
-        editUsernameButton.setOnAction(e->{saveUsernameInfo();});
-        usernameTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if(keyEvent.getCode().equals(KeyCode.ENTER)) {
-                    saveUsernameInfo();
-                }
-            }
-        });
-    }
-
-    private void saveUsernameInfo(){
-        usernameTextField.setEditable(false);
-        editUsernameButton.setText("Edit Username");
-        editUsernameButton.setOnAction(e->{onEditUsernameButtonClicked();});
-    }
-
-    @FXML
-    void onNewListButtonClicked() {
-
-    }
-
-    @FXML
-    void onRemoveListButtonClicked() {
-
-    }
-    @FXML
-    void onLogoutButtonClicked(){
-        wineDrinkerManager.setCurrentUser(null);
-        //TODO Save data?
-        FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
-    }
-
-    @FXML
-    void onSavePreferencesButtonClicked(){
-        String colour = colourPreferenceComboBox.valueProperty().getValue();
-        String fullness = fullnessPreferenceComboBox.valueProperty().getValue();
-        String grapeVariety =  varietyPreferenceComboBox.valueProperty().getValue();
-        double abvLimit = abvLimitSlider.getValue();
-        profileScreenService.savePreferences(colour, fullness, grapeVariety, abvLimit);
-    }
-
     public void initialize() {
+        editUsernameButton.setDisable(true);  // Functionality for deliverable three
+        editUsernameButton.setOpacity(0);  // This is not currently fully implemented
+
         wineDrinkerManager = WineDrinkerManager.getInstance();
         profileScreenService = new ProfileScreenService();
         usernameTextField.setText(wineDrinkerManager.getCurrentUser().getUsername());
@@ -116,5 +75,37 @@ public class ProfileScreenController {
                 "Pinot Gris", "Malbec", "Shiraz", "Viognier", "Syrah", "Grenache", "Merlot", "Prosecco");
         varietyPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getGrapePreference());
         abvLimitSlider.setValue(wineDrinkerManager.getCurrentUser().getAbvLimit());
+    }
+
+    @FXML
+    void onNewListButtonClicked() {
+
+    }
+
+    @FXML
+    void onRemoveListButtonClicked() {
+
+    }
+
+    /**
+     * Removes the current logged-in user and launches the sign-in screen
+     */
+    @FXML
+    void onLogoutButtonClicked(){
+        wineDrinkerManager.setCurrentUser(null);
+        //TODO Save data?
+        FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
+    }
+
+    /**
+     * Saves the user preferences from the screen into the database
+     */
+    @FXML
+    void onSavePreferencesButtonClicked(){
+        String colour = colourPreferenceComboBox.valueProperty().getValue();
+        String fullness = fullnessPreferenceComboBox.valueProperty().getValue();
+        String grapeVariety =  varietyPreferenceComboBox.valueProperty().getValue();
+        double abvLimit = abvLimitSlider.getValue();
+        profileScreenService.savePreferences(colour, fullness, grapeVariety, abvLimit);
     }
 }
