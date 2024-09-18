@@ -72,10 +72,9 @@ public class SignInScreenService {
         } else if(!matchRegex(password)) {
             throw new IllegalWineDrinkerException("Password must be between 5 and 16 characters and must be alpha-numeric");
         }
-
     }
 
-    public void registerUser(String username, String password, String country, String colour, String fullness, String variety, int ABVLimit) throws IllegalWineDrinkerException{
+    public void registerUser(String username, String password, String country, String colour, String fullness, String variety, double ABVLimit) throws IllegalWineDrinkerException{
         try {
             WineDrinker curUser = new WineDrinker(username, password, country, colour, fullness, variety, ABVLimit);
             wineDrinkerManager.setCurrentUser(curUser);
