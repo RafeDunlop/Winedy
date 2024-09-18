@@ -22,7 +22,7 @@ public class WineManager {
     /**
      * Wine DAO instance to handle database related actions with a Wine
      */
-    private final WineDAO wineDAO;
+    private WineDAO wineDAO;
     /**
      * Singleton instance of WineManager
      */
@@ -124,5 +124,8 @@ public class WineManager {
                 .map(String::toLowerCase)
                 .distinct()
                 .toList();
+    }
+    public void setWineDAO(WineDAO wineDAO) {
+        this.wineDAO = wineDAO;
     }
 }

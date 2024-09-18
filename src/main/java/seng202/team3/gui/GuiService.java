@@ -24,7 +24,6 @@ import static javafx.scene.control.ContentDisplay.TOP;
  * A final service class for the GUI.
  * Used by the FXML Controller classes.
  * Contains a collection of static methods.
- *
  * @author Hannah Botting (hbo51)
  */
 public final class GuiService {
