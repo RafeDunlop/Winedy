@@ -3,12 +3,18 @@ package seng202.team3.cucumber.StepDefinitions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.jupiter.api.BeforeEach;
 import seng202.team3.models.WineDrinker;
 import seng202.team3.services.ProfileScreenService;
 import seng202.team3.services.SignInScreenService;
 import seng202.team3.services.WineDrinkerManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+/**
+ * Cucumber tests for AT_26 and AT_27 (updating user preferences)
+ * @author Krishna Sridhar
+ */
 
 public class UpdatePreferencesStepDefinitions {
     private String mockUsername;
@@ -35,8 +41,9 @@ public class UpdatePreferencesStepDefinitions {
 
     @Given("is on the profile screen")
     public void userIsOnSearchScreenWithDatabaseLoaded() {
-        wineDrinkerManager.getInstance();
-        signInScreenService.registerUser(mockUsername, "password", null, colourPreference, fullnessPreference, varietyPreference, abvLimitPreference);
+        wineDrinkerManager = WineDrinkerManager.getInstance();
+        WineDrinker wineDrinker = new WineDrinker(mockUsername, "password", null, colourPreference, fullnessPreference, varietyPreference, abvLimitPreference);
+        wineDrinkerManager.setCurrentUser(wineDrinker);
     }
 
     @When("Wine Drinker changes Colour to {string}, Fullness to {string}, Variety to {string} and AVB Limit to {double}%")
@@ -52,9 +59,9 @@ public class UpdatePreferencesStepDefinitions {
         profileScreenService.savePreferences(colourPreference, fullnessPreference, varietyPreference, abvLimitPreference);
     }
 
-    @Then("Wine Drinker’s new preference is stored as Colour: {string}, Fullness: {string}, Variety: {string} and ABV Limit: {double}%")
-    public void storedPreferences(String colourPreference, String fullnessPreference, String varietyPreference, double abvLimitPreference) {
-        WineDrinker wineDrinker = wineDrinkerManager.getWineDrinker(mockUsername);
+    @Then("Wine Drinker new preference is stored as Colour: {string}")
+    public void storedPreferences(String colourPreference) {
+        WineDrinker wineDrinker = wineDrinkerManager.getCurrentUser();
         assertEquals(wineDrinker.getColourPreference(), colourPreference);
     }
 }
