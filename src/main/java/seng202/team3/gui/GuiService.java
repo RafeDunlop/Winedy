@@ -27,6 +27,10 @@ import static javafx.scene.control.ContentDisplay.TOP;
  * @author Hannah Botting (hbo51)
  */
 public final class GuiService {
+
+    /**
+     * Logger for robust error logging
+     */
     private static final Logger log = LogManager.getLogger(GuiService.class);
 
     /**

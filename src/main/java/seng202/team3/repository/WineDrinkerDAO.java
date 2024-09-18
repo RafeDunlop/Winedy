@@ -1,4 +1,6 @@
 package seng202.team3.repository;
+import com.password4j.Hash;
+import com.password4j.Password;
 import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,15 +13,29 @@ import java.sql.*;
 
 /**
  * Wine Drinker DAO class that handles all user related actions to the database
+ *
+ * @author Steven Leishman (sle159)
  */
 public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
-    private final DatabaseManager database;
-    private static final Logger log = LogManager.getLogger(WineDrinkerDAO.class);
-
-    public WineDrinkerDAO(){database = DatabaseManager.getInstance();}
 
     /**
-     * @return 
+     * Database manager instance to manage database connections
+     */
+    private final DatabaseManager database;
+
+    /**
+     * Logger for robust error logging
+     */
+    private static final Logger log = LogManager.getLogger(WineDrinkerDAO.class);
+
+    /**
+     *  Creates a WineDrinkerDAO object and gets a reference to the database singleton
+     */
+    public WineDrinkerDAO(){database = DatabaseManager.getInstance();}
+    public WineDrinkerDAO(String url){database = DatabaseManager.getInstance(url);}
+
+    /**
+     * TODO: implement for deliverable 3
      */
     @Override
     public List<WineDrinker> getAll() {
@@ -30,6 +46,7 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
 
     /**
      * Gets a WineDrinker object from the database based on their username
+     *
      * @param username unique username to identify a WineDrinker
      * @return the wine drinker that has been fetched from the database
      */
@@ -53,30 +70,34 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
                 }
 
             }
-        } catch(SQLException sqlException) {
-            log.error(sqlException);
-            System.out.println("Exception here = " + sqlException);
+        } catch(SQLException e) {
+            log.error("Error retrieving user from database", e);
         }
 
         return retrievedWineDrinker;
     }
 
     /**
-     * @param toAdd object of type T to add 
-     * @return
-     * @throws WineDrinkerAlreadyExistsException
+     * Adds Wine Drinker to the database
+     *
+     * @param toAdd object of type T to add
+     * @return the insert id associated with a wine drinker
+     * @throws WineDrinkerAlreadyExistsException if method is called with a WineDrinker with a username that already exists
      */
     @Override
     public int add(WineDrinker toAdd) throws WineDrinkerAlreadyExistsException {
-        String sqlQuery = "INSERT INTO wineDrinker(username, password, countryPreference, colourPreference, fullnessPreference, grapePreference) values (?,?,?,?,?,?);";
+        String sqlQuery = "INSERT INTO wineDrinker(username, password, countryPreference, colourPreference, fullnessPreference, grapePreference, abvLimit) values (?,?,?,?,?,?,?);";
+        Hash hash = Password.hash(toAdd.getPassword()).withBcrypt();
+        String password = hash.getSalt()+":"+hash.getResult();
         try (Connection conn = database.connect();
             PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
             preparedStatement.setString(1, toAdd.getUsername());
-            preparedStatement.setString(2, toAdd.getPassword());
+            preparedStatement.setString(2, password);
             preparedStatement.setString(3, toAdd.getCountryPreference());
             preparedStatement.setString(4, toAdd.getColourPreference());
             preparedStatement.setString(5, toAdd.getFullnessPreference());
             preparedStatement.setString(6, toAdd.getGrapePreference());
+            preparedStatement.setDouble(7, toAdd.getAbvLimit());
 
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
@@ -85,41 +106,31 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
                 insertId = resultSet.getInt(1);
             }
             return insertId;
-        } catch (SQLException sqlException) {
-            System.out.println("Exception here = " + sqlException);
-            if (sqlException.getErrorCode() == 19) {
+        } catch (SQLException e) {
+            if (e.getErrorCode() == 19) {
                 throw new WineDrinkerAlreadyExistsException("An account with this username already exists");
             }
-            log.error(sqlException);
+            log.error("Error inserting user into database", e);
             return -1;
         }
     }
 
-    /**
-     * @param username username of record to delete
-     */
-
-    public void deleteByUsername(String username) {
-        String sqlQuery = "DELETE FROM wineDrinker WHERE username=?";
-        try(Connection conn = database.connect();
-            PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
-            preparedStatement.setString(1, username);
-            preparedStatement.executeUpdate();
-        } catch (SQLException sqlException) {
-            System.out.println("Exception here = " + sqlException);
-        }
-    }
 
     /**
-     * Delete object by ID TODO this is redudant, but required by our DAO interface
+     * Delete object by ID
+     *
      * @param id id of object to delete
      */
     @Override
-    public void delete(int id ){}
+    public void delete(int id ){
+        throw new NotImplementedException("WineDrinkerDAO get all method not yet implemented");
+    }
 
 
     /**
-     * @param user User that needs to be updated (this object must be able to identify itself and its previous self)
+     * Updates the Wine Drinker's details
+     *
+     * @param user User that has updated preferences and needs their data stored in the database to be documents
      */
     @Override
     public void update(WineDrinker user) {
@@ -133,8 +144,8 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
             preparedStatement.setDouble(5, user.getAbvLimit());
             preparedStatement.setString(6, user.getUsername());
             preparedStatement.executeUpdate();
-        } catch (SQLException sqlException) {
-            System.out.println("Exception here = " + sqlException);
+        } catch (SQLException e) {
+            log.error("Error updating user in database", e);
         }
 
     }

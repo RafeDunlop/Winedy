@@ -13,13 +13,19 @@ import java.util.List;
 
 
 /**
- * Class to handle all actions for sales. This acts as a MVC controller taking requests from the view and completing
- * these using relevant model/repository layer actions
- * @author Morgan English
+ * Class to handle all actions for Wines
+ *
+ * @author Sophia Copley (sco207)
  */
 public class WineManager {
-    private final WineDAO wineDAO;
 
+    /**
+     * Wine DAO instance to handle database related actions with a Wine
+     */
+    private WineDAO wineDAO;
+    /**
+     * Singleton instance of WineManager
+     */
     private static WineManager instance;
 
     /**
@@ -30,6 +36,10 @@ public class WineManager {
         wineDAO = new WineDAO();
     }
 
+    /**
+     * Get the singleton instance of WineManager
+     * @return instance of WineManager
+     */
     public static WineManager getInstance() {
         if (instance == null) {
             instance = new WineManager();
@@ -37,28 +47,11 @@ public class WineManager {
         return instance;
     }
 
-//    /**
-//     * Saves a file of sales to the repository layer using the specified importer functionality
-//     * TODO: handle errors gracefully
-//     * @param importer importer object to use
-//     * @param file file to be imported
-//     */
-//    public void addAllWinesFromFile(Importable<Wine> importer, File file) {
-//        List<Wine> wines = importer.readFromFile(file);
-//        int i = 0;
-//        while (i < wines.size()) {
-//            if (i + 100 > wines.size()) {
-//                wineDAO.addBatch(wines.subList(i, wines.size()));
-//            } else {
-//                wineDAO.addBatch(wines.subList(i, i + 100));
-//            }
-//            i += 100;
-//        }
-//    }
+
 
     /**
      * Adds a wine
-     *
+     * TODO use in deliverable 3 for the tracking consumption feature
      * @param wine wine to add
      * @return -1 if sale added without error
      */
@@ -69,7 +62,6 @@ public class WineManager {
 
     /**
      * Deletes a Wine
-     * todo work out how to get id for deletion, add id to sale model? add fetch id to saledao?
      *
      * @param wine wine to delete
      * @return true iff deleted, else false (what if it never existed?)
@@ -81,7 +73,6 @@ public class WineManager {
 
     /**
      * Gets all wines from repository layer
-     *
      * @return List of all wines
      */
     public List<Wine> getAllWines() {
@@ -100,6 +91,7 @@ public class WineManager {
 
     /**
      * Gets wine search results based on keywords put into the search bar and filters chosen by the wine drinker
+     *
      * @param searchBarInput the user input to the search bar.
      * @param minYear the earliest year a wine can be from, specified by the wine drinker
      * @param maxYear the latest year a wine can be from
@@ -117,9 +109,11 @@ public class WineManager {
         return wineDAO.searchWines(keywords, minYear, maxYear, minPrice, maxPrice, country, colour, fullness, grapeName);
     }
 
-    /*
-     Gets all the keywords from an input into the search bar.
-     This is based on the input into the search bar searchBarInput
+    /**
+     * Gets all the keywords from an input into the search bar.
+     * This is based on the input into the search bar searchBarInput
+     * @param searchBarInput String of input from the search bar
+     * @return List of words entered into the search bar
      */
     private List<String> getWordsFromSearchBar(String searchBarInput) { //perhaps keywordBank would be global
         if (searchBarInput.isEmpty()) {
@@ -130,5 +124,8 @@ public class WineManager {
                 .map(String::toLowerCase)
                 .distinct()
                 .toList();
+    }
+    public void setWineDAO(WineDAO wineDAO) {
+        this.wineDAO = wineDAO;
     }
 }

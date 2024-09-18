@@ -9,21 +9,23 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Objects;
 
 /**
  * Class starts the javaFX application window
+ *
  * @author seng202 teaching team
  */
 public class MainWindow extends Application {
+
+    /**
+     * Logger for robust error logging
+     */
     private static final Logger log = LogManager.getLogger(MainWindow.class);
 
     /**
      * Opens the gui with the fxml content specified in resources/fxml/main.fxml
+     * Adds the stylesheets to the scene
      * @param primaryStage The current fxml stage, handled by javaFX Application class
      * @throws IOException if there is an issue loading fxml file
      */
@@ -35,23 +37,30 @@ public class MainWindow extends Application {
         primaryStage.setTitle("Winedy");
         Scene scene = new Scene(root, 1200, 800);
 
+        String[] cssPaths = new String[]{
+                "/css/date_combo_box.css",
+                "/css/help_screen_contents_button.css",
+                "/css/home_screen_button.css",
+                "/css/home_screen_text.css",
+                "/css/individual_wine_view_scroll_pane.css",
+                "/css/nav_bar_button.css",
+                "/css/nav_bar_rectangle.css",
+                "/css/red_wine_button.css",
+                "/css/red_wine_rectangle.css",
+                "/css/white_wine_rectangle.css",
+                "/css/white_wine_scroll_pane.css",
+                "/css/red_wine_scroll_pane.css"
+        };
         try {
-            Path cssPath = Paths.get(Objects.requireNonNull(getClass().getResource("/css")).toURI());
-
-            Files.list(cssPath).forEach(path -> {
-                if (path.toString().endsWith(".css")) { // This should always be true but prevents errors from occurring if someone adds a non css file
-                    String cssFilePath = "/css/" + path.getFileName().toString();
-                    scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(cssFilePath)).toExternalForm());
-                }
-            });
+            for (String cssFilePath : cssPaths) {
+                scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(cssFilePath)).toExternalForm());
+            }
         } catch (NullPointerException e) {
-            log.error("Error loading CSS style sheets. Did you misspell the path?", e);
-        } catch (URISyntaxException e) {
-            log.error("A file could not be parsed as a URI reference.", e);
+            log.error("check for error in css paths", e);
         }
+            primaryStage.setScene(scene);
+            primaryStage.show();
 
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 
     /**
