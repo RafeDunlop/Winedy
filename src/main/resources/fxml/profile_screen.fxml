@@ -26,7 +26,7 @@
         </rowConstraints>
          <children>
             <ListView fx:id="searchListView" maxHeight="500.0" maxWidth="750.0" minHeight="500.0" minWidth="750.0" prefHeight="500.0" prefWidth="750.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <Button fx:id="editUsernameButton" maxWidth="170.0" minWidth="100.0" mnemonicParsing="false" onAction="#onEditUsernameButtonClicked" prefHeight="25.0" prefWidth="143.0" text="Edit Username" GridPane.valignment="CENTER">
+            <Button fx:id="editUsernameButton" maxWidth="170.0" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="143.0" text="Edit Username" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets left="50.0" top="50.0" />
                </GridPane.margin>
@@ -102,6 +102,20 @@
                   <Insets bottom="100.0" />
                </GridPane.margin>
             </Slider>
+            <Button fx:id="savePreferencesButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onSavePreferencesButtonClicked" text="Save Preferences" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <Button fx:id="logoutButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onLogoutButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Logout" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+               </GridPane.margin>
+            </Button>
+            <Label text="Coming soon..." GridPane.rowIndex="1" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="75.0" top="75.0" />
+               </GridPane.margin>
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
    </children>

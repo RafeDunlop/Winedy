@@ -1,12 +1,11 @@
 package seng202.team3.models;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 /**
  *This class represents a list of wines (stored as Wine objects). The list is stored as an Arraylist which is kept private.
  *
- * @author Yuvraj Singh Fagotra
+ * @author Yuvraj Singh Fagotra (yfa50)
  */
     public class WineList {
     private final List<Wine> wineList;
@@ -39,22 +38,23 @@ import java.util.List;
         } else {
             throw new NullPointerException("Wine must not be null");
         }
-
     }
 
     /**
      * Removes the given wine from the wine list.
+     *
      * @param wine The Wine object to be removed from the list. Must not be null.
+     * @return boolean, true if wine was in the list (and was removed)
      * @throws NullPointerException If given Wine is null.
      */
-    public void removeWineFromList(Wine wine) throws NullPointerException {
-
+    public boolean removeWineFromList(Wine wine) throws NullPointerException {
+        boolean inList;
         if (wine != null) {
-            wineList.remove(wine);
+            inList = wineList.remove(wine);
         } else {
             throw new NullPointerException("Wine must not be null");
         }
-
+        return inList;
     }
 
 }

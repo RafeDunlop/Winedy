@@ -1,25 +1,20 @@
 package seng202.team3.gui;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import seng202.team3.WineDrinkerManager;
-import seng202.team3.models.Wine;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.KeyCode;
+import seng202.team3.services.WineDrinkerManager;
+import seng202.team3.services.ProfileScreenService;
 
 /**
  * Controller for the profile_screen.fxml window
+ *
  * @author Steven Leishman (sle159)
  */
-
 public class ProfileScreenController {
-    private WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
 
     @FXML
     private Slider abvLimitSlider;
@@ -37,6 +32,12 @@ public class ProfileScreenController {
     private Button newListButton;
 
     @FXML
+    private Button savePreferencesButton;
+
+    @FXML
+    private Button logoutButton;
+
+    @FXML
     private Button removeListButton;
 
     @FXML
@@ -47,50 +48,64 @@ public class ProfileScreenController {
 
     @FXML
     private ComboBox<String> varietyPreferenceComboBox;
+    /**
+     * The current instance of WineDrinkerManager
+     */
+    private WineDrinkerManager wineDrinkerManager;
+    /**
+     * Instance of the ProfileScreenServiceClass, used for data validation
+     */
+    private ProfileScreenService profileScreenService;
 
     /**
-     * Changes textfield to an editable box and saves the username
-     *
+     * Method called by JavaFX when initialising the profile screen.
      */
-    @FXML
-    void onEditUsernameButtonClicked() {
-        usernameTextField.setEditable(true);
-        editUsernameButton.setText("Save New Username");
-        editUsernameButton.setOnAction(e->{saveUsernameInfo();});
-        usernameTextField.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if(keyEvent.getCode().equals(KeyCode.ENTER)) {
-                    saveUsernameInfo();
-                }
-            }
-        });
-    }
-
-    private void saveUsernameInfo(){
-        usernameTextField.setEditable(false);
-        editUsernameButton.setText("Edit Username");
-        editUsernameButton.setOnAction(e->{onEditUsernameButtonClicked();});
-    }
-
-    @FXML
-    void onNewListButtonClicked(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onRemoveListButtonClicked(ActionEvent event) {
-
-    }
-
     public void initialize() {
+        editUsernameButton.setDisable(true);  // Functionality for deliverable three
+        editUsernameButton.setOpacity(0);  // This is not currently fully implemented
+
+        wineDrinkerManager = WineDrinkerManager.getInstance();
+        profileScreenService = new ProfileScreenService();
         usernameTextField.setText(wineDrinkerManager.getCurrentUser().getUsername());
         colourPreferenceComboBox.getItems().addAll("Red", "White", "Rose");
-        colourPreferenceComboBox.getSelectionModel().select(WineDrinkerManager.getInstance().getCurrentUser().getColourPreference());
+        colourPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getColourPreference());
         fullnessPreferenceComboBox.getItems().addAll("Off Dry", "Dry", "Light", "Medium", "Full");
-        fullnessPreferenceComboBox.getSelectionModel().select(WineDrinkerManager.getInstance().getCurrentUser().getFullnessPreference());
+        fullnessPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getFullnessPreference());
         varietyPreferenceComboBox.getItems().addAll("Pinot Noir", "Chardonnay", "Sauvignon Blanc", "Cabernet Sauvignon",
                 "Pinot Gris", "Malbec", "Shiraz", "Viognier", "Syrah", "Grenache", "Merlot", "Prosecco");
-        varietyPreferenceComboBox.getSelectionModel().select(WineDrinkerManager.getInstance().getCurrentUser().getGrapePreference());
+        varietyPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getGrapePreference());
+        abvLimitSlider.setValue(wineDrinkerManager.getCurrentUser().getAbvLimit());
+    }
+
+    @FXML
+    void onNewListButtonClicked() {
+
+    }
+
+    @FXML
+    void onRemoveListButtonClicked() {
+
+    }
+
+    /**
+     * Removes the current logged-in user and launches the sign-in screen
+     */
+    @FXML
+    void onLogoutButtonClicked(){
+        wineDrinkerManager.setCurrentUser(null);
+        //TODO Save data?
+        FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
+    }
+
+    /**
+     * Saves the user preferences from the screen into the database
+     */
+    @FXML
+    void onSavePreferencesButtonClicked(){
+        String colour = colourPreferenceComboBox.valueProperty().getValue();
+        String fullness = fullnessPreferenceComboBox.valueProperty().getValue();
+        String grapeVariety =  varietyPreferenceComboBox.valueProperty().getValue();
+        double abvLimit = abvLimitSlider.getValue();
+        profileScreenService.savePreferences(colour, fullness, grapeVariety, abvLimit);
     }
 }

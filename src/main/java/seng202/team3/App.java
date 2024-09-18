@@ -4,10 +4,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.gui.MainWindow;
-import seng202.team3.services.DatabaseManager;
-import seng202.team3.services.WineDAO;
-
-import java.io.File;
+import seng202.team3.repository.DatabaseManager;
 
 /**
  * Default entry point class
@@ -26,7 +23,7 @@ public class App {
         log.warn("This is a warning message! Use this log type to 'warn' if something is not quite right");
         log.error("An error has occurred, thanks logging for helping find it! (This is a terrible error log message, but is only an example!')");
         log.log(Level.INFO, "There are many ways to log!");
-        DatabaseManager db = DatabaseManager.getInstance();
+        DatabaseManager.getInstance();
         MainWindow.main(args);
     }
 }

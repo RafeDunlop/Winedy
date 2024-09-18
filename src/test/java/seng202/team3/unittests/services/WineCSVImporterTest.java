@@ -3,7 +3,11 @@ package seng202.team3.unittests.services;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import seng202.team3.models.Wine;
-import seng202.team3.services.WineCSVImporter;
+import seng202.team3.repository.WineCSVImporter;
+
+import java.io.InputStream;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -57,10 +61,10 @@ public class WineCSVImporterTest {
         assertEquals(testWine.getCountry(), wineFromMethod.getCountry());
     }
 
-/*    @Test
+    @Test
     public void testWineColour() {
         assertEquals(testWine.getColour(), wineFromMethod.getColour());
-    }*/
+    }
 
     @Test
     public void testWineStyle() {
@@ -106,4 +110,19 @@ public class WineCSVImporterTest {
     public void testWineYear() {
         assertEquals(testWine.getYear(), wineFromMethod.getYear());
     }
+
+    @Test
+    public void testFileRead() {
+        InputStream inputStream = getClass().getResourceAsStream("/csv/importer_test.csv");
+        List<Wine> parseResults = WineCSVImporter.readFromFile(inputStream);
+        assertEquals(2, parseResults.size());
+    }
+
+    @Test
+    public void testFileInvalidRead() {
+        InputStream inputStream = getClass().getResourceAsStream("/csv/notacsv");
+        List<Wine> parseResults = WineCSVImporter.readFromFile(inputStream);
+        assertEquals(0, parseResults.size());
+    }
+
 }

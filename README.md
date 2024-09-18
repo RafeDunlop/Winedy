@@ -1,7 +1,5 @@
-# SENG202 Template Project Overview
-Welcome to the template project for SENG202-2024 which you will transform into your own.
-This README file includes some useful information to help you get started.
-However, we expect that this README becomes your own
+# Winedy
+An application for personal wine management.
 
 ## Authors
 - SENG202 Teaching team
@@ -30,8 +28,7 @@ We have also included a basic setup of the Gradle project and Tasks required for
 - Build plugins:
     - JavaFX Gradle plugin for working with (and packaging) JavaFX applications easily
 
-You are expected to understand the content provided and build your application on top of it. If there is anything you
-would like more information about please reach out to the tutors.
+The app only requires the jar file to run. When the jar file is run, the database is created automatically in the same location as the jar file. If the user moves the jar file to a different location, the app will recognise that the database no longer exists and create a new database in the new location.
 
 ## Importing Project (Using IntelliJ)
 IntelliJ has built-in support for Gradle. To import your project:
@@ -42,16 +39,9 @@ IntelliJ has built-in support for Gradle. To import your project:
 
 **Note:** *If you run into dependency issues when running the app or the Gradle pop up doesn't appear then open the Gradle sidebar and click the Refresh icon.*
 
-# TODO
-
-## Rename Project
-- Open `build.gradle` and change all references to `team0` with your team number eg. `team13`
-- Rename the directory `src/main/java/seng202/team0` to your team number eg. `src/main/java/seng202/team13`
-
 ## Build Project 
 1. Open a command line interface inside the project directory and run `./gradlew run` to build a .jar file. The file is located at target/wino-1.0-SNAPSHOT.jar
 
 ## Run App
-- If you haven't already, Build the project.
 - Open a command line interface inside the project directory and run `cd target` to change into the target directory.
 - Run the command `java -jar wino-1.0-SNAPSHOT.jar` to open the application.

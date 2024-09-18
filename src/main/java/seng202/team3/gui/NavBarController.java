@@ -6,82 +6,87 @@ import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import seng202.team3.services.WineDrinkerManager;
 
 
 /**
-controller for the navigation bar (nav_bar.fxml)
+ controller for the navigation bar (nav_bar.fxml)
  which is the container for all screens except for the landing screen
  (currently only contains features for demonstration)
+
  @author Rafe Dunlop (rdu46)
  */
 public class NavBarController {
 
-    /*
-     * the container for all screens featuring the navigation bar
+    /**
+     * Logger for robust error logging
      */
+    private static final Logger log = LogManager.getLogger(NavBarController.class);
+
     @FXML
     private AnchorPane screenPane;
 
-    /*
-     * button clicked to go to the Home screen
-     */
     @FXML
     private Button homeButton;
 
-    /*
-     * Button clicked to go to the Search screen
-     */
     @FXML
     private Button searchButton;
 
-    /*
-     * Button clicked to go to the Profile screen
-     */
     @FXML
     private Button profileButton;
 
-    /*
-     * Button clicked to open the full navigation bar
-     */
     @FXML
     private Button navigationButton;
 
-    /*
-     * Button clicked to go to the Help screen
-     */
     @FXML
     private Button helpButton;
 
-    /*
-     * Button clicked to reload the screen
-     */
     @FXML
-    private Button reloadButton;
+    private Button reloadButton; // to be implemented  for deliverable 3 (currently does nothing)
 
-    /*
-     * HBox that contains all the hidden navigation buttons
-     */
     @FXML
     private HBox buttonHBox;
 
-    /*
-     * the currently active screen; stored to not reload a page when clicked
-     */
+    @FXML
+    private Rectangle navBarRectangle;
+
     private Screen selectedScreen;
 
-    /*
-     * Stores whether the nav bar is currently expanded
-     */
     private boolean expanded = false;
 
-    /*
-     * PauseTransition used by the Navigation button to delay its on action.
+    /**
+     * PauseTransition used by the navigation button to delay its on mouse entered action.
      */
-    PauseTransition hoverPause;
+    private PauseTransition expansionHoverPause;
+
+    /**
+     * ImageView used as the graphic of the search button, used by expandNavBar() and closeNavBar() to animate the Nav Bar.
+     */
+    private ImageView searchButtonImageView;
+
+    /**
+     * ImageView used as the graphic of the profile button, used by expandNavBar() and closeNavBar() to animate the Nav Bar.
+     */
+    private ImageView profileButtonImageView;
+
+    /**
+     * ImageView used as the graphic of the reload button, used by expandNavBar() and closeNavBar() to animate the Nav Bar.
+     */
+    private ImageView reloadButtonImageView;
+
+    /**
+     * ImageView used as the graphic of the help button, used by expandNavBar() and closeNavBar() to animate the Nav Bar.
+     */
+    private ImageView helpButtonImageView;
 
     /**
      * Method used by JavaFX when initialising the Nav Bar.
@@ -90,30 +95,36 @@ public class NavBarController {
         FXWrapper instance = FXWrapper.getInstance();
         instance.setScreenPane(screenPane);
 
+        navBarRectangle.getStyleClass().add("nav-bar-rectangle");
+
         homeButton.setOnAction(x -> onButtonClick(Screen.HOME));
         searchButton.setOnAction(x -> onButtonClick(Screen.SEARCH));
+        helpButton.setOnAction(x -> onButtonClick(Screen.HELPSCREEN));
         profileButton.setOnAction(x -> onProfileButtonClicked());
 
-        homeButton.getStyleClass().addAll("button", "nav-bar-button");
-        searchButton.getStyleClass().addAll("button", "nav-bar-button");
-        profileButton.getStyleClass().addAll("button", "nav-bar-button");
-        reloadButton.getStyleClass().addAll("button", "nav-bar-button");
-        helpButton.getStyleClass().addAll("button", "nav-bar-button");
-        navigationButton.getStyleClass().addAll("button", "nav-bar-button");
+        setUpNavButton(homeButton, "/images/nav_bar_home_button.png", false);
+        setUpNavButton(navigationButton, "/images/nav_bar_navigate_button.png", false);
 
-        buttonHBox.setPrefSize(66, 66);
+        searchButtonImageView = setUpNavButton(searchButton, "/images/home_screen_search_button.png", true);
+        profileButtonImageView = setUpNavButton(profileButton, "/images/home_screen_profile_button.png", true);
+        reloadButtonImageView = setUpNavButton(reloadButton, "/images/nav_bar_reload_button.png", true);
+        helpButtonImageView = setUpNavButton(helpButton, "/images/home_screen_help_button.png", true);
+
+        buttonHBox.setPrefSize(66, 66); // Prevents a little glitch in the animation where the HBox expands for a split second
         buttonHBox.setMaxWidth(66);
+        buttonHBox.setSpacing(0);
 
-        searchButton.setManaged(false);
-        profileButton.setManaged(false);
-        reloadButton.setManaged(false);
-        helpButton.setManaged(false);
-
-        hoverPause = new PauseTransition(Duration.seconds(0.5));
-        hoverPause.setOnFinished(event -> {
-            expandNavBar();
-            expanded = true;
+        expansionHoverPause = new PauseTransition(Duration.seconds(0.5));
+        expansionHoverPause.setOnFinished(event -> {
+            if (!expanded) {
+                expandNavBar();
+                expanded = true;
+            } else {
+                closeNavBar();
+                expanded = false;
+            }
         });
+        log.info("Navbar successfully loaded");
     }
 
     /**
@@ -130,8 +141,11 @@ public class NavBarController {
      * Method to load the correct profile screen (depending on whether the user is logged in)
      */
     private void onProfileButtonClicked() {
-        //determine is user is logged in, if so, load the profile screen, otherwise
-        onButtonClick(Screen.SIGNINSCREEN);
+        if (WineDrinkerManager.getInstance().getCurrentUser() == null) {
+            onButtonClick(Screen.SIGNINSCREEN);
+        } else {
+            onButtonClick(Screen.PROFILESCREEN);
+        }
     }
 
     /**
@@ -161,7 +175,23 @@ public class NavBarController {
 
         Timeline timeline = new Timeline();
 
-        KeyFrame keyFrame = new KeyFrame(Duration.seconds(1), new KeyValue(buttonHBox.prefWidthProperty(), 350), new KeyValue(buttonHBox.maxWidthProperty(), 350));
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(1),
+                new KeyValue(buttonHBox.prefWidthProperty(), 350),
+                new KeyValue(buttonHBox.maxWidthProperty(), 350),
+                new KeyValue(buttonHBox.spacingProperty(), 5),
+
+                new KeyValue(searchButtonImageView.fitHeightProperty(), 50),
+                new KeyValue(searchButtonImageView.opacityProperty(), 1),
+
+                new KeyValue(profileButtonImageView.fitHeightProperty(), 50),
+                new KeyValue(profileButtonImageView.opacityProperty(), 1),
+
+                new KeyValue(reloadButtonImageView.fitHeightProperty(), 50),
+                new KeyValue(reloadButtonImageView.opacityProperty(), 1),
+
+                new KeyValue(helpButtonImageView.fitHeightProperty(), 50),
+                new KeyValue(helpButtonImageView.opacityProperty(), 1)
+        );
 
         timeline.getKeyFrames().add(keyFrame);
         timeline.setCycleCount(1);
@@ -169,21 +199,28 @@ public class NavBarController {
     }
 
     /**
-     * Animates the compression of the Nav Bar TODO: Make this work properly :(
+     * Animates the compression of the Nav Bar using a Timeline and Keyframe
      */
     private void closeNavBar() {
-        searchButton.setManaged(false);
-        profileButton.setManaged(false);
-        reloadButton.setManaged(false);
-        helpButton.setManaged(false);
-
         Timeline timeline = new Timeline();
 
-        KeyFrame keyFrame = new KeyFrame(Duration.seconds(1), new KeyValue(buttonHBox.prefWidthProperty(), 66),
-                new KeyValue(searchButton.maxWidthProperty(), 0),
-                new KeyValue(profileButton.maxWidthProperty(), 0),
-                new KeyValue(reloadButton.maxWidthProperty(), 0),
-                new KeyValue(helpButton.maxWidthProperty(), 0));
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(1),
+                new KeyValue(searchButtonImageView.fitHeightProperty(), 1),
+                new KeyValue(searchButtonImageView.opacityProperty(), 0),
+
+                new KeyValue(profileButtonImageView.fitHeightProperty(), 1),
+                new KeyValue(profileButtonImageView.opacityProperty(), 0),
+
+                new KeyValue(reloadButtonImageView.fitHeightProperty(), 1),
+                new KeyValue(reloadButtonImageView.opacityProperty(), 0),
+
+                new KeyValue(helpButtonImageView.fitHeightProperty(), 1),
+                new KeyValue(helpButtonImageView.opacityProperty(), 0),
+
+                new KeyValue(buttonHBox.prefWidthProperty(), 66),
+                new KeyValue(buttonHBox.maxWidthProperty(), 66),
+                new KeyValue(buttonHBox.spacingProperty(), 0)
+        );
 
         timeline.getKeyFrames().add(keyFrame);
         timeline.setCycleCount(1);
@@ -191,16 +228,11 @@ public class NavBarController {
     }
 
     /**
-     * Used by JavaFX as the onMouseEntered of navigationButton.
+     * Used by JavaFX as the onMouseEntered of navigationButton. Starts the PauseTransition
      */
     @FXML
     private void onNavigationMouseEntered() {
-        if (!expanded) {
-            hoverPause.playFromStart();
-        } else {  // TODO: Fix compression of nav bar so it can be closed
-            // closeNavBar();
-            // expanded = false;
-        }
+        expansionHoverPause.playFromStart();
     }
 
     /**
@@ -208,6 +240,20 @@ public class NavBarController {
      */
     @FXML
     private void onNavigationMouseExited() {
-        hoverPause.stop();
+        expansionHoverPause.stop();
+    }
+
+    /**
+     * method for setting up a button with an icon image and stylesheet
+     * @param button the Button on which to load images and the stylesheet
+     * @param imagePath the relative path of the image to be loaded ont the button as its icon
+     * @param isInvisible boolean, whether to set the button's image to be visible
+     * @return the ImageView associated with the button
+     */
+    private ImageView setUpNavButton(Button button, String imagePath, boolean isInvisible) {
+        button.getStyleClass().add("nav-bar-button");
+        button.setText("");
+
+        return GuiService.addImageGraphicToButton(button, imagePath, 50, 50, isInvisible);
     }
 }

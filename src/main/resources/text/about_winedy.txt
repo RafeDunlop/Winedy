@@ -1,0 +1,9 @@
+Winedy is an app that was developed by Team 3 as a project for SENG202 at the University of Canterbury in 2024.
+
+Team 3 Members:
+- Sophia Copley
+- Rafe Dunlop
+- Hannah Botting
+- Krishna Sridhar
+- Yuvraj Fagotra
+- Steven Leishman

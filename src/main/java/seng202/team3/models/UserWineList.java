@@ -1,16 +1,16 @@
 package seng202.team3.models;
 
+/**
+ * UserWineList class defines the personal wine lists that Wine Drinkers can create
+ * This will be used in deliverable 3
+ *
+ * @author Krishna Sridhar (nsr36)
+ */
 public class UserWineList extends WineList {
     String wineListName;
-
     @Override
     public void addWineToList(Wine wine) {
         super.addWineToList(wine);
-    }
-
-    @Override
-    public void removeWineFromList(Wine wine) {
-        // To implement
     }
 
     public void editWineListName(String newName) {

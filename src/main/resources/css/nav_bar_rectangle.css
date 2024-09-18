@@ -1,0 +1,11 @@
+.root {
+    -fx-dark-red-wine-colour: derive(#821D38, 30%);
+    -fx-red-wine-colour: derive(-fx-dark-red-wine-colour, 30%);
+}
+
+.nav-bar-rectangle {
+    -fx-fill: -fx-red-wine-colour;
+
+    -fx-stroke: -fx-dark-red-wine-colour;
+    -fx-stroke-width: 2px;
+}

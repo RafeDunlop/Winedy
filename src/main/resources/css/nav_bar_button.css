@@ -1,0 +1,29 @@
+.root {
+    -fx-nbb-border-colour: "Black";
+    -fx-nbb-body-colour: #F0F0F0; /* Off-white grey */
+    -fx-nbb-hover-colour: #F7DBE2; /* derive(-fx-hsb-body-colour, -10%); */
+}
+
+.nav-bar-button {
+    -fx-background-color: -fx-nbb-body-colour;
+    -fx-background-radius: 20;
+    -fx-background-insets: 1;
+
+    -fx-border-color: -fx-nbb-border-colour;
+    -fx-border-radius: 16;
+    -fx-border-width: 3;
+}
+
+.nav-bar-button:hover {
+    -fx-background-color: -fx-nbb-hover-colour;
+}
+
+.nav-bar-button:focused {
+    -fx-background-insets: 2;
+    -fx-border-insets: 1;
+}
+
+.nav-bar-button:pressed {
+    -fx-background-insets: 5;
+    -fx-border-insets: 4;
+}

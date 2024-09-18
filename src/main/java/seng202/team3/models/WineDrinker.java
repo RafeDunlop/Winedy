@@ -1,6 +1,5 @@
 package seng202.team3.models;
 
-import seng202.team3.services.*;
 import java.util.*;
 
 /**
@@ -10,16 +9,41 @@ import java.util.*;
  * Supplies controllers with information to display
  * Calls DBService to retrieve record from database
  *
- * @author Steven Leishman
+ * @author Steven Leishman (sle159)
  */
 public class WineDrinker {
+    /**
+     * List of all the wine drinker's lists
+     */
     private ArrayList<WineList> drinkersWineLists = new ArrayList<>();
+    /**
+     * Wine Drinker's username
+     */
     private String username;
+    /**
+     * Wine Drinker's password
+     */
     private String password;
+    /**
+     * Wine Drinker's country preference
+     */
     private String countryPreference;
+    /**
+     * Wine Drinker's colour preference
+     */
     private String colourPreference;
+    /**
+     * Wine Drinker's fullness preference
+     */
     private String fullnessPreference;
+    /**
+     * Wine Drinker's grape preference;
+     */
     private String grapePreference;
+    /**
+     * Wine Drinker's alcohol by volume preference
+     */
+    private double abvLimit;
 
 
 
@@ -32,38 +56,27 @@ public class WineDrinker {
      * @param fullnessPreference a WineDrinker's preferred colour of wine
      * @param grapePreference a WineDrinker's preferred grape variety
      */
-    public WineDrinker(String username, String password, String countryPreference, String colourPreference, String fullnessPreference, String grapePreference) {
+    public WineDrinker(String username, String password, String countryPreference, String colourPreference, String fullnessPreference, String grapePreference, double abvLimit) {
         this.username = username;
         this.password = password;
         this.countryPreference = countryPreference;
         this.colourPreference = colourPreference;
         this.fullnessPreference = fullnessPreference;
         this.grapePreference = grapePreference;
-        //TODO Add something with ABV?
+        this.abvLimit = abvLimit;
 
     }
 
 
     /**
      * Creates new userWineList and adds it to drinkersWineList
-     * TODO add input from on screen text box as name
+     * TODO Use in wine list functionality in deliverable 3
      */
     void createWineList() {
         WineList wineList = new UserWineList();
         drinkersWineLists.add(wineList);
     }
 
-    /**
-     * Removes winelist from users stored data
-     * TODO add service call to delete record from database
-     * @param wineListToRemove
-     */
-    void removeWineList(WineList wineListToRemove) {
-        for (WineList wineList : drinkersWineLists) {
-            //need wineList.getName()
-            //drinkersWineLists.remove(wineList)
-        }
-    }
 
     /**
      * Returns the username of current instance of WineDrinker
@@ -112,12 +125,13 @@ public class WineDrinker {
     }
 
     /**
-     * Sets the WineDrinker's list of WineLists that they own
-     * @param drinkersWineLists
+     * Gets the Wine Drinker's preferred abv limit
+     * @return abv limit preference
      */
-    public void setDrinkersWineLists(ArrayList<WineList> drinkersWineLists) {
-        this.drinkersWineLists = drinkersWineLists;
+    public double getAbvLimit() {
+        return abvLimit;
     }
+
 
     /**
      * Sets the WineDrinker's unique username
@@ -127,21 +141,6 @@ public class WineDrinker {
         this.username = username;
     }
 
-    /**
-     * Sets the WineDrinker's password for their account
-     * @param password WineDrinker's personal password
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    /**
-     * Sets the WineDrinkers preference of country for their wine
-     * @param countryPreference String containing a wine country that a Wine Drinker prefers
-     */
-    public void setCountryPreference(String countryPreference) {
-        this.countryPreference = countryPreference;
-    }
 
     /**
      * Sets the WineDrinker's preferred wine colour
@@ -166,4 +165,14 @@ public class WineDrinker {
     public void setGrapePreference(String grapePreference) {
         this.grapePreference = grapePreference;
     }
+
+    /**
+     * Sets the Wine Drinker's preferred abv limit
+     * @param abvLimit the new abv limit preference
+     */
+    public void setAbvLimit(double abvLimit) {
+        this.abvLimit = abvLimit;
+    }
+
+
 }

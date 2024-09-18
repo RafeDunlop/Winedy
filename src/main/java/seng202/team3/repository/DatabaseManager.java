@@ -1,4 +1,4 @@
-package seng202.team3.services;
+package seng202.team3.repository;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,12 +13,24 @@ import java.util.List;
 
 /**
  * Singleton class responsible for interaction with SQLite database
- * @author Morgan English
- * @author Yuvraj Singh Fagotra
+ *
+ * @author Yuvraj Singh Fagotra (Yfa50)
  */
 public class DatabaseManager {
+
+    /**
+     * Database instance
+     */
     private static DatabaseManager instance = null;
+
+    /**
+     * Logger for robust error logging
+     */
     private static final Logger log = LogManager.getLogger(DatabaseManager.class);
+
+    /**
+     * Database url
+     */
     private final String url;
 
     /**
@@ -33,14 +45,14 @@ public class DatabaseManager {
         }
         if(!checkDatabaseExists(url)){
             createDatabaseFile(url);
+            log.info("Resetting database");
             resetDB();
-            System.out.println("Populating Database...");
+            log.info("Populating database");
             try {
                 populateWineTables("/csv/majestic_df_preprocessed.csv");
             } catch (URISyntaxException | FileNotFoundException e) {
-                e.printStackTrace();
+                log.error("Error populating database", e);
             }
-
         }
     }
 
@@ -49,28 +61,20 @@ public class DatabaseManager {
      * @return the single instance DatabaseSingleton
      */
     public static DatabaseManager getInstance(){
-        if(instance == null)
-            // todo find a way to actually get db within jar
-            // The following line can be used to reach a db file within the jar, however this will not be modifiable
-            // instance = new DatabaseManager("jdbc:sqlite:./src/main/resources/database.db");
+        if (instance == null) {
             instance = new DatabaseManager(null);
-
+        }
         return instance;
     }
 
     /**
-     * WARNING Allows for setting specific database url (currently only needed for test databases, but may be useful
-     * in future) USE WITH CAUTION. This does not override the current singleton instance so must be the first call.
-     * @param url string url of database to load (this needs to be full url e.g. "jdbc:sqlite:./src/...")
-     * @throws  if there is already a singleton instance
-     * @return current singleton instance
+     * getInstance method where a url can be passed into the function. This function can handle the case where the url is
+     * null as well.
+     * @return the single instance DatabaseSingleton for a database located at the given url
      */
-    public static DatabaseManager initialiseInstanceWithUrl(String url){
-        if(instance == null) {
-            instance = new DatabaseManager(url);
-        }
-        else {
-            //throw new InstanceAlreadyExistsException("Database Manager instance already exists, cannot create with url: " + url);
+    public static DatabaseManager getInstance(String url){
+        if (instance == null) {
+                instance = new DatabaseManager(url);
         }
         return instance;
     }
@@ -91,15 +95,15 @@ public class DatabaseManager {
         try {
             conn = DriverManager.getConnection(this.url);
         } catch (SQLException e) {
-            log.error(e);
+            log.error("Error connecting to database", e);
         }
         return conn;
     }
 
     /**
-     * Initialises the database if it does not exist using the sql script included in resources
+     * Initialises the database using the sql script included in resources
      */
-    public void resetDB() {
+    private void resetDB() {
         try {
             InputStream in = getClass().getResourceAsStream("/sql/initialise_wine_database.sql");
             executeSQLScript(in);
@@ -112,7 +116,7 @@ public class DatabaseManager {
      * Gets path to the database relative to the jar file
      * @return jdbc encoded url location of database
      */
-    public String getDatabasePath() {
+    private String getDatabasePath() {
         String path = DatabaseManager.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         path = URLDecoder.decode(path, StandardCharsets.UTF_8);
         File jarDir = new File(path);
@@ -124,7 +128,7 @@ public class DatabaseManager {
      * @param url expected location to check for database
      * @return True if database exists else false
      */
-    public boolean checkDatabaseExists(String url){
+    private boolean checkDatabaseExists(String url){
         File f = new File(url.substring(12));
         return f.exists();
     }
@@ -133,11 +137,11 @@ public class DatabaseManager {
      * Creates a database file at the location specified by the url
      * @param url url to creat database at
      */
-    public void createDatabaseFile(String url){
+    private void createDatabaseFile(String url) {
         try (Connection conn = DriverManager.getConnection(url)) {
             if (conn != null) {
                 DatabaseMetaData meta = conn.getMetaData();
-                String metaDriverLog = String.format("A new database has been created. The driver name is %s", meta.getDriverName());
+                String metaDriverLog = String.format("A new database has been created at %s. The driver name is %s", meta.getURL(), meta.getDriverName());
                 log.info(metaDriverLog);
             }
         } catch (SQLException e) {
@@ -177,14 +181,16 @@ public class DatabaseManager {
     }
 
     /**
-     * Saves a file of sales to the repository layer using the specified importer functionality
-     * TODO: handle errors gracefully
+     * Populates the wine table in the database with the wine data from the file specified by the filePath.
+     * @param filePath The path of the input file that contains the data
      */
-    public void populateWineTables(String filePath) throws URISyntaxException, FileNotFoundException {
+    private void populateWineTables(String filePath) throws URISyntaxException, FileNotFoundException {
+        if (!checkDatabaseExists(url)) {
+            throw new FileNotFoundException();
+        }
         InputStream inputStream = getClass().getResourceAsStream(filePath);
-        //File inputFile = new File(path);
         List<Wine> wines = WineCSVImporter.readFromFile(inputStream);
-        WineDAO wineDAO = new WineDAO();
+        WineDAO wineDAO = new WineDAO(url);
         int i = 0;
         while (i < wines.size()) {
             if (i + 100 > wines.size()) {

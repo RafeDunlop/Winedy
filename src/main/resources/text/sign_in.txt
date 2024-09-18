@@ -1,0 +1,9 @@
+To sign in to an account on Winedy, navigate to the sign-in screen by either first clicking on the home screen button in the navigation bar and then clicking on the profile button on the home screen, or clicking on the profile screen in the navigation bar.
+
+If you are already logged into an account, the profile screen will be displayed. If this is not the account you want to be logged in, click on the sign-out button to be redirected to the sign-in screen.
+
+Enter in your username and password into the relevant boxes and click login.
+
+If the server has any issues signing you in, these will be displayed in the middle of the screen. Make sure to fix any errors that occured before attempting to log in again.
+
+Congratulations! you are now logged in to a Winedy account. You should be able to see the profile screen in front of you.
