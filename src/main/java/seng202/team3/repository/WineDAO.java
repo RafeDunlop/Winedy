@@ -57,7 +57,7 @@ public class WineDAO implements DAOInterface<Wine> {
     @Override
     public List<Wine> getAll() {
         List<Wine> wines = new ArrayList<>();
-        String sqlWine = "SELECT * FROM wine";
+        String sqlWine = "SELECT * FROM wineSuper";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sqlWine)) {
             try (ResultSet resultSet = ps.executeQuery()) {
@@ -137,7 +137,7 @@ public class WineDAO implements DAOInterface<Wine> {
 
     public Wine getWineByID(int id) {
         Wine newWine = null;
-        String sql = "SELECT * FROM wine WHERE id=?";
+        String sql = "SELECT * FROM wineSuper WHERE id=?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -164,7 +164,7 @@ public class WineDAO implements DAOInterface<Wine> {
      */
     @Override
     public int add(Wine toAdd){
-        String sqlWine = "INSERT INTO wine (id, name, country, colour, style, fullness, longDescription, pricePerBottle, alcoholByVolume, volumeInML, year) values (?,?,?,?,?,?,?,?,?,?,?);";
+        String sqlWine = "INSERT INTO wineSuper (id, name, country, colour, style, fullness, longDescription, pricePerBottle, alcoholByVolume, volumeInML, year) values (?,?,?,?,?,?,?,?,?,?,?);";
         String sqlGrape = "INSERT INTO grape (wineId, name) VALUES (?, ?)";
         String sqlAward = "INSERT INTO award (wineId, name) VALUES (?, ?)";
         try (Connection conn = databaseManager.connect();
@@ -198,7 +198,7 @@ public class WineDAO implements DAOInterface<Wine> {
      * @param toAdd a list of wines to add to the database
      */
     public void addBatch (List < Wine > toAdd) {
-        String sqlWine = "INSERT OR IGNORE INTO wine (id, name, country, colour, style, fullness, longDescription, pricePerBottle, alcoholByVolume, volumeInML, year) values (?,?,?,?,?,?,?,?,?,?,?);";
+        String sqlWine = "INSERT OR IGNORE INTO wineSuper (id, name, country, colour, style, fullness, longDescription, pricePerBottle, alcoholByVolume, volumeInML, year) values (?,?,?,?,?,?,?,?,?,?,?);";
         String sqlGrape = "INSERT INTO grape (wineId, name) VALUES (?, ?)";
         String sqlAward = "INSERT INTO award (wineId, name) VALUES (?, ?)";
         try (Connection conn = databaseManager.connect();
@@ -310,7 +310,7 @@ public class WineDAO implements DAOInterface<Wine> {
      */
     @Override
     public void delete ( int id){
-        String sql = "DELETE FROM wine WHERE id=?";
+        String sql = "DELETE FROM wineSuper WHERE id=?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -353,7 +353,7 @@ public class WineDAO implements DAOInterface<Wine> {
      */
     private String setUpSearchQuery(List<String> keywords, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice, String country, String colour, String fullness, String grapeName) {
         hasOne = false;
-        String sql = "SELECT * FROM wine ";
+        String sql = "SELECT * FROM wineSuper ";
         if (grapeName != null) {
             sql += "JOIN grape ON id = wineId ";
         }
@@ -365,10 +365,10 @@ public class WineDAO implements DAOInterface<Wine> {
                     hasOne = true;
                 }
                 if (i == keywords.size() - 1) {
-                    sql += "(LOWER(wine.name) LIKE ? OR LOWER(style) LIKE ? OR LOWER(longDescription) LIKE ?)";
+                    sql += "(LOWER(wineSuper.name) LIKE ? OR LOWER(style) LIKE ? OR LOWER(longDescription) LIKE ?)";
                     sql += ") ";
                 } else {
-                    sql += "(LOWER(wine.name) LIKE ? OR LOWER(style) LIKE ? OR LOWER(longDescription) LIKE ?) OR ";
+                    sql += "(LOWER(wineSuper.name) LIKE ? OR LOWER(style) LIKE ? OR LOWER(longDescription) LIKE ?) OR ";
                 }
             }
         }
