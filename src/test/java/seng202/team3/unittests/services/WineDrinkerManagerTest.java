@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class WineDrinkerManagerTest {
     private static final String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
     private WineDrinkerManager wineDrinkerManager;
-    private DatabaseManager databaseManager;
     private final String username = "TestUser1";
     private final String password = "TestUserPassword";
 
@@ -29,6 +28,7 @@ public class WineDrinkerManagerTest {
     @BeforeEach
     public void setup() {
         DatabaseManager.REMOVE_INSTANCE();
+        WineDrinkerManager.REMOVE_INSTANCE();
         wineDrinkerManager = WineDrinkerManager.getInstance(DATABASE_PATH);
     }
 

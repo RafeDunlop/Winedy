@@ -14,7 +14,6 @@ import java.io.File;
 public class WineDrinkerDAOTest {
     String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
     WineDrinkerDAO wineDrinkerDAO;
-    DatabaseManager databaseManager;
     private final String username = "TestUser1";
     private final String password = "TestUserPassword";
 
@@ -29,7 +28,7 @@ public class WineDrinkerDAOTest {
     @BeforeEach
     public void setup() {
         DatabaseManager.REMOVE_INSTANCE();
-        databaseManager = DatabaseManager.getInstance(DATABASE_PATH);
+        DatabaseManager.getInstance(DATABASE_PATH);
         wineDrinkerDAO = new WineDrinkerDAO(DATABASE_PATH);
 
         try {

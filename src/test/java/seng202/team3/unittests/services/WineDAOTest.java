@@ -1,9 +1,9 @@
 package seng202.team3.unittests.services;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
+import seng202.team3.repository.DatabaseManager;
 import seng202.team3.repository.WineDAO;
 
 import java.io.File;
@@ -19,9 +19,11 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 
 public class WineDAOTest {
+    String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
+    private WineDAO wineDAO;
     private final int CSV_LENGTH = 473;
     private final int HIGHEST_ID = 782;
-    private final WineDAO wineDAO = new WineDAO("jdbc:sqlite:./src/test/resources/test_database.db");
+
 
     private final Wine WINE_1 = new Wine(
             HIGHEST_ID + 1,
@@ -52,8 +54,21 @@ public class WineDAOTest {
             75,
             2018);
 
-    @AfterAll
-    public static void cleanUp() {
+    @BeforeAll
+    public static void deleteTestDB() {
+        File file = new File("./src/test/resources/test_database.db");
+        file.delete();
+    }
+
+    @BeforeEach
+    public void setup() {
+        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.getInstance(DATABASE_PATH);
+        wineDAO = new WineDAO(DATABASE_PATH);
+    }
+
+    @AfterEach
+    public void cleanUp() {
         File file = new File("./src/test/resources/test_database.db");
         file.delete();
     }

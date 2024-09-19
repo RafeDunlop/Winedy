@@ -63,6 +63,13 @@ public class WineDrinkerManager {
     }
 
     /**
+     *  WARNING Sets the current singleton instance to null
+     */
+    public static void REMOVE_INSTANCE() {
+        instance = null;
+    }
+
+    /**
      * Set the currentUser WineDrinker object
      *
      * @param currentUser the WineDrinker to be stored

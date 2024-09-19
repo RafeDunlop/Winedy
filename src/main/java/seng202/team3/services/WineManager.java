@@ -29,11 +29,11 @@ public class WineManager {
     private static WineManager instance;
 
     /**
-     * Creates a new SalesManager object and creates a private SaleDAO object it will later use for all database
+     * Creates a new WineManager object and creates a private WineDAO object it will later use for all database
      * interactions
      */
-    private WineManager() {
-        wineDAO = new WineDAO();
+    private WineManager(String url) {
+        wineDAO = new WineDAO(url);
     }
 
     /**
@@ -42,12 +42,28 @@ public class WineManager {
      */
     public static WineManager getInstance() {
         if (instance == null) {
-            instance = new WineManager();
+            instance = new WineManager(null);
         }
         return instance;
     }
 
+    /**
+     * Get the singleton instance of WineManager
+     * @return instance of WineManager
+     */
+    public static WineManager getInstance(String url) {
+        if (instance == null) {
+            instance = new WineManager(url);
+        }
+        return instance;
+    }
 
+    /**
+     *  WARNING Sets the current singleton instance to null
+     */
+    public static void REMOVE_INSTANCE() {
+        instance = null;
+    }
 
     /**
      * Adds a wine
