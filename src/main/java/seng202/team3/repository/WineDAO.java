@@ -362,7 +362,7 @@ public class WineDAO implements DAOInterface<Wine> {
         hasOne = false;
         String sql = "SELECT * FROM wineSuper ";
         if (grapeName != null) {
-            sql += "JOIN grape ON grape.id = wineSuper.id ";
+            sql += "JOIN grape ON grape.wineId = wineSuper.id ";
         }
         sql += "JOIN wine ON wine.id = wineSuper.id ";
         sql += "WHERE ";
