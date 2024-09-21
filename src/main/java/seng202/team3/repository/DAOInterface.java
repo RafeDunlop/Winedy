@@ -11,7 +11,8 @@ import java.util.List;
  */
 public interface DAOInterface<T> {
     /**
-     * Gets all of T from the database
+     * Gets all of T from the database where T contains a foreign key of a Wine Drinker, only tuples which reference
+     * the currently logged in Wine Drinker are returned.
      * @return List of all objects type T from the database
      */
     List<T> getAll();
