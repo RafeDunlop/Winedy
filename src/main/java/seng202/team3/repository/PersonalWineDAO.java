@@ -5,9 +5,14 @@ import seng202.team3.models.Wine;
 
 import java.util.List;
 
+/**
+ * PersonalWine DAO Class that handles all personal wine related actions to the database
+ *
+ * @author Hannah Botting (hbo51)
+ */
 public class PersonalWineDAO implements DAOInterface<Wine> {
     /**
-     * Gets all of Wine from the database
+     * Gets all Personal Wines from the database of the currently logged-in user
      *
      * @return List of all objects type Wine from the database
      */
@@ -17,7 +22,7 @@ public class PersonalWineDAO implements DAOInterface<Wine> {
     }
 
     /**
-     * Adds a single object of type Wine to database
+     * Adds a single object of type Personal Wine to database
      *
      * @param toAdd object of type Wine to add
      * @return object insert id if inserted correctly
@@ -29,7 +34,7 @@ public class PersonalWineDAO implements DAOInterface<Wine> {
     }
 
     /**
-     * Deletes and object from database that matches id given
+     * Deletes a Personal Wine object from database that matches id given
      *
      * @param id id of object to delete
      */
@@ -39,7 +44,7 @@ public class PersonalWineDAO implements DAOInterface<Wine> {
     }
 
     /**
-     * Updates an object in the database
+     * Updates a Personal Wine object in the database
      *
      * @param toUpdate Object that needs to be updated (this object must be able to identify itself and its previous self)
      */

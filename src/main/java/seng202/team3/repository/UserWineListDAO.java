@@ -25,6 +25,11 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
      */
     private static final Logger log = LogManager.getLogger(UserWineListDAO.class);
 
+    /**
+     * Retrieves and returns all the wine lists of the current logged-in Wine Drinker
+     *
+     * @return A list of all the current logged-in Wine Drinker's wine lists
+     */
     @Override
     public List<UserWineList> getAll() {
         ArrayList<UserWineList> userWineLists = new ArrayList<>();
@@ -47,13 +52,25 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
         return Collections.emptyList();
     }
 
+    /**
+     * Adds a new UserWineList to the database
+     *
+     * @param toAdd object of type UserWineList to add to the database
+     * @return an int representing the success of the INSERT statements
+     */
     @Override
     public int add(UserWineList toAdd) {
-        String sql = "INSERT INTO wineList (name, username, description) VALUES (?, ?, ?)";
+        String sqlList = "INSERT INTO wineList (name, username, description) VALUES (?, ?, ?)";
+        String sqlContains = "INSERT INTO contains (wineID, listName, wineDrinker) VALUES (?, ?, ?)";
         try (Connection conn = DatabaseManager.getInstance().connect();
-             PreparedStatement psList = conn.prepareStatement(sql)) {
+             PreparedStatement psList = conn.prepareStatement(sqlList);
+             PreparedStatement psContains = conn.prepareStatement(sqlContains)) {
             setListParams(psList, toAdd);
             psList.executeUpdate();
+            for (Wine wine : toAdd.getWineList()) {
+                setContainsParams(psContains, wine, toAdd.getWineListName());
+                psContains.executeUpdate();
+            }
             return 0;
         } catch (SQLException e) {
             log.error(e);
@@ -94,7 +111,7 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
     }
 
     private void getContainedWines(UserWineList userWineList) {
-        String sqlContains = "SELECT * FROM contains NATURAL JOIN wineSuper ON contains.wineId = wineSuper.id WHERE contains.wineDrinker = ? AND contains.listName = ?";
+        String sqlContains = "SELECT * FROM contains JOIN wineSuper ON contains.wineId = wineSuper.id WHERE contains.wineDrinker = ? AND contains.listName = ?";
         try (Connection conn = DatabaseManager.getInstance().connect();
              PreparedStatement psContains = conn.prepareStatement(sqlContains)) {
             psContains.setString(1, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
@@ -111,5 +128,11 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
         } catch (SQLException e) {
             log.error(e);
         }
+    }
+
+    private void setContainsParams(PreparedStatement ps, Wine wine, String wineListName) throws SQLException {
+        ps.setInt(1, wine.getUniqueWineID());
+        ps.setString(2, wineListName);
+        ps.setString(3, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
     }
 }
