@@ -11,7 +11,8 @@ import java.util.List;
  */
 public interface DAOInterface<T> {
     /**
-     * Gets all of T from the database
+     * Gets all of T from the database where T contains a foreign key of a Wine Drinker, only tuples which reference
+     * the currently logged in Wine Drinker are returned.
      * @return List of all objects type T from the database
      */
     List<T> getAll();
@@ -27,15 +28,15 @@ public interface DAOInterface<T> {
 
     /**
      * Deletes and object from database that matches id given
-     * @param id id of object to delete
+     * @param toDelete Object to be deleted
      */
-    void delete(int id);
+    int delete(T toDelete);
 
     /**
      * Updates an object in the database
      * @param toUpdate Object that needs to be updated (this object must be able to identify itself and its previous self)
      */
-    void update(T toUpdate);
+    int update(T toUpdate);
 
 }
 

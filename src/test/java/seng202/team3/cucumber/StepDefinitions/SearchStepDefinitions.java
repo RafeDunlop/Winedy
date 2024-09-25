@@ -5,7 +5,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
-import seng202.team3.models.WineList;
 import seng202.team3.repository.WineDAO;
 
 import java.util.List;
@@ -18,7 +17,7 @@ public class SearchStepDefinitions {
     private String fullness;
     private String country;
     private WineDAO wineDAO;
-    private WineList searchedWines = new WineList();
+    private final SearchWineList searchedWines = new SearchWineList();
 
     @Given("The Wine Drinker is in the search wine page")
     public void userIsOnSearchScreenWithDatabaseLoaded() {
@@ -71,21 +70,27 @@ public class SearchStepDefinitions {
     public void theSearchedWinesShouldMatchPhraseAndFilters(String phrase, String colour, String fullness, String country) {
         List<String> keywords = List.of(phrase.split(" "));
         SearchWineList searchWineList = wineDAO.searchWines(keywords, null, null, null, null, country, colour, fullness, null);
+        int matching = getMatching(keywords);
+        System.out.println(searchWineList.getWineList().size());
+        System.out.println(matching);
+        assertEquals(searchWineList.getWineList().size(), matching);
+    }
+
+    private int getMatching(List<String> keywords) {
         int matching = 0;
         boolean wordMatch;
         for (Wine wine : searchedWines.getWineList()) {
             wordMatch = false;
             for (String word : keywords) {
-                if (wine.getName().contains(word) || wine.getLongDescription().contains(word)){
+                if (wine.getName().contains(word) || wine.getLongDescription().contains(word)) {
                     wordMatch = true;
+                    break;
                 }
             }
             if (wine.getColour().equals(this.colour) && wine.getFullness().equals(this.fullness) && wine.getCountry().equals(this.country) && wordMatch) {
                 matching++;
             }
         }
-        System.out.println(searchWineList.getWineList().size());
-        System.out.println(matching);
-        assertTrue(searchWineList.getWineList().size() == matching);
+        return matching;
     }
 }

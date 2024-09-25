@@ -15,7 +15,7 @@ public class WineDrinker {
     /**
      * List of all the wine drinker's lists
      */
-    private ArrayList<WineList> drinkersWineLists = new ArrayList<>();
+    private ArrayList<UserWineList> drinkersWineLists = new ArrayList<>();
     /**
      * Wine Drinker's username
      */
@@ -72,9 +72,9 @@ public class WineDrinker {
      * Creates new userWineList and adds it to drinkersWineList
      * TODO Use in wine list functionality in deliverable 3
      */
-    void createWineList() {
-        WineList wineList = new UserWineList();
-        drinkersWineLists.add(wineList);
+    void createWineList(String name) {
+        UserWineList userWineList = new UserWineList(null, name);
+        drinkersWineLists.add(userWineList);
     }
 
 

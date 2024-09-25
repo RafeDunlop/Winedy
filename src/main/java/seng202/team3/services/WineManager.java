@@ -83,7 +83,7 @@ public class WineManager {
      * @return true iff deleted, else false (what if it never existed?)
      */
     public boolean deleteWine(Wine wine) {
-        wineDAO.delete(wine.getUniqueWineID());
+        wineDAO.delete(wine);
         return false;
     }
 

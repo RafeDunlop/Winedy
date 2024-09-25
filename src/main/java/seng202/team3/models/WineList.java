@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @author Yuvraj Singh Fagotra (yfa50)
  */
-    public class WineList {
+    public abstract class WineList {
     private final List<Wine> wineList;
 
     /**
@@ -56,5 +56,7 @@ import java.util.List;
         }
         return inList;
     }
+
+    public abstract String getWineListName();
 
 }
