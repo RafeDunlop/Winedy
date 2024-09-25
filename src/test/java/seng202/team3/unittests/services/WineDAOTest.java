@@ -76,14 +76,14 @@ public class WineDAOTest {
     void testAddUniqueWine() {
         int insertId = wineDAO.add(WINE_1);
         assertEquals(HIGHEST_ID + 1, insertId);
-        wineDAO.delete(insertId);
+        wineDAO.delete(WINE_1);
     }
 
     @Test
     void testAddNonUniqueWine() {
         int insertId = wineDAO.add(WINE_1);
         assertDoesNotThrow(() -> wineDAO.add(WINE_1));
-        wineDAO.delete(insertId);
+        wineDAO.delete(WINE_1);
     }
 
     @Test
@@ -92,8 +92,8 @@ public class WineDAOTest {
         int id2 = wineDAO.add(WINE_2);
         List<Wine> allWines = wineDAO.getAll();
         assertEquals(CSV_LENGTH + 2, allWines.size());
-        wineDAO.delete(id1);
-        wineDAO.delete(id2);
+        wineDAO.delete(WINE_1);
+        wineDAO.delete(WINE_2);
     }
 
     @Test
@@ -101,7 +101,7 @@ public class WineDAOTest {
         int insertId = wineDAO.add(WINE_1);
         Wine retrievedWine = wineDAO.getWineByID(insertId);
         assertEquals(WINE_1.getLongDescription(), retrievedWine.getLongDescription());
-        wineDAO.delete(insertId);
+        wineDAO.delete(WINE_1);
     }
 
     @Test
@@ -113,13 +113,13 @@ public class WineDAOTest {
     @Test
     void testDeleteExistingWine() {
         int insertId = wineDAO.add(WINE_2);
-        wineDAO.delete(insertId);
+        wineDAO.delete(WINE_2);
         assertNull(wineDAO.getWineByID(insertId));
     }
 
     @Test
     void testDeleteNonExistingWine() {
-        assertDoesNotThrow(() -> wineDAO.delete(WINE_2.getUniqueWineID()));
+        assertDoesNotThrow(() -> wineDAO.delete(WINE_2));
     }
 
     @Test
@@ -128,7 +128,7 @@ public class WineDAOTest {
         List<String> keywords = Arrays.asList("Waihopai");
         SearchWineList searchWineList = wineDAO.searchWines(keywords, 2018, 2018, 0.0f, 20.0f, "New Zealand", "White", "DRY", "Sauvignon Blanc");
         assertEquals("The Ned Waihopai River Sauvignon Blanc 2018 Marlborough", searchWineList.getWineList().getFirst().getName());
-        wineDAO.delete(insertId);
+        wineDAO.delete(WINE_2);
     }
 
     @Test

@@ -118,10 +118,10 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
     /**
      * Delete object by ID
      *
-     * @param id id of object to delete
+     * @param toDelete WineDrinker object to be deleted
      */
     @Override
-    public void delete(int id ){
+    public void delete(WineDrinker toDelete) {
         throw new NotImplementedException("WineDrinkerDAO get all method not yet implemented");
     }
 

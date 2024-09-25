@@ -28,9 +28,9 @@ public interface DAOInterface<T> {
 
     /**
      * Deletes and object from database that matches id given
-     * @param id id of object to delete
+     * @param toDelete Object to be deleted
      */
-    void delete(int id);
+    void delete(T toDelete);
 
     /**
      * Updates an object in the database

@@ -20,14 +20,14 @@ import java.lang.String;
 public class WineDAO implements DAOInterface<Wine> {
 
     /**
-     * Database manager instance to manage database connections
-     */
-    private final DatabaseManager databaseManager;
-
-    /**
      * Logger for robust error logging
      */
     private static final Logger log = LogManager.getLogger(WineDAO.class);
+
+    /**
+     * Database manager instance to manage database connections
+     */
+    private final DatabaseManager databaseManager;
 
     /**
      * Boolean to determine AND is needed in the setUpSearchQuery statement
@@ -312,14 +312,14 @@ public class WineDAO implements DAOInterface<Wine> {
     /**
      * Delete wine from database by id
      *
-     * @param id id of object to delete
+     * @param toDelete Wine object to be deleted
      */
     @Override
-    public void delete ( int id){
+    public void delete (Wine toDelete) {
         String sql = "DELETE FROM wineSuper WHERE id=?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
+            ps.setInt(1, toDelete.getUniqueWineID());
             ps.executeUpdate();
         } catch (SQLException sqlException) {
             log.error(sqlException);
