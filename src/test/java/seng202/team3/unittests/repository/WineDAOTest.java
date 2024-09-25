@@ -1,4 +1,4 @@
-package seng202.team3.unittests.services;
+package seng202.team3.unittests.repository;
 
 import org.junit.jupiter.api.*;
 import seng202.team3.models.SearchWineList;
@@ -124,7 +124,6 @@ public class WineDAOTest {
 
     @Test
     void testSearchWines() {
-        int insertId = wineDAO.add(WINE_2);
         List<String> keywords = Arrays.asList("Waihopai");
         SearchWineList searchWineList = wineDAO.searchWines(keywords, 2018, 2018, 0.0f, 20.0f, "New Zealand", "White", "DRY", "Sauvignon Blanc");
         assertEquals("The Ned Waihopai River Sauvignon Blanc 2018 Marlborough", searchWineList.getWineList().getFirst().getName());
