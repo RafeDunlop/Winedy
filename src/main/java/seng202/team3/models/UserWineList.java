@@ -8,7 +8,7 @@ package seng202.team3.models;
  */
 public class UserWineList extends WineList {
     private String wineListName;
-    private String previousName;
+
     private String description;
 
     /**
@@ -40,5 +40,9 @@ public class UserWineList extends WineList {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setWineListName(String wineListName) {
+        this.wineListName = wineListName;
     }
 }
