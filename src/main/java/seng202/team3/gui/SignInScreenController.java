@@ -80,18 +80,16 @@ public class SignInScreenController {
     private void onCreateAccountButtonClicked() {
         try {
             String username = usernameTextField.getText(); //replace with method to check input against constraints
-            signInScreenService.validateRegisteringUsername(username);
             String password = enterPasswordField.getText();
             String secondPassword = reEnterPasswordField.getText();
-            signInScreenService.validateRegisteringPasswords(password, secondPassword);
             String colour = getComboInput(colourPreferenceComboBox);
             String fullness = getComboInput(fullnessPreferenceComboBox);
             String variety = getComboInput(varietyPreferenceComboBox);
             int ABVLimit = (int) abvLimitSlider.getValue();
 
-            WineDrinker curUser = new WineDrinker(username, password, null, colour, fullness, variety, ABVLimit);
-            wineDrinkerManager.setCurrentUser(curUser);
-            wineDrinkerManager.registerWineDrinker();
+            signInScreenService.validateRegisteringUsername(username);
+            signInScreenService.validateRegisteringPasswords(password, secondPassword);
+            signInScreenService.registerUser(username, password, null, colour, fullness, variety, ABVLimit);
             FXWrapper.getInstance().loadScreen(Screen.PROFILESCREEN);
 
         } catch (IllegalWineDrinkerException e) {

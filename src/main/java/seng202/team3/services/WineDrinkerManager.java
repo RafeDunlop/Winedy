@@ -36,8 +36,8 @@ public class WineDrinkerManager {
      * Creates a new WineDrinkerManager object and creates a private WineDrinkerDAO object that it will later
      * use for all database interactions
      */
-    private WineDrinkerManager() {
-        wineDrinkerDAO = new WineDrinkerDAO();
+    private WineDrinkerManager(String url) {
+        wineDrinkerDAO = new WineDrinkerDAO(url);
     }
 
     /**
@@ -46,9 +46,27 @@ public class WineDrinkerManager {
      */
     public static WineDrinkerManager getInstance() {
         if (instance == null) {
-            instance = new WineDrinkerManager();
+            instance = new WineDrinkerManager(null);
         }
         return instance;
+    }
+
+    /**
+     * Get the singleton instance of WineDrinkerManager
+     * @return instance of WineDrinkerManager
+     */
+    public static WineDrinkerManager getInstance(String url) {
+        if (instance == null) {
+            instance = new WineDrinkerManager(url);
+        }
+        return instance;
+    }
+
+    /**
+     *  WARNING Sets the current singleton instance to null
+     */
+    public static void REMOVE_INSTANCE() {
+        instance = null;
     }
 
     /**

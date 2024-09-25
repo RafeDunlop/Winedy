@@ -1,6 +1,5 @@
 package seng202.team3.repository;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
@@ -20,17 +19,17 @@ import java.lang.String;
 public class WineDAO implements DAOInterface<Wine> {
 
     /**
-     * Database manager instance to manage database connections
-     */
-    private final DatabaseManager databaseManager;
-
-    /**
      * Logger for robust error logging
      */
     private static final Logger log = LogManager.getLogger(WineDAO.class);
 
     /**
-     * Boolean to determine AND is needed in the setUpSearchQuery statement
+     * Database manager instance to manage database connections
+     */
+    private final DatabaseManager databaseManager;
+
+    /**
+     * Boolean to determine whether an AND is needed in the setUpSearchQuery statement
      */
     private boolean hasOne = false;
 
@@ -57,7 +56,7 @@ public class WineDAO implements DAOInterface<Wine> {
     @Override
     public List<Wine> getAll() {
         List<Wine> wines = new ArrayList<>();
-        String sqlWine = "SELECT * FROM wine";
+        String sqlWine = "SELECT * FROM wineSuper";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sqlWine)) {
             try (ResultSet resultSet = ps.executeQuery()) {
@@ -69,7 +68,6 @@ public class WineDAO implements DAOInterface<Wine> {
                     String[] awardList = getGrapesByID(id);
                     newWine = getWineFromResultSet(resultSet, grapeList, awardList);
                     wines.add(newWine);
-
                 }
                 return wines;
             }
@@ -77,39 +75,39 @@ public class WineDAO implements DAOInterface<Wine> {
             log.error(sqlException);
             return new ArrayList<>();
         }
-
     }
 
     /**
-     * Gets a list of grapes associated with a wine ID
+     * Gets a list of Strings representing grapes associated with a wine ID
      *
      * @param wineId ID of the wine to get the grapes from
      * @return an array of the grapes in the specified wine
      */
-    private String[] getGrapesByID(int wineId) {
+    protected String[] getGrapesByID(int wineId) {
         String sqlGrape = "SELECT * FROM grape WHERE wineId = ?";
         return getMultivaluedAttribute(wineId, sqlGrape);
     }
 
     /**
-     * Gets a list of awards associated with a wine ID
+     * Gets a list of Strings representing awards associated with a wine ID
      *
      * @param wineId ID of the wine to get the awards from
      * @return an array of the awards won by the specified wine
      */
-    private String[] getAwardsByID(int wineId) {
+    protected String[] getAwardsByID(int wineId) {
         String sqlAward = "SELECT * FROM award WHERE wineId = ?";
         return getMultivaluedAttribute(wineId, sqlAward);
     }
 
     /**
-     * Gets the multivariable attribute associated with a wine ID
-     * @param wineId ID of the wine to get the multivariable atributes from
+     * Gets a list of Strings representing the multivariable attribute associated with a wine ID
+     *
+     * @param wineId ID of the wine to get the multivariable attributes from
      * @param sql statement in the form of  "SELECT * FROM <table name> award WHERE wineId = ?"
      * @return a list corresponding to the desired multivalued attribute
      */
     @Nullable
-    private String[] getMultivaluedAttribute(int wineId, String sql) {
+    protected String[] getMultivaluedAttribute(int wineId, String sql) {
         String[] multivaluedAttributeList = new String[10];
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -134,10 +132,9 @@ public class WineDAO implements DAOInterface<Wine> {
      * @param id id of sale to get
      * @return Wine from database that matches id
      */
-
     public Wine getWineByID(int id) {
         Wine newWine = null;
-        String sql = "SELECT * FROM wine WHERE id=?";
+        String sql = "SELECT * FROM wineSuper WHERE id=?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -163,28 +160,28 @@ public class WineDAO implements DAOInterface<Wine> {
      * @return the insertId of the action
      */
     @Override
-    public int add(Wine toAdd){
-        String sqlWine = "INSERT INTO wine (id, name, country, colour, style, fullness, longDescription, pricePerBottle, alcoholByVolume, volumeInML, year) values (?,?,?,?,?,?,?,?,?,?,?);";
+    public int add(Wine toAdd) {
+        String sqlWineSuper = "INSERT OR IGNORE INTO wineSuper (id, name, country, colour, style, fullness, longDescription, pricePerBottle, alcoholByVolume, volumeInML, year) values (?,?,?,?,?,?,?,?,?,?,?);";
         String sqlGrape = "INSERT INTO grape (wineId, name) VALUES (?, ?)";
         String sqlAward = "INSERT INTO award (wineId, name) VALUES (?, ?)";
+        String sqlWine = "INSERT INTO wine (id) VALUES (?)";
         try (Connection conn = databaseManager.connect();
-             PreparedStatement psWine = conn.prepareStatement(sqlWine);
+             PreparedStatement psWineSuper = conn.prepareStatement(sqlWineSuper);
              PreparedStatement psGrape = conn.prepareStatement(sqlGrape);
-             PreparedStatement psAward = conn.prepareStatement(sqlAward)) {
-            setWineParams(psWine, toAdd);
+             PreparedStatement psAward = conn.prepareStatement(sqlAward);
+             PreparedStatement psWine = conn.prepareStatement(sqlWine)) {
+            setWineSuperParams(psWineSuper, toAdd);
             for (String grape : toAdd.getGrapes()) {
                 setGrapeParams(psGrape, toAdd.getUniqueWineID(), grape);
             }
             for (String award : toAdd.getAwards()) {
                 setAwardParams(psAward, toAdd.getUniqueWineID(), award);
             }
+            psWine.setInt(1, toAdd.getUniqueWineID());
             psWine.executeUpdate();
-            ResultSet resultSet = psWine.getGeneratedKeys();
-            int insertId = -1;
-            if (resultSet.next()) {
-                insertId = resultSet.getInt(1);
-            }
-            return insertId;
+            psWineSuper.executeUpdate();
+            ResultSet resultSet = psWineSuper.getGeneratedKeys();
+            return (resultSet.next()) ? resultSet.getInt(1) : -1;
         } catch (SQLException sqlException) {
             log.error(sqlException);
             return -1;
@@ -198,16 +195,18 @@ public class WineDAO implements DAOInterface<Wine> {
      * @param toAdd a list of wines to add to the database
      */
     public void addBatch (List < Wine > toAdd) {
-        String sqlWine = "INSERT OR IGNORE INTO wine (id, name, country, colour, style, fullness, longDescription, pricePerBottle, alcoholByVolume, volumeInML, year) values (?,?,?,?,?,?,?,?,?,?,?);";
+        String sqlWineSuper = "INSERT OR IGNORE INTO wineSuper (id, name, country, colour, style, fullness, longDescription, pricePerBottle, alcoholByVolume, volumeInML, year) values (?,?,?,?,?,?,?,?,?,?,?);";
         String sqlGrape = "INSERT INTO grape (wineId, name) VALUES (?, ?)";
         String sqlAward = "INSERT INTO award (wineId, name) VALUES (?, ?)";
+        String sqlWine = "INSERT INTO wine (id) VALUES (?)";
         try (Connection conn = databaseManager.connect();
-             PreparedStatement psWine = conn.prepareStatement(sqlWine);
+             PreparedStatement psWineSuper = conn.prepareStatement(sqlWineSuper);
              PreparedStatement psGrape = conn.prepareStatement(sqlGrape);
-             PreparedStatement psAward = conn.prepareStatement(sqlAward)) {
+             PreparedStatement psAward = conn.prepareStatement(sqlAward);
+             PreparedStatement psWine = conn.prepareStatement(sqlWine)) {
             conn.setAutoCommit(false);
             for (Wine wine : toAdd) {
-                setWineParams(psWine, wine);
+                setWineSuperParams(psWineSuper, wine);
                 for (String grape : wine.getGrapes()) {
                     setGrapeParams(psGrape, wine.getUniqueWineID(), grape);
                     psGrape.addBatch();
@@ -216,12 +215,15 @@ public class WineDAO implements DAOInterface<Wine> {
                     setAwardParams(psAward, wine.getUniqueWineID(), award);
                     psAward.addBatch();
                 }
+                psWine.setInt(1, wine.getUniqueWineID());
                 psWine.addBatch();
+                psWineSuper.addBatch();
             }
-            psWine.executeBatch();
+            psWineSuper.executeBatch();
             psGrape.executeBatch();
             psAward.executeBatch();
-            ResultSet resultSet = psWine.getGeneratedKeys();
+            psWine.executeBatch();
+            ResultSet resultSet = psWineSuper.getGeneratedKeys();
             while (resultSet.next()){
                 log.info(resultSet.getLong(1));
             }
@@ -232,13 +234,13 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     /**
-     * loads the Wine's single valued attributes into teh prepared statement
+     * Loads the Wine's single valued attributes into the prepared statement
      *
-     * @param ps prepared statement to be executed by a caller function
-     * @param wine the wine object to be loaded into the statement
-     * @throws SQLException if the loading encounters a problem
+     * @param ps Prepared Statement to be executed by a caller function
+     * @param wine The wine object to be loaded into the statement
+     * @throws SQLException If the loading encounters a problem, this is thrown up to the add or addBatch method that calls it
      */
-    private void setWineParams(PreparedStatement ps, Wine wine) throws SQLException {
+    protected void setWineSuperParams(PreparedStatement ps, Wine wine) throws SQLException {
         ps.setInt(1,wine.getUniqueWineID());
         ps.setString(2, wine.getName());
         ps.setString(3, wine.getCountry());
@@ -258,9 +260,9 @@ public class WineDAO implements DAOInterface<Wine> {
      * @param ps prepared sql statement for the parameters to be added to
      * @param wineID Wine ID parameter for SQL statement
      * @param grape the grape type parameter  for SQL statement
-     * @throws SQLException
+     * @throws SQLException If an SQL Exception occurs, this is thrown up to the add or addBatch method that calls it
      */
-    private void setGrapeParams(PreparedStatement ps, int wineID, String grape) throws SQLException {
+    protected void setGrapeParams(PreparedStatement ps, int wineID, String grape) throws SQLException {
         ps.setInt(1, wineID);
         ps.setString(2, grape);
     }
@@ -271,9 +273,9 @@ public class WineDAO implements DAOInterface<Wine> {
      * @param ps prepared sql statement for the parameters to be added to
      * @param wineID Wine ID parameter for SQL statement
      * @param name the name of the parameter  for SQL statement
-     * @throws SQLException
+     * @throws SQLException If an SQL Exception occurs, this is thrown up to the add or addBatch method that calls it
      */
-    private void setAwardParams(PreparedStatement ps, int wineID, String name) throws SQLException {
+    protected void setAwardParams(PreparedStatement ps, int wineID, String name) throws SQLException {
         ps.setInt(1, wineID);
         ps.setString(2, name);
     }
@@ -285,9 +287,9 @@ public class WineDAO implements DAOInterface<Wine> {
      * @param grapes list of grapes to be added to the wine object
      * @param awards list of awards to be added to the wine object
      * @return the Wine object created from the result set
-     * @throws SQLException
+     * @throws SQLException If an SQL Exception occurs, this is thrown up to the method that calls it
      */
-    private Wine getWineFromResultSet(ResultSet resultSet, String[] grapes, String[] awards) throws SQLException {
+    protected Wine getWineFromResultSet(ResultSet resultSet, String[] grapes, String[] awards) throws SQLException {
         return new Wine( resultSet.getInt("id"),
                 resultSet.getString("name"),
                 resultSet.getString("country"),
@@ -304,33 +306,36 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     /**
-     * Delete wine from database by id
+     * Deletes a Wine from database by id
      *
-     * @param id id of object to delete
+     * @param toDelete Wine object to be deleted
+     * @return either: -1 if there is an error, 0 if no tuple is deleted or the number of tuples deleted (1)
      */
     @Override
-    public void delete ( int id){
-        String sql = "DELETE FROM wine WHERE id=?";
+    public int delete (Wine toDelete) {
+        String sql = "DELETE FROM wineSuper WHERE id=?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
+            ps.setInt(1, toDelete.getUniqueWineID());
             ps.executeUpdate();
+            return 0;
         } catch (SQLException sqlException) {
             log.error(sqlException);
+            return 1;
         }
     }
 
     /**
-     * Updates wine in database
+     * Updates a Wine in database
      *
      * @param toUpdate sale that needs to be updated (this object must be able to identify itself and its previous self)
      */
     @Override
-    public void update (Wine toUpdate){
-        throw new NotImplementedException();
+    public int update (Wine toUpdate) {
+        return 1;
     }
 
-    private String addAnd() {
+    protected String addAnd() {
         if (!hasOne) {
             hasOne = true;
             return " ";
@@ -339,6 +344,7 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     /**
+     * TODO: Change to a string builder
      * Sets up the SQL query string for a wine search based on the existence of the provided parameters
      * @param keywords list of keywords that have been collected from the search bar on the app
      * @param minYear the earliest year a wine can be from, specified by the wine drinker
@@ -351,12 +357,13 @@ public class WineDAO implements DAOInterface<Wine> {
      * @param grapeName the colour of grape that the wine is made of
      * @return a string that is the SQL query for the search method
      */
-    private String setUpSearchQuery(List<String> keywords, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice, String country, String colour, String fullness, String grapeName) {
+    protected String setUpSearchQuery(List<String> keywords, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice, String country, String colour, String fullness, String grapeName) {
         hasOne = false;
-        String sql = "SELECT * FROM wine ";
+        String sql = "SELECT * FROM wineSuper ";
         if (grapeName != null) {
-            sql += "JOIN grape ON id = wineId ";
+            sql += "JOIN grape ON grape.wineId = wineSuper.id ";
         }
+        sql += "JOIN wine ON wine.id = wineSuper.id ";
         sql += "WHERE ";
         if (keywords != null) {
             for (int i = 0; i < keywords.size(); i++) {
@@ -365,10 +372,10 @@ public class WineDAO implements DAOInterface<Wine> {
                     hasOne = true;
                 }
                 if (i == keywords.size() - 1) {
-                    sql += "(LOWER(wine.name) LIKE ? OR LOWER(style) LIKE ? OR LOWER(longDescription) LIKE ?)";
+                    sql += "(LOWER(wineSuper.name) LIKE ? OR LOWER(style) LIKE ? OR LOWER(longDescription) LIKE ?)";
                     sql += ") ";
                 } else {
-                    sql += "(LOWER(wine.name) LIKE ? OR LOWER(style) LIKE ? OR LOWER(longDescription) LIKE ?) OR ";
+                    sql += "(LOWER(wineSuper.name) LIKE ? OR LOWER(style) LIKE ? OR LOWER(longDescription) LIKE ?) OR ";
                 }
             }
         }
@@ -399,7 +406,7 @@ public class WineDAO implements DAOInterface<Wine> {
         return sql;
     }
 
-    /***
+    /**
      * Adds the required parameters to a PreparedStatement for the search method
      * @param ps prepared statement to add parameters to
      * @param keywords list of keywords that have been collected from the search bar on the app
@@ -411,9 +418,9 @@ public class WineDAO implements DAOInterface<Wine> {
      * @param colour the specified colour of wine between red, white and rose
      * @param fullness the specified dryness of the wine
      * @param grapeName the colour of grape that the wine is made of
-     * @throws SQLException
+     * @throws SQLException If an SQL Exception occurs, this is thrown up to the method that calls it
      */
-    private void setUpSearchPreparedStatement(PreparedStatement ps, List<String> keywords, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice, String country, String colour, String fullness, String grapeName) throws SQLException {
+    protected void setUpSearchPreparedStatement(PreparedStatement ps, List<String> keywords, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice, String country, String colour, String fullness, String grapeName) throws SQLException {
         int i = 0;
         if (keywords != null) {
             for (; i < keywords.size(); i++) {

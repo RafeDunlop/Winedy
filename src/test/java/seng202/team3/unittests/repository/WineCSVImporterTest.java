@@ -1,4 +1,4 @@
-package seng202.team3.unittests.services;
+package seng202.team3.unittests.repository;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

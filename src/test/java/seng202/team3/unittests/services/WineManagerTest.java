@@ -1,21 +1,24 @@
-package seng202.team3.unittests;
+package seng202.team3.unittests.services;
 
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team3.models.SearchWineList;
-import seng202.team3.repository.WineDAO;
+import seng202.team3.repository.DatabaseManager;
 import seng202.team3.services.WineManager;
 import seng202.team3.models.Wine;
 
+import java.io.File;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class WineManagerTest {
-    private WineManager wineManager = WineManager.getInstance();
+    private WineManager wineManager;
     private final int HIGHEST_ID = 782;
     private static final String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
     private final int NUMBER_OF_WINES = 473;
@@ -34,16 +37,30 @@ public class WineManagerTest {
             (float) 14,
             75,
             2018);
+
     @BeforeAll
-    public static void setup() {
-        WineManager.getInstance().setWineDAO(new WineDAO(DATABASE_PATH));
+    public static void deleteTestDB() {
+        File file = new File(DATABASE_PATH);
+        file.delete();
+    }
+
+    @BeforeEach
+    public void setup() {
+        DatabaseManager.REMOVE_INSTANCE();
+        WineManager.REMOVE_INSTANCE();
+        wineManager = WineManager.getInstance(DATABASE_PATH);
+    }
+
+    @AfterEach
+    public void cleanup() {
+        File file = new File(DATABASE_PATH.substring(12));
+        file.delete();
     }
 
     @Test
     public void testAddWine() {
         int insertID = wineManager.addWine(WINE_1);
         assertEquals(HIGHEST_ID + 1, insertID);
-        wineManager.deleteWine(WINE_1);
     }
     @Test
     public void testGetWineByID() {
@@ -51,7 +68,6 @@ public class WineManagerTest {
         Wine wine = wineManager.getWineById(WINE_1.getUniqueWineID());
         assertEquals(WINE_1.getName(), wine.getName());
         assertEquals(WINE_1.getLongDescription(), wine.getLongDescription());
-        wineManager.deleteWine(WINE_1);
     }
 
     @Test
@@ -60,11 +76,13 @@ public class WineManagerTest {
         wineManager.deleteWine(WINE_1);
         assertNull(wineManager.getWineById(insertID));
     }
+
      @Test
     public void testGetAllWines() {
         List<Wine> allWines = wineManager.getAllWines();
         assertEquals(allWines.size(), NUMBER_OF_WINES);
     }
+
     @Test
     public void searchWines() {
         SearchWineList searchedWines = wineManager.searchWines("fruity", 2008, 2018, null, (float) 100, "New Zealand", "White", null, "Sauvignon Blanc");
