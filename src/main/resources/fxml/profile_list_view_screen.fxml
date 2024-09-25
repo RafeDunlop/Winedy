@@ -4,54 +4,50 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileListViewScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileListViewScreenController">
    <children>
       <GridPane prefHeight="720.0" prefWidth="1200.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="800.0" minWidth="800.0" prefWidth="800.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="10.0" prefWidth="400.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="800.0" minWidth="742.0" prefWidth="742.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="458.0" minWidth="10.0" prefWidth="458.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="150.0" minHeight="150.0" prefHeight="150.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="570.0" minHeight="570.0" prefHeight="570.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="150.0" minHeight="118.0" prefHeight="118.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="602.0" minHeight="570.0" prefHeight="602.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Button fx:id="goBackButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onGoBackButtonClicked" prefWidth="100.0" text="Go Back" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="50.0" top="25.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
             </Button>
-            <ListView fx:id="searchListView" maxHeight="500.0" maxWidth="750.0" minHeight="500.0" minWidth="750.0" prefHeight="500.0" prefWidth="750.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-            <AnchorPane fx:id="wineDetailsAnchorPane" maxHeight="500.0" maxWidth="300.0" minHeight="500.0" minWidth="300.0" prefHeight="500.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-            <Label text="Sort By">
+            <AnchorPane fx:id="wineDetailsAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="300.0" prefHeight="532.0" prefWidth="347.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <Button fx:id="removeAllButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onRemoveAllButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Edit List" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="350.0" top="50.0" />
+                  <Insets left="120.0" top="15.0" />
                </GridPane.margin>
-            </Label>
-            <Button fx:id="renameButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onRenameButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Rename" GridPane.valignment="CENTER">
-               <GridPane.margin>
-                  <Insets left="200.0" top="50.0" />
-               </GridPane.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
             </Button>
-            <Button fx:id="removeAllButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onRemoveAllButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Remove All" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+            <ComboBox fx:id="sortByComboBox" prefHeight="35.0" prefWidth="218.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets right="50.0" top="25.0" />
-               </GridPane.margin>
-            </Button>
-            <ComboBox fx:id="sortByComboBox" prefWidth="150.0" GridPane.halignment="LEFT">
-               <GridPane.margin>
-                  <Insets left="400.0" top="50.0" />
+                  <Insets />
                </GridPane.margin>
             </ComboBox>
-            <TextField fx:id="wineListNameTextField" editable="false" text="wineListName" GridPane.valignment="TOP">
+            <TextField fx:id="wineListNameTextField" editable="false" maxWidth="-Infinity" prefHeight="62.0" prefWidth="490.0" text="wineListName" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="200.0" top="25.0" />
                </GridPane.margin>
@@ -59,6 +55,35 @@
                   <Font size="24.0" />
                </font>
             </TextField>
+            <ScrollPane hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="532.0" prefWidth="662.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <content>
+                  <VBox fx:id="listContentsVBox" prefHeight="530.0" prefWidth="662.0" />
+               </content>
+            </ScrollPane>
+            <Label fx:id="wineListNameLabel" prefHeight="62.0" prefWidth="490.0" text="wineListName" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="200.0" top="25.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Button fx:id="renameButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onRenameButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Rename" GridPane.columnIndex="1" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets top="15.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Label text="Sort By" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="10.0" top="15.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
    </children>

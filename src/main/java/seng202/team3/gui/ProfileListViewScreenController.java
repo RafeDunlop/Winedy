@@ -2,11 +2,13 @@ package seng202.team3.gui;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import seng202.team3.models.Wine;
 
 /**
  * Controller for the profile_list_view_screen.fxml window
@@ -38,6 +40,12 @@ public class ProfileListViewScreenController {
     @FXML
     private TextField wineListNameTextField;
 
+    @FXML
+    private Label wineListNameLabel;
+
+    @FXML
+    private VBox listContentsVBox;
+
     /**
      * method called when the back button is clicked
      */
@@ -55,4 +63,11 @@ public class ProfileListViewScreenController {
      */
     @FXML
     void onRenameButtonClicked() {}
+
+    public void initialize() {
+        Wine[] listContentsArray = { new Wine(0, null, null, null, null, null, null, null, 0, null, 0, 0, 0)};
+        GuiService.fillVboxGrid(listContentsArray, listContentsVBox, wineDetailsAnchorPane);
+
+
+    }
 }
