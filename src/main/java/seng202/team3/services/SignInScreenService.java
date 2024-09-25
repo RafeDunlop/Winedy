@@ -74,11 +74,54 @@ public class SignInScreenService {
         }
     }
 
+    /**
+     *
+     * @param username
+     * @param password
+     * @param country
+     * @param colour
+     * @param fullness
+     * @param variety
+     * @param ABVLimit
+     * @throws IllegalWineDrinkerException
+     */
     public void registerUser(String username, String password, String country, String colour, String fullness, String variety, double ABVLimit) throws IllegalWineDrinkerException{
         try {
             WineDrinker curUser = new WineDrinker(username, password, country, colour, fullness, variety, ABVLimit);
             wineDrinkerManager.setCurrentUser(curUser);
             wineDrinkerManager.registerWineDrinker();
+        } catch (IllegalWineDrinkerException e) {
+            throw e;
+        }
+    }
+
+    /**
+     * Single function that calls all required functions to validate and register
+     * a new user
+     * @param username
+     * @param password
+     * @param secondPassword
+     * @param country
+     * @param colour
+     * @param fullness
+     * @param variety
+     * @param ABVLimit
+     * @throws IllegalWineDrinkerException
+     */
+    public void validateAndRegisterUser(String username, String password, String secondPassword, String country, String colour, String fullness, String variety, double ABVLimit) throws IllegalWineDrinkerException{
+        try {
+            validateRegisteringUsername(username);
+            validateRegisteringPasswords(password, secondPassword);
+            registerUser(username, password, null, colour, fullness, variety, ABVLimit);
+        } catch(IllegalWineDrinkerException e) {
+            throw e;
+        }
+    }
+
+    public void validateAndLoginUser(String username, String password) throws IllegalWineDrinkerException{
+        try {
+            validateLoginDetails(username, password);
+            wineDrinkerManager.loginCurrentUser(username, password);
         } catch (IllegalWineDrinkerException e) {
             throw e;
         }
