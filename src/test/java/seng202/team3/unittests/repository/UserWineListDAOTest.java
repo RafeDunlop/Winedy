@@ -15,9 +15,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserWineListDAOTest {
-    String DATABASE_PATH = "./src/test/resources/test_database.db";
+    String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
 
-    private UserWineListDAO toTest;
+    private UserWineListDAO userWineListDAO;
     
     private final int HIGHEST_ID = 782;
 
@@ -63,7 +63,7 @@ public class UserWineListDAOTest {
         DatabaseManager.REMOVE_INSTANCE();
         DatabaseManager.getInstance(DATABASE_PATH);
         WineDAO wineDAO = new WineDAO(DATABASE_PATH);
-        toTest = new UserWineListDAO("./src/test/resources/test_database.db");
+        userWineListDAO = new UserWineListDAO(DATABASE_PATH);
         wineDAO.add(testWine1);
         wineDAO.add(testWine2);
         WineDrinkerManager.getInstance(DATABASE_PATH).setCurrentUser(new WineDrinker("test1", "test1", "New Zealand", "Rose", "DRY", "Chardonnay", 25));
@@ -80,24 +80,24 @@ public class UserWineListDAOTest {
     @Test
     public void testAlreadyAdded() {
         UserWineList testWineList = new UserWineList("Name", "Description");
-        toTest.add(testWineList);
-        assertEquals(1, toTest.add(testWineList));
+        userWineListDAO.add(testWineList);
+        assertEquals(1, userWineListDAO.add(testWineList));
     }
 
     @Test
     public void testAddNewList() {
         UserWineList testWineList = new UserWineList("Name", "Description");
-        toTest.add(testWineList);
-        List<UserWineList> retrievedWineList = toTest.getAll();
+        userWineListDAO.add(testWineList);
+        List<UserWineList> retrievedWineList = userWineListDAO.getAll();
         assertEquals(testWineList.getDescription(), retrievedWineList.getFirst().getDescription());
     }
 
     @Test
     public void testGetAllNullUser() {
         UserWineList testWineList = new UserWineList("Name", "Description");
-        toTest.add(testWineList);
+        userWineListDAO.add(testWineList);
         WineDrinkerManager.getInstance(DATABASE_PATH).setCurrentUser(null);
-        assertEquals(0, toTest.getAll().size());
+        assertEquals(0, userWineListDAO.getAll().size());
     }
 
     @Test
@@ -105,8 +105,8 @@ public class UserWineListDAOTest {
         UserWineList testWineList = new UserWineList("Name", "Description");
         testWineList.addWineToList(testWine1);
         testWineList.addWineToList(testWine2);
-        toTest.add(testWineList);
-        List<UserWineList> retrievedWineList = toTest.getAll();
+        userWineListDAO.add(testWineList);
+        List<UserWineList> retrievedWineList = userWineListDAO.getAll();
         assertEquals(testWine1.getUniqueWineID(), retrievedWineList.getFirst().getWineList().getFirst().getUniqueWineID());
         assertEquals(testWine2.getUniqueWineID(), retrievedWineList.getFirst().getWineList().get(1).getUniqueWineID());
     }
@@ -115,30 +115,30 @@ public class UserWineListDAOTest {
     public void testGetAllTwoLists() {
         UserWineList testWineList = new UserWineList("Name", "Description");
         UserWineList testWineList1 = new UserWineList("Name1", "Description1");
-        toTest.add(testWineList);
-        toTest.add(testWineList1);
-        List<UserWineList> retrievedWineList = toTest.getAll();
+        userWineListDAO.add(testWineList);
+        userWineListDAO.add(testWineList1);
+        List<UserWineList> retrievedWineList = userWineListDAO.getAll();
         assertEquals(2, retrievedWineList.size());
     }
 
     @Test
     public void testUpdate() { //test for case where update fails is untestable (update never fails in an intended manner)
         UserWineList testWineList = new UserWineList("Name", "Description");
-        toTest.add(testWineList);
-        int currentNumber = toTest.getAll().getFirst().getWineList().size();
+        userWineListDAO.add(testWineList);
+        int currentNumber = userWineListDAO.getAll().getFirst().getWineList().size();
         testWineList.addWineToList(testWine1);
-        toTest.update(testWineList);
-        int newNumber = toTest.getAll().getFirst().getWineList().size();
+        userWineListDAO.update(testWineList);
+        int newNumber = userWineListDAO.getAll().getFirst().getWineList().size();
         assertEquals(1, newNumber - currentNumber);
     }
 
     @Test
     public void testDelete() { //test for case where deletion fails is untestable (deletion never fails in an intended manner)
         UserWineList testWineList = new UserWineList("Name", "Description");
-        toTest.add(testWineList);
-        int currentNumber = toTest.getAll().size();
-        toTest.delete(testWineList);
-        int newNumber = toTest.getAll().size();
+        userWineListDAO.add(testWineList);
+        int currentNumber = userWineListDAO.getAll().size();
+        userWineListDAO.delete(testWineList);
+        int newNumber = userWineListDAO.getAll().size();
         assertEquals(-1, newNumber - currentNumber);
     }
 
@@ -146,15 +146,15 @@ public class UserWineListDAOTest {
     public void testDeleteNotAdded() {
         UserWineList testWineList = new UserWineList("Name", "Description");
         //not added
-        assertEquals(0, toTest.delete(testWineList));
+        assertEquals(0, userWineListDAO.delete(testWineList));
     }
 
     @Test
     public void testRename() {
         UserWineList testWineList = new UserWineList("Name", "Description");
-        toTest.add(testWineList);
-        toTest.rename(testWineList, "newName");
-        assertEquals("newName", toTest.getAll().getFirst().getWineListName());
+        userWineListDAO.add(testWineList);
+        userWineListDAO.rename(testWineList, "newName");
+        assertEquals("newName", userWineListDAO.getAll().getFirst().getWineListName());
     }
 
 
