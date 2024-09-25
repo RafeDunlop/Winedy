@@ -36,10 +36,10 @@ public class PersonalWineDAO implements DAOInterface<Wine> {
     /**
      * Deletes a Personal Wine object from database that matches id given
      *
-     * @param id id of object to delete
+     * @param toDelete Object to be deleted
      */
     @Override
-    public void delete(int id) {
+    public void delete(Wine toDelete) {
 
     }
 
