@@ -95,7 +95,7 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
                 psContains.executeUpdate();
             }
             return 0;
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             log.error(e);
             return 1;
         }
@@ -105,6 +105,7 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
      * Deletes the given UserWineList object
      *
      * @param toDelete UserWineList Object to be deleted
+     * @return either: -1 if there is an error, 0 if no tuple is deleted or the number of tuples deleted (1)
      */
     @Override
     public int delete(UserWineList toDelete) {
@@ -113,10 +114,10 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
              PreparedStatement psDelete = conn.prepareStatement(sqlDelete)) {
             psDelete.setString(1, toDelete.getWineListName());
             psDelete.setString(2, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
-            return 0;
-        } catch (SQLException e) {
+            return psDelete.executeUpdate();
+        } catch (SQLException | NullPointerException e) {
             log.error(e);
-            return 1;
+            return -1;
         }
     }
 
@@ -126,6 +127,7 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
      * contained in the list.
      *
      * @param toUpdate Object that needs to be updated (this object must be able to identify itself and its previous self)
+     * @return 0 if update succeeds without exceptions, otherwise 1
      */
     @Override
     public int update(UserWineList toUpdate) {
@@ -142,7 +144,7 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
             psList.executeUpdate();
             psContains.executeBatch();
             return 0;
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             log.error(e);
             return 1;
         }
@@ -169,7 +171,7 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
      * @param toAdd The UserWineList being added to the database
      * @throws SQLException If an SQLException occurs, this is thrown up to the add method that calls it to be logged
      */
-    private void setAddListParams(PreparedStatement ps, UserWineList toAdd) throws SQLException {
+    private void setAddListParams(PreparedStatement ps, UserWineList toAdd) throws SQLException, NullPointerException {
         ps.setString(1, toAdd.getWineListName());
         ps.setString(2, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
         ps.setString(3, toAdd.getDescription());
@@ -183,7 +185,7 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
      * @param toUpdate The UserWineList being updated in the database
      * @throws SQLException If an SQLException occurs, this is thrown up to the update method that calls it to be logged
      */
-    private void setUpdateListParams(PreparedStatement ps, UserWineList toUpdate) throws SQLException {
+    private void setUpdateListParams(PreparedStatement ps, UserWineList toUpdate) throws SQLException, NullPointerException {
         ps.setString(1, toUpdate.getDescription());
         ps.setString(2, toUpdate.getWineListName());
         ps.setString(3, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
@@ -195,7 +197,7 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
      *
      * @param userWineList The UserWineList to have wines added to
      */
-    private void getContainedWines(UserWineList userWineList) {
+    private void getContainedWines(UserWineList userWineList) throws NullPointerException {
         String sqlContains = "SELECT * FROM contains JOIN wineSuper ON contains.wineId = wineSuper.id WHERE contains.wineDrinker = ? AND contains.listName = ?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement psContains = conn.prepareStatement(sqlContains)) {
@@ -224,7 +226,7 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
      * @param wineListName The UserWineList being added into the contains table
      * @throws SQLException If an SQLException occurs, this is thrown up to the add or update method that calls it to be logged
      */
-    private void setContainsParams(PreparedStatement ps, Wine wine, String wineListName) throws SQLException {
+    private void setContainsParams(PreparedStatement ps, Wine wine, String wineListName) throws SQLException, NullPointerException {
         ps.setInt(1, wine.getUniqueWineID());
         ps.setString(2, wineListName);
         ps.setString(3, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
