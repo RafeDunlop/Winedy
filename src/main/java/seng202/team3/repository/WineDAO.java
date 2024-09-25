@@ -20,14 +20,14 @@ import java.lang.String;
 public class WineDAO implements DAOInterface<Wine> {
 
     /**
-     * Database manager instance to manage database connections
-     */
-    private final DatabaseManager databaseManager;
-
-    /**
      * Logger for robust error logging
      */
     private static final Logger log = LogManager.getLogger(WineDAO.class);
+
+    /**
+     * Database manager instance to manage database connections
+     */
+    private final DatabaseManager databaseManager;
 
     /**
      * Boolean to determine AND is needed in the setUpSearchQuery statement
