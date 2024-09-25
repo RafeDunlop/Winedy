@@ -71,8 +71,8 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
             return userWineLists;
         } catch (SQLException | NullPointerException e) {
             log.error(e);
+            return Collections.emptyList();
         }
-        return Collections.emptyList();
     }
 
     /**
