@@ -30,7 +30,7 @@ public class WineDAO implements DAOInterface<Wine> {
     private final DatabaseManager databaseManager;
 
     /**
-     * Boolean to determine AND is needed in the setUpSearchQuery statement
+     * Boolean to determine whether an AND is needed in the setUpSearchQuery statement
      */
     private boolean hasOne = false;
 
@@ -81,7 +81,7 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     /**
-     * Gets a list of grapes associated with a wine ID
+     * Gets a list of Strings representing grapes associated with a wine ID
      *
      * @param wineId ID of the wine to get the grapes from
      * @return an array of the grapes in the specified wine
@@ -92,7 +92,7 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     /**
-     * Gets a list of awards associated with a wine ID
+     * Gets a list of Strings representing awards associated with a wine ID
      *
      * @param wineId ID of the wine to get the awards from
      * @return an array of the awards won by the specified wine
@@ -103,8 +103,9 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     /**
-     * Gets the multivariable attribute associated with a wine ID
-     * @param wineId ID of the wine to get the multivariable atributes from
+     * Gets a list of Strings representing the multivariable attribute associated with a wine ID
+     *
+     * @param wineId ID of the wine to get the multivariable attributes from
      * @param sql statement in the form of  "SELECT * FROM <table name> award WHERE wineId = ?"
      * @return a list corresponding to the desired multivalued attribute
      */
@@ -172,7 +173,7 @@ public class WineDAO implements DAOInterface<Wine> {
              PreparedStatement psGrape = conn.prepareStatement(sqlGrape);
              PreparedStatement psAward = conn.prepareStatement(sqlAward);
              PreparedStatement psWine = conn.prepareStatement(sqlWine)) {
-            setWineParams(psWineSuper, toAdd);
+            setWineSuperParams(psWineSuper, toAdd);
             for (String grape : toAdd.getGrapes()) {
                 setGrapeParams(psGrape, toAdd.getUniqueWineID(), grape);
             }
@@ -210,7 +211,7 @@ public class WineDAO implements DAOInterface<Wine> {
              PreparedStatement psWine = conn.prepareStatement(sqlWine)) {
             conn.setAutoCommit(false);
             for (Wine wine : toAdd) {
-                setWineParams(psWineSuper, wine);
+                setWineSuperParams(psWineSuper, wine);
                 for (String grape : wine.getGrapes()) {
                     setGrapeParams(psGrape, wine.getUniqueWineID(), grape);
                     psGrape.addBatch();
@@ -238,13 +239,13 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     /**
-     * loads the Wine's single valued attributes into teh prepared statement
+     * Loads the Wine's single valued attributes into the prepared statement
      *
-     * @param ps prepared statement to be executed by a caller function
-     * @param wine the wine object to be loaded into the statement
-     * @throws SQLException if the loading encounters a problem
+     * @param ps Prepared Statement to be executed by a caller function
+     * @param wine The wine object to be loaded into the statement
+     * @throws SQLException If the loading encounters a problem, this is thrown up to the add or addBatch method that calls it
      */
-    protected void setWineParams(PreparedStatement ps, Wine wine) throws SQLException {
+    protected void setWineSuperParams(PreparedStatement ps, Wine wine) throws SQLException {
         ps.setInt(1,wine.getUniqueWineID());
         ps.setString(2, wine.getName());
         ps.setString(3, wine.getCountry());
@@ -264,7 +265,7 @@ public class WineDAO implements DAOInterface<Wine> {
      * @param ps prepared sql statement for the parameters to be added to
      * @param wineID Wine ID parameter for SQL statement
      * @param grape the grape type parameter  for SQL statement
-     * @throws SQLException
+     * @throws SQLException If an SQL Exception occurs, this is thrown up to the add or addBatch method that calls it
      */
     protected void setGrapeParams(PreparedStatement ps, int wineID, String grape) throws SQLException {
         ps.setInt(1, wineID);
@@ -277,7 +278,7 @@ public class WineDAO implements DAOInterface<Wine> {
      * @param ps prepared sql statement for the parameters to be added to
      * @param wineID Wine ID parameter for SQL statement
      * @param name the name of the parameter  for SQL statement
-     * @throws SQLException
+     * @throws SQLException If an SQL Exception occurs, this is thrown up to the add or addBatch method that calls it
      */
     protected void setAwardParams(PreparedStatement ps, int wineID, String name) throws SQLException {
         ps.setInt(1, wineID);
@@ -291,7 +292,7 @@ public class WineDAO implements DAOInterface<Wine> {
      * @param grapes list of grapes to be added to the wine object
      * @param awards list of awards to be added to the wine object
      * @return the Wine object created from the result set
-     * @throws SQLException
+     * @throws SQLException If an SQL Exception occurs, this is thrown up to the method that calls it
      */
     protected Wine getWineFromResultSet(ResultSet resultSet, String[] grapes, String[] awards) throws SQLException {
         return new Wine( resultSet.getInt("id"),
@@ -310,7 +311,7 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     /**
-     * Delete wine from database by id
+     * Deletes a Wine from database by id
      *
      * @param toDelete Wine object to be deleted
      */
@@ -327,7 +328,7 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     /**
-     * Updates wine in database
+     * Updates a Wine in database
      *
      * @param toUpdate sale that needs to be updated (this object must be able to identify itself and its previous self)
      */
@@ -419,7 +420,7 @@ public class WineDAO implements DAOInterface<Wine> {
      * @param colour the specified colour of wine between red, white and rose
      * @param fullness the specified dryness of the wine
      * @param grapeName the colour of grape that the wine is made of
-     * @throws SQLException
+     * @throws SQLException If an SQL Exception occurs, this is thrown up to the method that calls it
      */
     protected void setUpSearchPreparedStatement(PreparedStatement ps, List<String> keywords, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice, String country, String colour, String fullness, String grapeName) throws SQLException {
         int i = 0;
