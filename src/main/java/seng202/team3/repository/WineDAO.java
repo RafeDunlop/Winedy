@@ -1,6 +1,5 @@
 package seng202.team3.repository;
 
-import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
@@ -313,6 +312,7 @@ public class WineDAO implements DAOInterface<Wine> {
      * Delete wine from database by id
      *
      * @param toDelete Wine object to be deleted
+     * @return either: -1 if there is an error, 0 if no tuple is deleted or the number of tuples deleted (1)
      */
     @Override
     public int delete (Wine toDelete) {
