@@ -39,8 +39,8 @@ public class PersonalWineDAO implements DAOInterface<Wine> {
      * @param toDelete Object to be deleted
      */
     @Override
-    public void delete(Wine toDelete) {
-
+    public int delete(Wine toDelete) {
+        return 0;
     }
 
     /**
@@ -49,7 +49,7 @@ public class PersonalWineDAO implements DAOInterface<Wine> {
      * @param toUpdate Object that needs to be updated (this object must be able to identify itself and its previous self)
      */
     @Override
-    public void update(Wine toUpdate) {
-
+    public int update(Wine toUpdate) {
+        return 0;
     }
 }

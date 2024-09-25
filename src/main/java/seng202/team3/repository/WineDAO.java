@@ -316,14 +316,16 @@ public class WineDAO implements DAOInterface<Wine> {
      * @param toDelete Wine object to be deleted
      */
     @Override
-    public void delete (Wine toDelete) {
+    public int delete (Wine toDelete) {
         String sql = "DELETE FROM wineSuper WHERE id=?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, toDelete.getUniqueWineID());
             ps.executeUpdate();
+            return 0;
         } catch (SQLException sqlException) {
             log.error(sqlException);
+            return 1;
         }
     }
 
@@ -333,8 +335,8 @@ public class WineDAO implements DAOInterface<Wine> {
      * @param toUpdate sale that needs to be updated (this object must be able to identify itself and its previous self)
      */
     @Override
-    public void update (Wine toUpdate){
-        throw new NotImplementedException();
+    public int update (Wine toUpdate) {
+        return 1;
     }
 
     protected String addAnd() {
