@@ -181,9 +181,7 @@ public class WineDAO implements DAOInterface<Wine> {
             psWine.executeUpdate();
             psWineSuper.executeUpdate();
             ResultSet resultSet = psWineSuper.getGeneratedKeys();
-
             return (resultSet.next()) ? resultSet.getInt(1) : -1;
-
         } catch (SQLException sqlException) {
             log.error(sqlException);
             return -1;

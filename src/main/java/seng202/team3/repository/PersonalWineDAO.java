@@ -88,7 +88,24 @@ public class PersonalWineDAO implements DAOInterface<Wine> {
      */
     @Override
     public int add(Wine toAdd) throws WineDrinkerAlreadyExistsException {
-        return 0;
+        wineDAO.add(toAdd);
+        String sqlPersonalWine = "INSERT OR IGNORE INTO personalWine (id, wineDrinker) VALUES (?,?);";
+        String sqlWine = "INSERT INTO wine (id) VALUES (?)";
+        String currentWineDrinker = WineDrinkerManager.getInstance().getCurrentUser().getUsername();
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement psPersonalWine = conn.prepareStatement(sqlPersonalWine);
+             PreparedStatement psWine = conn.prepareStatement(sqlWine)) {
+            psPersonalWine.setInt(1, toAdd.getUniqueWineID());
+            psPersonalWine.setString(2, currentWineDrinker);
+            psWine.setInt(1, toAdd.getUniqueWineID());
+            psWine.executeUpdate();
+            psPersonalWine.executeUpdate();
+            ResultSet resultSet = psPersonalWine.getGeneratedKeys();
+            return (resultSet.next()) ? resultSet.getInt(1) : -1;
+        } catch (SQLException sqlException) {
+            log.error(sqlException);
+            return -1;
+        }
     }
 
     /**
