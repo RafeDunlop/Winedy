@@ -1,4 +1,4 @@
-package seng202.team3.unittests;
+package seng202.team3.unittests.services;
 
 
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ import seng202.team3.services.SignInScreenService;
 
 public class SignInScreenServiceTest {
 
-    private SignInScreenService signInScreenService = new SignInScreenService();
+    private final SignInScreenService signInScreenService = new SignInScreenService();
 
     //Note that the following test has two assert statements as it checks the exception message and that the exception is thrown
     //Tests for registering password
