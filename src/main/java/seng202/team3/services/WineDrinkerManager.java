@@ -145,4 +145,8 @@ public class WineDrinkerManager {
        drinker = wineDrinkerDAO.getWineDrinkerFromUsername(username);
        return drinker;
    }
+
+   public void deleteWineDrinker(WineDrinker toDelete){
+       wineDrinkerDAO.delete(toDelete);
+   }
 }
