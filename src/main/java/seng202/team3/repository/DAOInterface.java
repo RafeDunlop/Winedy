@@ -30,13 +30,13 @@ public interface DAOInterface<T> {
      * Deletes and object from database that matches id given
      * @param toDelete Object to be deleted
      */
-    void delete(T toDelete);
+    int delete(T toDelete);
 
     /**
      * Updates an object in the database
      * @param toUpdate Object that needs to be updated (this object must be able to identify itself and its previous self)
      */
-    void update(T toUpdate);
+    int update(T toUpdate);
 
 }
 

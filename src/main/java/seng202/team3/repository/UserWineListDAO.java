@@ -99,19 +99,21 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
     }
 
     @Override
-    public void delete(UserWineList toDelete) {
+    public int delete(UserWineList toDelete) {
         String sqlDelete = "DELETE FROM wineList WHERE name = ? AND username = ?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement psDelete = conn.prepareStatement(sqlDelete)) {
             psDelete.setString(1, toDelete.getWineListName());
             psDelete.setString(2, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
+            return 0;
         } catch (SQLException e) {
             log.error(e);
+            return 1;
         }
     }
 
     @Override
-    public void update(UserWineList toUpdate) {
+    public int update(UserWineList toUpdate) {
         String sqlList = "UPDATE wineList SET description = ? WHERE name = ? AND username = ?";
         String sqlContains = "INSERT OR IGNORE INTO contains (wineId, listName, wineDrinker) VALUES (?, ?, ?)";
         try (Connection conn = databaseManager.connect();
@@ -124,8 +126,10 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
             }
             psList.executeUpdate();
             psContains.executeBatch();
+            return 0;
         } catch (SQLException e) {
             log.error(e);
+            return 1;
         }
     }
 
