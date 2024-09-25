@@ -3,6 +3,11 @@ package seng202.team3.repository;
 import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
 import seng202.team3.models.Wine;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,6 +16,26 @@ import java.util.List;
  * @author Hannah Botting (hbo51)
  */
 public class PersonalWineDAO implements DAOInterface<Wine> {
+
+    /**
+     * Variable to store DatabaseManager instance to manage database connections
+     */
+    private final DatabaseManager databaseManager;
+
+    /**
+     * Creates a new PersonalWineDAO object and gets a reference to the database singleton
+     */
+    public PersonalWineDAO() {
+        databaseManager = DatabaseManager.getInstance();
+    }
+
+    /**
+     * PersonalWineDAO constructor with ability to pass in a database url
+     */
+    public PersonalWineDAO(String url) {
+        databaseManager = DatabaseManager.getInstance(url);
+    }
+
     /**
      * Gets all Personal Wines from the database of the currently logged-in user
      *

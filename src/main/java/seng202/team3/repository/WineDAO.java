@@ -68,7 +68,6 @@ public class WineDAO implements DAOInterface<Wine> {
                     String[] awardList = getGrapesByID(id);
                     newWine = getWineFromResultSet(resultSet, grapeList, awardList);
                     wines.add(newWine);
-
                 }
                 return wines;
             }
@@ -76,7 +75,6 @@ public class WineDAO implements DAOInterface<Wine> {
             log.error(sqlException);
             return new ArrayList<>();
         }
-
     }
 
     /**
