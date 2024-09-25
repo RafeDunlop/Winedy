@@ -45,7 +45,6 @@ CREATE TABLE wineList (
 );
 --Split
 CREATE TABLE contains (
-    note TEXT,
     wineId INTEGER,
     listName TEXT,
     wineDrinker TEXT,
