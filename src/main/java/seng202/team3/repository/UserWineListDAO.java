@@ -16,6 +16,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * UserWineList DAO class that handles all UserWineList related actions to the database
+ *
  * @author Hannah Botting (hbo51)
  */
 public class UserWineListDAO implements DAOInterface<UserWineList> {
@@ -26,7 +28,8 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
     private static final Logger log = LogManager.getLogger(UserWineListDAO.class);
 
     /**
-     * Database manager instance to manage database connections
+     * Database manager instance to manage database connections.
+     * This is required for testing using the test database
      */
     private final DatabaseManager databaseManager;
 
@@ -98,6 +101,11 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
         }
     }
 
+    /**
+     * Deletes the given UserWineList object
+     *
+     * @param toDelete UserWineList Object to be deleted
+     */
     @Override
     public int delete(UserWineList toDelete) {
         String sqlDelete = "DELETE FROM wineList WHERE name = ? AND username = ?";
@@ -112,6 +120,13 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
         }
     }
 
+    /**
+     * Update the given UserWineList object. Changes the value of the description in the database. Executed Insert statements
+     * into the contains table for all the Wines stored in the object. these statements are ignored if the wine was already
+     * contained in the list.
+     *
+     * @param toUpdate Object that needs to be updated (this object must be able to identify itself and its previous self)
+     */
     @Override
     public int update(UserWineList toUpdate) {
         String sqlList = "UPDATE wineList SET description = ? WHERE name = ? AND username = ?";
@@ -121,7 +136,7 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
              PreparedStatement psContains = conn.prepareStatement(sqlContains)) {
             setUpdateListParams(psList, toUpdate);
             for (Wine wine : toUpdate.getWineList()) {
-                setUpdateContainsParams(psContains, wine, toUpdate.getWineListName());
+                setContainsParams(psContains, wine, toUpdate.getWineListName());
                 psContains.addBatch();
             }
             psList.executeUpdate();
@@ -133,24 +148,53 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
         }
     }
 
+    /**
+     * Renames the given UserWineList in the database by first deleting it, setting the Model Object's name to the new
+     * name, and then re adding it to the database.
+     *
+     * @param toRename The UserWineList object to be renamed
+     * @param newName The new name of the UserWineList to be updated as a String
+     */
     public void rename(UserWineList toRename, String newName) {
         delete(toRename);
         toRename.setWineListName(newName);
         add(toRename);
     }
 
+    /**
+     * Sets the parameters of the given Prepared Statement to have the given UserWineList's name, and description.
+     * Also sets it to have the current logged in WineDrinker's username.
+     *
+     * @param ps The Prepared Statement to be set
+     * @param toAdd The UserWineList being added to the database
+     * @throws SQLException If an SQLException occurs, this is thrown up to the add method that calls it to be logged
+     */
     private void setAddListParams(PreparedStatement ps, UserWineList toAdd) throws SQLException {
         ps.setString(1, toAdd.getWineListName());
         ps.setString(2, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
         ps.setString(3, toAdd.getDescription());
     }
 
+    /**
+     * Sets the parameters of the given Prepared Statement to have the given UserWineList's description, and name.
+     * Also sets it to have the current logged in WineDrinker's username.
+     *
+     * @param ps The Prepared Statement to be set
+     * @param toUpdate The UserWineList being updated in the database
+     * @throws SQLException If an SQLException occurs, this is thrown up to the update method that calls it to be logged
+     */
     private void setUpdateListParams(PreparedStatement ps, UserWineList toUpdate) throws SQLException {
         ps.setString(1, toUpdate.getDescription());
         ps.setString(2, toUpdate.getWineListName());
         ps.setString(3, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
     }
 
+    /**
+     * Gets all the wines contained in the given UserWineList from the database and adds them to its stored list
+     * Called by the getAll method when retrieving a wine list from the database
+     *
+     * @param userWineList The UserWineList to have wines added to
+     */
     private void getContainedWines(UserWineList userWineList) {
         String sqlContains = "SELECT * FROM contains JOIN wineSuper ON contains.wineId = wineSuper.id WHERE contains.wineDrinker = ? AND contains.listName = ?";
         try (Connection conn = databaseManager.connect();
@@ -171,13 +215,16 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
         }
     }
 
+    /**
+     * Sets the parameters of the given Prepared Statement to have the given Wine's unique id, the given UserWineList's
+     * name, and the currently logged in WineDrinker's username.
+     *
+     * @param ps The Prepared Statement to be set
+     * @param wine The Wine being added into the contains table
+     * @param wineListName The UserWineList being added into the contains table
+     * @throws SQLException If an SQLException occurs, this is thrown up to the add or update method that calls it to be logged
+     */
     private void setContainsParams(PreparedStatement ps, Wine wine, String wineListName) throws SQLException {
-        ps.setInt(1, wine.getUniqueWineID());
-        ps.setString(2, wineListName);
-        ps.setString(3, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
-    }
-
-    private void setUpdateContainsParams(PreparedStatement ps, Wine wine, String wineListName) throws SQLException {
         ps.setInt(1, wine.getUniqueWineID());
         ps.setString(2, wineListName);
         ps.setString(3, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
