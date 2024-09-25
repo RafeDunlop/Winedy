@@ -32,7 +32,7 @@ public class PersonalWineDAO implements DAOInterface<Wine> {
     private final DatabaseManager databaseManager;
 
     /**
-     * Variable to store WineDAO instance to ______________
+     * Variable to store WineDAO instance to access useful methods
      */
     private final WineDAO wineDAO;
 

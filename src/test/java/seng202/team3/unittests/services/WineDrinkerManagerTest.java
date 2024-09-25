@@ -15,7 +15,7 @@ public class WineDrinkerManagerTest {
     private static final String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
     private WineDrinkerManager wineDrinkerManager;
     private final String username = "TestUser1";
-    private final String password = "TestUserPassword";
+    private final String password = "password";
 
     private final WineDrinker testWineDrinker = new WineDrinker(username, password, null, null, null,null,0);
 
@@ -40,8 +40,10 @@ public class WineDrinkerManagerTest {
 
     @Test
     public void testLoginCurrentUser() {
-        wineDrinkerManager.setCurrentUser(testWineDrinker);
-        wineDrinkerManager.registerWineDrinker();
+        if (wineDrinkerManager.getWineDrinker(username) == null) {
+            wineDrinkerManager.setCurrentUser(testWineDrinker);
+            wineDrinkerManager.registerWineDrinker();
+        }
         wineDrinkerManager.loginCurrentUser(username, password);
         WineDrinker wineDrinker = wineDrinkerManager.getWineDrinker(username);
         assertEquals(username, wineDrinker.getUsername());
