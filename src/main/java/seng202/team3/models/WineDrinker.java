@@ -79,6 +79,9 @@ public class WineDrinker {
         this.fullnessPreference = fullnessPreference;
         this.grapePreference = grapePreference;
         this.abvLimit = abvLimit;
+    }
+
+    public void setupMinSortKey() {
         totalListChanges = WineListManager.getInstance().getMinSortKey();
     }
 
