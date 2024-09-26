@@ -1,12 +1,12 @@
 package seng202.team3.services;
 
 
-//import seng202.team3.io.Importable;
+
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
 import seng202.team3.repository.WineDAO;
 
-//import java.io.File;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,19 +36,25 @@ public class WineManager {
         wineDAO = new WineDAO(url);
     }
 
+    private WineManager() {
+        wineDAO = new WineDAO();
+    }
+
     /**
      * Get the singleton instance of WineManager
      * @return instance of WineManager
      */
     public static WineManager getInstance() {
         if (instance == null) {
-            instance = new WineManager(null);
+            instance = new WineManager();
         }
         return instance;
     }
 
     /**
      * Get the singleton instance of WineManager
+     *
+     * @param url the relative or absolute filepath of the database to be set if it is not already set
      * @return instance of WineManager
      */
     public static WineManager getInstance(String url) {
@@ -141,6 +147,7 @@ public class WineManager {
                 .distinct()
                 .toList();
     }
+
     public void setWineDAO(WineDAO wineDAO) {
         this.wineDAO = wineDAO;
     }
