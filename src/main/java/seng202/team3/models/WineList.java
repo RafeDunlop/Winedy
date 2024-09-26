@@ -2,13 +2,14 @@ package seng202.team3.models;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  *This class represents a list of wines (stored as Wine objects). The list is stored as an Arraylist which is kept private.
  *
  * @author Yuvraj Singh Fagotra (yfa50)
  */
     public abstract class WineList {
-    private final List<Wine> wineList;
+    private List<Wine> wineList;
 
     /**
      * Constructs new WineList object and initializes the list.
@@ -26,13 +27,16 @@ import java.util.List;
         return wineList;
     }
 
+    public void setWineList(List<Wine> toSet) {
+        wineList = toSet;
+    }
+
     /**
      * Adds the given wine to the wine list.
      * @param wine The Wine object to be added to the list. Must not be null.
      * @throws NullPointerException If given Wine is null.
      */
     public void addWineToList(Wine wine) throws NullPointerException {
-
         if (wine != null) {
             wineList.add(wine);
         } else {

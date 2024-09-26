@@ -3,6 +3,7 @@ package seng202.team3.repository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import seng202.team3.models.FavouritesWineList;
 import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
 import seng202.team3.services.WineDrinkerManager;
@@ -33,11 +34,14 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
      */
     private final DatabaseManager databaseManager;
 
+    private final String url;
+
     /**
      * Creates a new UserWineListDAO object and gets a reference to the database singleton
      */
     public UserWineListDAO() {
         databaseManager = DatabaseManager.getInstance();
+        url = null;
     }
 
     /**
@@ -46,6 +50,7 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
      */
     public UserWineListDAO(String url) {
         databaseManager = DatabaseManager.getInstance(url);
+        this.url = url;
     }
 
     /**
@@ -83,7 +88,7 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
      */
     @Override
     public int add(UserWineList toAdd) {
-        String sqlList = "INSERT INTO wineList (name, username, description) VALUES (?, ?, ?)";
+        String sqlList = "INSERT INTO wineList (name, username, description, sortKey) VALUES (?, ?, ?, ?)";
         String sqlContains = "INSERT INTO contains (wineID, listName, wineDrinker) VALUES (?, ?, ?)";
         try (Connection conn = databaseManager.connect();
              PreparedStatement psList = conn.prepareStatement(sqlList);
@@ -131,7 +136,7 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
      */
     @Override
     public int update(UserWineList toUpdate) {
-        String sqlList = "UPDATE wineList SET description = ? WHERE name = ? AND username = ?";
+        String sqlList = "UPDATE wineList SET description = ? AND sortKey = ? WHERE name = ? AND username = ?";
         String sqlContains = "INSERT OR IGNORE INTO contains (wineId, listName, wineDrinker) VALUES (?, ?, ?)";
         try (Connection conn = databaseManager.connect();
              PreparedStatement psList = conn.prepareStatement(sqlList);
@@ -143,6 +148,23 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
             }
             psList.executeUpdate();
             psContains.executeBatch();
+            return 0;
+        } catch (SQLException | NullPointerException e) {
+            log.error(e);
+            return 1;
+        }
+    }
+
+    public int getMinSortKey() {
+        String sql = "SELECT MIN(sortKey) FROM wineList WHERE wineList.name <> ? AND wineList.username = ?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, FavouritesWineList.getFavouritesName());
+            ps.setString(2, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
+            ResultSet min = ps.executeQuery();
+            if (min.next()) {
+                return min.getInt(1);
+            }
             return 0;
         } catch (SQLException | NullPointerException e) {
             log.error(e);
@@ -175,6 +197,7 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
         ps.setString(1, toAdd.getWineListName());
         ps.setString(2, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
         ps.setString(3, toAdd.getDescription());
+        ps.setInt(4, toAdd.getSortKey());
     }
 
     /**
@@ -187,8 +210,9 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
      */
     private void setUpdateListParams(PreparedStatement ps, UserWineList toUpdate) throws SQLException, NullPointerException {
         ps.setString(1, toUpdate.getDescription());
-        ps.setString(2, toUpdate.getWineListName());
-        ps.setString(3, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
+        ps.setInt(2, toUpdate.getSortKey());
+        ps.setString(3, toUpdate.getWineListName());
+        ps.setString(4, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
     }
 
     /**
@@ -204,14 +228,21 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
             psContains.setString(1, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
             psContains.setString(2, userWineList.getWineListName());
             ResultSet resultSet = psContains.executeQuery();
-            WineDAO wineDAO = new WineDAO();
+            WineDAO wineDAO;
+            if (url == null) {
+                wineDAO = new WineDAO();
+            } else {
+                wineDAO = new WineDAO(url);
+            }
             Wine containedWine;
+            ArrayList<Wine> toAdd = new ArrayList<>();
             while (resultSet.next()) {
                 String[] grapeList = wineDAO.getGrapesByID(resultSet.getInt("wineId"));
                 String[] awardList = wineDAO.getAwardsByID(resultSet.getInt("wineId"));
                 containedWine = wineDAO.getWineFromResultSet(resultSet, grapeList, awardList);
-                userWineList.addWineToList(containedWine);
+                toAdd.add(containedWine);
             }
+            userWineList.setWineList(toAdd);
         } catch (SQLException e) {
             log.error(e);
         }
