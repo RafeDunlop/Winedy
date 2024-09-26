@@ -10,9 +10,12 @@ public enum Screen {
     NAVBAR("nav_bar.fxml", false),
     SEARCH("search_screen.fxml", true),
     SIGNINSCREEN("sign_in_screen.fxml", true),
-    PROFILESCREEN("profile_screen.fxml", true),
-    PROFILELISTVIEWSCREEN("profile_list_view_screen.fxml", true),
-    HELPSCREEN("help_screen.fxml", true);
+    HELPSCREEN("help_screen.fxml", true),
+    PROFILETABPANE("profile_tab_pane.fxml", true),
+    PROFILESCREEN("profile_screen.fxml", false),
+    WINELISTSSCREEN("profile_wine_lists_screen.fxml", false),
+    TRACKINGCONSUMPTIONSCREEN("tracking_consumption_screen.fxml", false),
+    PROFILELISTVIEWSCREEN("profile_list_view_screen.fxml", false);
 
     /**
      * The file name of the fxml file related to this screen without prefix i.e. "main.fxml"

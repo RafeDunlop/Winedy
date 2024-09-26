@@ -90,7 +90,7 @@ public class SignInScreenController {
             signInScreenService.validateRegisteringUsername(username);
             signInScreenService.validateRegisteringPasswords(password, secondPassword);
             signInScreenService.registerUser(username, password, null, colour, fullness, variety, ABVLimit);
-            FXWrapper.getInstance().loadScreen(Screen.PROFILESCREEN);
+            FXWrapper.getInstance().loadScreen(Screen.PROFILETABPANE);
 
         } catch (IllegalWineDrinkerException e) {
             fullDisable(errorLabel, false);
@@ -112,7 +112,7 @@ public class SignInScreenController {
             String password = enterPasswordField.getText();
             signInScreenService.validateLoginDetails(username, password);
             wineDrinkerManager.loginCurrentUser(username, password);
-            FXWrapper.getInstance().loadScreen(Screen.PROFILESCREEN);
+            FXWrapper.getInstance().loadScreen(Screen.PROFILETABPANE);
 
         } catch (IllegalWineDrinkerException e) {
             fullDisable(errorLabel, false);

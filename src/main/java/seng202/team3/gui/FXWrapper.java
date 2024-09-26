@@ -99,7 +99,7 @@ public class FXWrapper {
      * @param toNest the Pane object that the screen is loaded into
      * @param toLoad a member of the NestedScreen enum which specifies teh screen to be loaded
      */
-    public void loadNestedScreen(Pane toNest, NestedScreen toLoad) {
+    public void loadProfileActionScreen(Pane toNest, Screen toLoad) {
         try {
            FXMLLoader screenLoader = new FXMLLoader(getClass().getResource("/fxml/" + toLoad.file));
            Parent leaf = screenLoader.load();
