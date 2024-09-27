@@ -13,9 +13,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileScreenController">
    <children>
-      <GridPane prefHeight="720.0" prefWidth="1200.0">
+      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="544.0" prefHeight="550.0" prefWidth="1200.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="800.0" minWidth="800.0" prefWidth="800.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="10.0" prefWidth="400.0" />
@@ -25,7 +25,10 @@
           <RowConstraints maxHeight="570.0" minHeight="570.0" prefHeight="570.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ListView fx:id="searchListView" maxHeight="500.0" maxWidth="750.0" minHeight="500.0" minWidth="750.0" prefHeight="500.0" prefWidth="750.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <ListView fx:id="searchListView" maxHeight="300.0" maxWidth="300.0" prefHeight="300.0" prefWidth="300.0" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="100.0" />
+               </GridPane.margin></ListView>
             <Button fx:id="editUsernameButton" maxWidth="170.0" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="143.0" text="Edit Username" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets left="50.0" top="50.0" />
@@ -105,7 +108,7 @@
             <Button fx:id="savePreferencesButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onSavePreferencesButtonClicked" text="Save Preferences" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
             <Button fx:id="logoutButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onLogoutButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Logout" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+                  <Insets bottom="250.0" left="25.0" right="25.0" top="25.0" />
                </GridPane.margin>
             </Button>
             <Label text="Coming soon..." GridPane.rowIndex="1" GridPane.valignment="TOP">

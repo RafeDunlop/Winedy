@@ -1,25 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="300.0" tabMaxWidth="300.0" tabMinHeight="45.0" tabMinWidth="380.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileTabPaneController">
-  <tabs>
-    <Tab fx:id="winedyProfileTab" text="Winedy Profile ">
-      <content>
-        <AnchorPane fx:id="winedyProfileAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="618.0" prefWidth="1200.0" />
-      </content>
-    </Tab>
-    <Tab fx:id="wineListTab" text="My Wine Lists ">
-      <content>
-        <AnchorPane fx:id="wineListAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-      </content>
-    </Tab>
-      <Tab fx:id="consumptiontrackingTab" text="Consumption Tracking">
-        <content>
-          <AnchorPane fx:id="consumptionTrackingAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="653.0" prefWidth="1200.0" />
-        </content>
-      </Tab>
-  </tabs>
-</TabPane>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileTabPaneController">
+   <children>
+      <TabPane layoutX="-1.0" layoutY="97.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="613.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="300.0" tabMaxWidth="300.0" tabMinHeight="40.0" tabMinWidth="380.0">
+         <tabs>
+            <Tab fx:id="winedyProfileTab" text="Winedy Profile ">
+               <content>
+                  <AnchorPane fx:id="winedyProfileAnchorPane" maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="550.0" prefWidth="1200.0" />
+               </content>
+            </Tab>
+            <Tab fx:id="wineListTab" text="My Wine Lists ">
+               <content>
+                  <AnchorPane fx:id="wineListAnchorPane" maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="550.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+            <Tab fx:id="consumptionTrackingTab" text="Consumption Tracking">
+               <content>
+                  <AnchorPane fx:id="consumptionTrackingAnchorPane" maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="550.0" prefWidth="1200.0" />
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <Label fx:id="helloUserLabel" alignment="CENTER" layoutX="270.0" layoutY="34.0" prefHeight="44.0" prefWidth="660.0" text="Hello, Winedy user" wrapText="true">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
