@@ -175,7 +175,7 @@ public class NavBarController {
 
         Timeline timeline = new Timeline();
 
-        KeyFrame keyFrame = new KeyFrame(Duration.seconds(1),
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.3),
                 new KeyValue(buttonHBox.prefWidthProperty(), 350),
                 new KeyValue(buttonHBox.maxWidthProperty(), 350),
                 new KeyValue(buttonHBox.spacingProperty(), 5),
@@ -204,7 +204,7 @@ public class NavBarController {
     private void closeNavBar() {
         Timeline timeline = new Timeline();
 
-        KeyFrame keyFrame = new KeyFrame(Duration.seconds(1),
+        KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.3),
                 new KeyValue(searchButtonImageView.fitHeightProperty(), 1),
                 new KeyValue(searchButtonImageView.opacityProperty(), 0),
 
