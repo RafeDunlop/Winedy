@@ -6,6 +6,7 @@ import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -59,6 +60,12 @@ public class NavBarController {
     @FXML
     private Rectangle navBarRectangle;
 
+    @FXML
+    private Rectangle winedyRectangle;
+
+    @FXML
+    private ImageView winedyImageView;
+
     private Screen selectedScreen;
 
     private boolean expanded = false;
@@ -96,6 +103,11 @@ public class NavBarController {
         instance.setScreenPane(screenPane);
 
         navBarRectangle.getStyleClass().add("nav-bar-rectangle");
+        winedyRectangle.getStyleClass().add("white-wine-rectangle");
+
+        Image winedyTextImage = new Image("/images/winedy_text.png");
+        winedyImageView.setImage(winedyTextImage);
+        winedyImageView.setPreserveRatio(true);
 
         homeButton.setOnAction(x -> onButtonClick(Screen.HOME));
         searchButton.setOnAction(x -> onButtonClick(Screen.SEARCH));
