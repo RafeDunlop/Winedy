@@ -49,13 +49,25 @@ public class HelpScreenController {
     private VBox informationVBox;
 
     @FXML
-    private Label aboutWinedyLabel;
+    private Label aboutWinedyTitleLabel;
 
     @FXML
-    private Label createAnAccountLabel;
+    private Label aboutWinedyContentLabel;
 
     @FXML
-    private Label signinLabel;
+    private Label howToUseWinedyTitleLabel;
+
+    @FXML
+    private Label createAnAccountTitleLabel;
+
+    @FXML
+    private Label createAnAccountContentLabel;
+
+    @FXML
+    private Label signinTitleLabel;
+
+    @FXML
+    private Label signinContentLabel;
 
     /**
      * Method used by JavaFX when initialising the Help Screen.
@@ -78,12 +90,34 @@ public class HelpScreenController {
         }
 
         try {
-            aboutWinedyLabel.setText(GuiService.getContentFromFile("/text/about_winedy.txt"));
-            createAnAccountLabel.setText(GuiService.getContentFromFile("/text/create_an_account.txt"));
-            signinLabel.setText(GuiService.getContentFromFile("/text/sign_in.txt"));
+            aboutWinedyContentLabel.setText(GuiService.getContentFromFile("/text/about_winedy.txt"));
+            createAnAccountContentLabel.setText(GuiService.getContentFromFile("/text/create_an_account.txt"));
+            signinContentLabel.setText(GuiService.getContentFromFile("/text/sign_in.txt"));
             log.info("Help Screen loaded.");
         } catch (Exception e) {
             log.error("Error loading txt files. Did you misspell their path", e);
         }
+
+        setContentsButtonOnAction(aboutWinedyButton, aboutWinedyTitleLabel);
+        setContentsButtonOnAction(howToUseWinedyButton, howToUseWinedyTitleLabel);
+        setContentsButtonOnAction(createAnAccountButton, createAnAccountTitleLabel);
+        setContentsButtonOnAction(signinButton, signinTitleLabel);
+    }
+
+    /**
+     * Sets the given contents Button's onAction to change the scroll position of the informationScrollPane to be the
+     * location of where the given contents title Label is
+     *
+     * @param contentsButton The Button for which the onAction is to be set
+     * @param contentsTitleLabel The Label whose position in the ScrollPane the Button is to be linked to
+     */
+    private void setContentsButtonOnAction(Button contentsButton, Label contentsTitleLabel) {
+        contentsButton.setOnAction(event -> {
+            double y = contentsTitleLabel.getBoundsInParent().getMinY();
+            double height = informationVBox.getBoundsInParent().getHeight();
+            double viewportHeight = contentsScrollPane.getViewportBounds().getHeight();
+            double scrollPosition = y / (height - viewportHeight);
+            informationScrollPane.setVvalue(scrollPosition);
+        });
     }
 }

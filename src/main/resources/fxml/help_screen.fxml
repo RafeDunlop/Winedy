@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.HelpScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.HelpScreenController">
    <children>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -71,7 +71,7 @@
                <content>
                   <VBox fx:id="informationVBox" maxWidth="640.0" spacing="10.0">
                      <children>
-                        <Label maxWidth="660.0" text="About Winedy:">
+                        <Label fx:id="aboutWinedyTitleLabel" maxWidth="660.0" text="About Winedy:">
                            <font>
                               <Font name="System Bold" size="30.0" />
                            </font>
@@ -79,39 +79,39 @@
                               <Insets />
                            </VBox.margin>
                         </Label>
-                        <Label fx:id="aboutWinedyLabel" text="About winedy content" wrapText="true">
+                        <Label fx:id="aboutWinedyContentLabel" text="About winedy content" wrapText="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
                         </Label>
-                        <Label text="How to use Winedy:">
+                        <Label fx:id="howToUseWinedyTitleLabel" text="How to use Winedy:">
                            <font>
                               <Font name="System Bold" size="30.0" />
                            </font>
                         </Label>
-                        <Label text="- Create an account">
+                        <Label fx:id="createAnAccountTitleLabel" text="- Create an account">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="createAnAccountLabel" text="Create an account content" wrapText="true">
+                        <Label fx:id="createAnAccountContentLabel" text="Create an account content" wrapText="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
                         </Label>
-                        <Label text="- Sign-in">
+                        <Label fx:id="signinTitleLabel" text="- Sign-in">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="signinLabel" text="Sign-in content" wrapText="true">
+                        <Label fx:id="signinContentLabel" text="Sign-in content" wrapText="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
                         </Label>
                      </children>
                      <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                   </VBox>
                </content>
