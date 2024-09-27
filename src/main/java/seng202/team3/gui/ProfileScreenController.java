@@ -35,9 +35,6 @@ public class ProfileScreenController {
     private Button savePreferencesButton;
 
     @FXML
-    private Button logoutButton;
-
-    @FXML
     private Button removeListButton;
 
     @FXML
@@ -87,15 +84,6 @@ public class ProfileScreenController {
 
     }
 
-    /**
-     * Removes the current logged-in user and launches the sign-in screen
-     */
-    @FXML
-    void onLogoutButtonClicked(){
-        wineDrinkerManager.setCurrentUser(null);
-        //TODO Save data?
-        FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
-    }
 
     /**
      * Saves the user preferences from the screen into the database
