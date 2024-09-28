@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
+import seng202.team3.services.WineDrinkerManager;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -230,6 +231,36 @@ public class WineDAO implements DAOInterface<Wine> {
             conn.commit();
         } catch (SQLException sqlException) {
             log.error(sqlException);
+        }
+    }
+
+    public void setNote(Wine toSet, String note) {
+        String sql = "UPDATE writesNoteAbout SET note = ? WHERE wineDrinker = ? AND wineId = ?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, note);
+            ps.setString(2, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
+            ps.setInt(3, toSet.getUniqueWineID());
+            ps.executeUpdate();
+        } catch (SQLException | NullPointerException e) {
+            log.error(e);
+        }
+    }
+
+    public String getNote(Wine hasNote) {
+        String sql = "SELECT * FROM writesNoteAbout WHERE wineDrinker = ? AND wineId = ?";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
+            ps.setInt(2, hasNote.getUniqueWineID());
+            ResultSet resultSet = ps.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getString("note");
+            }
+            return "";
+        } catch (SQLException | NullPointerException e) {
+            log.error(e);
+            return "There was a problem getting this Wine's note";
         }
     }
 
