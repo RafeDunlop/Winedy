@@ -6,6 +6,7 @@ import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
 import seng202.team3.models.WineDrinker;
 import seng202.team3.repository.DatabaseManager;
+import seng202.team3.repository.WineDAO;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.WineListManager;
 
@@ -46,6 +47,8 @@ public class WineListManagerTest {
         WineDrinkerManager.REMOVE_INSTANCE();
         toTest = WineListManager.getInstance(DATABASE_PATH);
         WineDrinkerManager.getInstance(DATABASE_PATH).setCurrentUser(new WineDrinker("username", "password", null, null, null,null,0));
+        WineDAO wineDAO = new WineDAO(DATABASE_PATH);
+        wineDAO.add(WINE_1);
     }
 
     @AfterEach
@@ -68,7 +71,7 @@ public class WineListManagerTest {
         toTest.update(favourites);
         toTest.setupFavourites();
         UserWineList fromDB = toTest.getFavourites();
-        //assertEquals(1, fromDB.getWineList().size());
+        assertEquals(1, fromDB.getWineList().size());
     }
 
     @Test
@@ -79,7 +82,7 @@ public class WineListManagerTest {
         toTest.newList("2", "N/A");
         toAddTo.addWineToList(WINE_1);
         toTest.update(toAddTo);
-        assertEquals(toAddTo.getWineListName(), toTest.getAllUserWineLists().get(1).getWineListName());
+        assertEquals(toAddTo.getWineListName(), WineListManager.getInstance(DATABASE_PATH).getAllUserWineLists().get(1).getWineListName());
     }
 
     @Test
@@ -95,12 +98,15 @@ public class WineListManagerTest {
         toRename.addWineToList(WINE_1);
         toTest.update(toRename);
         toTest.rename(toRename, "name");
-        //assertEquals(WINE_1.getColour(),  toTest.getAllUserWineLists().getFirst().getWineList().getFirst().getColour());
+        assertEquals(WINE_1.getColour(),  toTest.getAllUserWineLists().getFirst().getWineList().getFirst().getColour());
     }
 
     @Test
     public void testDelete() {
-
+        UserWineList toRemove = toTest.newList("test", "N/A");
+        int prevNum = toTest.getAllUserWineLists().size();
+        toTest.remove(toRemove);
+        int newNum = toTest.getAllUserWineLists().size();
+        assertEquals(-1, newNum - prevNum);
     }
-
 }
