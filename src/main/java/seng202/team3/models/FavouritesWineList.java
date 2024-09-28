@@ -13,18 +13,13 @@ public class FavouritesWineList extends UserWineList {
      *
      */
     public FavouritesWineList() {
-        super(FAVOURITES_NAME, FAVOURITES_DESCRIPTION);
+        super(FAVOURITES_NAME, FAVOURITES_DESCRIPTION, Integer.MIN_VALUE);
     }
 
-    /**
-     * key used when sorting UserWineLists
-     * ensures favourites is always the first list
-     *
-     * @return smallest value an integer can take on, equivalent to negative infinity
-     */
-    @Override
-    public int getSortKey() {
-        return Integer.MIN_VALUE;
+    public static FavouritesWineList toFavourites (UserWineList toConvert) {
+        FavouritesWineList converted = new FavouritesWineList();
+        converted.setWineList(toConvert.getWineList());
+        return converted;
     }
 
     /**

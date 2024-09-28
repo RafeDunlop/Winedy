@@ -91,7 +91,7 @@ public class WineListManager {
     public void setupFavourites() {
         List<UserWineList> all = getAllUserWineLists();
         if (!all.isEmpty()) {
-            favourites = (FavouritesWineList) all.getFirst();
+            favourites = FavouritesWineList.toFavourites(all.getFirst());
         } else {
             favourites = new FavouritesWineList();
             userWineListDAO.add(favourites);
@@ -119,7 +119,7 @@ public class WineListManager {
      * @return the instantiated UserWineList
      */
     public UserWineList newList(String listName, String description) {
-        UserWineList userWineList = new UserWineList(listName, description);
+        UserWineList userWineList = new UserWineList(listName, description, null);
         userWineListDAO.add(userWineList);
         return userWineList;
     }

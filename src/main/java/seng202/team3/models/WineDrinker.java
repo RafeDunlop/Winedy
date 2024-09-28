@@ -87,6 +87,7 @@ public class WineDrinker {
 
     public int getAndIncrementMinKey() {
         return totalListChanges++;
+
     }
 
 
@@ -95,7 +96,7 @@ public class WineDrinker {
      * TODO Use in wine list functionality in deliverable 3
      */
     void createWineList(String name) {
-        UserWineList userWineList = new UserWineList(null, name);
+        UserWineList userWineList = new UserWineList(null, name, null);
         drinkersWineLists.add(userWineList);
     }
 
