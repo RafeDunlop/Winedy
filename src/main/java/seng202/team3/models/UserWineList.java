@@ -4,6 +4,7 @@ import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.WineListManager;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * UserWineList class defines the personal wine lists that Wine Drinkers can create
@@ -24,10 +25,14 @@ public class UserWineList extends WineList {
      *
      * @param description
      */
-    public UserWineList(String wineListName, String description) {
+    public UserWineList(String wineListName, String description, Integer sortKey) {
         this.description = description;
         this.wineListName = wineListName;
-        lastChanged = WineDrinkerManager.getInstance().getCurrentUser().getAndIncrementMinKey();
+        if (sortKey == null) {
+            lastChanged = WineDrinkerManager.getInstance().getCurrentUser().getAndIncrementMinKey();
+        } else {
+            lastChanged = sortKey;
+        }
     }
 
     /**
@@ -66,6 +71,6 @@ public class UserWineList extends WineList {
     }
 
     public int getSortKey() {
-        return -1 * lastChanged;
+        return (wineListName.equals(FavouritesWineList.getFavouritesName())) ? Integer.MIN_VALUE : -1 * lastChanged;
     }
 }

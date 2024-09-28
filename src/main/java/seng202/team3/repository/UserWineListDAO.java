@@ -69,7 +69,8 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
             while (resultSet.next()) {
                 String description = resultSet.getString("description");
                 String name = resultSet.getString("name");
-                UserWineList userWineList = new UserWineList(name, description);
+                Integer sortKey = resultSet.getInt("sortKey");
+                UserWineList userWineList = new UserWineList(name, description, sortKey);
                 getContainedWines(userWineList);
                 userWineLists.add(userWineList);
             }
@@ -130,13 +131,14 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
      * Update the given UserWineList object. Changes the value of the description in the database. Executed Insert statements
      * into the contains table for all the Wines stored in the object. these statements are ignored if the wine was already
      * contained in the list.
+     * TODO: make delete removed wines
      *
      * @param toUpdate Object that needs to be updated (this object must be able to identify itself and its previous self)
      * @return 0 if update succeeds without exceptions, otherwise 1
      */
     @Override
     public int update(UserWineList toUpdate) {
-        String sqlList = "UPDATE wineList SET description = ? AND sortKey = ? WHERE name = ? AND username = ?";
+        String sqlList = "UPDATE wineList SET description = ?, sortKey = ? WHERE name = ? AND username = ?";
         String sqlContains = "INSERT OR IGNORE INTO contains (wineId, listName, wineDrinker) VALUES (?, ?, ?)";
         try (Connection conn = databaseManager.connect();
              PreparedStatement psList = conn.prepareStatement(sqlList);
@@ -196,8 +198,8 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
     private void setAddListParams(PreparedStatement ps, UserWineList toAdd) throws SQLException, NullPointerException {
         ps.setString(1, toAdd.getWineListName());
         ps.setString(2, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
-        ps.setString(3, toAdd.getDescription());
-        ps.setInt(4, toAdd.getSortKey());
+         ps.setString(3, toAdd.getDescription());
+        ps.setInt(4, -1 * toAdd.getSortKey());
     }
 
     /**
@@ -210,7 +212,7 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
      */
     private void setUpdateListParams(PreparedStatement ps, UserWineList toUpdate) throws SQLException, NullPointerException {
         ps.setString(1, toUpdate.getDescription());
-        ps.setInt(2, toUpdate.getSortKey());
+        ps.setInt(2, -1 * toUpdate.getSortKey());
         ps.setString(3, toUpdate.getWineListName());
         ps.setString(4, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
     }
