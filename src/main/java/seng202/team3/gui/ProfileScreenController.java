@@ -58,12 +58,9 @@ public class ProfileScreenController {
      * Method called by JavaFX when initialising the profile screen.
      */
     public void initialize() {
-        editUsernameButton.setDisable(true);  // Functionality for deliverable three
-        editUsernameButton.setOpacity(0);  // This is not currently fully implemented
 
         wineDrinkerManager = WineDrinkerManager.getInstance();
         profileScreenService = new ProfileScreenService();
-        usernameTextField.setText(wineDrinkerManager.getCurrentUser().getUsername());
         colourPreferenceComboBox.getItems().addAll("Red", "White", "Rose");
         colourPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getColourPreference());
         fullnessPreferenceComboBox.getItems().addAll("Off Dry", "Dry", "Light", "Medium", "Full");
