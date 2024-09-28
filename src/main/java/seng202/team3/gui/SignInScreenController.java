@@ -86,10 +86,7 @@ public class SignInScreenController {
             String fullness = getComboInput(fullnessPreferenceComboBox);
             String variety = getComboInput(varietyPreferenceComboBox);
             int ABVLimit = (int) abvLimitSlider.getValue();
-
-            signInScreenService.validateRegisteringUsername(username);
-            signInScreenService.validateRegisteringPasswords(password, secondPassword);
-            signInScreenService.registerUser(username, password, null, colour, fullness, variety, ABVLimit);
+            signInScreenService.validateAndRegisterUser(username, secondPassword, password, null, colour, fullness, variety, ABVLimit);
             FXWrapper.getInstance().loadScreen(Screen.PROFILESCREEN);
 
         } catch (IllegalWineDrinkerException e) {
@@ -110,8 +107,7 @@ public class SignInScreenController {
         try {
             String username = usernameTextField.getText();
             String password = enterPasswordField.getText();
-            signInScreenService.validateLoginDetails(username, password);
-            wineDrinkerManager.loginCurrentUser(username, password);
+            signInScreenService.validateAndLoginUser(username,password);
             FXWrapper.getInstance().loadScreen(Screen.PROFILESCREEN);
 
         } catch (IllegalWineDrinkerException e) {
