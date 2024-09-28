@@ -1,7 +1,7 @@
 Feature: Register Wine Drinker
   Scenario: AT_5 User registers with invalid username with special character
     Given The Wine Drinker is on the register page
-    And Wine Drinker "testing" does not exist
+    And Wine Drinker "testing%" does not exist
     And Wine Drinker inputs "testing%" in the username field
     And Wine Drinker inputs "password" in the password field
     And Wine Drinker inputs "password" in the re-enter password field

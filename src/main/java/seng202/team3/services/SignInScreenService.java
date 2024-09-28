@@ -118,6 +118,13 @@ public class SignInScreenService {
         }
     }
 
+    /**
+     * Single function to login and validate the user
+     * calls helper functions in this class
+     * @param username string username of logging in user
+     * @param password hashed password of logging in user
+     * @throws IllegalWineDrinkerException
+     */
     public void validateAndLoginUser(String username, String password) throws IllegalWineDrinkerException{
         try {
             validateLoginDetails(username, password);
@@ -125,5 +132,14 @@ public class SignInScreenService {
         } catch (IllegalWineDrinkerException e) {
             throw e;
         }
+    }
+
+    /*
+     * Sets the wineDrinkerManager
+     * used for setting up test database
+     * @param wineDrinkerManager
+     */
+    public void setWineDrinkerManager(WineDrinkerManager wineDrinkerManager) {
+        this.wineDrinkerManager = wineDrinkerManager;
     }
 }

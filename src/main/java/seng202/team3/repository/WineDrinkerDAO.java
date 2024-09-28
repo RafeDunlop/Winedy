@@ -125,7 +125,7 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
         String sqlQuery = "DELETE from wineDrinker WHERE username=?";
         try(Connection conn = database.connect();
             PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
-            preparedStatement.setString(6, toDelete.getUsername());
+            preparedStatement.setString(1, toDelete.getUsername());
             preparedStatement.executeUpdate();
             return 0;
         } catch (SQLException e) {

@@ -66,15 +66,15 @@ public class RegisterStepDefinitions {
 
     @Given("The Wine Drinker is on the register page")
     public void theWineDrinkerIsOnTheRegisterPageWithDatabaseLoaded(){
-//        wineDrinkerManager = WineDrinkerManager.getInstance();
-//        wineDrinkerManager.setWineDrinkerDAO( new WineDrinkerDAO(DATABASE_PATH));
-//        signInScreenService = new SignInScreenService();
-//        signInScreenService.setWineDrinkerManager(wineDrinkerManager);
+        wineDrinkerManager = WineDrinkerManager.getInstance();
+        wineDrinkerManager.setWineDrinkerDAO( new WineDrinkerDAO(DATABASE_PATH));
+        signInScreenService = new SignInScreenService();
+        signInScreenService.setWineDrinkerManager(wineDrinkerManager);
     }
 
     @Given("user {string} already exists in database")
     public void addExistingUserToDatabase (String existingUser) {
-        signInScreenService.registerUser(existingUser, "tests", null, null, null, null, 0);
+        signInScreenService.validateAndRegisterUser(existingUser, "tests", "tests", null, null, null, null, 0);
     }
 
     @Given("Wine Drinker inputs {string} in the username field")
@@ -100,14 +100,15 @@ public class RegisterStepDefinitions {
 
     @When("user clicks create account button with invalid username")
     public void userClicksCreateAccountButtonWithWrongUsername(){
-        usernameException = assertThrows(IllegalWineDrinkerException.class, () -> signInScreenService.validateRegisteringUsername(mockUsernameField));
-        signInScreenService.validateRegisteringPasswords(mockPasswordField, mockRePasswordField);
+        usernameException = assertThrows(IllegalWineDrinkerException.class, () ->
+                                        signInScreenService.validateAndRegisterUser(mockUsernameField, mockPasswordField,
+                                        mockRePasswordField, null, null, null, null, 0));
     }
 
     @When("user clicks create account button with invalid password")
     public void userClicksCreateAccountButtonWithMismatchingPasswords(){
-        signInScreenService.validateRegisteringUsername(mockUsernameField);
-        passwordException = assertThrows(IllegalWineDrinkerException.class, () -> signInScreenService.validateRegisteringPasswords(mockPasswordField, mockRePasswordField));
+        passwordException = assertThrows(IllegalWineDrinkerException.class, () -> signInScreenService.validateAndRegisterUser(mockUsernameField, mockPasswordField,
+                mockRePasswordField, null, null, null, null, 0));
     }
 
     @Then("user is prompted that their username must contain 5-16 alphanumeric characters and user is not registered in the database")
