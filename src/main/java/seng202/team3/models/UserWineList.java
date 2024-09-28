@@ -36,7 +36,7 @@ public class UserWineList extends WineList {
     }
 
     /**
-     *
+     * adds the specified wine to this UserWineList and updates its sortkey (and the minsortkey)
      * @param wine The Wine object to be added to the list. Must not be null.
      */
     @Override
