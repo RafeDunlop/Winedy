@@ -76,6 +76,9 @@ public class WineDrinkerManager {
      */
     public void setCurrentUser (WineDrinker currentUser) {
         this.currentUser = currentUser;
+        if (currentUser != null) {
+            currentUser.setupMinSortKey();
+        }
     }
 
     /**

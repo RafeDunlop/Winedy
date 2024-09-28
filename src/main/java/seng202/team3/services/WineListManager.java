@@ -91,6 +91,8 @@ public class WineListManager {
     public void setupFavourites() {
         List<UserWineList> all = getAllUserWineLists();
         if (!all.isEmpty()) {
+            UserWineList first = all.getFirst();
+            System.out.println("(setup) size: " + first.getWineList().size());
             favourites = FavouritesWineList.toFavourites(all.getFirst());
         } else {
             favourites = new FavouritesWineList();
@@ -146,6 +148,14 @@ public class WineListManager {
      */
     public void rename(UserWineList toRename, String newName) {
         userWineListDAO.rename(toRename, newName);
+    }
+
+    /**
+     * deletes the specified list from the database
+     * @param toDelete the List to be deleted from the database
+     */
+    public void remove(UserWineList toDelete) {
+        userWineListDAO.delete(toDelete);
     }
 
     /**
