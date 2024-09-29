@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -128,28 +129,29 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
     }
 
     /**
-     * Update the given UserWineList object. Changes the value of the description in the database. Executed Insert statements
-     * into the contains table for all the Wines stored in the object. these statements are ignored if the wine was already
-     * contained in the list.
-     * TODO: make delete removed wines
+     * Update the given UserWineList object. Changes the value of the description and sort key in the database.
+     * Resolves discrepancies between specified UserWineList's wine list and that stored in the contains table with insert and delete statements
      *
      * @param toUpdate Object that needs to be updated (this object must be able to identify itself and its previous self)
      * @return 0 if update succeeds without exceptions, otherwise 1
      */
     @Override
     public int update(UserWineList toUpdate) {
+        List<Wine> newList = toUpdate.getWineList();
+        getContainedWines(toUpdate);
+        HashSet<Wine> oldSet = new HashSet<>(toUpdate.getWineList());
         String sqlList = "UPDATE wineList SET description = ?, sortKey = ? WHERE name = ? AND username = ?";
-        String sqlContains = "INSERT OR IGNORE INTO contains (wineId, listName, wineDrinker) VALUES (?, ?, ?)";
+        String sqlContainsAdd = "INSERT OR IGNORE INTO contains (wineId, listName, wineDrinker) VALUES (?, ?, ?)";
+        String sqlContainsDel = "DELETE FROM contains WHERE wineId = ? AND listName = ? AND wineDrinker = ?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement psList = conn.prepareStatement(sqlList);
-             PreparedStatement psContains = conn.prepareStatement(sqlContains)) {
+             PreparedStatement psContainsAdd = conn.prepareStatement(sqlContainsAdd);
+             PreparedStatement psContainsDel = conn.prepareStatement(sqlContainsDel)) {
             setUpdateListParams(psList, toUpdate);
-            for (Wine wine : toUpdate.getWineList()) {
-                setContainsParams(psContains, wine, toUpdate.getWineListName());
-                psContains.addBatch();
-            }
+            containsUpdateSetup(toUpdate.getWineListName(), newList, oldSet, psContainsAdd, psContainsDel);
             psList.executeUpdate();
-            psContains.executeBatch();
+            psContainsAdd.executeBatch();
+            psContainsDel.executeBatch();
             return 0;
         } catch (SQLException | NullPointerException e) {
             log.error(e);
@@ -157,6 +159,36 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
         }
     }
 
+    /**
+     * iterates through wines in the database and the list to be updated and makes the database match the list
+     *
+     * @param listKey String the name of the list
+     * @param newList list of wines in the new list to be added
+     * @param oldSet set of wines in the database for the wine list being updated prior to update
+     * @param psAdd Prepared statement for addition of new wines
+     * @param psDel Prepared statement for deletion of wines no longer in the wine list
+     * @throws SQLException thrown if there is an exception when adding batches
+     */
+    private void containsUpdateSetup(String listKey, List<Wine> newList, HashSet<Wine> oldSet, PreparedStatement psAdd, PreparedStatement psDel) throws SQLException {
+        for (Wine wine : newList) {
+            if (!oldSet.contains(wine)) {
+                setContainsParams(psAdd, wine, listKey);
+                psAdd.addBatch();
+            } else {
+                oldSet.remove(wine);
+            }
+        }
+
+        for (Wine wine : oldSet) {
+            setContainsParams(psDel, wine, listKey);
+            psDel.addBatch();
+        }
+    }
+
+    /**
+     * gets the minimum sort key in the database associated with the logged-in user and not their favourites list
+     * @return the minimum sort key
+     */
     public int getMinSortKey() {
         String sql = "SELECT MIN(sortKey) FROM wineList WHERE wineList.name <> ? AND wineList.username = ?";
         try (Connection conn = databaseManager.connect();

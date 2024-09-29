@@ -10,6 +10,7 @@ import seng202.team3.repository.WineDAO;
 import seng202.team3.services.WineDrinkerManager;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,7 +25,7 @@ public class UserWineListDAOTest {
 
     private final Wine testWine1 = new Wine(
             HIGHEST_ID + 1,
-            "Nero Oro Appassimento 2018, Sicily",
+            "test1",
             "Italy",
             "Red",
             "Big",
@@ -35,11 +36,12 @@ public class UserWineListDAOTest {
             new String[]{"IWC 2019 - Commended Award", "Decanter 2019 - Bronze Award"},
             (float) 14,
             75,
-            2018);
+            2018
+    );
 
     private final Wine testWine2 = new Wine(
             HIGHEST_ID + 2,
-            "The Ned Waihopai River Sauvignon Blanc 2018 Marlborough",
+            "test2",
             "New Zealand",
             "White",
             "Fruity",
@@ -50,7 +52,24 @@ public class UserWineListDAOTest {
             new String[]{"IWC 2019 - Commended Award, IWC 2018 - Bronze Award", "Decanter 2018 - Silver Award"},
             (float) 13,
             75,
-            2018);
+            2018
+    );
+
+    private final Wine testWine3 = new Wine(
+            HIGHEST_ID + 3,
+            "test3",
+            "New Zealand",
+            "White",
+            "Fruity",
+            new String[]{"Sauvignon Blanc"},
+            "DRY",
+            "It's our best-ever-selling white for good reason.",
+            (float) 10.99,
+            new String[]{"IWC 2019 - Commended Award, IWC 2018 - Bronze Award", "Decanter 2018 - Silver Award"},
+            (float) 13,
+            75,
+            2018
+    );
 
     @BeforeAll
     public static void deleteTestDB() {
@@ -66,6 +85,7 @@ public class UserWineListDAOTest {
         userWineListDAO = new UserWineListDAO(DATABASE_PATH);
         wineDAO.add(testWine1);
         wineDAO.add(testWine2);
+        wineDAO.add(testWine3);
         WineDrinkerManager.getInstance(DATABASE_PATH).setCurrentUser(new WineDrinker("test1", "test1", "New Zealand", "Rose", "DRY", "Chardonnay", 25));
         WineDrinkerManager.getInstance(DATABASE_PATH).registerWineDrinker();
 
@@ -133,6 +153,38 @@ public class UserWineListDAOTest {
     }
 
     @Test
+    public void testUpdateNewList() {
+        UserWineList testWineList = new UserWineList("Name", "Description", null);
+        testWineList.addWineToList(testWine1);
+        testWineList.addWineToList(testWine2);
+        userWineListDAO.add(testWineList);
+        testWineList.setWineList(new ArrayList<>());
+        testWineList.addWineToList(testWine3);
+        userWineListDAO.update(testWineList);
+        assertEquals("test3", userWineListDAO.getAll().getFirst().getWineList().getFirst().getName());
+        assertEquals(1, userWineListDAO.getAll().size());
+    }
+
+    @Test
+    public void testUpdateNewDescription() {
+        UserWineList testWineList = new UserWineList("Name", "Description", null);
+        userWineListDAO.add(testWineList);
+        testWineList.setDescription("new description");
+        userWineListDAO.update(testWineList);
+        assertEquals("new description", userWineListDAO.getAll().getFirst().getDescription());
+    }
+
+    @Test
+    public void testUpdateNewSortKey() {
+        UserWineList testWineList = new UserWineList("Name", "Description", null);
+        userWineListDAO.add(testWineList);
+        int keyPrev = testWineList.getSortKey();
+        testWineList.addWineToList(testWine1);
+        userWineListDAO.update(testWineList);
+        assertEquals(1, keyPrev - userWineListDAO.getAll().getFirst().getSortKey());
+    }
+
+    @Test
     public void testDelete() { //test for case where deletion fails is untestable (deletion never fails in an intended manner)
         UserWineList testWineList = new UserWineList("Name", "Description", null);
         userWineListDAO.add(testWineList);
@@ -156,6 +208,4 @@ public class UserWineListDAOTest {
         userWineListDAO.rename(testWineList, "newName");
         assertEquals("newName", userWineListDAO.getAll().getFirst().getWineListName());
     }
-
-
 }
