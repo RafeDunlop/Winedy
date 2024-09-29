@@ -100,6 +100,7 @@ public class WineDrinkerManager {
         try {
             if (currentUser != null) {
                 wineDrinkerDAO.add(currentUser);
+                WineListManager.getInstance().setupFavourites();
             }
         } catch (WineDrinkerAlreadyExistsException e) {
             log.error(e);
@@ -119,6 +120,7 @@ public class WineDrinkerManager {
             String[] saltPass = wineDrinker.getPassword().split(":");
             if (Password.check(password, saltPass[1]).addSalt(saltPass[0]).withBcrypt()) {
                 setCurrentUser(wineDrinker);
+                WineListManager.getInstance().setupFavourites();
             } else {
                 throw new IllegalWineDrinkerException("Password Incorrect");
             }
