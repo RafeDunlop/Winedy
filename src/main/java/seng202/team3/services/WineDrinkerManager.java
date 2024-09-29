@@ -146,10 +146,18 @@ public class WineDrinkerManager {
        return drinker;
    }
 
+    /**
+     * Calls the delete method of the DAO
+     * @param toDelete the wine drinker to delete
+     */
    public void deleteWineDrinker(WineDrinker toDelete){
        wineDrinkerDAO.delete(toDelete);
    }
 
+    /**
+     * Sets wineDrinkerDao used for setting up test database
+     * @param wineDrinkerDAO
+     */
     public void setWineDrinkerDAO(WineDrinkerDAO wineDrinkerDAO) {
        this.wineDrinkerDAO = wineDrinkerDAO;
     }
