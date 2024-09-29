@@ -114,6 +114,7 @@ public class SignInScreenService {
             validateRegisteringPasswords(password, secondPassword);
             registerUser(username, password, null, colour, fullness, variety, ABVLimit);
         } catch(IllegalWineDrinkerException e) {
+            //thrown for error message to user
             throw e;
         }
     }
@@ -130,6 +131,7 @@ public class SignInScreenService {
             validateLoginDetails(username, password);
             wineDrinkerManager.loginCurrentUser(username, password);
         } catch (IllegalWineDrinkerException e) {
+            //thrown for error message to user
             throw e;
         }
     }
