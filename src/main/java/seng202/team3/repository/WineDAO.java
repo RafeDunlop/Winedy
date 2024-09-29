@@ -196,7 +196,7 @@ public class WineDAO implements DAOInterface<Wine> {
      * @param toAdd a list of wines to add to the database
      */
     public void addBatch (List < Wine > toAdd) {
-        String sqlWineSuper = "INSERT OR IGNORE INTO wineSuper (id, name, country, colour, style, fullness, longDescription, pricePerBottle, alcoholByVolume, volumeInML, year) values (?,?,?,?,?,?,?,?,?,?,?);";
+        String sqlWineSuper = "INSERT OR IGNORE INTO wineSuper (id, name, country, colour, style, fullness, longDescription, pricePerBottle, alcoholByVolume, volumeInML, year) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
         String sqlGrape = "INSERT INTO grape (wineId, name) VALUES (?, ?)";
         String sqlAward = "INSERT INTO award (wineId, name) VALUES (?, ?)";
         String sqlWine = "INSERT INTO wine (id) VALUES (?)";
@@ -234,7 +234,7 @@ public class WineDAO implements DAOInterface<Wine> {
         }
     }
 
-    public void setNote(Wine toSet, String note) {
+    public int updateNote(Wine toSet, String note) {
         String sql = "UPDATE writesNoteAbout SET note = ? WHERE wineDrinker = ? AND wineId = ?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -242,8 +242,25 @@ public class WineDAO implements DAOInterface<Wine> {
             ps.setString(2, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
             ps.setInt(3, toSet.getUniqueWineID());
             ps.executeUpdate();
+            return 0;
         } catch (SQLException | NullPointerException e) {
             log.error(e);
+            return 1;
+        }
+    }
+
+    public int addNote(Wine toSet, String note) {
+        String sql = "INSERT INTO writesNoteAbout (wineDrinker, wineId, note) VALUES (?, ?, ?)";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
+            ps.setInt(2, toSet.getUniqueWineID());
+            ps.setString(3, note);
+            ps.executeUpdate();
+            return 0;
+        } catch (SQLException | NullPointerException e) {
+            log.error(e);
+            return 1;
         }
     }
 
