@@ -1,0 +1,13 @@
+.add-to-list-button {
+    -fx-shape: "M 300 550 L 500 550 L 500 400 L 650 400 L 650 200 L 500 200 L 500 50 L 300 50 L 300 200 L 150 200 L 150 400 L 300 400 L 300 550";
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width: 3;
+    -fx-background-insets: 3;
+    -fx-padding: 10;
+}
+
+.add-to-list-button:hover {
+    -fx-background-color: #f2d5d5;
+    -fx-border-width: 4;
+}

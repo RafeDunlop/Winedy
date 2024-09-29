@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -10,7 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="532.0" prefWidth="347.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.IndividualWineViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="532.0" prefWidth="347.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.IndividualWineViewController">
    <children>
       <Rectangle fx:id="rectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="532.0" stroke="BLACK" strokeType="INSIDE" width="347.0" />
       <GridPane layoutX="6.0" prefHeight="532.0" prefWidth="347.0">
@@ -119,6 +121,31 @@
             <Label fx:id="wineAwardsLabel" alignment="TOP_LEFT" prefHeight="76.0" prefWidth="323.0" text="Awards label" GridPane.columnSpan="4" GridPane.rowIndex="3" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="10.0" top="30.0" />
+               </GridPane.margin>
+            </Label>
+            <Button id="like-button" fx:id="likeButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onLikeButtonClicked" prefHeight="55.0" prefWidth="73.0" styleClass="like-button" stylesheets="@../css/like_button.css" textAlignment="CENTER" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="20.0" />
+               </GridPane.margin>
+               <tooltip>
+                  <Tooltip text="Like" />
+               </tooltip>
+            </Button>
+            <Button id="add-to-list-button" fx:id="addToListButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onAddButtonClicked" prefHeight="43.0" prefWidth="48.0" styleClass="add-to-list-button" stylesheets="@../css/add_to_list_button.css" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="20.0" />
+               </GridPane.margin>
+               <tooltip>
+                  <Tooltip text="Add to list">
+                     <graphic>
+                        <Label text="Label" />
+                     </graphic>
+                  </Tooltip>
+               </tooltip>
+            </Button>
+            <Label fx:id="notLoggedInLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="35.0" prefWidth="151.0" text="Log in to create and access personal lists!" textAlignment="CENTER" textFill="RED" visible="false" wrapText="true" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="20.0" />
                </GridPane.margin>
             </Label>
          </children>
