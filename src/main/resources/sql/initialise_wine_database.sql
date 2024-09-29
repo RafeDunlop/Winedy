@@ -40,6 +40,7 @@ CREATE TABLE wineList (
     name TEXT,
     username TEXT,
     description TEXT,
+    sortKey INTEGER,
     PRIMARY KEY (name, username),
     FOREIGN KEY (username) REFERENCES wineDrinker (username) ON DELETE CASCADE
 );

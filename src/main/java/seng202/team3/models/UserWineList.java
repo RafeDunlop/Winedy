@@ -1,5 +1,11 @@
 package seng202.team3.models;
 
+import seng202.team3.services.WineDrinkerManager;
+import seng202.team3.services.WineListManager;
+
+import java.util.List;
+import java.util.Objects;
+
 /**
  * UserWineList class defines the personal wine lists that Wine Drinkers can create
  * This will be used in deliverable 3
@@ -11,23 +17,41 @@ public class UserWineList extends WineList {
 
     private String description;
 
+    private int lastChanged;
+
     /**
      * Constructs new WineList object and initializes the list.
+     * sets
      *
      * @param description
      */
-    public UserWineList(String wineListName, String description) {
+    public UserWineList(String wineListName, String description, Integer sortKey) {
         this.description = description;
         this.wineListName = wineListName;
+        if (sortKey == null) {
+            lastChanged = WineDrinkerManager.getInstance().getCurrentUser().getAndIncrementMinKey();
+        } else {
+            lastChanged = sortKey;
+        }
     }
 
+    /**
+     * adds the specified wine to this UserWineList and updates its sortkey (and the minsortkey)
+     * @param wine The Wine object to be added to the list. Must not be null.
+     */
     @Override
     public void addWineToList(Wine wine) {
         super.addWineToList(wine);
+        lastChanged = WineDrinkerManager.getInstance().getCurrentUser().getAndIncrementMinKey();
     }
 
-    public void editWineListName(String newName) {
-        // To implement
+    @Override
+    public boolean removeWineFromList(Wine toRemove) throws NullPointerException {
+        boolean inList = super.removeWineFromList(toRemove);
+        if (inList) {
+            lastChanged = WineDrinkerManager.getInstance().getCurrentUser().getAndIncrementMinKey();
+        }
+        return inList;
     }
 
     public String getWineListName() {
@@ -44,5 +68,9 @@ public class UserWineList extends WineList {
 
     public void setWineListName(String wineListName) {
         this.wineListName = wineListName;
+    }
+
+    public int getSortKey() {
+        return (wineListName.equals(FavouritesWineList.getFavouritesName())) ? Integer.MIN_VALUE : -1 * lastChanged;
     }
 }

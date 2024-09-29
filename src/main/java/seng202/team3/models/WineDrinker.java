@@ -1,5 +1,7 @@
 package seng202.team3.models;
 
+import seng202.team3.services.WineListManager;
+
 import java.util.*;
 
 /**
@@ -12,38 +14,51 @@ import java.util.*;
  * @author Steven Leishman (sle159)
  */
 public class WineDrinker {
+
     /**
      * List of all the wine drinker's lists
      */
     private ArrayList<UserWineList> drinkersWineLists = new ArrayList<>();
+
     /**
      * Wine Drinker's username
      */
     private String username;
+
     /**
      * Wine Drinker's password
      */
     private String password;
+
     /**
      * Wine Drinker's country preference
      */
     private String countryPreference;
+
     /**
      * Wine Drinker's colour preference
      */
     private String colourPreference;
+
     /**
      * Wine Drinker's fullness preference
      */
     private String fullnessPreference;
+
     /**
      * Wine Drinker's grape preference;
      */
     private String grapePreference;
+
     /**
      * Wine Drinker's alcohol by volume preference
      */
     private double abvLimit;
+
+    /**
+     *
+     */
+    private int totalListChanges;
 
 
 
@@ -64,6 +79,14 @@ public class WineDrinker {
         this.fullnessPreference = fullnessPreference;
         this.grapePreference = grapePreference;
         this.abvLimit = abvLimit;
+    }
+
+    public void setupMinSortKey() {
+        totalListChanges = WineListManager.getInstance().getMinSortKey();
+    }
+
+    public int getAndIncrementMinKey() {
+        return totalListChanges++;
 
     }
 
@@ -73,7 +96,7 @@ public class WineDrinker {
      * TODO Use in wine list functionality in deliverable 3
      */
     void createWineList(String name) {
-        UserWineList userWineList = new UserWineList(null, name);
+        UserWineList userWineList = new UserWineList(null, name, null);
         drinkersWineLists.add(userWineList);
     }
 
