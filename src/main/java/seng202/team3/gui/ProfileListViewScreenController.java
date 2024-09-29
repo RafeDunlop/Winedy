@@ -38,6 +38,9 @@ public class ProfileListViewScreenController {
     private AnchorPane wineDetailsAnchorPane;
 
     @FXML
+    private AnchorPane rootAnchorPane;
+
+    @FXML
     private TextField wineListNameTextField;
 
     @FXML
@@ -49,24 +52,22 @@ public class ProfileListViewScreenController {
     /**
      * method called when the back button is clicked
      */
-    @FXML
-    private void onGoBackButtonClicked() {}
+//    @FXML
+//    private void onGoBackButtonClicked() {}
 
     /**
      * method called when the remove all button is clicked
      */
-    @FXML
-    private void onRemoveAllButtonClicked() {}
+//    @FXML
+//    private void onRemoveAllButtonClicked() {}
 
     /**
      * method called when the rename button is clicked
      */
-    @FXML
-    void onRenameButtonClicked() {}
+//    @FXML
+//    void onRenameButtonClicked() {}
 
     public void initialize() {
-        Wine[] listContentsArray = { new Wine(0, null, null, null, null, null, null, null, 0, null, 0, 0, 0)};
-        GuiService.fillVboxGrid(listContentsArray, listContentsVBox, wineDetailsAnchorPane);
 
 
     }
