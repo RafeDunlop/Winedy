@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileTabPaneController">
+   <children>
+      <TabPane fx:id="profileTabPane" layoutX="-1.0" layoutY="78.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="632.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="40.0" tabMaxWidth="370.0" tabMinHeight="40.0" tabMinWidth="370.0">
+         <tabs>
+            <Tab fx:id="winedyProfileTab" text="Winedy Profile ">
+               <content>
+                  <AnchorPane fx:id="winedyProfileAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="576.0" prefWidth="1200.0" />
+               </content>
+            </Tab>
+            <Tab fx:id="wineListTab" text="My Wine Lists ">
+               <content>
+                  <AnchorPane fx:id="wineListAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="575.0" prefWidth="1200.0" />
+               </content>
+            </Tab>
+            <Tab fx:id="consumptionTrackingTab" text="Consumption Tracking">
+               <content>
+                  <AnchorPane fx:id="consumptionTrackingAnchorPane" maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="576.0" prefWidth="1200.0" />
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <Label fx:id="helloUserLabel" alignment="CENTER" layoutX="270.0" layoutY="20.0" prefHeight="44.0" prefWidth="660.0" text="Hello, Winedy user" wrapText="true">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Button fx:id="logoutButton" layoutX="48.0" layoutY="30.0" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onLogoutButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Logout" />
+   </children>
+</AnchorPane>
