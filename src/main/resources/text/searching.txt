@@ -1,0 +1,3 @@
+To be able to search and filter through wines on Winedy, navigate to the search screen by either first clicking on the home screen button in the navigation bar and then clicking on the search button on the home screen, or clicking on the search button in the navigation bar.
+
+Once on the search screen, you can click on the drop-down combo boxes to chose filters to apply on the wine

@@ -31,13 +31,31 @@ public class HelpScreenController {
     private Button aboutWinedyButton;
 
     @FXML
+    private Button usefulWineInformationButton;
+
+    @FXML
+    private Button colourButton;
+
+    @FXML
+    private Button varietyButton;
+
+    @FXML
+    private Button fullnessButton;
+
+    @FXML
+    private Button abvButton;
+
+    @FXML
     private Button howToUseWinedyButton;
+
+    @FXML
+    private Button createAnAccountButton;
 
     @FXML
     private Button signinButton;
 
     @FXML
-    private Button createAnAccountButton;
+    private Button searchingButton;
 
     @FXML
     private ScrollPane contentsScrollPane;
@@ -55,6 +73,36 @@ public class HelpScreenController {
     private Label aboutWinedyContentLabel;
 
     @FXML
+    private Label usefulWineInformationTitleLabel;
+
+    @FXML
+    private Label usefulWineInformationContentLabel;
+
+    @FXML
+    private Label colourTitleLabel;
+
+    @FXML
+    private Label colourContentLabel;
+
+    @FXML
+    private Label varietyTitleLabel;
+
+    @FXML
+    private Label varietyContentLabel;
+
+    @FXML
+    private Label fullnessTitleLabel;
+
+    @FXML
+    private Label fullnessContentLabel;
+
+    @FXML
+    private Label abvTitleLabel;
+
+    @FXML
+    private Label abvContentLabel;
+
+    @FXML
     private Label howToUseWinedyTitleLabel;
 
     @FXML
@@ -69,6 +117,12 @@ public class HelpScreenController {
     @FXML
     private Label signinContentLabel;
 
+    @FXML
+    private Label searchingTitleLabel;
+
+    @FXML
+    private Label searchingContentLabel;
+
     /**
      * Method used by JavaFX when initialising the Help Screen.
      */
@@ -79,9 +133,15 @@ public class HelpScreenController {
             informationRectangle.getStyleClass().add("red-wine-rectangle");
 
             aboutWinedyButton.getStyleClass().add("help-screen-contents-button");
+            usefulWineInformationButton.getStyleClass().add("help-screen-contents-button");
+            colourButton.getStyleClass().add("help-screen-contents-button");
+            varietyButton.getStyleClass().add("help-screen-contents-button");
+            fullnessButton.getStyleClass().add("help-screen-contents-button");
+            abvButton.getStyleClass().add("help-screen-contents-button");
             howToUseWinedyButton.getStyleClass().add("help-screen-contents-button");
             createAnAccountButton.getStyleClass().add("help-screen-contents-button");
             signinButton.getStyleClass().add("help-screen-contents-button");
+            searchingButton.getStyleClass().add("help-screen-contents-button");
 
             contentsScrollPane.getStyleClass().add("white-wine-scroll-pane");
             informationScrollPane.getStyleClass().add("red-wine-scroll-pane");
@@ -91,17 +151,29 @@ public class HelpScreenController {
 
         try {
             aboutWinedyContentLabel.setText(GuiService.getContentFromFile("/text/about_winedy.txt"));
+            usefulWineInformationContentLabel.setText(GuiService.getContentFromFile("/text/useful_wine_information.txt"));
+            colourContentLabel.setText(GuiService.getContentFromFile("/text/colour.txt"));
+            varietyContentLabel.setText(GuiService.getContentFromFile("/text/variety.txt"));
+            fullnessContentLabel.setText(GuiService.getContentFromFile("/text/fullness.txt"));
+            abvContentLabel.setText(GuiService.getContentFromFile("/text/abv.txt"));
             createAnAccountContentLabel.setText(GuiService.getContentFromFile("/text/create_an_account.txt"));
             signinContentLabel.setText(GuiService.getContentFromFile("/text/sign_in.txt"));
+            searchingContentLabel.setText(GuiService.getContentFromFile("/text/searching.txt"));
             log.info("Help Screen loaded.");
         } catch (Exception e) {
             log.error("Error loading txt files. Did you misspell their path", e);
         }
 
         setContentsButtonOnAction(aboutWinedyButton, aboutWinedyTitleLabel);
+        setContentsButtonOnAction(usefulWineInformationButton, usefulWineInformationTitleLabel);
+        setContentsButtonOnAction(colourButton, colourTitleLabel);
+        setContentsButtonOnAction(varietyButton, varietyTitleLabel);
+        setContentsButtonOnAction(fullnessButton, fullnessTitleLabel);
+        setContentsButtonOnAction(abvButton, abvTitleLabel);
         setContentsButtonOnAction(howToUseWinedyButton, howToUseWinedyTitleLabel);
         setContentsButtonOnAction(createAnAccountButton, createAnAccountTitleLabel);
         setContentsButtonOnAction(signinButton, signinTitleLabel);
+        setContentsButtonOnAction(searchingButton, searchingTitleLabel);
     }
 
     /**
