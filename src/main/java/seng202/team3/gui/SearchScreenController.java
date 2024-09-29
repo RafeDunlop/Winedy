@@ -135,44 +135,10 @@ public class SearchScreenController {
         Wine[] resultsArray = new Wine[resultsList.size()];
         resultsArray = resultsList.toArray(resultsArray);
 
-        fillVbox(resultsArray);
+        GuiService.fillVboxGrid(resultsArray, searchResultsVBox, wineDetailsAnchorPane);
     }
 
-    /**
-     * Method to fill the search result VBox with buttons corresponding to the wines that are in the search results
-     * @param searchResults an array of the search results
-     */
-    private void fillVbox(Wine[] searchResults) {
-        int length = searchResults.length;
-        int rows = (length % 3 == 0)? length / 3 : length / 3 + 1;
-        if (length == 0) {
-            Label noSearchResultsLabel = new Label("No Wines were found for your search!");
-            searchResultsVBox.setAlignment(Pos.CENTER);
-            searchResultsVBox.getChildren().add(noSearchResultsLabel);
-        }
-        for (int i = 0; i < rows; i++) {
-            HBox hbox = new HBox(10); // 10px
-            hbox.setSpacing(20);
-            hbox.setPadding(new Insets(10, 15, 10, 15));
-            hbox.setPrefWidth(800); // Set preferred width for the HBox
 
-            Button button1 = GuiService.generateWineButton(searchResults[3 * i], wineDetailsAnchorPane, 240, 240);
-            hbox.getChildren().add(button1);
-
-            if (3 * i + 1 < searchResults.length) {
-                Button button2 = GuiService.generateWineButton(searchResults[3 * i  + 1], wineDetailsAnchorPane, 240, 240);
-                hbox.getChildren().add(button2);
-            }
-
-            if (3 * i + 2 < searchResults.length) {
-                Button button3 = GuiService.generateWineButton(searchResults[3 * i + 2], wineDetailsAnchorPane, 240, 240);
-                hbox.getChildren().add(button3);
-            }
-
-            searchResultsVBox.getChildren().add(hbox);
-        }
-
-    }
 
     /**
      * Method to initialise the date range combination box.

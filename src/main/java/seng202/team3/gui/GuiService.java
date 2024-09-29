@@ -1,9 +1,14 @@
 package seng202.team3.gui;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.gui.FXWrapper;
@@ -91,5 +96,42 @@ public final class GuiService {
         wineButton.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineView(screenAnchorPane, wineToDisplay));
         wineButton.setContentDisplay(TOP);
         return wineButton;
+    }
+
+    /** Fills VBox with wines. This could be search results or contents of a wine list.
+     *
+     * @param wineList
+     * @param vBox
+     */
+    public static void fillVboxGrid(Wine[] wineList, VBox vBox, AnchorPane wineDetailsAnchorPane) {
+        int length = wineList.length;
+        int rows = (length % 3 == 0)? length / 3 : length / 3 + 1;
+        if (length == 0) {
+            Label noSearchResultsLabel = new Label("No Wines were found for your search!");
+            vBox.setAlignment(Pos.CENTER);
+            vBox.getChildren().add(noSearchResultsLabel);
+        }
+        for (int i = 0; i < rows; i++) {
+            HBox hbox = new HBox(10); // 10px
+            hbox.setSpacing(20);
+            hbox.setPadding(new Insets(10, 15, 10, 15));
+            hbox.setPrefWidth(800); // Set preferred width for the HBox
+
+            Button button1 = GuiService.generateWineButton(wineList[3 * i], wineDetailsAnchorPane, 240, 240);
+            hbox.getChildren().add(button1);
+
+            if (3 * i + 1 < wineList.length) {
+                Button button2 = GuiService.generateWineButton(wineList[3 * i  + 1], wineDetailsAnchorPane, 240, 240);
+                hbox.getChildren().add(button2);
+            }
+
+            if (3 * i + 2 < wineList.length) {
+                Button button3 = GuiService.generateWineButton(wineList[3 * i + 2], wineDetailsAnchorPane, 240, 240);
+                hbox.getChildren().add(button3);
+            }
+
+            vBox.getChildren().add(hbox);
+        }
+
     }
 }

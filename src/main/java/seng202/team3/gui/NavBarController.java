@@ -144,7 +144,7 @@ public class NavBarController {
         if (WineDrinkerManager.getInstance().getCurrentUser() == null) {
             onButtonClick(Screen.SIGNINSCREEN);
         } else {
-            onButtonClick(Screen.PROFILESCREEN);
+            onButtonClick(Screen.PROFILETABPANE);
         }
     }
 
