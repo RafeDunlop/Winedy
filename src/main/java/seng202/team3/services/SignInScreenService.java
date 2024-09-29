@@ -89,6 +89,7 @@ public class SignInScreenService {
         try {
             WineDrinker curUser = new WineDrinker(username, password, country, colour, fullness, variety, ABVLimit);
             wineDrinkerManager.setCurrentUser(curUser);
+            //register throws exception which needs passing to 1 level up for prompt to user
             wineDrinkerManager.registerWineDrinker();
         } catch (IllegalWineDrinkerException e) {
             throw e;
