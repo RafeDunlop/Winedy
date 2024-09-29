@@ -152,6 +152,7 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
             psList.executeUpdate();
             psContainsAdd.executeBatch();
             psContainsDel.executeBatch();
+            toUpdate.setWineList(newList); //reset stored object to database version
             return 0;
         } catch (SQLException | NullPointerException e) {
             log.error(e);
