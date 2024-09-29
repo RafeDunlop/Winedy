@@ -23,7 +23,7 @@ public class WineDrinkerManager {
     /**
      * Wine Drinker DAO instance to handle database related actions with a Wine Drinker
      */
-    private final WineDrinkerDAO wineDrinkerDAO;
+    private WineDrinkerDAO wineDrinkerDAO;
 
     /**
      * Currently logged in Wine Drinker
@@ -76,6 +76,9 @@ public class WineDrinkerManager {
      */
     public void setCurrentUser (WineDrinker currentUser) {
         this.currentUser = currentUser;
+        if (currentUser != null) {
+            currentUser.setupMinSortKey();
+        }
     }
 
     /**
@@ -145,4 +148,12 @@ public class WineDrinkerManager {
        drinker = wineDrinkerDAO.getWineDrinkerFromUsername(username);
        return drinker;
    }
+
+   public void deleteWineDrinker(WineDrinker toDelete){
+       wineDrinkerDAO.delete(toDelete);
+   }
+
+    public void setWineDrinkerDAO(WineDrinkerDAO wineDrinkerDAO) {
+       this.wineDrinkerDAO = wineDrinkerDAO;
+    }
 }
