@@ -48,10 +48,11 @@
             </tooltip></Button>
       </children>
    </HBox>
-   <Button fx:id="homeButton" mnemonicParsing="false" prefHeight="66.0" prefWidth="66.0" text="Home" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
+   <Rectangle fx:id="winedyRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="66.0" layoutX="501.0" layoutY="5.0" stroke="BLACK" strokeType="INSIDE" width="198.0" AnchorPane.leftAnchor="86.0" AnchorPane.topAnchor="5.0" />
+   <ImageView fx:id="winedyImageView" fitHeight="44.0" fitWidth="163.0" layoutX="104.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" />
+   <Button fx:id="homeButton" layoutX="211.0" layoutY="5.0" mnemonicParsing="false" prefHeight="66.0" prefWidth="66.0" text="Home" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0">
       <font>
          <Font size="10.0" />
-      </font></Button>
-   <Rectangle fx:id="winedyRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="66.0" layoutX="501.0" layoutY="5.0" stroke="BLACK" strokeType="INSIDE" width="198.0" />
-   <ImageView fx:id="winedyImageView" fitHeight="44.0" fitWidth="163.0" layoutX="519.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" />
+      </font>
+   </Button>
 </AnchorPane>
