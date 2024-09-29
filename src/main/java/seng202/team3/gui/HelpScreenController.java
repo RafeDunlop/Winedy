@@ -132,16 +132,7 @@ public class HelpScreenController {
             contentsRectangle.getStyleClass().add("white-wine-rectangle");
             informationRectangle.getStyleClass().add("red-wine-rectangle");
 
-            aboutWinedyButton.getStyleClass().add("help-screen-contents-button");
-            usefulWineInformationButton.getStyleClass().add("help-screen-contents-button");
-            colourButton.getStyleClass().add("help-screen-contents-button");
-            varietyButton.getStyleClass().add("help-screen-contents-button");
-            fullnessButton.getStyleClass().add("help-screen-contents-button");
-            abvButton.getStyleClass().add("help-screen-contents-button");
-            howToUseWinedyButton.getStyleClass().add("help-screen-contents-button");
-            createAnAccountButton.getStyleClass().add("help-screen-contents-button");
-            signinButton.getStyleClass().add("help-screen-contents-button");
-            searchingButton.getStyleClass().add("help-screen-contents-button");
+            addContentsButtonsStyleClass();
 
             contentsScrollPane.getStyleClass().add("white-wine-scroll-pane");
             informationScrollPane.getStyleClass().add("red-wine-scroll-pane");
@@ -149,6 +140,34 @@ public class HelpScreenController {
             log.warn("Error loading CSS style classes. Did you misspell their names?");
         }
 
+        setContentsLabelsText();
+
+        setupContentsButtonOnActions();
+    }
+
+    /**
+     * Adds the help-screen-contents-button style class to all the contents buttons
+     *
+     * @throws NullPointerException if the style class could not be added, likely due to a typo, this is thrown to the
+     * initialise method that calls it
+     */
+    private void addContentsButtonsStyleClass() throws NullPointerException {
+        aboutWinedyButton.getStyleClass().add("help-screen-contents-button");
+        usefulWineInformationButton.getStyleClass().add("help-screen-contents-button");
+        colourButton.getStyleClass().add("help-screen-contents-button");
+        varietyButton.getStyleClass().add("help-screen-contents-button");
+        fullnessButton.getStyleClass().add("help-screen-contents-button");
+        abvButton.getStyleClass().add("help-screen-contents-button");
+        howToUseWinedyButton.getStyleClass().add("help-screen-contents-button");
+        createAnAccountButton.getStyleClass().add("help-screen-contents-button");
+        signinButton.getStyleClass().add("help-screen-contents-button");
+        searchingButton.getStyleClass().add("help-screen-contents-button");
+    }
+
+    /**
+     * Sets the text of all the content buttons using getContentFromFile in GuiService
+     */
+    private void setContentsLabelsText() {
         try {
             aboutWinedyContentLabel.setText(GuiService.getContentFromFile("/text/about_winedy.txt"));
             usefulWineInformationContentLabel.setText(GuiService.getContentFromFile("/text/useful_wine_information.txt"));
@@ -160,10 +179,15 @@ public class HelpScreenController {
             signinContentLabel.setText(GuiService.getContentFromFile("/text/sign_in.txt"));
             searchingContentLabel.setText(GuiService.getContentFromFile("/text/searching.txt"));
             log.info("Help Screen loaded.");
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             log.error("Error loading txt files. Did you misspell their path", e);
         }
+    }
 
+    /**
+     * Calls setContentButtonOnAction for all the content buttons on the page
+     */
+    private void setupContentsButtonOnActions() {
         setContentsButtonOnAction(aboutWinedyButton, aboutWinedyTitleLabel);
         setContentsButtonOnAction(usefulWineInformationButton, usefulWineInformationTitleLabel);
         setContentsButtonOnAction(colourButton, colourTitleLabel);
