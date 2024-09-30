@@ -123,6 +123,17 @@ public class ProfileListViewScreenController {
             FXWrapper.getInstance().loadProfileActionScreen(rootAnchorPane, Screen.WINELISTSSCREEN);
         }
     }
+    /*TODO ask the users if they are sure they would like to cancel their changes */
+    @FXML
+    public void onCancelChangesButtonClicked() {
+        wineListNameTextField.setText(listToDisplay.getWineListName());
+        wineListNameTextField.setVisible(false);
+        wineListNameLabel.setVisible(true);
 
+        saveChangesButton.setVisible(false);
+        renameButton.setVisible(true);
+        editListButton.setVisible(true);
+        cancelChangesButton.setVisible(false);
+    }
 
 }
