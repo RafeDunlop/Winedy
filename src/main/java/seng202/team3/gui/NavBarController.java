@@ -103,7 +103,7 @@ public class NavBarController {
         instance.setScreenPane(screenPane);
 
         navBarRectangle.getStyleClass().add("nav-bar-rectangle");
-        winedyRectangle.getStyleClass().add("white-wine-rectangle");
+        winedyRectangle.getStyleClass().add("nav-bar-winedy-rectangle");
 
         Image winedyTextImage = new Image("/images/winedy_text.png");
         winedyImageView.setImage(winedyTextImage);
