@@ -100,7 +100,6 @@ public class WineDrinkerManager {
         try {
             if (currentUser != null) {
                 wineDrinkerDAO.add(currentUser);
-                WineListManager.getInstance().setupFavourites();
             }
         } catch (WineDrinkerAlreadyExistsException e) {
             log.error(e);
@@ -127,7 +126,6 @@ public class WineDrinkerManager {
         } else {
             throw new IllegalWineDrinkerException("User does not exist.");
         }
-
    }
 
     /**
