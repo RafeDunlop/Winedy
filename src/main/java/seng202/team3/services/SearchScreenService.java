@@ -2,7 +2,7 @@ package seng202.team3.services;
 
 import seng202.team3.models.WineAttribute;
 import seng202.team3.repository.SearchDAO;
-import seng202.team3.repository.Tables;
+import seng202.team3.repository.Table;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class SearchScreenService {
      * @param attribute the name of the attribute (column) to get values from
      * @return a list of strings of all distinct values in the given column in the wineSuper table
      */
-    public ArrayList<String> getAttributeValues(WineAttribute attribute, Tables table) {
+    public ArrayList<String> getAttributeValues(WineAttribute attribute, Table table) {
 
         ArrayList<String> values = new ArrayList<>();
         values.add("");

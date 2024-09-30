@@ -5,7 +5,7 @@ package seng202.team3.repository;
  *
  * @author Yuvraj Fagotra (yfa50)
  */
-public enum Tables {
+public enum Table {
     AWARD("award"),
     CONTAINS("Contains"),
     GRAPE("grape"),
@@ -20,7 +20,7 @@ public enum Tables {
 
     public final String tableName;
 
-    Tables(String name) {
+    Table(String name) {
         this.tableName = name;
     }
 }
