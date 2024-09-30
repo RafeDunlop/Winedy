@@ -5,16 +5,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.RangeSlider;
+import seng202.team3.models.WineAttribute;
+import seng202.team3.services.SearchScreenService;
 import seng202.team3.services.WineManager;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
@@ -29,6 +26,8 @@ import java.util.stream.IntStream;
  * @author Sophia Copley (sco207)
  */
 public class SearchScreenController {
+
+    private SearchScreenService searchScreenService;
 
     @FXML
     private ComboBox<String> colourComboBox;
@@ -89,17 +88,18 @@ public class SearchScreenController {
      * TODO: initialise the combo boxes so that they get the possible options from the database instead of hard coding the options
      */
     public void initialize() {
+
+        searchScreenService = new SearchScreenService();
+
         searchBarTextField.setOnAction(this::onSearchButtonClicked);
         priceRangeSlider.setLowValue(0);
         priceRangeSlider.setHighValue(220);
 
         // this style class is unfinished so the line of code has been commented out for GUI consistency
         // startDateComboBox.getStyleClass().add("date-combo-box"); //Initialising combo boxes. In deliverable 3, the combo boxes will get the options from the recorded values in the database
-        colourComboBox.getItems().addAll("", "White", "Rose", "Red");
-        fullnessComboBox.getItems().addAll("", "DRY", "LIGHT", "FULL", "MEDIUM", "SWEET", "OFF DRY");
-        countryComboBox.getItems().addAll("", "USA", "Italy", "France", "New Zealand", "Portugal", "Spain", "Argentina",
-                "Australia", "Chile", "Romania", "South Africa", "Lebanon", "Germany",
-                "Hungary", "Austria", "UK", "Macedonia", "Greece");
+        colourComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.COLOUR.attribute));
+        fullnessComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.FULLNESS.attribute));
+        countryComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.COUNTRY.attribute));
         setUpVarietyComboBox(varietyComboBox);
 
         colourComboBox.setOnAction(select -> selectedColour = (colourComboBox.getSelectionModel().getSelectedItem() == "") ? null : colourComboBox.getSelectionModel().getSelectedItem());
