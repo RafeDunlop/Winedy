@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.HelpScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.HelpScreenController">
    <children>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -42,7 +42,44 @@
                               <Font size="20.0" />
                            </font>
                         </Button>
-                        <Button fx:id="howToUseWinedyButton" mnemonicParsing="false" text="How to use Winedy:">
+                        <Button fx:id="usefulWineInformationButton" mnemonicParsing="false" text="Useful wine information" wrapText="true">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="colourButton" mnemonicParsing="false" text="Colour">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="varietyButton" mnemonicParsing="false" text="Variety">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Button fx:id="fullnessButton" mnemonicParsing="false" text="Fullness">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="abvButton" mnemonicParsing="false" text="ABV">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Button fx:id="howToUseWinedyButton" mnemonicParsing="false" text="How to use Winedy">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -63,6 +100,14 @@
                               <Font size="15.0" />
                            </font>
                         </Button>
+                        <Button fx:id="searchingButton" mnemonicParsing="false" text="Searching">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
                      </children>
                   </VBox>
                </content>
@@ -71,7 +116,7 @@
                <content>
                   <VBox fx:id="informationVBox" maxWidth="640.0" spacing="10.0">
                      <children>
-                        <Label maxWidth="660.0" text="About Winedy:">
+                        <Label fx:id="aboutWinedyTitleLabel" maxWidth="660.0" text="About Winedy:">
                            <font>
                               <Font name="System Bold" size="30.0" />
                            </font>
@@ -79,39 +124,95 @@
                               <Insets />
                            </VBox.margin>
                         </Label>
-                        <Label fx:id="aboutWinedyLabel" text="About winedy content" wrapText="true">
+                        <Label fx:id="aboutWinedyContentLabel" text="About winedy content" wrapText="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
                         </Label>
-                        <Label text="How to use Winedy:">
+                        <Label fx:id="usefulWineInformationTitleLabel" text="Useful wine information:">
                            <font>
                               <Font name="System Bold" size="30.0" />
                            </font>
                         </Label>
-                        <Label text="- Create an account">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="createAnAccountLabel" text="Create an account content" wrapText="true">
+                        <Label fx:id="usefulWineInformationContentLabel" text="Useful wine information content" wrapText="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
                         </Label>
-                        <Label text="- Sign-in">
+                        <Label fx:id="colourTitleLabel" text="- Colour">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </Label>
-                        <Label fx:id="signinLabel" text="Sign-in content" wrapText="true">
+                        <Label fx:id="colourContentLabel" text="Colour content" wrapText="true">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="varietyTitleLabel" text="- Variety">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="varietyContentLabel" text="Variety content" wrapText="true">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="fullnessTitleLabel" text="- Fullness">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="fullnessContentLabel" text="Fullness content" wrapText="true">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="abvTitleLabel" text="- ABV">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="abvContentLabel" text="ABV Content" wrapText="true">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="howToUseWinedyTitleLabel" text="How to use Winedy:">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="createAnAccountTitleLabel" text="- Create an account">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="createAnAccountContentLabel" text="Create an account content" wrapText="true">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="signinTitleLabel" text="- Sign-in">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="signinContentLabel" text="Sign-in content" wrapText="true">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="searchingTitleLabel" text="- Searching" />
+                        <Label fx:id="searchingContentLabel" text="Searching content" wrapText="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
                         </Label>
                      </children>
                      <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                   </VBox>
                </content>
