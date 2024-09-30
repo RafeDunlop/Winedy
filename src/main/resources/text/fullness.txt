@@ -1,0 +1,7 @@
+This filter contains two different sub categories, fullness and sweetness.
+
+The sweetness of a wine refers to the amount of sugar it contains. Wines with less than 1% sugar are considered dry. Off-dry wines (also called semi-sweet) have more sugar content that a dry wine but less than a sweet wine. Sweet wines often are more than 5% sugar. As sweet wines contain more sugar than dry wines, they tend to be more calorie dense than dry wines. This makes dry wines often more suitable for those trying to cut back their sugar or calorie intake.
+
+The fullness of a wine refers to how heavy and viscous a wine feels in the mouth. Fullness can be separated into the following values: light, medium, and full where full wines are heavier and more viscous and light wines are lighter and less viscous. A wine’s fullness is influenced by many factors.
+
+As a higher alcohol content increases a wine’s viscosity, wines with a higher ABV tend to be more full. A higher tannin content also increases a wines viscosity. Wines with higher sugar levels (sweeter) also tend to be more full-bodied.

@@ -45,6 +45,7 @@ public class MainWindow extends Application {
                 "/css/individual_wine_view_scroll_pane.css",
                 "/css/nav_bar_button.css",
                 "/css/nav_bar_rectangle.css",
+                "/css/nav_bar_winedy_rectangle.css",
                 "/css/red_wine_button.css",
                 "/css/red_wine_rectangle.css",
                 "/css/white_wine_rectangle.css",

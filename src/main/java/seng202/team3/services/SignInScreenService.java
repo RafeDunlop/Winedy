@@ -89,6 +89,7 @@ public class SignInScreenService {
         try {
             WineDrinker curUser = new WineDrinker(username, password, country, colour, fullness, variety, ABVLimit);
             wineDrinkerManager.setCurrentUser(curUser);
+            //register throws exception which needs passing to 1 level up for prompt to user
             wineDrinkerManager.registerWineDrinker();
         } catch (IllegalWineDrinkerException e) {
             throw e;
@@ -114,6 +115,7 @@ public class SignInScreenService {
             validateRegisteringPasswords(password, secondPassword);
             registerUser(username, password, null, colour, fullness, variety, ABVLimit);
         } catch(IllegalWineDrinkerException e) {
+            //thrown for error message to user
             throw e;
         }
     }
@@ -130,6 +132,7 @@ public class SignInScreenService {
             validateLoginDetails(username, password);
             wineDrinkerManager.loginCurrentUser(username, password);
         } catch (IllegalWineDrinkerException e) {
+            //thrown for error message to user
             throw e;
         }
     }
