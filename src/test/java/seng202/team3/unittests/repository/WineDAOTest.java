@@ -3,8 +3,10 @@ package seng202.team3.unittests.repository;
 import org.junit.jupiter.api.*;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
+import seng202.team3.models.WineDrinker;
 import seng202.team3.repository.DatabaseManager;
 import seng202.team3.repository.WineDAO;
+import seng202.team3.services.WineDrinkerManager;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -73,21 +75,21 @@ public class WineDAOTest {
         file.delete();
     }
     @Test
-    void testAddUniqueWine() {
+    public void testAddUniqueWine() {
         int insertId = wineDAO.add(WINE_1);
         assertEquals(HIGHEST_ID + 1, insertId);
         wineDAO.delete(WINE_1);
     }
 
     @Test
-    void testAddNonUniqueWine() {
+    public void testAddNonUniqueWine() {
         int insertId = wineDAO.add(WINE_1);
         assertDoesNotThrow(() -> wineDAO.add(WINE_1));
         wineDAO.delete(WINE_1);
     }
 
     @Test
-    void testGetAll() {
+    public void testGetAll() {
         int id1 = wineDAO.add(WINE_1);
         int id2 = wineDAO.add(WINE_2);
         List<Wine> allWines = wineDAO.getAll();
@@ -97,7 +99,7 @@ public class WineDAOTest {
     }
 
     @Test
-    void testGetExistingWineByID() {
+    public void testGetExistingWineByID() {
         int insertId = wineDAO.add(WINE_1);
         Wine retrievedWine = wineDAO.getWineByID(insertId);
         assertEquals(WINE_1.getLongDescription(), retrievedWine.getLongDescription());
@@ -105,21 +107,45 @@ public class WineDAOTest {
     }
 
     @Test
-    void testGetNonExistingWineByID() {
+    public void testGetNonExistingWineByID() {
         Wine retrievedWine = wineDAO.getWineByID(HIGHEST_ID + 1);
         assertNull(retrievedWine);
     }
 
     @Test
-    void testDeleteExistingWine() {
+    public void testDeleteExistingWine() {
         int insertId = wineDAO.add(WINE_2);
         wineDAO.delete(WINE_2);
         assertNull(wineDAO.getWineByID(insertId));
     }
 
     @Test
-    void testDeleteNonExistingWine() {
+    public void testDeleteNonExistingWine() {
         assertDoesNotThrow(() -> wineDAO.delete(WINE_2));
+    }
+
+    @Test
+    public void testAddNote() {
+        WineDrinkerManager.getInstance().setCurrentUser(new WineDrinker("username", "password", null, null, null,null,0));
+        wineDAO.add(WINE_1);
+        assertEquals(0, wineDAO.addNote(WINE_1, "note"));
+    }
+
+    @Test
+    public void testGetNote() {
+        wineDAO.add(WINE_1);
+        WineDrinkerManager.getInstance().setCurrentUser(new WineDrinker("username", "password", null, null, null,null,0));
+        wineDAO.addNote(WINE_1, "note");
+        assertEquals("note", wineDAO.getNote(WINE_1));
+    }
+
+    @Test
+    public void testUpdateNote() {
+        wineDAO.add(WINE_1);
+        WineDrinkerManager.getInstance().setCurrentUser(new WineDrinker("username", "password", null, null, null,null,0));
+        wineDAO.addNote(WINE_1, "note");
+        wineDAO.updateNote(WINE_1, "note++");
+        assertEquals("note++", wineDAO.getNote(WINE_1));
     }
 
     @Test
