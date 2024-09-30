@@ -16,10 +16,13 @@ public enum WineAttribute {
     PRICE("pricePerBottle"),
     ABV("alcoholByVolume"),
     VOLUME("volumeInML"),
-    YEAR("year");
+    YEAR("year"),
 
-    public final String attribute;
+    //This refers to the column name in the grape table
+    VARIETY("name");
+
+    public final String attributeName;
     WineAttribute(String attribute) {
-        this.attribute = attribute;
+        this.attributeName = attribute;
     }
 }

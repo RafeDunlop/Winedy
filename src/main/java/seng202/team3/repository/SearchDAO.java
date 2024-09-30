@@ -16,7 +16,6 @@ import java.util.ArrayList;
  */
 public class SearchDAO {
 
-    private String tableName = "wineSuper";
 
     /**
      * Logger for robust error logging
@@ -49,7 +48,7 @@ public class SearchDAO {
      * @param attribute
      * @return
      */
-    public ArrayList<String> getWineAttributeValues(String attribute) {
+    public ArrayList<String> getWineAttributeValues(String attribute, String tableName) {
 
         ArrayList<String> values = new ArrayList<>();
 
@@ -72,7 +71,7 @@ public class SearchDAO {
         return values;
     }
 
-    public boolean isValidAttribute(String attribute) {
+    public boolean isValidAttribute(String attribute, String tableName) {
 
         String sql = "SELECT name FROM pragma_table_info(?) WHERE name = ?";
         try (Connection conn = databaseManager.connect();

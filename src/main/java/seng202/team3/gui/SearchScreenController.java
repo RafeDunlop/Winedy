@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import org.controlsfx.control.RangeSlider;
 import seng202.team3.models.WineAttribute;
+import seng202.team3.repository.Tables;
 import seng202.team3.services.SearchScreenService;
 import seng202.team3.services.WineManager;
 import seng202.team3.models.SearchWineList;
@@ -97,10 +98,10 @@ public class SearchScreenController {
 
         // this style class is unfinished so the line of code has been commented out for GUI consistency
         // startDateComboBox.getStyleClass().add("date-combo-box"); //Initialising combo boxes. In deliverable 3, the combo boxes will get the options from the recorded values in the database
-        colourComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.COLOUR.attribute));
-        fullnessComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.FULLNESS.attribute));
-        countryComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.COUNTRY.attribute));
-        setUpVarietyComboBox(varietyComboBox);
+        colourComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.COLOUR, Tables.WINESUPER));
+        fullnessComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.FULLNESS, Tables.WINESUPER));
+        countryComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.COUNTRY, Tables.WINESUPER));
+        varietyComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.VARIETY, Tables.GRAPE));
 
         colourComboBox.setOnAction(select -> selectedColour = (colourComboBox.getSelectionModel().getSelectedItem() == "") ? null : colourComboBox.getSelectionModel().getSelectedItem());
         fullnessComboBox.setOnAction(select -> selectedFullness = (fullnessComboBox.getSelectionModel().getSelectedItem() == "") ? null : fullnessComboBox.getSelectionModel().getSelectedItem());
@@ -173,22 +174,5 @@ public class SearchScreenController {
             startDateComboBox.setOnAction(startDateComboBoxOnAction);
         });
 
-    }
-
-    /**
-     * Adds all variety strings to the variety ComboBox.
-     * Created to modularise the initialize method in SearchScreenController to make it more readable nad maintainable.
-     * TODO: Change to querying the data base for a table of all unique variety types
-     * @param varietyComboBox the ComboBox the strings will be added to
-     */
-    public static void setUpVarietyComboBox(ComboBox<String> varietyComboBox) {
-        varietyComboBox.getItems().addAll("", "Albariño", "Barbera", "Bonarda", "Bourboulenc", "Cabernet Franc",
-                "Cabernet Sauvignon", "Carignan", "Carmenere", "Carménère", "Chardonnay", "Chenin Blanc", "Chenin Blanc",
-                "Cinsault", "Clairette", "Cortese", "Fiano","Furmint", "Gamay", "Gewurztraminer", "Gewürztraminer",
-                "Grenache", "Grenache Blanc", "Gruner Veltliner", "Grüner Veltliner", "Harslevelu", "Malbec", "Marsanne",
-                "Melon de Bourgogne", "Merlot", "Mourvedre", "Mourvèdre", "Nebbiolo", "Nero d\'Avola", "Palomino",
-                "Petit Verdot", "Pinotage", "Pinot Grigio", "Pinot Noir", "Riesling", "Rioja", "Roussanne", "Sangiovese",
-                "Sangiovese", "Sauvignon Blanc", "Semillon", "Shiraz", "Syrah", "Tempranillo",
-                "Torrontes", "Verdejo", "Viognier", "Zinfandel"); // This is good for now, but what if we add more wines to the database
     }
 }

@@ -18,9 +18,9 @@ public enum Tables {
     NOTES("writesNoteAbout"),
     MASTER("sqlite_master");
 
-    public final String name;
+    public final String tableName;
 
     Tables(String name) {
-        this.name = name;
+        this.tableName = name;
     }
 }
