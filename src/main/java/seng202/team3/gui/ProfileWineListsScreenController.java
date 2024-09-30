@@ -52,7 +52,8 @@ public class ProfileWineListsScreenController {
         int end = Math.min(start + listsPerPage, wineLists.size());
         for (int i = start; i < end; i++) {
             Button button = new Button(wineLists.get(i).getWineListName());
-            button.setOnAction(event -> FXWrapper.getInstance().loadProfileActionScreen(wineListsAnchorPane, Screen.PROFILELISTVIEWSCREEN));
+            int finalI = i;
+            button.setOnAction(event -> FXWrapper.getInstance().loadIndividualListView(wineListsAnchorPane, wineLists.get(finalI)));
             button.setPrefSize(842, 100);
             wineListVBox.getChildren().add(button);
         }

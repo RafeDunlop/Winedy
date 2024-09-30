@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileListViewScreenController">
+<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileListViewScreenController">
    <children>
       <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="618.0" prefWidth="1200.0">
         <columnConstraints>
@@ -24,7 +24,7 @@
           <RowConstraints maxHeight="602.0" minHeight="570.0" prefHeight="602.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button fx:id="goBackButton" maxWidth="70.0" minWidth="77.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="55.0" text="Back" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <Button fx:id="backButton" maxWidth="70.0" minWidth="77.0" mnemonicParsing="false" onAction="#onBackButtonClicked" prefHeight="33.0" prefWidth="55.0" text="Back" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="20.0" top="25.0" />
                </GridPane.margin>
@@ -36,7 +36,7 @@
                <GridPane.margin>
                   <Insets bottom="70.0" />
                </GridPane.margin></AnchorPane>
-            <Button fx:id="removeAllButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Edit List" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+            <Button fx:id="editListButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Edit List" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets right="65.0" top="60.0" />
                </GridPane.margin>
@@ -44,14 +44,6 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <TextField fx:id="wineListNameTextField" editable="false" maxWidth="-Infinity" prefHeight="62.0" prefWidth="457.0" text="wineListName" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets left="125.0" top="25.0" />
-               </GridPane.margin>
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </TextField>
             <ScrollPane hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="803.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <content>
                   <VBox fx:id="listContentsVBox" prefHeight="0.0" prefWidth="662.0" />
@@ -68,7 +60,7 @@
                   <Font size="24.0" />
                </font>
             </Label>
-            <Button fx:id="renameButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Rename" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+            <Button fx:id="renameButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onRenameButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Rename" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets right="65.0" top="15.0" />
                </GridPane.margin>
@@ -76,12 +68,28 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="saveChangesButton" maxWidth="161.0" minWidth="100.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="161.0" text="Save Changes" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+            <Button fx:id="saveChangesButton" maxWidth="161.0" minWidth="100.0" mnemonicParsing="false" onAction="#onSaveChangesButtonClicked" prefHeight="33.0" prefWidth="161.0" text="Save Changes" visible="false" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <font>
                   <Font size="18.0" />
                </font>
                <GridPane.margin>
                   <Insets right="35.0" top="15.0" />
+               </GridPane.margin>
+            </Button>
+            <TextField fx:id="wineListNameTextField" editable="false" maxWidth="-Infinity" prefHeight="62.0" prefWidth="457.0" text="wineListName" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="125.0" top="25.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </TextField>
+            <Button fx:id="cancelChangesButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Cancel" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets right="65.0" top="60.0" />
                </GridPane.margin>
             </Button>
          </children>
