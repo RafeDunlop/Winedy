@@ -89,9 +89,7 @@ public class WineDAOTest {
     @Test
     public void testGetAll() {
         List<Wine> allWines = wineDAO.getAll();
-        assertEquals(CSV_LENGTH + 2, allWines.size());
-        wineDAO.delete(WINE_1);
-        wineDAO.delete(WINE_2);
+        assertEquals(CSV_LENGTH, allWines.size());
     }
 
     @Test
