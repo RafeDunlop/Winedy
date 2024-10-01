@@ -8,7 +8,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Rectangle;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.SignInScreenService;
 import seng202.team3.exceptions.IllegalWineDrinkerException;
@@ -21,9 +26,10 @@ import seng202.team3.models.WineDrinker;
  */
 public class SignInScreenController {
 
-    private SignInScreenService signInScreenService;
-    private WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
-
+    /**
+     * Logger for logging successful screen loading and other important information
+     */
+    private static final Logger log = LogManager.getLogger(SignInScreenController.class);
 
     @FXML
     private Slider abvLimitSlider;
@@ -41,7 +47,13 @@ public class SignInScreenController {
     private Button loginButton;
 
     @FXML
+    private Button createAccountButton;
+
+    @FXML
     private Label toggleLabel;
+
+    @FXML
+    private Label signInTitleLabel;
 
     @FXML
     private AnchorPane preferencesAnchorPane;
@@ -64,10 +76,49 @@ public class SignInScreenController {
     @FXML
     private Label errorLabel;
 
+    @FXML
+    private Rectangle preferencesRectangle;
+
+    @FXML
+    private Rectangle signInRectangle;
+
+    @FXML
+    private ImageView wineImageView;
+
+    /**
+     * An instance of a WineDrinkerManager class that manages database interactions of Wine Drinker objects
+     */
+    private WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
+
     /**
      * state variable (state design pattern) to decide if the UI is in register mode (true) or login mode (false)
      */
     private boolean registerMode = false;
+
+    /**
+     * sets up combo-boxes, sets Button actions and sets the GUI to login mode
+     * TODO: replace Strings of combobox with enum types
+     * TODO: variety combobox is neither exhaustive nor can in be this long!
+     */
+    public void initialize() {
+        toggleSignInButton.setOnAction(x -> toggleMode());
+        toggleMode();
+        colourPreferenceComboBox.getItems().addAll("Red", "White", "Rose");
+        fullnessPreferenceComboBox.getItems().addAll("Off Dry", "Dry", "Light", "Medium", "Full");
+        varietyPreferenceComboBox.getItems().addAll("Pinot Noir", "Chardonnay", "Sauvignon Blanc", "Cabernet Sauvignon",
+                "Pinot Gris", "Malbec", "Shiraz", "Viognier", "Syrah", "Grenache", "Merlot", "Prosecco");
+
+        signInRectangle.getStyleClass().add("white-wine-rectangle");
+        preferencesRectangle.getStyleClass().add("red-wine-rectangle");
+
+        try {
+            wineImageView.setImage(new Image("/images/signin_screen_wine.gif"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        log.info("Sign in screen initialised");
+    }
 
     /**
      * method called when the createAccountButton is clicked
@@ -85,15 +136,15 @@ public class SignInScreenController {
             String variety = getComboInput(varietyPreferenceComboBox);
             int ABVLimit = (int) abvLimitSlider.getValue();
 
-            signInScreenService.validateRegisteringUsername(username);
-            signInScreenService.validateRegisteringPasswords(password, secondPassword);
-            signInScreenService.registerUser(username, password, null, colour, fullness, variety, ABVLimit);
+            SignInScreenService.validateRegisteringUsername(username);
+            SignInScreenService.validateRegisteringPasswords(password, secondPassword);
+            SignInScreenService.registerUser(username, password, null, colour, fullness, variety, ABVLimit);
             FXWrapper.getInstance().loadScreen(Screen.PROFILETABPANE);
 
         } catch (IllegalWineDrinkerException e) {
             fullDisable(errorLabel, false);
             errorLabel.setText(e.getMessage());
-            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour;");
         }
     }
 
@@ -107,14 +158,14 @@ public class SignInScreenController {
         try {
             String username = usernameTextField.getText();
             String password = enterPasswordField.getText();
-            signInScreenService.validateLoginDetails(username, password);
+            SignInScreenService.validateLoginDetails(username, password);
             wineDrinkerManager.loginCurrentUser(username, password);
             FXWrapper.getInstance().loadScreen(Screen.PROFILETABPANE);
 
         } catch (IllegalWineDrinkerException e) {
             fullDisable(errorLabel, false);
             errorLabel.setText(e.getMessage());
-            errorLabel.setStyle("-fx-text-fill: red;");
+            errorLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour;");
         }
     }
 
@@ -126,10 +177,14 @@ public class SignInScreenController {
         fullDisable(preferencesAnchorPane, !registerMode);
         toggleLabel.setText((registerMode) ? "Already have an account?" : "Don't have an account?");
         toggleSignInButton.setText((registerMode) ? "Sign in" : "Register");
+        signInTitleLabel.setText((registerMode) ? "Create An Account" : "Login To Account");
+        errorLabel.setLayoutY((registerMode) ? 420 : 345);
         fullDisable(reEnterPasswordField, !registerMode);
         fullDisable(reEnterPasswordLabel, !registerMode);
         fullDisable(loginButton, registerMode);
+        fullDisable(createAccountButton, !registerMode);
         fullDisable(errorLabel, true);
+        fullDisable(wineImageView, registerMode);
         registerMode = !registerMode;
     }
 
@@ -153,21 +208,5 @@ public class SignInScreenController {
         } catch (NullPointerException e) {
             throw new IllegalWineDrinkerException("Please select a " + comboBox.getPromptText());
         }
-    }
-
-
-    /**
-     * sets up combo-boxes, sets Button actions and sets the GUI to login mode
-     * TODO: replace Strings of combobox with enum types
-     * TODO: variety combobox is neither exhaustive nor can in be this long!
-     */
-    public void initialize() {
-        this.signInScreenService = new SignInScreenService();
-        toggleSignInButton.setOnAction(x -> toggleMode());
-        toggleMode();
-        colourPreferenceComboBox.getItems().addAll("Red", "White", "Rose");
-        fullnessPreferenceComboBox.getItems().addAll("Off Dry", "Dry", "Light", "Medium", "Full");
-        varietyPreferenceComboBox.getItems().addAll("Pinot Noir", "Chardonnay", "Sauvignon Blanc", "Cabernet Sauvignon",
-                "Pinot Gris", "Malbec", "Shiraz", "Viognier", "Syrah", "Grenache", "Merlot", "Prosecco");
     }
 }
