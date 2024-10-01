@@ -6,7 +6,6 @@ import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -60,12 +59,6 @@ public class NavBarController {
     @FXML
     private Rectangle navBarRectangle;
 
-    @FXML
-    private Rectangle winedyRectangle;
-
-    @FXML
-    private ImageView winedyImageView;
-
     private Screen selectedScreen;
 
     private boolean expanded = false;
@@ -103,24 +96,19 @@ public class NavBarController {
         instance.setScreenPane(screenPane);
 
         navBarRectangle.getStyleClass().add("nav-bar-rectangle");
-        winedyRectangle.getStyleClass().add("nav-bar-winedy-rectangle");
-
-        Image winedyTextImage = new Image("/images/winedy_text.png");
-        winedyImageView.setImage(winedyTextImage);
-        winedyImageView.setPreserveRatio(true);
 
         homeButton.setOnAction(x -> onButtonClick(Screen.HOME));
         searchButton.setOnAction(x -> onButtonClick(Screen.SEARCH));
         helpButton.setOnAction(x -> onButtonClick(Screen.HELPSCREEN));
         profileButton.setOnAction(x -> onProfileButtonClicked());
 
-        setUpNavButton(homeButton, "/images/nav_bar_home_button.png", false);
-        setUpNavButton(navigationButton, "/images/nav_bar_navigate_button.png", false);
+        setUpNavButton(homeButton, "/images/winedy_home_button.png", false, 264);
+        setUpNavButton(navigationButton, "/images/nav_bar_navigate_button.png", false, 50);
 
-        searchButtonImageView = setUpNavButton(searchButton, "/images/home_screen_search_button.png", true);
-        profileButtonImageView = setUpNavButton(profileButton, "/images/home_screen_profile_button.png", true);
-        reloadButtonImageView = setUpNavButton(reloadButton, "/images/nav_bar_reload_button.png", true);
-        helpButtonImageView = setUpNavButton(helpButton, "/images/home_screen_help_button.png", true);
+        searchButtonImageView = setUpNavButton(searchButton, "/images/home_screen_search_button.png", true, 50);
+        profileButtonImageView = setUpNavButton(profileButton, "/images/home_screen_profile_button.png", true, 50);
+        reloadButtonImageView = setUpNavButton(reloadButton, "/images/nav_bar_reload_button.png", true, 50);
+        helpButtonImageView = setUpNavButton(helpButton, "/images/home_screen_help_button.png", true, 50);
 
         buttonHBox.setPrefSize(66, 66); // Prevents a little glitch in the animation where the HBox expands for a split second
         buttonHBox.setMaxWidth(66);
@@ -257,15 +245,17 @@ public class NavBarController {
 
     /**
      * method for setting up a button with an icon image and stylesheet
-     * @param button the Button on which to load images and the stylesheet
-     * @param imagePath the relative path of the image to be loaded ont the button as its icon
+     *
+     * @param button      the Button on which to load images and the stylesheet
+     * @param imagePath   the relative path of the image to be loaded ont the button as its icon
      * @param isInvisible boolean, whether to set the button's image to be visible
+     * @param width       the fit width of the button
      * @return the ImageView associated with the button
      */
-    private ImageView setUpNavButton(Button button, String imagePath, boolean isInvisible) {
+    private ImageView setUpNavButton(Button button, String imagePath, boolean isInvisible, double width) {
         button.getStyleClass().add("nav-bar-button");
         button.setText("");
 
-        return GuiService.addImageGraphicToButton(button, imagePath, 50, 50, isInvisible);
+        return GuiService.addImageGraphicToButton(button, imagePath, width, 50, isInvisible);
     }
 }
