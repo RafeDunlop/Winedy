@@ -54,11 +54,11 @@ public class ProfileListViewScreenController {
     @FXML
     private Button cancelChangesButton;
 
-    private WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
+    private final WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
 
-    private WineListManager wineListManager = WineListManager.getInstance();
+    private final WineListManager wineListManager = WineListManager.getInstance();
 
-    private UserWineList listToDisplay;
+    private final UserWineList listToDisplay;
 
 
     /**

@@ -10,7 +10,7 @@ public class ProfileScreenService {
     /**
      * WineDrinkerManager to handle wine drinker related tasks
      */
-    private WineDrinkerManager wineDrinkerManager;
+    private final WineDrinkerManager wineDrinkerManager;
 
     public ProfileScreenService() {
         this.wineDrinkerManager = WineDrinkerManager.getInstance();

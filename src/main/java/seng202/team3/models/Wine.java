@@ -39,7 +39,7 @@ public class Wine {
     /**
      * List of grapes that the wines contain
      */
-    private String[] grapes;
+    private final String[] grapes;
     /**
      * Wine fullness
      */

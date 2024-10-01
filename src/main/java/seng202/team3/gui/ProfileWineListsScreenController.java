@@ -16,8 +16,8 @@ public class ProfileWineListsScreenController {
     private VBox rootVBox;
     @FXML
     private AnchorPane wineListsAnchorPane;
-    private int listsPerPage = 4;
-    private WineListManager wineListManager = WineListManager.getInstance();
+    private final int listsPerPage = 4;
+    private final WineListManager wineListManager = WineListManager.getInstance();
 
     private List<UserWineList> wineLists;
 

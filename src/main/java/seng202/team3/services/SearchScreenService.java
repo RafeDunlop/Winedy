@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class SearchScreenService {
 
-    private SearchDAO searchDAO;
+    private final SearchDAO searchDAO;
 
     public SearchScreenService() {
         searchDAO = new SearchDAO();
