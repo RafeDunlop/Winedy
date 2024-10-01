@@ -249,6 +249,7 @@ public class NavBarController {
      * @param button      the Button on which to load images and the stylesheet
      * @param imagePath   the relative path of the image to be loaded ont the button as its icon
      * @param isInvisible boolean, whether to set the button's image to be visible
+     * @param width       the fit width of the button
      * @return the ImageView associated with the button
      */
     private ImageView setUpNavButton(Button button, String imagePath, boolean isInvisible, double width) {
