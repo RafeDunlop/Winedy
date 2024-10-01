@@ -5,15 +5,11 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Pagination;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import seng202.team3.repository.UserWineListDAO;
 import seng202.team3.services.WineListManager;
 import seng202.team3.models.UserWineList;
 
 import java.util.List;
-
-import static java.lang.Math.min;
 
 public class ProfileWineListsScreenController {
     @FXML

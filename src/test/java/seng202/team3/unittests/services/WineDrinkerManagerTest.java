@@ -1,10 +1,8 @@
 package seng202.team3.unittests.services;
 
 import org.junit.jupiter.api.*;
-import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
 import seng202.team3.models.WineDrinker;
 import seng202.team3.repository.DatabaseManager;
-import seng202.team3.repository.WineDrinkerDAO;
 import seng202.team3.services.WineDrinkerManager;
 
 import java.io.File;

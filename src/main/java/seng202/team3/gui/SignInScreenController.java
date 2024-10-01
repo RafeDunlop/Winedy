@@ -12,7 +12,6 @@ import javafx.scene.layout.AnchorPane;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.SignInScreenService;
 import seng202.team3.exceptions.IllegalWineDrinkerException;
-import seng202.team3.models.WineDrinker;
 
 /**
  * controller for sign_in_screen.fxml. Handles logging in, registering and setting initial preferences

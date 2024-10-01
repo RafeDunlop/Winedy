@@ -3,7 +3,6 @@ package seng202.team3.cucumber.StepDefinitions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.jupiter.api.BeforeEach;
 import seng202.team3.models.WineDrinker;
 import seng202.team3.services.ProfileScreenService;
 import seng202.team3.services.SignInScreenService;

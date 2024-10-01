@@ -11,17 +11,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team3.gui.FXWrapper;
-import seng202.team3.gui.HelpScreenController;
 import seng202.team3.models.Wine;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static javafx.scene.control.ContentDisplay.TOP;
 
