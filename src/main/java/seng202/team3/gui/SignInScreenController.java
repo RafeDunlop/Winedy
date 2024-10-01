@@ -52,7 +52,6 @@ public class SignInScreenController {
     @FXML
     private Label reEnterPasswordLabel;
 
-
     @FXML
     private Button toggleSignInButton;
 
@@ -66,13 +65,12 @@ public class SignInScreenController {
     private Label errorLabel;
 
     /**
-    state variable (state design pattern) to decide if the UI is in register mode (true) or login mode (false)
+     * state variable (state design pattern) to decide if the UI is in register mode (true) or login mode (false)
      */
     private boolean registerMode = false;
 
     /**
      * method called when the createAccountButton is clicked
-     *
      * determines whether the user has inputted a valid WineDrinker and if so, creates, stores it and logs it in.
      * Otherwise, prompts user with what input is invalid
      */
@@ -101,7 +99,6 @@ public class SignInScreenController {
 
     /**
      * method called when the login button is clicked
-     *
      * determines whether inputted credentials reference a valid WineDrinker object, and if so, logs the user in.
      * Otherwise, prompts the user with the reason their login attempt failed (wrong password or no such username in DB)
      */
