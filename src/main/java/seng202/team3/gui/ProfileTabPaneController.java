@@ -47,9 +47,11 @@ public class ProfileTabPaneController {
      * Removes the current logged-in user and launches the sign-in screen
      */
     @FXML
-    void onLogoutButtonClicked(){
+    public void onLogoutButtonClicked(){
         WineDrinkerManager.getInstance().setCurrentUser(null);
         //TODO Save data?
         FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
     }
+
+
 }

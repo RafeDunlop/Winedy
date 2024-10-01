@@ -114,6 +114,7 @@ public class SignInScreenService {
             validateRegisteringUsername(username);
             validateRegisteringPasswords(password, secondPassword);
             registerUser(username, password, null, colour, fullness, variety, ABVLimit);
+            WineListManager.getInstance().setupFavourites();
         } catch(IllegalWineDrinkerException e) {
             //thrown for error message to user
             throw e;
@@ -137,10 +138,10 @@ public class SignInScreenService {
         }
     }
 
-    /*
+    /**
      * Sets the wineDrinkerManager
      * used for setting up test database
-     * @param wineDrinkerManager
+     * @param wineDrinkerManager wineDrinkerManager to be set
      */
     public void setWineDrinkerManager(WineDrinkerManager wineDrinkerManager) {
         this.wineDrinkerManager = wineDrinkerManager;

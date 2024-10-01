@@ -6,6 +6,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
 
 import java.io.IOException;
@@ -120,6 +121,18 @@ public class FXWrapper {
             FXMLLoader individualWineViewLoader = new FXMLLoader(getClass().getResource("/fxml/individual_wine_view.fxml"));
             individualWineViewLoader.setControllerFactory(param -> new IndividualWineViewController(wineToDisplay));
             Parent leaf = individualWineViewLoader.load();
+            clearPane(toNest);
+            toNest.getChildren().add(leaf);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    public void loadIndividualListView(Pane toNest, UserWineList listToDisplay) {
+        try {
+            FXMLLoader individualListViewLoader = new FXMLLoader(getClass().getResource("/fxml/profile_list_view_screen.fxml"));
+            individualListViewLoader.setControllerFactory(param -> new ProfileListViewScreenController(listToDisplay));
+            Parent leaf = individualListViewLoader.load();
             clearPane(toNest);
             toNest.getChildren().add(leaf);
         } catch (IOException e) {
