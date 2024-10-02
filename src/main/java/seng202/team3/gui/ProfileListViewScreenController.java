@@ -86,9 +86,18 @@ public class ProfileListViewScreenController {
 
     }
 
+    /**
+     * Constructor for the profileListView controller
+     * @param listToDisplay list to be displayed in the individual list view
+     */
     public ProfileListViewScreenController(UserWineList listToDisplay) {
         this.listToDisplay = listToDisplay;
     }
+
+    /**
+     * Saves the name of the list when the list is renamed
+     * TODO add valid list name logic and don't allow user to rename their favourites
+     */
     @FXML
     public void onSaveChangesButtonClicked() {
         wineListManager.rename(listToDisplay, wineListNameTextField.getText());
@@ -102,6 +111,11 @@ public class ProfileListViewScreenController {
         editListButton.setVisible(true);
         cancelChangesButton.setVisible(false);
     }
+
+    /**
+     * Enables the text field when the Wine Drinker clicks the rename button
+     * Sets the required buttons to visible
+     */
     @FXML
     void onRenameButtonClicked() {
         wineListNameLabel.setVisible(false);
@@ -114,6 +128,10 @@ public class ProfileListViewScreenController {
         cancelChangesButton.setVisible(true);
     }
 
+    /**
+     * Goes back to the list view page when the Wine Drinker clicks the back button
+     * TODO notify user of unsaved changes
+     */
     @FXML
     public void onBackButtonClicked() {
         System.out.println(listToDisplay.getWineListName());
@@ -124,7 +142,11 @@ public class ProfileListViewScreenController {
             FXWrapper.getInstance().loadProfileActionScreen(rootAnchorPane, Screen.WINELISTSSCREEN);
         }
     }
-    /*TODO ask the users if they are sure they would like to cancel their changes */
+
+    /**
+     * Loads Pop up that asks the WineDrinker if they are sure they would like to cancel their changes
+     * TODO allow user to confirm they would like to cancel their changes.
+     */
     @FXML
     public void onCancelChangesButtonClicked() {
         wineListNameTextField.setText(listToDisplay.getWineListName());

@@ -12,7 +12,6 @@ import seng202.team3.services.WineListManager;
 
 public class CreateNewListPopUpController {
 
-
     @FXML
     private StackPane overlayPane;
 
@@ -28,14 +27,25 @@ public class CreateNewListPopUpController {
     @FXML
     private Button createNewListButton;
 
+    /**
+     * Instance of profile screen service
+     */
     private ProfileScreenService profileScreenService;
 
+    /**
+     * Instance of wine list manager so that lists can be added to the database
+     */
     private WineListManager wineListManager;
 
+    /**
+     * Initialises the create new list pop up that will be displayed on the home screen
+     * Sets the action that when you click out of the popup it closes and sets the overlay to dim the behind functionality
+     */
     public void initialize() {
         this.profileScreenService = new ProfileScreenService();
         this.wineListManager = WineListManager.getInstance();
-        overlayPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5)");
+        overlayPane.getStyleClass().add("overlay-stackpane");
+        //overlayPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5)");
         overlayPane.setOnMouseClicked(event -> {
             Bounds popUpBounds = popUpAnchorPane.localToScene(popUpAnchorPane.getLayoutBounds());
             if (!popUpBounds.contains(event.getSceneX(), event.getSceneY())) {
@@ -44,9 +54,11 @@ public class CreateNewListPopUpController {
         });
     }
 
+    /**
+     * Sets the on action for clicking the create list button
+     */
     @FXML
     public void onCreateListButtonClicked() {
-        System.out.println("Hello");
         if (profileScreenService.isValidListName(listNameTextField.getText())) {
             wineListManager.newList(listNameTextField.getText(), "hello");
             FXWrapper.getInstance().removePopUp(overlayPane);

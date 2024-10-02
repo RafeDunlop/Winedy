@@ -24,15 +24,29 @@ public class ProfileWineListsScreenController {
 
     @FXML
     private Button createListButton;
-    private int listsPerPage = 4;
-    private WineListManager wineListManager = WineListManager.getInstance();
 
+
+    /**
+     * Number of lists to be displayed on each page
+     */
+    private int listsPerPage = 4;
+    /**
+     * WineList manager singleton instance
+     */
+    private WineListManager wineListManager;
+
+    /**
+     * List of the users current wines
+     */
     private List<UserWineList> wineLists;
 
-
+    /**
+     * Initialises the screen under the My Wine Lists tab which displayed a paginated list
+     * of wine lists.
+     */
     public void initialize() {
+        this.wineListManager = WineListManager.getInstance();
         wineLists = wineListManager.getAllUserWineLists();
-        System.out.println(wineLists.size());
         int numberOfPages = wineLists.size() / listsPerPage + 1;
         Pagination pagination = new Pagination(numberOfPages, 0); // 2 = total items / items per page
         if (numberOfPages <= 1) {
@@ -47,6 +61,12 @@ public class ProfileWineListsScreenController {
         rootVBox.getChildren().add(pagination);
 
     }
+
+    /**
+     * Creates the VBox to be entered into each page of the paginated list of wineLists
+     * @param pageIndex index of the page to fill
+     * @return Vbox containing the wine lists for that page
+     */
 
     private VBox createPage(int pageIndex) {
         VBox wineListVBox = new VBox(10);
@@ -65,6 +85,9 @@ public class ProfileWineListsScreenController {
         return wineListVBox;
     }
 
+    /**
+     * Loads the create list pop up when the create list button is clicked
+     */
     public void onCreateListButtonClicked() {
         FXWrapper.getInstance().loadPopUp(Screen.CREATELISTPOPUP);
 

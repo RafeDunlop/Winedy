@@ -35,6 +35,9 @@ public class ProfileTabPaneController {
     @FXML
     private Button logoutButton;
 
+    /**
+     * Initialises the tab pane that holds all the functionality that logged-in users can do
+     */
     public void initialize() {
         profileTabPane.getStyleClass().add("profile-tab-pane");
         helloUserLabel.setText("Welcome, " + WineDrinkerManager.getInstance().getCurrentUser().getUsername() + "!");
