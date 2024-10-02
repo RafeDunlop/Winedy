@@ -18,8 +18,12 @@ import static java.lang.Math.min;
 public class ProfileWineListsScreenController {
     @FXML
     private VBox rootVBox;
+
     @FXML
     private AnchorPane wineListsAnchorPane;
+
+    @FXML
+    private Button createListButton;
     private int listsPerPage = 4;
     private WineListManager wineListManager = WineListManager.getInstance();
 
@@ -59,5 +63,10 @@ public class ProfileWineListsScreenController {
         }
 
         return wineListVBox;
+    }
+
+    public void onCreateListButtonClicked() {
+        FXWrapper.getInstance().loadPopUp(Screen.CREATELISTPOPUP);
+
     }
 }

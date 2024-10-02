@@ -15,7 +15,8 @@ public enum Screen {
     PROFILESCREEN("profile_screen.fxml", false),
     WINELISTSSCREEN("profile_wine_lists_screen.fxml", false),
     TRACKINGCONSUMPTIONSCREEN("tracking_consumption_screen.fxml", false),
-    PROFILELISTVIEWSCREEN("profile_list_view_screen.fxml", false);
+    PROFILELISTVIEWSCREEN("profile_list_view_screen.fxml", false),
+    CREATELISTPOPUP("create_list_pop_up.fxml", false);
 
     /**
      * The file name of the fxml file related to this screen without prefix i.e. "main.fxml"
