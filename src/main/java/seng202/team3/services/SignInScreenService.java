@@ -15,6 +15,7 @@ public final class SignInScreenService {
      * WineDrinkerManager to handle wine drinker related tasks
      */
     private static WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
+
     /**
      * Regular expression string to define the valid characters for the username and password
      */
@@ -26,7 +27,7 @@ public final class SignInScreenService {
      * @throws IllegalWineDrinkerException thrown if the passwords do not match
      */
     public static void validateRegisteringPasswords(String password1, String password2) throws IllegalWineDrinkerException {
-        if (!matchRegex(password1)){
+        if (!matchRegex(password1)) {
             throw new IllegalWineDrinkerException("Passwords must be between 5 and 16 characters and must be alpha-numeric");
         } else if (!(password1.equals(password2))) {
             throw new IllegalWineDrinkerException("Passwords do not match");
@@ -64,8 +65,8 @@ public final class SignInScreenService {
      * @param password password to validate
      * @throws IllegalWineDrinkerException thrown if details don't match regex
      */
-    public static void validateLoginDetails(String username, String password) throws IllegalWineDrinkerException{
-        if(!matchRegex(username)){
+    public static void validateLoginDetails(String username, String password) throws IllegalWineDrinkerException {
+        if (!matchRegex(username)) {
             throw new IllegalWineDrinkerException("Username must be between 5 and 16 characters and must be alpha-numeric");
         } else if(!matchRegex(password)) {
             throw new IllegalWineDrinkerException("Password must be between 5 and 16 characters and must be alpha-numeric");
@@ -73,72 +74,66 @@ public final class SignInScreenService {
     }
 
     /**
+     * Creates a WineDrinker object using the given credential and preference inputs. Sets the current user to this
+     * object in the WineDrinkerManager instance. Attempts to register the Wine Drinker in the database
      *
-     * @param username
-     * @param password
-     * @param country
-     * @param colour
-     * @param fullness
-     * @param variety
-     * @param ABVLimit
-     * @throws IllegalWineDrinkerException
+     * @param username the username of the wine drinker to be registered
+     * @param password the password of the wine drinker to be registered
+     * @param country the country preference of the wine drinker to be registered
+     * @param colour the colour preference of the wine drinker to be registered
+     * @param fullness the fullness preference of the wine drinker to be registered
+     * @param variety the variety preference of the wine drinker to be registered
+     * @param ABVLimit the ABV limit of the wine drinker to be registered
+     * @throws IllegalWineDrinkerException if an issue occurs registering the wine drinker in the database, this is
+     * thrown up to the method that calls it
      */
-    public static void registerUser(String username, String password, String country, String colour, String fullness, String variety, double ABVLimit) throws IllegalWineDrinkerException{
-        try {
-            WineDrinker curUser = new WineDrinker(username, password, country, colour, fullness, variety, ABVLimit);
-            wineDrinkerManager.setCurrentUser(curUser);
-            //register throws exception which needs passing to 1 level up for prompt to user
-            wineDrinkerManager.registerWineDrinker();
-        } catch (IllegalWineDrinkerException e) {
-            throw e;
-        }
+    public static void registerUser(String username, String password, String country, String colour, String fullness, String variety, double ABVLimit) throws IllegalWineDrinkerException {
+        WineDrinker curUser = new WineDrinker(username, password, country, colour, fullness, variety, ABVLimit);
+        wineDrinkerManager.setCurrentUser(curUser);
+        //register throws exception which needs passing to 1 level up for prompt to user
+        wineDrinkerManager.registerWineDrinker();
     }
 
     /**
      * Single function that calls all required functions to validate and register
      * a new user
-     * @param username
-     * @param password
-     * @param secondPassword
-     * @param country
-     * @param colour
-     * @param fullness
-     * @param variety
-     * @param ABVLimit
-     * @throws IllegalWineDrinkerException
+     *
+     * @param username string representing the username of the WineDrinker being registered
+     * @param password string representing the password of the WineDrinker being registered
+     * @param secondPassword string representing the re-entered password of the WineDrinker being registered
+     * @param country string representing the country preference of the WineDrinker being registered
+     * @param colour string representing the colour preference of the WineDrinker being registered
+     * @param fullness string representing the fullness preference of the WineDrinker being registered
+     * @param variety string representing the variety preference of the WineDrinker being registered
+     * @param ABVLimit double representing the ABV limit of the WineDrinker being registered
+     * @throws IllegalWineDrinkerException if an issue occurs registering the WineDrinker into the database, this is
+     * thrown up to the method that calls it
      */
-    public static void validateAndRegisterUser(String username, String password, String secondPassword, String country, String colour, String fullness, String variety, double ABVLimit) throws IllegalWineDrinkerException{
-        try {
-            validateRegisteringUsername(username);
-            validateRegisteringPasswords(password, secondPassword);
-            registerUser(username, password, null, colour, fullness, variety, ABVLimit);
-        } catch(IllegalWineDrinkerException e) {
-            //thrown for error message to user
-            throw e;
-        }
+    public static void validateAndRegisterUser(String username, String password, String secondPassword, String country, String colour, String fullness, String variety, double ABVLimit) throws IllegalWineDrinkerException {
+        validateRegisteringUsername(username);
+        validateRegisteringPasswords(password, secondPassword);
+        registerUser(username, password, null, colour, fullness, variety, ABVLimit);
     }
 
     /**
-     * Single function to login and validate the user
+     * Single function to log in and validate the user
      * calls helper functions in this class
+     *
      * @param username string username of logging in user
      * @param password hashed password of logging in user
-     * @throws IllegalWineDrinkerException
+     * @throws IllegalWineDrinkerException if there is an issue logging in the user, this is thrown up to the method
+     * that calls it
      */
     public static void validateAndLoginUser(String username, String password) throws IllegalWineDrinkerException{
-        try {
-            validateLoginDetails(username, password);
-            wineDrinkerManager.loginCurrentUser(username, password);
-        } catch (IllegalWineDrinkerException e) {
-            //thrown for error message to user
-            throw e;
-        }
+        validateLoginDetails(username, password);
+        wineDrinkerManager.loginCurrentUser(username, password);
     }
 
-    /*
+    /**
      * Sets the wineDrinkerManager
      * used for setting up test database
-     * @param wineDrinkerManager
+     *
+     * @param toAssign the WineDrinkerManager to be assigned
      */
     public static void setWineDrinkerManager(WineDrinkerManager toAssign) {
         wineDrinkerManager = toAssign;
