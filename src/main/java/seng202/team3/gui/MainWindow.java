@@ -53,8 +53,10 @@ public class MainWindow extends Application {
                 "/css/red_wine_scroll_pane.css",
                 "/css/profile_tab_pane.css",
                 "/css/add_to_list_button.css",
-                "/css/like_button.css"
+                "/css/like_button.css",
+                "/css/white_red_wine_rectangle.css"
         };
+
         try {
             for (String cssFilePath : cssPaths) {
                 scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(cssFilePath)).toExternalForm());

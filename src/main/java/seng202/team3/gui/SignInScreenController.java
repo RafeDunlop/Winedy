@@ -17,7 +17,6 @@ import org.apache.logging.log4j.Logger;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.SignInScreenService;
 import seng202.team3.exceptions.IllegalWineDrinkerException;
-import seng202.team3.models.WineDrinker;
 
 /**
  * controller for sign_in_screen.fxml. Handles logging in, registering and setting initial preferences
@@ -83,6 +82,18 @@ public class SignInScreenController {
     private Rectangle signInRectangle;
 
     @FXML
+    private Rectangle colourPreferenceRectangle;
+
+    @FXML
+    private Rectangle varietyPreferenceRectangle;
+
+    @FXML
+    private Rectangle fullnessPreferenceRectangle;
+
+    @FXML
+    private Rectangle abvLimitRectangle;
+
+    @FXML
     private ImageView wineImageView;
 
     /**
@@ -103,18 +114,26 @@ public class SignInScreenController {
     public void initialize() {
         toggleSignInButton.setOnAction(x -> toggleMode());
         toggleMode();
-        colourPreferenceComboBox.getItems().addAll("Red", "White", "Rose");
-        fullnessPreferenceComboBox.getItems().addAll("Off Dry", "Dry", "Light", "Medium", "Full");
-        varietyPreferenceComboBox.getItems().addAll("Pinot Noir", "Chardonnay", "Sauvignon Blanc", "Cabernet Sauvignon",
+        colourPreferenceComboBox.getItems().addAll(null, "Red", "White", "Rose");
+        fullnessPreferenceComboBox.getItems().addAll(null, "Off Dry", "Dry", "Light", "Medium", "Full");
+        varietyPreferenceComboBox.getItems().addAll(null, "Pinot Noir", "Chardonnay", "Sauvignon Blanc", "Cabernet Sauvignon",
                 "Pinot Gris", "Malbec", "Shiraz", "Viognier", "Syrah", "Grenache", "Merlot", "Prosecco");
 
         signInRectangle.getStyleClass().add("white-wine-rectangle");
         preferencesRectangle.getStyleClass().add("red-wine-rectangle");
+        colourPreferenceRectangle.getStyleClass().add("white-red-wine-rectangle");
+        varietyPreferenceRectangle.getStyleClass().add("white-red-wine-rectangle");
+        fullnessPreferenceRectangle.getStyleClass().add("white-red-wine-rectangle");
+        abvLimitRectangle.getStyleClass().add("white-red-wine-rectangle");
+
+        createAccountButton.getStyleClass().add("nav-bar-button");
+        loginButton.getStyleClass().add("nav-bar-button");
+        toggleSignInButton.getStyleClass().add("nav-bar-button");
 
         try {
             wineImageView.setImage(new Image("/images/signin_screen_wine.gif"));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.warn("Error loading wine gif", e);
         }
 
         log.info("Sign in screen initialised");
@@ -144,7 +163,8 @@ public class SignInScreenController {
         } catch (IllegalWineDrinkerException e) {
             fullDisable(errorLabel, false);
             errorLabel.setText(e.getMessage());
-            errorLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour;");
+            errorLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour; -fx-font-size: 20");
+            errorLabel.setWrapText(true);
         }
     }
 
@@ -165,7 +185,8 @@ public class SignInScreenController {
         } catch (IllegalWineDrinkerException e) {
             fullDisable(errorLabel, false);
             errorLabel.setText(e.getMessage());
-            errorLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour;");
+            errorLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour; -fx-font-size: 20;");
+            errorLabel.setWrapText(true);
         }
     }
 
@@ -178,7 +199,7 @@ public class SignInScreenController {
         toggleLabel.setText((registerMode) ? "Already have an account?" : "Don't have an account?");
         toggleSignInButton.setText((registerMode) ? "Sign in" : "Register");
         signInTitleLabel.setText((registerMode) ? "Create An Account" : "Login To Account");
-        errorLabel.setLayoutY((registerMode) ? 420 : 345);
+        errorLabel.setLayoutY((registerMode) ? 400 : 325);
         fullDisable(reEnterPasswordField, !registerMode);
         fullDisable(reEnterPasswordLabel, !registerMode);
         fullDisable(loginButton, registerMode);
