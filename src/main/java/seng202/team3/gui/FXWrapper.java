@@ -161,4 +161,8 @@ public class FXWrapper {
             log.error(e);
         }
     }
+
+    public void removePopUp(StackPane overlayPane) {
+        superPane.getChildren().remove(overlayPane);
+    }
 }
