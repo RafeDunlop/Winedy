@@ -35,6 +35,8 @@ public class ProfileTabPaneController {
     @FXML
     private Button logoutButton;
 
+    private int startTabIndex;
+
     /**
      * Initialises the tab pane that holds all the functionality that logged-in users can do
      */
@@ -44,8 +46,12 @@ public class ProfileTabPaneController {
         FXWrapper.getInstance().loadProfileActionScreen(winedyProfileAnchorPane, Screen.PROFILESCREEN);
         FXWrapper.getInstance().loadProfileActionScreen(wineListAnchorPane, Screen.WINELISTSSCREEN);
         FXWrapper.getInstance().loadProfileActionScreen(consumptionTrackingAnchorPane, Screen.TRACKINGCONSUMPTIONSCREEN);
+        profileTabPane.getSelectionModel().select(startTabIndex);
     }
 
+    public ProfileTabPaneController(int startTabIndex) {
+        this.startTabIndex = startTabIndex;
+    }
     /**
      * Removes the current logged-in user and launches the sign-in screen
      */
@@ -54,6 +60,14 @@ public class ProfileTabPaneController {
         WineDrinkerManager.getInstance().setCurrentUser(null);
         //TODO Save data?
         FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
+    }
+
+    /**
+     * public method to set the tab that is shown when the tab pane is reloaded
+     * @param index index of the tab that will be displayed. This will be 0, 1 or 2
+     */
+    public void setTab(int index) {
+        profileTabPane.getSelectionModel().select(index);
     }
 
 

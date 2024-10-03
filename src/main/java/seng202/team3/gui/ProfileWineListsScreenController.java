@@ -47,7 +47,10 @@ public class ProfileWineListsScreenController {
     public void initialize() {
         this.wineListManager = WineListManager.getInstance();
         wineLists = wineListManager.getAllUserWineLists();
-        int numberOfPages = wineLists.size() / listsPerPage + 1;
+        int numberOfPages = wineLists.size() / listsPerPage;
+        if (wineLists.size() % 4 != 0) { //Add an extra page for the lists where required
+            numberOfPages += 1;
+        }
         Pagination pagination = new Pagination(numberOfPages, 0); // 2 = total items / items per page
         if (numberOfPages <= 1) {
             //set style so that the pagination controls do not show

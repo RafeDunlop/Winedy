@@ -36,6 +36,7 @@ public class CreateNewListPopUpController {
      * Instance of wine list manager so that lists can be added to the database
      */
     private WineListManager wineListManager;
+    private ProfileTabPaneController profileTabPaneController;
 
     /**
      * Initialises the create new list pop up that will be displayed on the home screen
@@ -62,6 +63,8 @@ public class CreateNewListPopUpController {
         if (profileScreenService.isValidListName(listNameTextField.getText())) {
             wineListManager.newList(listNameTextField.getText(), "hello");
             FXWrapper.getInstance().removePopUp(overlayPane);
+            FXWrapper.getInstance().loadProfileTabPane(1);
+
         }
     }
 

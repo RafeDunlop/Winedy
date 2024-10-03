@@ -132,6 +132,26 @@ public class FXWrapper {
         }
     }
 
+    /**
+     * Loads the profile tab pane so it opens to a specified tab
+     * @param index tab index to be opened. It will between 0, 1 and 2.
+     */
+    public void loadProfileTabPane(int index) {
+        try {
+            FXMLLoader profileTabPaneLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.PROFILETABPANE.file));
+            profileTabPaneLoader.setControllerFactory(param -> new ProfileTabPaneController(index));
+            Parent leaf = profileTabPaneLoader.load();
+            clearPane(screenPane);
+            screenPane.getChildren().add(leaf);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+    /**
+     * Loads the view of a list where you can see the wines etc
+     * @param toNest Pane to nest the new screen into
+     * @param listToDisplay wine list to display
+     */
     public void loadIndividualListView(Pane toNest, UserWineList listToDisplay) {
         try {
             FXMLLoader individualListViewLoader = new FXMLLoader(getClass().getResource("/fxml/profile_list_view_screen.fxml"));
@@ -152,6 +172,10 @@ public class FXWrapper {
         toClear.getChildren().removeAll(toClear.getChildren());
     }
 
+    /**
+     * Loads a pop-up screen which disables and dims background functionality
+     * @param popUp the screen corresponding to the pop-up
+     */
     public void loadPopUp(Screen popUp) {
         try {
             FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + popUp.file));
@@ -162,6 +186,11 @@ public class FXWrapper {
         }
     }
 
+    /**
+     * Removes pop up from screen. Any updates made on the pop-up will require the screen below to be reloaded
+     * after this method is called
+     * @param overlayPane Parent pane of the pop-up
+     */
     public void removePopUp(StackPane overlayPane) {
         superPane.getChildren().remove(overlayPane);
     }
