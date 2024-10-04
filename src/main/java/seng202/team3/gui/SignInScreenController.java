@@ -91,6 +91,12 @@ public class SignInScreenController {
     private Rectangle fullnessPreferenceRectangle;
 
     @FXML
+    private Rectangle helpTextRectangle;
+
+    @FXML
+    private Rectangle preferencesTextRectangle;
+
+    @FXML
     private Rectangle abvLimitRectangle;
 
     @FXML
@@ -125,6 +131,8 @@ public class SignInScreenController {
         varietyPreferenceRectangle.getStyleClass().add("white-red-wine-rectangle");
         fullnessPreferenceRectangle.getStyleClass().add("white-red-wine-rectangle");
         abvLimitRectangle.getStyleClass().add("white-red-wine-rectangle");
+        helpTextRectangle.getStyleClass().add("white-red-wine-rectangle");
+        preferencesTextRectangle.getStyleClass().add("white-red-wine-rectangle");
 
         createAccountButton.getStyleClass().add("nav-bar-button");
         loginButton.getStyleClass().add("nav-bar-button");

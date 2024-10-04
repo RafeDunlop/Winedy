@@ -41,7 +41,7 @@ public class MainWindow extends Application {
                 "/css/date_combo_box.css",
                 "/css/help_screen_contents_button.css",
                 "/css/home_screen_button.css",
-                "/css/home_screen_text.css",
+                "/css/home_screen_text.css",  //ToDo remove if unused
                 "/css/individual_wine_view_scroll_pane.css",
                 "/css/nav_bar_button.css",
                 "/css/nav_bar_rectangle.css",
@@ -56,7 +56,8 @@ public class MainWindow extends Application {
                 "/css/like_button.css",
                 "/css/white_red_wine_rectangle.css",
                 "/css/fifteen_combo_box.css",
-                "/css/slider.css"
+                "/css/slider.css",
+                "/css/sign_in_screen_background_rectangle.css"  //TODO remove if unused
         };
 
         try {
