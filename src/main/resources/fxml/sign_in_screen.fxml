@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.SignInScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.SignInScreenController">
    <Rectangle fx:id="preferencesRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="620.0" stroke="BLACK" strokeType="INSIDE" width="500.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0" />
    <ImageView fx:id="wineImageView" fitHeight="520.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="100.0" />
    <Rectangle fx:id="signInRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="620.0" layoutX="37.0" layoutY="42.0" stroke="BLACK" strokeType="INSIDE" width="500.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="50.0" />
@@ -21,7 +21,7 @@
          <Rectangle fx:id="colourPreferenceRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="110.0" layoutX="61.0" layoutY="229.0" stroke="BLACK" strokeType="INSIDE" width="150.0" />
          <Rectangle fx:id="fullnessPreferenceRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="110.0" layoutX="388.0" layoutY="230.0" stroke="BLACK" strokeType="INSIDE" width="150.0" />
          <Rectangle fx:id="varietyPreferenceRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="110.0" layoutX="225.0" layoutY="230.0" stroke="BLACK" strokeType="INSIDE" width="150.0" />
-         <Rectangle fx:id="abvLimitRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="125.0" layoutY="375.0" stroke="BLACK" strokeType="INSIDE" width="350.0" />
+         <Rectangle fx:id="abvLimitRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="115.0" layoutY="375.0" stroke="BLACK" strokeType="INSIDE" width="370.0" />
          <Label alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="91.0" prefWidth="300.0" text="Preferences (Optional)" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="75.0">
             <font>
                <Font name="System Bold" size="30.0" />
@@ -42,7 +42,7 @@
                <Font size="20.0" />
             </font>
          </Label>
-         <Label alignment="CENTER" layoutX="150.0" layoutY="400.0" prefWidth="300.0" text="ABV Limit (Alcohol by Volume %)">
+         <Label alignment="CENTER" layoutX="125.0" layoutY="400.0" prefWidth="350.0" text="ABV Limit (Alcohol by Volume %)" wrapText="true">
             <font>
                <Font size="20.0" />
             </font></Label>
@@ -54,7 +54,7 @@
          <ComboBox fx:id="colourPreferenceComboBox" layoutX="71.0" layoutY="279.0" prefHeight="40.0" prefWidth="130.0" promptText="Select" visibleRowCount="5" AnchorPane.leftAnchor="71.0" AnchorPane.topAnchor="279.0" />
          <ComboBox fx:id="varietyPreferenceComboBox" layoutX="235.0" layoutY="280.0" prefHeight="40.0" prefWidth="130.0" promptText="Select" visibleRowCount="5" />
          <ComboBox fx:id="fullnessPreferenceComboBox" layoutX="398.0" layoutY="279.0" prefHeight="40.0" prefWidth="130.0" promptText="Select" visibleRowCount="5" />
-         <Slider fx:id="abvLimitSlider" layoutX="150.0" layoutY="450.0" majorTickUnit="5.0" max="25.0" maxWidth="300.0" minWidth="300.0" minorTickCount="4" prefHeight="14.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="25.0" AnchorPane.leftAnchor="150.0" />
+         <Slider fx:id="abvLimitSlider" layoutX="150.0" layoutY="440.0" majorTickUnit="5.0" max="25.0" maxWidth="300.0" minWidth="300.0" minorTickCount="4" prefHeight="14.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="25.0" AnchorPane.leftAnchor="150.0" />
       </children>
    </AnchorPane>
    <Label fx:id="toggleLabel" alignment="CENTER" layoutX="150.0" layoutY="570.0" prefWidth="300.0" text="Don't have an account?">
