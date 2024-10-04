@@ -130,6 +130,10 @@ public class SignInScreenController {
         loginButton.getStyleClass().add("nav-bar-button");
         toggleSignInButton.getStyleClass().add("nav-bar-button");
 
+        colourPreferenceComboBox.getStyleClass().add("fifteen-combo-box");
+        varietyPreferenceComboBox.getStyleClass().add("fifteen-combo-box");
+        fullnessPreferenceComboBox.getStyleClass().add("fifteen-combo-box");
+
         try {
             wineImageView.setImage(new Image("/images/signin_screen_wine.gif"));
         } catch (Exception e) {

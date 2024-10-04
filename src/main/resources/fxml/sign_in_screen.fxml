@@ -22,7 +22,7 @@
          <Rectangle fx:id="fullnessPreferenceRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="110.0" layoutX="388.0" layoutY="230.0" stroke="BLACK" strokeType="INSIDE" width="150.0" />
          <Rectangle fx:id="varietyPreferenceRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="110.0" layoutX="225.0" layoutY="230.0" stroke="BLACK" strokeType="INSIDE" width="150.0" />
          <Rectangle fx:id="abvLimitRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="125.0" layoutY="375.0" stroke="BLACK" strokeType="INSIDE" width="350.0" />
-         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="91.0" prefWidth="200.0" text="Preferences (Optional)" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="75.0">
+         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="91.0" prefWidth="300.0" text="Preferences (Optional)" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="75.0">
             <font>
                <Font name="System Bold" size="30.0" />
             </font>
@@ -51,9 +51,9 @@
                <Font size="20.0" />
             </font>
          </Label>
-         <ComboBox fx:id="colourPreferenceComboBox" layoutX="71.0" layoutY="279.0" prefHeight="40.0" prefWidth="130.0" AnchorPane.leftAnchor="71.0" AnchorPane.topAnchor="279.0" />
-         <ComboBox fx:id="varietyPreferenceComboBox" layoutX="235.0" layoutY="280.0" prefHeight="40.0" prefWidth="130.0" />
-         <ComboBox fx:id="fullnessPreferenceComboBox" layoutX="398.0" layoutY="279.0" prefHeight="40.0" prefWidth="130.0" />
+         <ComboBox fx:id="colourPreferenceComboBox" layoutX="71.0" layoutY="279.0" prefHeight="40.0" prefWidth="130.0" promptText="Select" visibleRowCount="5" AnchorPane.leftAnchor="71.0" AnchorPane.topAnchor="279.0" />
+         <ComboBox fx:id="varietyPreferenceComboBox" layoutX="235.0" layoutY="280.0" prefHeight="40.0" prefWidth="130.0" promptText="Select" visibleRowCount="5" />
+         <ComboBox fx:id="fullnessPreferenceComboBox" layoutX="398.0" layoutY="279.0" prefHeight="40.0" prefWidth="130.0" promptText="Select" visibleRowCount="5" />
          <Slider fx:id="abvLimitSlider" layoutX="150.0" layoutY="450.0" majorTickUnit="5.0" max="25.0" maxWidth="300.0" minWidth="300.0" minorTickCount="4" prefHeight="14.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="25.0" AnchorPane.leftAnchor="150.0" />
       </children>
    </AnchorPane>
@@ -77,7 +77,7 @@
          <Font size="20.0" />
       </font>
    </Label>
-   <Label fx:id="signInTitleLabel" alignment="CENTER" prefWidth="300.0" text="Login to account" textAlignment="CENTER" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="75.0">
+   <Label fx:id="signInTitleLabel" alignment="CENTER" prefWidth="400.0" text="Login to account" textAlignment="CENTER" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="75.0">
       <font>
          <Font name="System Bold" size="30.0" />
       </font>

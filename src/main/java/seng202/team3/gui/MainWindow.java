@@ -54,7 +54,8 @@ public class MainWindow extends Application {
                 "/css/profile_tab_pane.css",
                 "/css/add_to_list_button.css",
                 "/css/like_button.css",
-                "/css/white_red_wine_rectangle.css"
+                "/css/white_red_wine_rectangle.css",
+                "/css/fifteen_combo_box.css"
         };
 
         try {
