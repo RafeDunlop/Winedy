@@ -51,9 +51,6 @@ public class NavBarController {
     private Button helpButton;
 
     @FXML
-    private Button reloadButton; // to be implemented  for deliverable 3 (currently does nothing)
-
-    @FXML
     private HBox buttonHBox;
 
     @FXML
@@ -79,11 +76,6 @@ public class NavBarController {
     private ImageView profileButtonImageView;
 
     /**
-     * ImageView used as the graphic of the reload button, used by expandNavBar() and closeNavBar() to animate the Nav Bar.
-     */
-    private ImageView reloadButtonImageView;
-
-    /**
      * ImageView used as the graphic of the help button, used by expandNavBar() and closeNavBar() to animate the Nav Bar.
      */
     private ImageView helpButtonImageView;
@@ -107,7 +99,6 @@ public class NavBarController {
 
         searchButtonImageView = setUpNavButton(searchButton, "/images/home_screen_search_button.png", true, 50);
         profileButtonImageView = setUpNavButton(profileButton, "/images/home_screen_profile_button.png", true, 50);
-        reloadButtonImageView = setUpNavButton(reloadButton, "/images/nav_bar_reload_button.png", true, 50);
         helpButtonImageView = setUpNavButton(helpButton, "/images/home_screen_help_button.png", true, 50);
 
         buttonHBox.setPrefSize(66, 66); // Prevents a little glitch in the animation where the HBox expands for a split second
@@ -125,16 +116,6 @@ public class NavBarController {
             }
         });
         log.info("Navbar successfully loaded");
-    }
-
-    /**
-     * Reloads the selected screen by simply calling FXWrapper.loadScreen()
-     */
-    @FXML
-    private void onReloadClicked() {
-        if (selectedScreen != null) {
-            FXWrapper.getInstance().loadScreen(selectedScreen);
-        }
     }
 
     /**
@@ -165,19 +146,17 @@ public class NavBarController {
     private void expandNavBar() {
         searchButton.setManaged(true);
         profileButton.setManaged(true);
-        reloadButton.setManaged(true);
         helpButton.setManaged(true);
 
         searchButton.setMaxWidth(Region.USE_COMPUTED_SIZE);
         profileButton.setMaxWidth(Region.USE_COMPUTED_SIZE);
-        reloadButton.setMaxWidth(Region.USE_COMPUTED_SIZE);
         helpButton.setMaxWidth(Region.USE_COMPUTED_SIZE);
 
         Timeline timeline = new Timeline();
 
         KeyFrame keyFrame = new KeyFrame(Duration.seconds(0.3),
-                new KeyValue(buttonHBox.prefWidthProperty(), 350),
-                new KeyValue(buttonHBox.maxWidthProperty(), 350),
+                new KeyValue(buttonHBox.prefWidthProperty(), 279),
+                new KeyValue(buttonHBox.maxWidthProperty(), 279),
                 new KeyValue(buttonHBox.spacingProperty(), 5),
 
                 new KeyValue(searchButtonImageView.fitHeightProperty(), 50),
@@ -185,9 +164,6 @@ public class NavBarController {
 
                 new KeyValue(profileButtonImageView.fitHeightProperty(), 50),
                 new KeyValue(profileButtonImageView.opacityProperty(), 1),
-
-                new KeyValue(reloadButtonImageView.fitHeightProperty(), 50),
-                new KeyValue(reloadButtonImageView.opacityProperty(), 1),
 
                 new KeyValue(helpButtonImageView.fitHeightProperty(), 50),
                 new KeyValue(helpButtonImageView.opacityProperty(), 1)
@@ -210,9 +186,6 @@ public class NavBarController {
 
                 new KeyValue(profileButtonImageView.fitHeightProperty(), 1),
                 new KeyValue(profileButtonImageView.opacityProperty(), 0),
-
-                new KeyValue(reloadButtonImageView.fitHeightProperty(), 1),
-                new KeyValue(reloadButtonImageView.opacityProperty(), 0),
 
                 new KeyValue(helpButtonImageView.fitHeightProperty(), 1),
                 new KeyValue(helpButtonImageView.opacityProperty(), 0),
