@@ -45,14 +45,7 @@ public class CreateNewListPopUpController {
     public void initialize() {
         this.profileScreenService = new ProfileScreenService();
         this.wineListManager = WineListManager.getInstance();
-        overlayPane.getStyleClass().add("overlay-stackpane");
-        //overlayPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5)");
-        overlayPane.setOnMouseClicked(event -> {
-            Bounds popUpBounds = popUpAnchorPane.localToScene(popUpAnchorPane.getLayoutBounds());
-            if (!popUpBounds.contains(event.getSceneX(), event.getSceneY())) {
-                FXWrapper.getInstance().removePopUp(overlayPane);
-            }
-        });
+        GuiService.setUpPopUp(overlayPane,popUpAnchorPane);
     }
 
     /**

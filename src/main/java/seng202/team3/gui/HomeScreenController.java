@@ -75,6 +75,7 @@ public class HomeScreenController {
         if (WineDrinkerManager.getInstance().getCurrentUser() == null) {
             FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
         } else {
+            FXWrapper.getInstance().loadScreen(Screen.NAVBAR);
             FXWrapper.getInstance().loadProfileTabPane(0);
         }
     }

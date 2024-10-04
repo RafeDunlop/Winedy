@@ -62,13 +62,7 @@ public class ProfileTabPaneController {
         FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
     }
 
-    /**
-     * public method to set the tab that is shown when the tab pane is reloaded
-     * @param index index of the tab that will be displayed. This will be 0, 1 or 2
-     */
-    public void setTab(int index) {
-        profileTabPane.getSelectionModel().select(index);
-    }
+
 
 
 }

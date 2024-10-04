@@ -2,18 +2,16 @@ package seng202.team3.gui;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Contains all methods for loading JavaFX classes
@@ -173,12 +171,12 @@ public class FXWrapper {
     }
 
     /**
-     * Loads a pop-up screen which disables and dims background functionality
-     * @param popUp the screen corresponding to the pop-up
+     * Loads the create list pop up screen which disables and dims background functionality
+     * and allows users to create new lists
      */
-    public void loadPopUp(Screen popUp) {
+    public void loadCreateListPopUp() {
         try {
-            FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + popUp.file));
+            FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.CREATELISTPOPUP.file));
             StackPane popUpRoot = popUpLoader.load();
             superPane.getChildren().add(popUpRoot);
         } catch (IOException e) {
@@ -186,6 +184,16 @@ public class FXWrapper {
         }
     }
 
+    public void loadDeleteListPopUp(List<UserWineList> wineLists) {
+        try {
+            FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.DELETELISTSPOPUP.file));
+            popUpLoader.setControllerFactory(param -> new DeletingListsPopUpController(wineLists));
+            StackPane popUpRoot = popUpLoader.load();
+            superPane.getChildren().add(popUpRoot);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
     /**
      * Removes pop up from screen. Any updates made on the pop-up will require the screen below to be reloaded
      * after this method is called

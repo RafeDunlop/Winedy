@@ -36,7 +36,31 @@
                   <Insets top="60.0" />
                </GridPane.margin>
             </VBox>
-            <Button fx:id="createListButton" mnemonicParsing="false" onAction="#onCreateListButtonClicked" prefHeight="67.0" prefWidth="173.0" text="Create New Wine List" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Button fx:id="createListButton" mnemonicParsing="false" onAction="#onCreateListButtonClicked" prefHeight="67.0" prefWidth="204.0" text="Create New Wine List" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="75.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="16.0" />
+               </font></Button>
+            <Button fx:id="deleteListsButton" mnemonicParsing="false" onAction="#onDeleteListsButtonClicked" prefHeight="67.0" prefWidth="201.0" text="Delete lists " GridPane.columnIndex="1" GridPane.halignment="CENTER">
+               <GridPane.margin>
+                  <Insets top="75.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Button>
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#onCancelButtonClicked" prefHeight="67.0" prefWidth="199.0" text="Cancel" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+               <GridPane.margin>
+                  <Insets top="75.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#onDeleteButtonClicked" opacity="0.48" prefHeight="67.0" prefWidth="206.0" text="Delete" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets bottom="75.0" />
+               </GridPane.margin>
+            </Button>
          </children>
       </GridPane>
    </children>
