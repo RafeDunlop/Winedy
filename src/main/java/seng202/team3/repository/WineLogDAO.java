@@ -28,6 +28,9 @@ public class WineLogDAO implements DAOInterface<WineLog> {
      */
     private static final Logger logger = LogManager.getLogger(WineLogDAO.class);
 
+    /**
+     * the url corresponding to the database path used by this DAO (set by constructor, null for default)
+     */
     private final String url;
 
     /**
