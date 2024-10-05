@@ -1,0 +1,106 @@
+.root {
+    -fx-fcb-border-colour: "Black";
+    -fx-fcb-body-colour: #F0F0F0; /* Off-white grey */
+    -fx-fcb-hover-colour: #F7DBE2;
+}
+
+.fifteen-combo-box {
+    -fx-background-color: -fx-fcb-body-colour;
+    -fx-border-color: -fx-fcb-border-colour;
+    -fx-background-insets: 0, 1;
+    -fx-border-insets: 0, 1;
+    -fx-background-radius: 5;
+    -fx-padding: 2 8 2 2;
+    -fx-text-fill: black;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+    -fx-font-size: 15;
+}
+
+.fifteen-combo-box:hover {
+    -fx-background-color: -fx-fcb-hover-colour;
+}
+
+/* Style for the arrow button in the ComboBox */
+.fifteen-combo-box .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0.0em;
+}
+
+
+.fifteen-combo-box .combo-box-popup .list-view {
+    -fx-background-color: -fx-fcb-body-colour;
+    -fx-background-radius: 3;
+    -fx-padding: 0.333333em; /* 4 */
+}
+
+.fifteen-combo-box .combo-box-popup .list-view .list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* 4 8 4 8 */
+    -fx-text-fill: black;
+    -fx-background-radius: 5;
+}
+
+.fifteen-combo-box .combo-box-popup .list-view .list-cell:filled:hover {
+    -fx-background-color: -fx-fcb-hover-colour;
+    -fx-text-fill: black;
+}
+
+.fifteen-combo-box .combo-box-popup .list-view .list-cell:filled:selected {
+    -fx-background-color: -fx-dark-red-wine-colour;
+    -fx-text-fill: white;
+}
+
+.fifteen-combo-box:focused {
+    -fx-background-radius: 3, 2;
+    -fx-border-insets: 2;
+    -fx-background-insets: 2;
+}
+
+/* Prompt text styling (when no item is selected) */
+.fifteen-combo-box .combo-box-base .text {
+    -fx-text-fill: grey;
+}
+
+
+
+.fifteen-combo-box .combo-box-popup .scroll-bar:vertical,
+.fifteen-combo-box .combo-box-popup .scroll-bar:vertical .increment-button,
+.fifteen-combo-box .combo-box-popup .scroll-bar:vertical .decrement-button,
+.fifteen-combo-box .combo-box-popup .scroll-bar:vertical .decrement-arrow,
+.fifteen-combo-box .combo-box-popup .scroll-bar:vertical .increment-arrow,
+.fifteen-combo-box .combo-box-popup .scroll-bar:vertical .track {
+    -fx-background-color: transparent; /* Light blue background for the scrollbar track */
+}
+
+.fifteen-combo-box .combo-box-popup .scroll-bar:vertical .thumb {
+    -fx-background-color: -fx-red-wine-colour;
+}
+
+.fifteen-combo-box .combo-box-popup .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: -fx-dark-red-wine-colour;
+}
+
+.fifteen-combo-box .combo-box-popup .scroll-bar:vertical .thumb:pressed {
+    -fx-background-color: -fx-dark-red-wine-colour;
+    -fx-background-insets: 3;
+}
+
+.fifteen-combo-box .combo-box-popup .scroll-bar:vertical .increment-arrow,
+.fifteen-combo-box .combo-box-popup .scroll-bar:vertical .decrement-arrow {
+    -fx-background-color: -fx-red-wine-colour;
+    -fx-scale-x: 1.5;
+    -fx-scale-y: 1.5;
+}
+
+.fifteen-combo-box .combo-box-popup .scroll-bar:vertical .increment-arrow:hover,
+.fifteen-combo-box .combo-box-popup .scroll-bar:vertical .decrement-arrow:hover {
+    -fx-background-color: -fx-dark-red-wine-colour;
+}
+
+.fifteen-combo-box .combo-box-popup .scroll-bar:vertical .increment-arrow:pressed,
+.fifteen-combo-box .combo-box-popup .scroll-bar:vertical .decrement-arrow:pressed {
+    -fx-background-color: -fx-dark-red-wine-colour;
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+}
