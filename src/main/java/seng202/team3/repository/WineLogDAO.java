@@ -67,12 +67,6 @@ public class WineLogDAO implements DAOInterface<WineLog> {
         }
     }
 
-
-    private String getUsername() {
-        WineDrinkerManager wineDrinkerManager = (url == null) ? WineDrinkerManager.getInstance() : WineDrinkerManager.getInstance(url);
-        return wineDrinkerManager.getCurrentUser().getUsername();
-    }
-
     /**
      * Adds a single object of type T to database
      *
@@ -81,7 +75,7 @@ public class WineLogDAO implements DAOInterface<WineLog> {
      * @throws WineDrinkerAlreadyExistsException if method is called with a WineDrinker with a username that already exists
      */
     @Override
-    public int add(WineLog toAdd) throws WineDrinkerAlreadyExistsException {
+    public int add(WineLog toAdd) {
         String sql = "INSERT INTO log (wineDrinker, wineId, logEntry, date, time, quantity) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -122,7 +116,8 @@ public class WineLogDAO implements DAOInterface<WineLog> {
      */
     @Override
     public int update(WineLog toUpdate) {
-        return 0;
+        String sql = "UPDATE log SET wineId = ?, logEntry = ?, date = ?, time = ?, quantity = ?, WHERE id = ?";
+        return 1;
     }
 
     private void setAddLogParams(PreparedStatement ps, WineLog toAdd) throws SQLException {
@@ -147,5 +142,10 @@ public class WineLogDAO implements DAOInterface<WineLog> {
         ps.setInt(2, toDelete.getUniqueWineId());
         ps.setDate(3, toDelete.getDate());
         ps.setTime(4, toDelete.getTime());
+    }
+
+    private String getUsername() {
+        WineDrinkerManager wineDrinkerManager = (url == null) ? WineDrinkerManager.getInstance() : WineDrinkerManager.getInstance(url);
+        return wineDrinkerManager.getCurrentUser().getUsername();
     }
 }
