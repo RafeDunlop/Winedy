@@ -40,6 +40,7 @@ public class FXWrapper {
      */
     private static FXWrapper instance;
 
+
     /**
      * private default constructor to prevent instantiation outside this class
      */
@@ -184,6 +185,10 @@ public class FXWrapper {
         }
     }
 
+    /**
+     * Loads delete lists pop up which allows the users to confirm whether they would like to delete lists or not
+     * @param wineLists a list of the users wine lists to be deleted
+     */
     public void loadDeleteListPopUp(List<UserWineList> wineLists) {
         try {
             FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.DELETELISTSPOPUP.file));
@@ -194,6 +199,18 @@ public class FXWrapper {
             log.error(e);
         }
     }
+
+    public void loadCancelChangesPopUp(UserWineList currentList, boolean cancelButtonClicked, String name, String description, AnchorPane toNest) {
+        try {
+            FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.CANCELCHANGESPOPUP.file));
+            popUpLoader.setControllerFactory(param -> new CancelChangesPopUpController(currentList, cancelButtonClicked, name, description, toNest));
+            StackPane popUpRoot = popUpLoader.load();
+            superPane.getChildren().add(popUpRoot);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
     /**
      * Removes pop up from screen. Any updates made on the pop-up will require the screen below to be reloaded
      * after this method is called
