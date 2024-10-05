@@ -12,7 +12,6 @@ import javafx.scene.layout.AnchorPane;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.SignInScreenService;
 import seng202.team3.exceptions.IllegalWineDrinkerException;
-import seng202.team3.models.WineDrinker;
 
 /**
  * controller for sign_in_screen.fxml. Handles logging in, registering and setting initial preferences
@@ -22,7 +21,7 @@ import seng202.team3.models.WineDrinker;
 public class SignInScreenController {
 
     private SignInScreenService signInScreenService;
-    private WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
+    private final WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
 
 
     @FXML
@@ -71,9 +70,8 @@ public class SignInScreenController {
     private boolean registerMode = false;
 
     /**
-     * method called when the createAccountButton is clicked
-     *
-     * determines whether the user has inputted a valid WineDrinker and if so, creates, stores it and logs it in.
+     * Method called when the createAccountButton is clicked
+     * Determines whether the user has inputted a valid WineDrinker and if so, creates, stores it and logs it in.
      * Otherwise, prompts user with what input is invalid
      */
     @FXML
@@ -100,9 +98,8 @@ public class SignInScreenController {
     }
 
     /**
-     * method called when the login button is clicked
-     *
-     * determines whether inputted credentials reference a valid WineDrinker object, and if so, logs the user in.
+     * Method called when the login button is clicked
+     * Determines whether inputted credentials reference a valid WineDrinker object, and if so, logs the user in.
      * Otherwise, prompts the user with the reason their login attempt failed (wrong password or no such username in DB)
      */
     @FXML

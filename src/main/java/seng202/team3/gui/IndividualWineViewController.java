@@ -9,6 +9,7 @@ import javafx.scene.shape.Rectangle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.models.Wine;
+import seng202.team3.services.IndividualWineViewService;
 import seng202.team3.services.WineDrinkerManager;
 
 import java.util.Arrays;
@@ -27,7 +28,8 @@ public class IndividualWineViewController {
      * Logger for robust error logging and debugging
      */
     private static final Logger log = LogManager.getLogger(IndividualWineViewController.class);
-    private final WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
+
+    private IndividualWineViewService individualWineService;
 
     @FXML
     private Label wineNameLabel;
@@ -83,8 +85,6 @@ public class IndividualWineViewController {
     @FXML
     private Button addToListButton;
 
-    private boolean isLiked = false;
-
     /**
      * the Wine object whose details are displayed on the screen
      */
@@ -105,6 +105,10 @@ public class IndividualWineViewController {
      */
     @FXML
     public void initialize() {
+
+        individualWineService = new IndividualWineViewService();
+        WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
+
         rectangle.getStyleClass().add("white-wine-rectangle");
         descriptionScrollPane.getStyleClass().add("individual-wine-view-scroll-pane");
         likeButton.getStyleClass().add("like-button");
@@ -144,28 +148,32 @@ public class IndividualWineViewController {
             wineAwardsLabel.setText("This wine does not have any awards");
         }
 
-
         if (wineDrinkerManager.getCurrentUser() == null) {
             likeButton.setDisable(true);
             likeButton.setOpacity(0.5);
             addToListButton.setDisable(true);
             addToListButton.setOpacity(0.5);
             notLoggedInLabel.setVisible(true);
+        }  else {
+           if (individualWineService.inFavourites(wineToDisplay)) {
+               likeButton.setStyle(individualWineService.inFavourites(wineToDisplay)? "-fx-background-color: red" : "");
+           }
         }
+
+
 
         log.info("Individual wine view loaded successfully");
     }
 
     @FXML
     public void onLikeButtonClicked() {
-        likeButton.setStyle(isLiked? "" : "-fx-background-color: red");
-        isLiked = !isLiked;
+        individualWineService.updateFavourites(wineToDisplay);
+        likeButton.setStyle(individualWineService.inFavourites(wineToDisplay)? "-fx-background-color: red" : "");
     }
 
     @FXML
     public void onAddButtonClicked() {
-        addToListButton.setStyle(isLiked? "" : "-fx-background-color: red");
-        isLiked = !isLiked;
+
     }
 
 }

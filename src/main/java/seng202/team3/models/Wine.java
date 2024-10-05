@@ -1,5 +1,7 @@
 package seng202.team3.models;
 
+import java.util.Objects;
+
 /**
  * Wine class for creating wine objects that will be stored in a database
  *
@@ -37,7 +39,7 @@ public class Wine {
     /**
      * List of grapes that the wines contain
      */
-    private String[] grapes;
+    private final String[] grapes;
     /**
      * Wine fullness
      */
@@ -103,6 +105,36 @@ public class Wine {
         this.alcoholByVolume = alcoholByVolume;
         this.volumeInMl = volumeInMl;
         this.year = year;
+    }
+
+    /**
+     * Compares unique wine ids to determine equality of two wines
+     * @param other The object to compare
+     * @return true if both objects refer to the same wine, false otherwise
+     */
+    @Override
+    public boolean equals(Object other) {
+
+        if (this == other) {
+            return true;
+        }
+
+        if (other == null || getClass() != other.getClass()){
+            return false;
+        }
+
+        Wine wine = (Wine) other;
+
+        return uniqueWineID == wine.getUniqueWineID();
+    }
+
+    /**
+     * Computes hash code for wine based on the unique id
+     * @return The computed hashcode
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(uniqueWineID);
     }
 
     /**

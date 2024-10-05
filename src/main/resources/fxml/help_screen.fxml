@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.HelpScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.HelpScreenController">
    <children>
       <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
@@ -84,6 +84,14 @@
                               <Font size="20.0" />
                            </font>
                         </Button>
+                        <Button fx:id="searchingButton" mnemonicParsing="false" text="Searching">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Button>
                         <Button fx:id="createAnAccountButton" mnemonicParsing="false" text="Create an account">
                            <VBox.margin>
                               <Insets left="20.0" />
@@ -93,14 +101,6 @@
                            </font>
                         </Button>
                         <Button fx:id="signinButton" mnemonicParsing="false" text="Sign-in">
-                           <VBox.margin>
-                              <Insets left="20.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="searchingButton" mnemonicParsing="false" text="Searching">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
@@ -184,6 +184,12 @@
                               <Font name="System Bold" size="30.0" />
                            </font>
                         </Label>
+                        <Label fx:id="searchingTitleLabel" text="- Searching" />
+                        <Label fx:id="searchingContentLabel" text="Searching content" wrapText="true">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Label>
                         <Label fx:id="createAnAccountTitleLabel" text="- Create an account">
                            <font>
                               <Font size="15.0" />
@@ -200,12 +206,6 @@
                            </font>
                         </Label>
                         <Label fx:id="signinContentLabel" text="Sign-in content" wrapText="true">
-                           <VBox.margin>
-                              <Insets left="20.0" />
-                           </VBox.margin>
-                        </Label>
-                        <Label fx:id="searchingTitleLabel" text="- Searching" />
-                        <Label fx:id="searchingContentLabel" text="Searching content" wrapText="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>

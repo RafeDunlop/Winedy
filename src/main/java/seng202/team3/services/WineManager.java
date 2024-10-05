@@ -86,11 +86,9 @@ public class WineManager {
      * Deletes a Wine
      *
      * @param wine wine to delete
-     * @return true iff deleted, else false (what if it never existed?)
      */
-    public boolean deleteWine(Wine wine) {
+    public void deleteWine(Wine wine) {
         wineDAO.delete(wine);
-        return false;
     }
 
     /**
@@ -148,7 +146,4 @@ public class WineManager {
                 .toList();
     }
 
-    public void setWineDAO(WineDAO wineDAO) {
-        this.wineDAO = wineDAO;
-    }
 }

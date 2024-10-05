@@ -1,16 +1,10 @@
 package seng202.team3.gui;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import seng202.team3.models.UserWineList;
-import seng202.team3.models.Wine;
-import seng202.team3.models.WineDrinker;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.WineListManager;
 
@@ -60,12 +54,11 @@ public class ProfileListViewScreenController {
     @FXML
     private Button cancelChangesButton;
 
+    private final WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
 
-    private WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
+    private final WineListManager wineListManager = WineListManager.getInstance();
 
-    private WineListManager wineListManager = WineListManager.getInstance();
-
-    private UserWineList listToDisplay;
+    private final UserWineList listToDisplay;
 
 
     /**

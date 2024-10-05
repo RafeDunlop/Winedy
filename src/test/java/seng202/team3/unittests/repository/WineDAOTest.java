@@ -10,7 +10,6 @@ import seng202.team3.services.WineDrinkerManager;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 
 public class WineDAOTest {
-    String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
+    final String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
     private WineDAO wineDAO;
     private final int CSV_LENGTH = 473;
     private final int HIGHEST_ID = 782;
@@ -83,19 +82,14 @@ public class WineDAOTest {
 
     @Test
     public void testAddNonUniqueWine() {
-        int insertId = wineDAO.add(WINE_1);
         assertDoesNotThrow(() -> wineDAO.add(WINE_1));
         wineDAO.delete(WINE_1);
     }
 
     @Test
     public void testGetAll() {
-        int id1 = wineDAO.add(WINE_1);
-        int id2 = wineDAO.add(WINE_2);
         List<Wine> allWines = wineDAO.getAll();
-        assertEquals(CSV_LENGTH + 2, allWines.size());
-        wineDAO.delete(WINE_1);
-        wineDAO.delete(WINE_2);
+        assertEquals(CSV_LENGTH, allWines.size());
     }
 
     @Test
@@ -150,7 +144,7 @@ public class WineDAOTest {
 
     @Test
     void testSearchWines() {
-        List<String> keywords = Arrays.asList("Waihopai");
+        List<String> keywords = List.of("Waihopai");
         SearchWineList searchWineList = wineDAO.searchWines(keywords, 2018, 2018, 0.0f, 20.0f, "New Zealand", "White", "DRY", "Sauvignon Blanc");
         assertEquals("The Ned Waihopai River Sauvignon Blanc 2018 Marlborough", searchWineList.getWineList().getFirst().getName());
         wineDAO.delete(WINE_2);

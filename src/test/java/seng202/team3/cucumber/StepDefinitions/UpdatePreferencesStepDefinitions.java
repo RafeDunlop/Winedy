@@ -3,10 +3,8 @@ package seng202.team3.cucumber.StepDefinitions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.jupiter.api.BeforeEach;
 import seng202.team3.models.WineDrinker;
 import seng202.team3.services.ProfileScreenService;
-import seng202.team3.services.SignInScreenService;
 import seng202.team3.services.WineDrinkerManager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -23,8 +21,7 @@ public class UpdatePreferencesStepDefinitions {
     private String varietyPreference;
     private double abvLimitPreference;
     private WineDrinkerManager wineDrinkerManager;
-    private SignInScreenService signInScreenService = new SignInScreenService();
-    private ProfileScreenService profileScreenService = new ProfileScreenService();
+    private final ProfileScreenService profileScreenService = new ProfileScreenService();
 
     @Given("Wine Drinker is logged in as {string}")
     public void wineDrinkLoggedIn(String mockUsername) {

@@ -12,7 +12,7 @@ import java.io.File;
  * @author Yuvraj Fagotra (yfa50)
  */
 public class WineDrinkerDAOTest {
-    String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
+    final String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
     WineDrinkerDAO wineDrinkerDAO;
     private final String username = "TestUser1";
     private final String password = "TestUserPassword";

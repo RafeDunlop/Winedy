@@ -14,10 +14,6 @@ public class SignInScreenService {
      * WineDrinkerManager to handle wine drinker related tasks
      */
     private WineDrinkerManager wineDrinkerManager;
-    /**
-     * Regular expression string to define the valid characters for the username and password
-     */
-    private final String regex = "^[a-zA-Z0-9]{5,16}$";
 
     public SignInScreenService() {
         this.wineDrinkerManager = WineDrinkerManager.getInstance();
@@ -37,11 +33,13 @@ public class SignInScreenService {
 
     /**
      * Matches inputted string to predefined regex
+     * Regular expression string to define the valid characters for the username and password
      *
      * @param inputString string to be matched
      * @return true if string matches regex, otherwise false
      */
     private boolean matchRegex(String inputString) {
+        String regex = "^[a-zA-Z0-9]{5,16}$";
         return inputString.matches(regex);
     }
 
@@ -76,20 +74,19 @@ public class SignInScreenService {
 
     /**
      *
-     * @param username
-     * @param password
-     * @param country
-     * @param colour
-     * @param fullness
-     * @param variety
-     * @param ABVLimit
-     * @throws IllegalWineDrinkerException
+     * @param username Username for the new WineDrinker
+     * @param password Password for the new WineDrinker
+     * @param country Country preference set by new WineDrinker
+     * @param colour Colour preference set by new WineDrinker
+     * @param fullness Fullness preference set by new WineDrinker
+     * @param variety Variety preference set by new WineDrinker
+     * @param ABVLimit ABV limit preference set by new WineDrinker
+     * @throws IllegalWineDrinkerException thrown if the passwords do not match
      */
     public void registerUser(String username, String password, String country, String colour, String fullness, String variety, double ABVLimit) throws IllegalWineDrinkerException{
         try {
             WineDrinker curUser = new WineDrinker(username, password, country, colour, fullness, variety, ABVLimit);
             wineDrinkerManager.setCurrentUser(curUser);
-            //register throws exception which needs passing to 1 level up for prompt to user
             wineDrinkerManager.registerWineDrinker();
         } catch (IllegalWineDrinkerException e) {
             throw e;
@@ -99,15 +96,15 @@ public class SignInScreenService {
     /**
      * Single function that calls all required functions to validate and register
      * a new user
-     * @param username
-     * @param password
-     * @param secondPassword
-     * @param country
-     * @param colour
-     * @param fullness
-     * @param variety
-     * @param ABVLimit
-     * @throws IllegalWineDrinkerException
+     * @param username Username for the new WineDrinker
+     * @param password Password for the new WineDrinker
+     * @param secondPassword Repeated entry of password
+     * @param country Country preference set by new WineDrinker
+     * @param colour Colour preference set by new WineDrinker
+     * @param fullness Fullness preference set by new WineDrinker
+     * @param variety Variety preference set by new WineDrinker
+     * @param ABVLimit ABV limit preference set by new WineDrinker
+     * @throws IllegalWineDrinkerException thrown if the passwords do not match
      */
     public void validateAndRegisterUser(String username, String password, String secondPassword, String country, String colour, String fullness, String variety, double ABVLimit) throws IllegalWineDrinkerException{
         try {
