@@ -21,7 +21,7 @@ import seng202.team3.exceptions.IllegalWineDrinkerException;
 public class SignInScreenController {
 
     private SignInScreenService signInScreenService;
-    private WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
+    private final WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
 
 
     @FXML
@@ -70,9 +70,8 @@ public class SignInScreenController {
     private boolean registerMode = false;
 
     /**
-     * method called when the createAccountButton is clicked
-     *
-     * determines whether the user has inputted a valid WineDrinker and if so, creates, stores it and logs it in.
+     * Method called when the createAccountButton is clicked
+     * Determines whether the user has inputted a valid WineDrinker and if so, creates, stores it and logs it in.
      * Otherwise, prompts user with what input is invalid
      */
     @FXML
@@ -89,7 +88,7 @@ public class SignInScreenController {
             signInScreenService.validateRegisteringUsername(username);
             signInScreenService.validateRegisteringPasswords(password, secondPassword);
             signInScreenService.registerUser(username, password, null, colour, fullness, variety, ABVLimit);
-            FXWrapper.getInstance().loadScreen(Screen.PROFILETABPANE);
+            FXWrapper.getInstance().loadProfileTabPane(0);
 
         } catch (IllegalWineDrinkerException e) {
             fullDisable(errorLabel, false);
@@ -99,9 +98,8 @@ public class SignInScreenController {
     }
 
     /**
-     * method called when the login button is clicked
-     *
-     * determines whether inputted credentials reference a valid WineDrinker object, and if so, logs the user in.
+     * Method called when the login button is clicked
+     * Determines whether inputted credentials reference a valid WineDrinker object, and if so, logs the user in.
      * Otherwise, prompts the user with the reason their login attempt failed (wrong password or no such username in DB)
      */
     @FXML
@@ -111,7 +109,7 @@ public class SignInScreenController {
             String password = enterPasswordField.getText();
             signInScreenService.validateLoginDetails(username, password);
             wineDrinkerManager.loginCurrentUser(username, password);
-            FXWrapper.getInstance().loadScreen(Screen.PROFILETABPANE);
+            FXWrapper.getInstance().loadProfileTabPane(0);
 
         } catch (IllegalWineDrinkerException e) {
             fullDisable(errorLabel, false);

@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 
 public class PersonalWineDAOTest {
-    String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
+    final String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
     WineDAO wineDAO;
     PersonalWineDAO personalWineDAO;
     WineDrinkerManager wineDrinkerManager;

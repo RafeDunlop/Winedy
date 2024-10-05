@@ -5,6 +5,7 @@ import seng202.team3.repository.SearchDAO;
 import seng202.team3.repository.Table;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Service class for search screen
@@ -12,7 +13,7 @@ import java.util.ArrayList;
  */
 public class SearchScreenService {
 
-    private SearchDAO searchDAO;
+    private final SearchDAO searchDAO;
 
     public SearchScreenService() {
         searchDAO = new SearchDAO();
@@ -30,6 +31,7 @@ public class SearchScreenService {
         if (searchDAO.isValidAttribute(attribute.attributeName, table.tableName)) {
             values.addAll(searchDAO.getWineAttributeValues(attribute.attributeName, table.tableName));
         }
+        Collections.sort(values);
 
         return values;
     }

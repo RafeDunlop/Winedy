@@ -28,7 +28,6 @@ public class IndividualWineViewController {
      * Logger for robust error logging and debugging
      */
     private static final Logger log = LogManager.getLogger(IndividualWineViewController.class);
-    private WineDrinkerManager wineDrinkerManager;
 
     private IndividualWineViewService individualWineService;
 
@@ -108,7 +107,7 @@ public class IndividualWineViewController {
     public void initialize() {
 
         individualWineService = new IndividualWineViewService();
-        wineDrinkerManager = WineDrinkerManager.getInstance();
+        WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
 
         rectangle.getStyleClass().add("white-wine-rectangle");
         descriptionScrollPane.getStyleClass().add("individual-wine-view-scroll-pane");

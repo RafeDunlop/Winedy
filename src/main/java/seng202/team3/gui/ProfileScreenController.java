@@ -46,10 +46,6 @@ public class ProfileScreenController {
     @FXML
     private ComboBox<String> varietyPreferenceComboBox;
     /**
-     * The current instance of WineDrinkerManager
-     */
-    private WineDrinkerManager wineDrinkerManager;
-    /**
      * Instance of the ProfileScreenServiceClass, used for data validation
      */
     private ProfileScreenService profileScreenService;
@@ -59,7 +55,10 @@ public class ProfileScreenController {
      */
     public void initialize() {
 
-        wineDrinkerManager = WineDrinkerManager.getInstance();
+        /**
+         * The current instance of WineDrinkerManager
+         */
+        WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
         profileScreenService = new ProfileScreenService();
         colourPreferenceComboBox.getItems().addAll("Red", "White", "Rose");
         colourPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getColourPreference());
