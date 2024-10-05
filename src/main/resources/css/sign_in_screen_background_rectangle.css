@@ -1,0 +1,21 @@
+/*
+ * This style sheet defines the signin-screen-background-rectangle style class.
+ */
+.root {
+    -fx-ssbr-body-colour: derive(-fx-light-red-wine-colour, 30%);
+    -fx-ssbr-border-colour: -fx-dark-red-wine-colour;
+}
+
+/*
+ * Rectangle used behind the text on the preferences part of the sign-in screen to increase contrast
+ * Has a pink background with a slightly darker border (stroke) and rounded corners (arc).
+ */
+.sign-in-screen-background-rectangle {
+    -fx-fill: -fx-ssbr-body-colour;
+    -fx-arc-width: 40px;
+    -fx-arc-height: 40px;
+
+    -fx-stroke: -fx-ssbr-border-colour;
+    -fx-stroke-width: 3px;
+    -fx-stroke-type: outside;
+}

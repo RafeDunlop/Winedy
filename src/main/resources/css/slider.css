@@ -1,0 +1,59 @@
+.root {
+    -fx-slider-body-colour: #F7DBE2;
+}
+
+
+/* Style for the slider track */
+.range-slider,
+.slider {
+    -fx-background-color: transparent;
+}
+
+.range-slider .track,
+.slider .track {
+    -fx-background-color: -fx-slider-body-colour;
+    -fx-background-insets: 0, 0;
+    -fx-padding: 0;
+    -fx-pref-height: 10;
+}
+
+/* Style for the slider thumb */
+.range-slider .high-thumb,
+.range-slider .low-thumb,
+.slider .thumb {
+    -fx-background-color: -fx-red-wine-colour;
+    -fx-pref-width: 20;
+    -fx-pref-height: 20;
+    -fx-background-radius: 10;
+}
+
+/* Style for the slider tick marks */
+.range-slider .tick-mark,
+.slider .tick-mark {
+    -fx-background-color: #999999;
+    -fx-pref-width: 2;
+    -fx-pref-height: 10;
+}
+
+/* Style for the slider when hovered */
+.range-slider .low-thumb:hover,
+.range-slider .high-thumb:hover,
+.slider:hover .thumb {
+    -fx-background-color: -fx-dark-red-wine-colour;
+}
+
+/* Style for the slider when pressed */
+.range-slider .low-thumb:pressed,
+.range-slider .high-thumb:pressed,
+.slider:pressed .thumb {
+    -fx-background-insets: 1;
+}
+
+.range-slider .range-bar {
+    -fx-background-color: -fx-light-red-wine-colour;
+}
+
+.range-slider .high-thumb:focused,
+.range-slider .low-thumb:focused {
+    -fx-background-insets: 1;
+}
