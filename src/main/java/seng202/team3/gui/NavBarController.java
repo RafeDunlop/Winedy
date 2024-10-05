@@ -135,7 +135,11 @@ public class NavBarController {
      */
     private void onButtonClick(Screen screen) {
         if (selectedScreen != screen) {
-            FXWrapper.getInstance().loadScreen(screen);
+            if (screen == Screen.PROFILETABPANE) {
+                FXWrapper.getInstance().loadProfileTabPane(0);
+            } else {
+                FXWrapper.getInstance().loadScreen(screen);
+            }
             selectedScreen = screen;
         }
     }
