@@ -1,4 +1,6 @@
 package seng202.team3.models;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Drinker preference model to work with Recommendation DAO to provide the preference model
@@ -7,5 +9,30 @@ package seng202.team3.models;
  * @author Steven Leishman (sle159)
  */
 public class DrinkerPreferenceModel {
+    private String username;
+    private HashMap<String, Float> preferencesHashMap = new HashMap<>();
 
+    public DrinkerPreferenceModel(){}
+
+    /**
+     * sets the arraylist of the
+     * @param usernameToSet
+     */
+    public void setUsername(String usernameToSet){
+        this.username = usernameToSet;
+    }
+
+    /**
+     * Takes two Arraylists of strings and floats of equal length representing the users preference model
+     * and stores it in the preferences hash map
+     * @param prefNames Arraylist of Strings representing preference types
+     * @param prefNums Arraylist of Floats representing preference value for each string
+     */
+    public void setHashValues(ArrayList<String> prefNames, ArrayList<Float> prefNums){
+        for (int i = 0; i < prefNames.size(); i++) {
+            if (preferencesHashMap.get(prefNames.get(i)) == null) {
+                preferencesHashMap.put(prefNames.get(i), prefNums.get(i));
+            }
+        }
+    }
 }

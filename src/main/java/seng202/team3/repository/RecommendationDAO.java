@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /**
  * Recommendation DAO retrieves the users preference model for the recommendation algorithm
@@ -25,27 +26,45 @@ public class RecommendationDAO {
      */
     private final DatabaseManager databaseManager;
 
-    public RecommendationDAO(){
+
+
+    public RecommendationDAO() {
         databaseManager = DatabaseManager.getInstance();
     }
 
     /**
      * Retrieves the set of preferences from the database
+     *
      * @param username string of record to retrieve
-     * @return
+     * @return drinkerPreferenceModel
      */
     public DrinkerPreferenceModel getPreferenceModelByUsername(String username) {
-        DrinkerPreferenceModel drinkerPrefModel = new DrinkerPreferenceModel();
+        DrinkerPreferenceModel drinkerPrefModel = null;
         String sql = "SELECT * FROM drinkerPreferenceModel WHERE username=?";
+        String columnNameSql = "select name from pragma_table_info('drinkerPreferenceModel')";
         try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1,username);
-            try (ResultSet resultSet = ps.executeQuery()){
+             PreparedStatement ps = conn.prepareStatement(sql);
+             PreparedStatement psColName = conn.prepareStatement(columnNameSql)) {
+            ps.setString(1, username);
+            try (ResultSet resultSet = ps.executeQuery();
+                ResultSet colNamesSet = psColName.executeQuery()) {
+
+                ArrayList<String> colNames = new ArrayList<>();
+
+                while (colNamesSet.next()){
+                    if (colNamesSet.getString(1).compareTo( "username") != 0){
+                        colNames.add(colNamesSet.getString(1));
+                    }
+                }
+
                 if (resultSet.next()) {
-//                    string = "ALTER TABLE ADD " + resultSet.getString(1) + " float";
-//                    resultSet.getFloat("france")
-                    //TODO
-                    //drinkerPrefModel.set
+                    drinkerPrefModel = new DrinkerPreferenceModel();
+                    drinkerPrefModel.setUsername(resultSet.getString("username"));
+                    ArrayList<Float> prefValues = new ArrayList<>();
+                    for (int i = 2; i < 49; i++) {
+                        prefValues.add(resultSet.getFloat(i));
+                    }
+                    drinkerPrefModel.setHashValues(colNames, prefValues);
                 }
                 return drinkerPrefModel;
             }
@@ -56,20 +75,20 @@ public class RecommendationDAO {
     }
 
 
-
     /**
      * Retrieves the all distinct attributes from specified column in table
      * and adds those attributes as columns in the drinkerPreferenceModel table
+     *
      * @param nameOfColumn string column to retrieve values from
      */
-    public void addColumnsToPrefModelFromPopulatedTables(String nameOfColumn, String table){
+    public void addColumnsToPrefModelFromPopulatedTables(String nameOfColumn, String table) {
         String sql = "select distinct " + nameOfColumn + " from " + table;
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            try (ResultSet resultSet = ps.executeQuery()){
-                while(resultSet.next()) {
+            try (ResultSet resultSet = ps.executeQuery()) {
+                while (resultSet.next()) {
                     try {
-                        String sql2 = "ALTER TABLE drinkerPreferenceModel ADD \'" + resultSet.getString(1) + "\' float";
+                        String sql2 = "ALTER TABLE drinkerPreferenceModel ADD '" + resultSet.getString(1) + "' float Default 5";
                         PreparedStatement ps2 = conn.prepareStatement(sql2);
                         ps2.execute();
                     } catch (SQLException e) {
@@ -78,6 +97,17 @@ public class RecommendationDAO {
                 }
             }
         } catch (SQLException e) {
+            log.error(e);
+        }
+    }
+
+    public void createNewPreferenceModel (String username) {
+        String sql = "Insert into drinkerPreferenceModel (username) values (?)";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)){
+            ps.setString(1,username);
+            ps.executeUpdate();
+        } catch(SQLException e){
             log.error(e);
         }
     }

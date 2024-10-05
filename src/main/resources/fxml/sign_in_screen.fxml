@@ -7,97 +7,142 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.SignInScreenController">
-   <GridPane prefHeight="720.0" prefWidth="1200.0">
-      <columnConstraints>
-         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-      </columnConstraints>
-      <rowConstraints>
-         <RowConstraints maxHeight="411.0" minHeight="10.0" prefHeight="359.0" vgrow="SOMETIMES" />
-         <RowConstraints maxHeight="545.0" minHeight="10.0" prefHeight="361.0" vgrow="SOMETIMES" />
-      </rowConstraints>
-      <Label text="Login to account" GridPane.halignment="CENTER">
-         <GridPane.margin>
-            <Insets bottom="200.0" />
-         </GridPane.margin>
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label text="Enter Username" GridPane.halignment="CENTER">
-         <GridPane.margin>
-            <Insets bottom="120.0" />
-         </GridPane.margin>
-      </Label>
-      <TextField fx:id="usernameTextField" maxHeight="25.0" maxWidth="400.0" minHeight="25.0" minWidth="400.0" prefHeight="25.0" prefWidth="400.0" promptText="Username" GridPane.halignment="CENTER">
-         <GridPane.margin>
-            <Insets bottom="70.0" />
-         </GridPane.margin>
-      </TextField>
-      <Label text="Enter Password" GridPane.halignment="CENTER">
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin>
-      </Label>
-      <PasswordField fx:id="enterPasswordField" maxHeight="25.0" maxWidth="400.0" minHeight="25.0" minWidth="400.0" prefHeight="25.0" prefWidth="400.0" promptText="Password" GridPane.halignment="CENTER">
-         <GridPane.margin>
-            <Insets top="50.0" />
-         </GridPane.margin>
-      </PasswordField>
-      <Label fx:id="reEnterPasswordLabel" text="Re-enter Password" GridPane.halignment="CENTER">
-         <GridPane.margin>
-            <Insets top="100.0" />
-         </GridPane.margin>
-      </Label>
-      <PasswordField fx:id="reEnterPasswordField" maxHeight="25.0" maxWidth="400.0" minHeight="25.0" minWidth="400.0" prefHeight="25.0" prefWidth="400.0" promptText="Re-enter Password" GridPane.halignment="CENTER">
-         <GridPane.margin>
-            <Insets top="150.0" />
-         </GridPane.margin>
-      </PasswordField>
-      <Label fx:id="errorLabel" text="Label" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-         <GridPane.margin>
-            <Insets top="210.0" />
-         </GridPane.margin>
-      </Label>
-      <Button fx:id="loginButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onLoginButtonClicked" prefHeight="24.0" prefWidth="100.0" text="Login" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-         <GridPane.margin>
-            <Insets top="150.0" />
-         </GridPane.margin>
-      </Button>
-      <Label fx:id="toggleLabel" text="Don't have an account?" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-         <GridPane.margin>
-            <Insets top="250.0" />
-         </GridPane.margin>
-         <font>
-            <Font size="11.0" />
-         </font>
-      </Label>
-      <Button fx:id="toggleSignInButton" maxWidth="100.0" minWidth="0.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="100.0" text="Register" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-         <GridPane.margin>
-            <Insets top="300.0" />
-         </GridPane.margin>
-      </Button>
-      <AnchorPane fx:id="preferencesAnchorPane" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-         <Label layoutX="542.0" layoutY="57.0" text="Preferences">
+   <Rectangle fx:id="preferencesRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="620.0" stroke="BLACK" strokeType="INSIDE" width="500.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0" />
+   <Rectangle fx:id="signInRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="620.0" layoutX="37.0" layoutY="42.0" stroke="BLACK" strokeType="INSIDE" width="500.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="50.0" />
+   <Rectangle fx:id="wineImageRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="400.0" layoutX="700.0" layoutY="150.0" stroke="BLACK" strokeType="INSIDE" width="400.0" />
+   <ImageView fx:id="wineImageView" fitHeight="380.0" fitWidth="380.0" layoutX="710.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" />
+   <AnchorPane fx:id="preferencesAnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="720.0" prefWidth="600.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+         <Rectangle fx:id="colourPreferenceRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="110.0" layoutX="61.0" layoutY="229.0" stroke="BLACK" strokeType="INSIDE" width="150.0" />
+         <Rectangle fx:id="fullnessPreferenceRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="110.0" layoutX="388.0" layoutY="230.0" stroke="BLACK" strokeType="INSIDE" width="150.0" />
+         <Rectangle fx:id="varietyPreferenceRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="110.0" layoutX="225.0" layoutY="230.0" stroke="BLACK" strokeType="INSIDE" width="150.0" />
+         <Rectangle fx:id="abvLimitRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="115.0" layoutY="375.0" stroke="BLACK" strokeType="INSIDE" width="370.0" />
+         <Rectangle fx:id="helpTextRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="125.0" layoutX="115.0" layoutY="525.0" stroke="BLACK" strokeType="INSIDE" width="370.0" />
+         <Rectangle fx:id="preferencesTextRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="175.0" layoutY="65.0" stroke="BLACK" strokeType="INSIDE" width="250.0" />
+         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="200.0" layoutY="91.0" prefWidth="300.0" text="Preferences (Optional)" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="150.0" AnchorPane.topAnchor="75.0">
             <font>
-               <Font size="18.0" />
+               <Font name="System Bold" size="30.0" />
             </font>
          </Label>
-         <Label layoutX="424.0" layoutY="104.0" text="Colour" />
-         <ComboBox fx:id="colourPreferenceComboBox" layoutX="386.0" layoutY="125.0" prefHeight="25.0" prefWidth="118.0" />
-         <Label layoutX="569.0" layoutY="104.0" text="Fullness" />
-         <ComboBox fx:id="fullnessPreferenceComboBox" layoutX="536.0" layoutY="125.0" prefHeight="25.0" prefWidth="118.0" />
-         <Label layoutX="722.0" layoutY="104.0" text="Variety" />
-         <ComboBox fx:id="varietyPreferenceComboBox" layoutX="686.0" layoutY="125.0" prefHeight="25.0" prefWidth="118.0" />
-         <Label layoutX="507.0" layoutY="167.0" text="ABV Limit (Alcohol by Volume %)" />
-         <Slider fx:id="abvLimitSlider" layoutX="445.0" layoutY="193.0" majorTickUnit="5.0" max="25.0" maxWidth="300.0" minWidth="300.0" minorTickCount="4" prefHeight="14.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
-         <Button layoutX="511.0" layoutY="277.0" maxWidth="168.0" minWidth="100.0" mnemonicParsing="false" onAction="#onCreateAccountButtonClicked" prefHeight="24.0" prefWidth="168.0" text="Create account" />
-      </AnchorPane>
-   </GridPane>
+         <Label alignment="CENTER" layoutX="71.0" layoutY="240.0" prefWidth="130.0" text="Colour">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <Label alignment="CENTER" layoutX="398.0" layoutY="240.0" prefWidth="130.0" text="Fullness">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <Label alignment="CENTER" layoutX="235.0" layoutY="240.0" prefWidth="130.0" text="Variety">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <Label alignment="CENTER" layoutX="125.0" layoutY="400.0" prefWidth="350.0" text="ABV Limit (Alcohol by Volume %)" wrapText="true">
+            <font>
+               <Font size="20.0" />
+            </font></Label>
+         <Label alignment="CENTER" layoutX="136.0" layoutY="527.0" prefHeight="118.0" prefWidth="327.0" text="Unsure what these preferences mean? head over to the Help Screen to learn more!" textAlignment="CENTER" wrapText="true">
+            <font>
+               <Font size="20.0" />
+            </font>
+         </Label>
+         <ComboBox fx:id="colourPreferenceComboBox" layoutX="71.0" layoutY="279.0" prefHeight="40.0" prefWidth="130.0" promptText="Select" visibleRowCount="5" AnchorPane.leftAnchor="71.0" AnchorPane.topAnchor="279.0" />
+         <ComboBox fx:id="varietyPreferenceComboBox" layoutX="235.0" layoutY="280.0" prefHeight="40.0" prefWidth="130.0" promptText="Select" visibleRowCount="5" />
+         <ComboBox fx:id="fullnessPreferenceComboBox" layoutX="398.0" layoutY="279.0" prefHeight="40.0" prefWidth="130.0" promptText="Select" visibleRowCount="5" />
+         <Slider fx:id="abvLimitSlider" layoutX="150.0" layoutY="440.0" majorTickUnit="5.0" max="25.0" maxWidth="300.0" minWidth="300.0" minorTickCount="4" prefHeight="14.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="25.0" AnchorPane.leftAnchor="150.0" />
+      </children>
+   </AnchorPane>
+   <Label fx:id="toggleLabel" alignment="CENTER" layoutX="150.0" layoutY="570.0" prefWidth="300.0" text="Don't have an account?">
+      <font>
+         <Font size="20.0" />
+      </font>
+   </Label>
+   <Label fx:id="reEnterPasswordLabel" layoutX="100.0" layoutY="330.0" text="Re-enter Password">
+      <font>
+         <Font size="20.0" />
+      </font>
+   </Label>
+   <Label layoutX="100.0" layoutY="250.0" text="Enter Password">
+      <font>
+         <Font size="20.0" />
+      </font>
+   </Label>
+   <Label layoutX="100.0" layoutY="150.0" text="Enter Username">
+      <font>
+         <Font size="20.0" />
+      </font>
+   </Label>
+   <Label fx:id="signInTitleLabel" alignment="CENTER" prefWidth="400.0" text="Login to account" textAlignment="CENTER" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="75.0">
+      <font>
+         <Font name="System Bold" size="30.0" />
+      </font>
+   </Label>
+   <Label fx:id="errorLabel" alignment="CENTER" layoutX="100.0" layoutY="325.0" prefHeight="75.0" prefWidth="400.0" text="Error Label" textAlignment="CENTER" wrapText="true">
+      <padding>
+         <Insets top="10.0" />
+      </padding>
+      <font>
+         <Font size="20.0" />
+      </font>
+   </Label>
+   <TextField fx:id="usernameTextField" layoutX="100.0" layoutY="180.0" prefHeight="45.0" prefWidth="400.0" promptText="Username">
+      <font>
+         <Font size="20.0" />
+      </font>
+      <effect>
+         <InnerShadow>
+            <color>
+               <Color red="0.6980392336845398" green="0.6980392336845398" blue="0.6980392336845398" />
+            </color>
+         </InnerShadow>
+      </effect>
+   </TextField>
+   <PasswordField fx:id="enterPasswordField" layoutX="100.0" layoutY="280.0" prefHeight="45.0" prefWidth="400.0" promptText="Password">
+      <font>
+         <Font size="20.0" />
+      </font>
+      <effect>
+         <InnerShadow>
+            <color>
+               <Color red="0.6980392336845398" green="0.6980392336845398" blue="0.6980392336845398" />
+            </color>
+         </InnerShadow>
+      </effect>
+   </PasswordField>
+   <PasswordField fx:id="reEnterPasswordField" layoutX="100.0" layoutY="360.0" prefHeight="45.0" prefWidth="400.0" promptText="Re-enter Password">
+      <font>
+         <Font size="20.0" />
+      </font>
+      <effect>
+         <InnerShadow>
+            <color>
+               <Color red="0.6980392336845398" green="0.6980392336845398" blue="0.6980392336845398" />
+            </color>
+         </InnerShadow>
+      </effect>
+   </PasswordField>
+   <Button fx:id="loginButton" layoutX="150.0" layoutY="405.0" mnemonicParsing="false" onAction="#onLoginButtonClicked" prefHeight="75.0" prefWidth="300.0" text="Login">
+      <font>
+         <Font size="30.0" />
+      </font>
+   </Button>
+   <Button fx:id="createAccountButton" layoutX="150.0" layoutY="480.0" minWidth="100.0" mnemonicParsing="false" onAction="#onCreateAccountButtonClicked" prefHeight="75.0" prefWidth="300.0" text="Create Account">
+      <font>
+         <Font size="30.0" />
+      </font>
+   </Button>
+   <Button fx:id="toggleSignInButton" layoutX="240.0" layoutY="600.0" minWidth="0.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="120.0" text="Register">
+      <font>
+         <Font size="20.0" />
+      </font></Button>
 </AnchorPane>
