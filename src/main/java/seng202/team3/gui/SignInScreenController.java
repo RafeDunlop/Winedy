@@ -101,6 +101,9 @@ public class SignInScreenController {
     private Rectangle abvLimitRectangle;
 
     @FXML
+    private Rectangle wineImageRectangle;
+
+    @FXML
     private ImageView wineImageView;
 
     /**
@@ -134,6 +137,7 @@ public class SignInScreenController {
         abvLimitRectangle.getStyleClass().add("white-red-wine-rectangle");
         helpTextRectangle.getStyleClass().add("white-red-wine-rectangle");
         preferencesTextRectangle.getStyleClass().add("white-red-wine-rectangle");
+        wineImageRectangle.getStyleClass().add("white-red-wine-rectangle");
 
         createAccountButton.getStyleClass().add("nav-bar-button");
         loginButton.getStyleClass().add("nav-bar-button");
@@ -223,6 +227,7 @@ public class SignInScreenController {
         fullDisable(createAccountButton, !registerMode);
         fullDisable(errorLabel, true);
         fullDisable(wineImageView, registerMode);
+        fullDisable(wineImageRectangle, registerMode);
         registerMode = !registerMode;
     }
 

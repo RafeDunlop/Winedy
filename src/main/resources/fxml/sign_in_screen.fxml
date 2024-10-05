@@ -16,8 +16,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.SignInScreenController">
    <Rectangle fx:id="preferencesRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="620.0" stroke="BLACK" strokeType="INSIDE" width="500.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0" />
-   <ImageView fx:id="wineImageView" fitHeight="520.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="100.0" />
    <Rectangle fx:id="signInRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="620.0" layoutX="37.0" layoutY="42.0" stroke="BLACK" strokeType="INSIDE" width="500.0" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="50.0" />
+   <Rectangle fx:id="wineImageRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="400.0" layoutX="700.0" layoutY="150.0" stroke="BLACK" strokeType="INSIDE" width="400.0" />
+   <ImageView fx:id="wineImageView" fitHeight="380.0" fitWidth="380.0" layoutX="710.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" />
    <AnchorPane fx:id="preferencesAnchorPane" layoutX="10.0" layoutY="10.0" prefHeight="720.0" prefWidth="600.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
          <Rectangle fx:id="colourPreferenceRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="110.0" layoutX="61.0" layoutY="229.0" stroke="BLACK" strokeType="INSIDE" width="150.0" />
