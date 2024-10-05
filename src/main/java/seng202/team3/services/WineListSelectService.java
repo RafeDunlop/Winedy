@@ -24,8 +24,23 @@ public class WineListSelectService {
         return wineListManager.getAllUserWineLists();
     }
 
-    public void addWineToList(Wine wine, UserWineList wineList) {
+    /**
+     * Adds given wine to given wine list
+     * @param wine the wine to be added to the list
+     * @param wineList the list to which the wine needs to be added
+     */
+    public void updateWineList(Wine wine, UserWineList wineList) {
 
+        if (wineList.getWineList().contains(wine)) {
+            wineList.removeWineFromList(wine);
+        } else {
+            wineList.addWineToList(wine);
+        }
+
+        wineListManager.update(wineList);
     }
 
+    public boolean wineInList(Wine wine, UserWineList wineList) {
+        return wineList.getWineList().contains(wine);
+    }
 }

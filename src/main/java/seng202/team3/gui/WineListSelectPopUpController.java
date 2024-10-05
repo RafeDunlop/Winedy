@@ -4,10 +4,8 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.*;
 import seng202.team3.models.FavouritesWineList;
 import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
@@ -33,6 +31,10 @@ public class WineListSelectPopUpController {
     private StackPane overlayPane;
     @FXML
     private AnchorPane popUpAnchorPane;
+    @FXML
+    private GridPane gridPane;
+    @FXML
+    private ScrollPane scrollPane;
 
     /**
      * Constructs controller and sets the wine that this controller will handle
@@ -56,11 +58,12 @@ public class WineListSelectPopUpController {
             if (!wineList.getWineListName().equals(FavouritesWineList.getFavouritesName())) {
                 Button wineListButton = new Button(wineList.getWineListName());
                 wineListButton.setOnAction(event -> onWineListButtonClicked(wineList));
-                wineListButton.setPrefSize(215, 55);
-                VBox.setVgrow(wineListButton, Priority.ALWAYS);
+                wineListButton.getStyleClass().add("wine-list-button");
                 wineListsVBox.getChildren().add(wineListButton);
             }
         }
+
+        setStyleClasses();
     }
 
     /**
@@ -80,11 +83,26 @@ public class WineListSelectPopUpController {
      */
     @FXML
     public void onWineListButtonClicked(UserWineList wineList) {
-        wineListSelectService.addWineToList(wineToAdd, wineList);
+        wineListSelectService.updateWineList(wineToAdd, wineList);
+        if (wineListSelectService.wineInList(wineToAdd, wineList)) {
+            addWineStatusLabel.setText("Wine was added to " + wineList.getWineListName());
+        } else {
+            addWineStatusLabel.setText("Wine was removed from " + wineList.getWineListName());
+        }
     }
 
     private void setUpVBox(VBox vBox) {
         vBox.setPadding(new Insets(5,5,5,5));
+        vBox.setSpacing(5);
+        vBox.getStyleClass().add("wine-list-vbox");
+    }
+
+    private void setStyleClasses() {
+        addWineStatusLabel.setStyle("-fx-text-fill: #F0F0F0; -fx-font-size: 20;");
+        popUpAnchorPane.getStyleClass().add("red-wine-pane");
+        gridPane.setStyle("-fx-background-color: transparent");
+        scrollPane.getStyleClass().add("wine-list-scroll-pane");
+        createListButton.getStyleClass().add("wine-list-button");
     }
 
 }

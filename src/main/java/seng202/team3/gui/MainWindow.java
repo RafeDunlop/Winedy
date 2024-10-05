@@ -54,7 +54,8 @@ public class MainWindow extends Application {
                 "/css/profile_tab_pane.css",
                 "/css/add_to_list_button.css",
                 "/css/like_button.css",
-                "/css/overlay.css"
+                "/css/overlay.css",
+                "/css/wine_list_select.css"
         };
         try {
             for (String cssFilePath : cssPaths) {
