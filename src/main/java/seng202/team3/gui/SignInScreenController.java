@@ -31,10 +31,6 @@ public class SignInScreenController {
      */
     private static final Logger log = LogManager.getLogger(SignInScreenController.class);
 
-    private SignInScreenService signInScreenService;
-
-    private final WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
-
     @FXML
     private Slider abvLimitSlider;
 
@@ -113,7 +109,7 @@ public class SignInScreenController {
     /**
      * An instance of a WineDrinkerManager class that manages database interactions of Wine Drinker objects
      */
-    private WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
+    private static WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
 
     /**
      * state variable (state design pattern) to decide if the UI is in register mode (true) or login mode (false)
@@ -133,27 +129,7 @@ public class SignInScreenController {
         varietyPreferenceComboBox.getItems().addAll(null, "Pinot Noir", "Chardonnay", "Sauvignon Blanc", "Cabernet Sauvignon",
                 "Pinot Gris", "Malbec", "Shiraz", "Viognier", "Syrah", "Grenache", "Merlot", "Prosecco");
 
-        signInRectangle.getStyleClass().add("white-wine-rectangle");
-        preferencesRectangle.getStyleClass().add("red-wine-rectangle");
-        colourPreferenceRectangle.getStyleClass().add("white-red-wine-rectangle");
-        varietyPreferenceRectangle.getStyleClass().add("white-red-wine-rectangle");
-        fullnessPreferenceRectangle.getStyleClass().add("white-red-wine-rectangle");
-        abvLimitRectangle.getStyleClass().add("white-red-wine-rectangle");
-        helpTextRectangle.getStyleClass().add("white-red-wine-rectangle");
-        preferencesTextRectangle.getStyleClass().add("white-red-wine-rectangle");
-        wineImageRectangle.getStyleClass().add("white-red-wine-rectangle");
-
-        createAccountButton.getStyleClass().add("nav-bar-button");
-        loginButton.getStyleClass().add("nav-bar-button");
-        toggleSignInButton.getStyleClass().add("nav-bar-button");
-
-        colourPreferenceComboBox.getStyleClass().add("fifteen-combo-box");
-        varietyPreferenceComboBox.getStyleClass().add("fifteen-combo-box");
-        fullnessPreferenceComboBox.getStyleClass().add("fifteen-combo-box");
-
-        usernameTextField.getStyleClass().add("sign-in-screen-text-field");
-        enterPasswordField.getStyleClass().add("sign-in-screen-password-field");
-        reEnterPasswordField.getStyleClass().add("sign-in-screen-password-field");
+        addStyleClasses();
 
         try {
             wineImageView.setImage(new Image("/images/signin_screen_wine.gif"));
@@ -203,10 +179,8 @@ public class SignInScreenController {
         try {
             String username = usernameTextField.getText();
             String password = enterPasswordField.getText();
-            SignInScreenService.validateLoginDetails(username, password);
             wineDrinkerManager.loginCurrentUser(username, password);
             FXWrapper.getInstance().loadProfileTabPane(0);
-
         } catch (IllegalWineDrinkerException e) {
             fullDisable(errorLabel, false);
             errorLabel.setText(e.getMessage());
@@ -256,5 +230,32 @@ public class SignInScreenController {
         } catch (NullPointerException e) {
             throw new IllegalWineDrinkerException("Please select a " + comboBox.getPromptText());
         }
+    }
+
+    /**
+     * Adds style classes to the Rectangles, Buttons, ComboBoxes, TextField, and PasswordFields
+     */
+    private void addStyleClasses() {
+        signInRectangle.getStyleClass().add("white-wine-rectangle");
+        preferencesRectangle.getStyleClass().add("red-wine-rectangle");
+        colourPreferenceRectangle.getStyleClass().add("white-red-wine-rectangle");
+        varietyPreferenceRectangle.getStyleClass().add("white-red-wine-rectangle");
+        fullnessPreferenceRectangle.getStyleClass().add("white-red-wine-rectangle");
+        abvLimitRectangle.getStyleClass().add("white-red-wine-rectangle");
+        helpTextRectangle.getStyleClass().add("white-red-wine-rectangle");
+        preferencesTextRectangle.getStyleClass().add("white-red-wine-rectangle");
+        wineImageRectangle.getStyleClass().add("white-red-wine-rectangle");
+
+        createAccountButton.getStyleClass().add("nav-bar-button");
+        loginButton.getStyleClass().add("nav-bar-button");
+        toggleSignInButton.getStyleClass().add("nav-bar-button");
+
+        colourPreferenceComboBox.getStyleClass().add("fifteen-combo-box");
+        varietyPreferenceComboBox.getStyleClass().add("fifteen-combo-box");
+        fullnessPreferenceComboBox.getStyleClass().add("fifteen-combo-box");
+
+        usernameTextField.getStyleClass().add("sign-in-screen-text-field");
+        enterPasswordField.getStyleClass().add("sign-in-screen-password-field");
+        reEnterPasswordField.getStyleClass().add("sign-in-screen-password-field");
     }
 }

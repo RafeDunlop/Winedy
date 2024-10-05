@@ -36,7 +36,7 @@ public final class SignInScreenService {
      * @param inputString string to be matched
      * @return true if string matches regex, otherwise false
      */
-    private boolean matchRegex(String inputString) {
+    private static boolean matchRegex(String inputString) {
         String regex = "^[a-zA-Z0-9]{5,16}$";
         return inputString.matches(regex);
     }

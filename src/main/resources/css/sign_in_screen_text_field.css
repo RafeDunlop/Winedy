@@ -8,6 +8,7 @@
 .sign-in-screen-password-field,
 .sign-in-screen-text-field {
     -fx-background-color:  -fx-sstf-body-colour;
+    -fx-background-radius: 5;
     -fx-text-fill: #333333;
     -fx-border-color: -fx-sstf-border-colour;
     -fx-border-radius: 5;
