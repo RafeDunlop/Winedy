@@ -31,6 +31,10 @@ public class SignInScreenController {
      */
     private static final Logger log = LogManager.getLogger(SignInScreenController.class);
 
+    private SignInScreenService signInScreenService;
+
+    private final WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
+
     @FXML
     private Slider abvLimitSlider;
 
@@ -161,8 +165,8 @@ public class SignInScreenController {
     }
 
     /**
-     * method called when the createAccountButton is clicked
-     * determines whether the user has inputted a valid WineDrinker and if so, creates, stores it and logs it in.
+     * Method called when the createAccountButton is clicked.
+     * Determines whether the user has inputted a valid WineDrinker and if so, creates, stores it and logs it in.
      * Otherwise, prompts user with what input is invalid
      */
     @FXML
@@ -179,7 +183,7 @@ public class SignInScreenController {
             SignInScreenService.validateRegisteringUsername(username);
             SignInScreenService.validateRegisteringPasswords(password, secondPassword);
             SignInScreenService.registerUser(username, password, null, colour, fullness, variety, ABVLimit);
-            FXWrapper.getInstance().loadScreen(Screen.PROFILETABPANE);
+            FXWrapper.getInstance().loadProfileTabPane(0);
 
         } catch (IllegalWineDrinkerException e) {
             fullDisable(errorLabel, false);
@@ -190,8 +194,8 @@ public class SignInScreenController {
     }
 
     /**
-     * method called when the login button is clicked
-     * determines whether inputted credentials reference a valid WineDrinker object, and if so, logs the user in.
+     * Method called when the login button is clicked.
+     * Determines whether inputted credentials reference a valid WineDrinker object, and if so, logs the user in.
      * Otherwise, prompts the user with the reason their login attempt failed (wrong password or no such username in DB)
      */
     @FXML
@@ -201,7 +205,7 @@ public class SignInScreenController {
             String password = enterPasswordField.getText();
             SignInScreenService.validateLoginDetails(username, password);
             wineDrinkerManager.loginCurrentUser(username, password);
-            FXWrapper.getInstance().loadScreen(Screen.PROFILETABPANE);
+            FXWrapper.getInstance().loadProfileTabPane(0);
 
         } catch (IllegalWineDrinkerException e) {
             fullDisable(errorLabel, false);
@@ -212,8 +216,8 @@ public class SignInScreenController {
     }
 
     /**
-     * method called when the register/login Button is Clicked
-     * not direct FXML button method because called upon initialization
+     * Method called when the register/login Button is Clicked.
+     * Not a direct FXML button method because called upon initialization
      */
     private void toggleMode() {
         fullDisable(preferencesAnchorPane, !registerMode);
@@ -232,7 +236,8 @@ public class SignInScreenController {
     }
 
     /**
-     * helper function for toggleMode to disable and make invisible the component in one line
+     * Helper function for toggleMode to disable and make invisible the component in one line.
+
      * @param component Node object, fx component to disable
      * @param fullDisable whether to disable or enable the component
      */
@@ -242,8 +247,8 @@ public class SignInScreenController {
     }
 
     /**
-     * tries to acquire a combo box's selected item (currently String, may be changed)
-     * otherwise throws a IllegalWineDrinker exception with the name of the combo box as the reason
+     * Tries to acquire a combo box's selected item (currently String, may be changed).
+     * Otherwise throws a IllegalWineDrinker exception with the name of the combo box as the reason
      */
     private String getComboInput(ComboBox<String> comboBox) throws IllegalWineDrinkerException {
         try {

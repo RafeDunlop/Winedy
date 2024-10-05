@@ -21,11 +21,10 @@ public class RegisterStepDefinitions {
     private SignInScreenService signInScreenService;
     private WineDrinkerManager wineDrinkerManager;
 
-    private final String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
-
     @Given("The Wine Drinker is on the register page")
     public void theWineDrinkerIsOnTheRegisterPageWithDatabaseLoaded(){
         wineDrinkerManager = WineDrinkerManager.getInstance();
+        String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
         wineDrinkerManager.setWineDrinkerDAO( new WineDrinkerDAO(DATABASE_PATH));
         signInScreenService = new SignInScreenService();
         signInScreenService.setWineDrinkerManager(wineDrinkerManager);

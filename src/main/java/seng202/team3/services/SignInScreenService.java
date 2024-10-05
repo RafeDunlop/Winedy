@@ -17,11 +17,6 @@ public final class SignInScreenService {
     private static WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
 
     /**
-     * Regular expression string to define the valid characters for the username and password
-     */
-    private static final String regex = "^[a-zA-Z0-9]{5,16}$";
-
-    /**
      * does nothing as long as the inputted passwords are matching
      *
      * @throws IllegalWineDrinkerException thrown if the passwords do not match
@@ -36,11 +31,13 @@ public final class SignInScreenService {
 
     /**
      * Matches inputted string to predefined regex
+     * Regular expression string to define the valid characters for the username and password
      *
      * @param inputString string to be matched
      * @return true if string matches regex, otherwise false
      */
-    private static boolean matchRegex(String inputString) {
+    private boolean matchRegex(String inputString) {
+        String regex = "^[a-zA-Z0-9]{5,16}$";
         return inputString.matches(regex);
     }
 

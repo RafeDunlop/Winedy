@@ -119,13 +119,13 @@ public class WineDrinkerManager {
             String[] saltPass = wineDrinker.getPassword().split(":");
             if (Password.check(password, saltPass[1]).addSalt(saltPass[0]).withBcrypt()) {
                 setCurrentUser(wineDrinker);
+                WineListManager.getInstance().setupFavourites();
             } else {
                 throw new IllegalWineDrinkerException("Password Incorrect");
             }
         } else {
             throw new IllegalWineDrinkerException("User does not exist.");
         }
-
    }
 
     /**

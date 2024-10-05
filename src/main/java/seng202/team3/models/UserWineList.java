@@ -1,10 +1,6 @@
 package seng202.team3.models;
 
 import seng202.team3.services.WineDrinkerManager;
-import seng202.team3.services.WineListManager;
-
-import java.util.List;
-import java.util.Objects;
 
 /**
  * UserWineList class defines the personal wine lists that Wine Drinkers can create

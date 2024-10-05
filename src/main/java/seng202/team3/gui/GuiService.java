@@ -1,5 +1,6 @@
 package seng202.team3.gui;
 
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -8,20 +9,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team3.gui.FXWrapper;
-import seng202.team3.gui.HelpScreenController;
 import seng202.team3.models.Wine;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static javafx.scene.control.ContentDisplay.TOP;
 
@@ -132,6 +129,15 @@ public final class GuiService {
 
             vBox.getChildren().add(hbox);
         }
+    }
 
+    public static void setUpPopUp(StackPane overlayPane, AnchorPane popUpAnchorPane) {
+        overlayPane.getStyleClass().add("overlay-stackpane");
+        overlayPane.setOnMouseClicked(event -> {
+            Bounds popUpBounds = popUpAnchorPane.localToScene(popUpAnchorPane.getLayoutBounds());
+            if (!popUpBounds.contains(event.getSceneX(), event.getSceneY())) {
+                FXWrapper.getInstance().removePopUp(overlayPane);
+            }
+        });
     }
 }

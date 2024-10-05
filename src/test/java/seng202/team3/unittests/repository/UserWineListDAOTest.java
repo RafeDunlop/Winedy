@@ -16,7 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UserWineListDAOTest {
-    String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
+    final String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
 
     private UserWineListDAO userWineListDAO;
     

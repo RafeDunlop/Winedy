@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 
 public class WineTest {
-    private Wine wine = new Wine(
+    private final Wine wine = new Wine(
             1,
             "Nero Oro Appassimento 2018, Sicily",
             "Italy",

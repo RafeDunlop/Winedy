@@ -58,7 +58,8 @@ public class MainWindow extends Application {
                 "/css/fifteen_combo_box.css",
                 "/css/slider.css",
                 "/css/sign_in_screen_background_rectangle.css",  //TODO remove if unused
-                "/css/sign_in_screen_text_field.css"
+                "/css/sign_in_screen_text_field.css",
+                "/css/overlay.css"
         };
 
         try {

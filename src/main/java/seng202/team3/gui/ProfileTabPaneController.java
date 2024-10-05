@@ -35,21 +35,34 @@ public class ProfileTabPaneController {
     @FXML
     private Button logoutButton;
 
+    private int startTabIndex;
+
+    /**
+     * Initialises the tab pane that holds all the functionality that logged-in users can do
+     */
     public void initialize() {
         profileTabPane.getStyleClass().add("profile-tab-pane");
         helloUserLabel.setText("Welcome, " + WineDrinkerManager.getInstance().getCurrentUser().getUsername() + "!");
         FXWrapper.getInstance().loadProfileActionScreen(winedyProfileAnchorPane, Screen.PROFILESCREEN);
         FXWrapper.getInstance().loadProfileActionScreen(wineListAnchorPane, Screen.WINELISTSSCREEN);
         FXWrapper.getInstance().loadProfileActionScreen(consumptionTrackingAnchorPane, Screen.TRACKINGCONSUMPTIONSCREEN);
+        profileTabPane.getSelectionModel().select(startTabIndex);
     }
 
+    public ProfileTabPaneController(int startTabIndex) {
+        this.startTabIndex = startTabIndex;
+    }
     /**
      * Removes the current logged-in user and launches the sign-in screen
      */
     @FXML
-    void onLogoutButtonClicked(){
+    public void onLogoutButtonClicked(){
         WineDrinkerManager.getInstance().setCurrentUser(null);
         //TODO Save data?
         FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
     }
+
+
+
+
 }

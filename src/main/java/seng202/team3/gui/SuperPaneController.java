@@ -2,6 +2,7 @@ package seng202.team3.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 /**
  * Controller for the external pane that all screens are loaded to
