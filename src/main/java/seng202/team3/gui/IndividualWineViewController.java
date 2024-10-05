@@ -173,7 +173,7 @@ public class IndividualWineViewController {
 
     @FXML
     public void onAddButtonClicked() {
-
+        FXWrapper.getInstance().loadAddWineToListPopUp(wineToDisplay);
     }
 
 }

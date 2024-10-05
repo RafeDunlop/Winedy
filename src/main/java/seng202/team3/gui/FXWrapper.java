@@ -194,6 +194,18 @@ public class FXWrapper {
             log.error(e);
         }
     }
+
+    public void loadAddWineToListPopUp(Wine wine) {
+        try {
+            FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.WINELISTSELECTPOPUP.file));
+            popUpLoader.setControllerFactory(param -> new WineListSelectPopUpController(wine));
+            StackPane popUpRoot = popUpLoader.load();
+            superPane.getChildren().add(popUpRoot);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
     /**
      * Removes pop up from screen. Any updates made on the pop-up will require the screen below to be reloaded
      * after this method is called
