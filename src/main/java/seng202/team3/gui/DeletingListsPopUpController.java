@@ -73,6 +73,9 @@ public class DeletingListsPopUpController {
         FXWrapper.getInstance().loadProfileTabPane(1);
     }
 
+    /**
+     * removes the pop up and deletes the wine list
+     */
     @FXML
     public void onYesButtonClicked() {
         for (UserWineList list : listsToDelete) {
