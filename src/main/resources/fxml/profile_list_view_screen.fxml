@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileListViewScreenController">
+<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileListViewScreenController">
    <children>
       <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" prefHeight="618.0" prefWidth="1200.0">
         <columnConstraints>
@@ -32,10 +33,6 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <AnchorPane fx:id="wineDetailsAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="500.0" minWidth="300.0" prefHeight="532.0" prefWidth="347.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowSpan="2">
-               <GridPane.margin>
-                  <Insets bottom="70.0" />
-               </GridPane.margin></AnchorPane>
             <Button fx:id="editListButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Edit List" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets right="65.0" top="60.0" />
@@ -68,7 +65,7 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="saveChangesButton" maxWidth="161.0" minWidth="100.0" mnemonicParsing="false" onAction="#onSaveChangesButtonClicked" prefHeight="33.0" prefWidth="161.0" text="Save Changes" visible="false" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+            <Button fx:id="saveListChangesButton" maxWidth="161.0" minWidth="100.0" mnemonicParsing="false" onAction="#onSaveListChangesButtonClicked" prefHeight="33.0" prefWidth="161.0" text="Save Changes" visible="false" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <font>
                   <Font size="18.0" />
                </font>
@@ -84,7 +81,7 @@
                   <Font size="24.0" />
                </font>
             </TextField>
-            <Button fx:id="cancelChangesButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onCancelChangesButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Cancel" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
+            <Button fx:id="cancelListChangesButton" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onCancelListChangesButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Cancel" visible="false" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <font>
                   <Font size="18.0" />
                </font>
@@ -92,6 +89,64 @@
                   <Insets right="65.0" top="60.0" />
                </GridPane.margin>
             </Button>
+            <Label prefHeight="6.0" prefWidth="357.0" text="Description " GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="20.0" right="20.0" />
+               </GridPane.margin>
+            </Label>
+            <Label fx:id="descriptionLabel" alignment="TOP_LEFT" maxHeight="-Infinity" prefHeight="369.0" prefWidth="357.0" text="Embracing change is essential in a world driven by innovation. Technology advances at an unprecedented pace, reshaping industries and redefining how we live, work, and connect. Collaboration fosters creativity, allowing diverse ideas to flourish. The key to thriving in this environment lies in adaptability and a passion for learning. Each challenge encountered presents a new opportunity for growth, pushing boundaries and inspiring solutions that have the potential to improve lives and transform the future" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets left="20.0" right="20.0" top="40.0" />
+               </GridPane.margin>
+            </Label>
+            <Button fx:id="cancelDescChangesButton" maxWidth="160.0" minWidth="100.0" mnemonicParsing="false" onAction="#onCancelDescChangesButtonClicked" prefHeight="25.0" prefWidth="100.0" text="Cancel Changes" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="110.0" left="20.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="editDescriptionButton" maxWidth="160.0" minWidth="83.0" mnemonicParsing="false" onAction="#onEditDescriptionButtonClicked" prefHeight="39.0" prefWidth="130.0" text="Edit Description" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="110.0" left="20.0" />
+               </GridPane.margin>
+            </Button>
+            <Button fx:id="saveDescChangesButton" maxWidth="160.0" minWidth="100.0" mnemonicParsing="false" onAction="#onSaveDescChangesButtonClicked" prefHeight="39.0" prefWidth="125.0" text="Save Changes " visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <GridPane.margin>
+                  <Insets bottom="110.0" left="200.0" />
+               </GridPane.margin>
+            </Button>
+            <TextArea fx:id="descriptionTextArea" maxHeight="-Infinity" prefHeight="369.0" prefWidth="357.0" visible="false" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="20.0" right="20.0" top="40.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </TextArea>
+            <Label fx:id="errorLabel" alignment="CENTER" prefHeight="79.0" prefWidth="371.0" text="Error label" textFill="RED" visible="false" wrapText="true" GridPane.columnIndex="1">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="descErrorLabel" alignment="CENTER" prefHeight="79.0" prefWidth="355.0" text="Description error label" textFill="RED" visible="false" wrapText="true" GridPane.columnIndex="1">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
    </children>
