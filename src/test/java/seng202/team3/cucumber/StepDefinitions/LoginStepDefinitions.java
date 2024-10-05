@@ -19,12 +19,12 @@ public class LoginStepDefinitions {
     private String mockPasswordField = "";
     private IllegalWineDrinkerException userException = null;
     private IllegalWineDrinkerException passwordException = null;
-    private final String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
     private WineDrinkerManager wineDrinkerManager;
     private SignInScreenService signInScreenService;
     @Given("The Wine Drinker is on the login page")
     public void theWineDrinkerIsOnTheLoginPageWithDatabaseLoaded(){
         wineDrinkerManager = WineDrinkerManager.getInstance();
+        String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
         wineDrinkerManager.setWineDrinkerDAO( new WineDrinkerDAO(DATABASE_PATH));
         signInScreenService = new SignInScreenService();
         signInScreenService.setWineDrinkerManager(wineDrinkerManager);

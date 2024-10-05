@@ -1,7 +1,6 @@
 package seng202.team3.services;
 
 import seng202.team3.models.WineDrinker;
-import seng202.team3.repository.WineDrinkerDAO;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +13,7 @@ public class ProfileScreenService {
     /**
      * WineDrinkerManager to handle wine drinker related tasks
      */
-    private WineDrinkerManager wineDrinkerManager;
+    private final WineDrinkerManager wineDrinkerManager;
 
     /**
      * WineListManager to handle wine list related tasks

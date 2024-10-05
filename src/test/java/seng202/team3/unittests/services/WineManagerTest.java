@@ -21,7 +21,6 @@ public class WineManagerTest {
     private WineManager wineManager;
     private final int HIGHEST_ID = 782;
     private static final String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
-    private final int NUMBER_OF_WINES = 473;
 
     private final Wine WINE_1 = new Wine(
             HIGHEST_ID + 1,
@@ -80,7 +79,8 @@ public class WineManagerTest {
      @Test
     public void testGetAllWines() {
         List<Wine> allWines = wineManager.getAllWines();
-        assertEquals(allWines.size(), NUMBER_OF_WINES);
+         int NUMBER_OF_WINES = 473;
+         assertEquals(allWines.size(), NUMBER_OF_WINES);
     }
 
     @Test

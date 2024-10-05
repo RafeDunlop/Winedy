@@ -7,7 +7,6 @@ import java.util.*;
 /**
  * WineDrinker class holds important information about the user
  * and their wine preferences, holds ArrayList of WineLists
- *
  * Supplies controllers with information to display
  * Calls DBService to retrieve record from database
  *
@@ -18,7 +17,7 @@ public class WineDrinker {
     /**
      * List of all the wine drinker's lists
      */
-    private ArrayList<UserWineList> drinkersWineLists = new ArrayList<>();
+    private final ArrayList<UserWineList> drinkersWineLists = new ArrayList<>();
 
     /**
      * Wine Drinker's username
@@ -28,12 +27,12 @@ public class WineDrinker {
     /**
      * Wine Drinker's password
      */
-    private String password;
+    private final String password;
 
     /**
      * Wine Drinker's country preference
      */
-    private String countryPreference;
+    private final String countryPreference;
 
     /**
      * Wine Drinker's colour preference

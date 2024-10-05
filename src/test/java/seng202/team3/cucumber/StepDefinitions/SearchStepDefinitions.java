@@ -71,8 +71,6 @@ public class SearchStepDefinitions {
         List<String> keywords = List.of(phrase.split(" "));
         SearchWineList searchWineList = wineDAO.searchWines(keywords, null, null, null, null, country, colour, fullness, null);
         int matching = getMatching(keywords);
-        System.out.println(searchWineList.getWineList().size());
-        System.out.println(matching);
         assertEquals(searchWineList.getWineList().size(), matching);
     }
 
