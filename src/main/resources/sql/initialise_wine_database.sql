@@ -90,5 +90,5 @@ CREATE TABLE award (
 );
 
 CREATE TABLE drinkerPreferenceModel (
-    username text not null primary key
+    username text not null primary key references wineDrinker ON DELETE CASCADE
 );
