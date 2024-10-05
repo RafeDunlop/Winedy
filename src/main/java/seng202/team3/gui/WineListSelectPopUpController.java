@@ -11,16 +11,16 @@ import javafx.scene.layout.VBox;
 import seng202.team3.models.FavouritesWineList;
 import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
-import seng202.team3.services.WineDrinkerManager;
-import seng202.team3.services.WineListManager;
 import seng202.team3.services.WineListSelectService;
 
+/**
+ * Controller for the wine lists selection pop up that lets user add a wine to any of their lists
+ * @author Yuvraj Fagotra (yfa50)
+ */
 public class WineListSelectPopUpController {
 
-    private WineDrinkerManager wineDrinkerManager;
-    private WineListManager wineListManager;
     private WineListSelectService wineListSelectService;
-    private Wine wineToAdd;
+    private final Wine wineToAdd;
     @FXML
     private VBox wineListsVBox;
     @FXML
@@ -34,14 +34,19 @@ public class WineListSelectPopUpController {
     @FXML
     private AnchorPane popUpAnchorPane;
 
+    /**
+     * Constructs controller and sets the wine that this controller will handle
+     * @param wineToAdd The wine to be added to the wine lists
+     */
     public  WineListSelectPopUpController(Wine wineToAdd) {
         this.wineToAdd = wineToAdd;
     }
 
+    /**
+     * sets up the pop using GuiService and creates buttons for all wineLists for the current user
+     */
     public void initialize() {
 
-        wineDrinkerManager = WineDrinkerManager.getInstance();
-        wineListManager = WineListManager.getInstance();
         wineListSelectService = new WineListSelectService();
 
         GuiService.setUpPopUp(overlayPane, popUpAnchorPane);
@@ -59,7 +64,8 @@ public class WineListSelectPopUpController {
     }
 
     /**
-     * Loads the create list pop up when the create list button is clicked
+     * Loads the createList pop up when the create list button is clicked. Removes the wine list select pop up and adds
+     * it to the stack of previous screens.
      */
     @FXML
     public void onCreateListButtonClicked() {
@@ -68,6 +74,10 @@ public class WineListSelectPopUpController {
         FXWrapper.getInstance().loadCreateListPopUp();
     }
 
+    /**
+     *
+     * @param wineList
+     */
     @FXML
     public void onWineListButtonClicked(UserWineList wineList) {
         wineListSelectService.addWineToList(wineToAdd, wineList);

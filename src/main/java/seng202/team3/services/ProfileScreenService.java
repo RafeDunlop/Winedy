@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 /**
  * Service class for the profile screen
- * @author Yuvraj (yfa50)
+ * @author Yuvraj Fagotra (yfa50)
  */
 public class ProfileScreenService {
     /**

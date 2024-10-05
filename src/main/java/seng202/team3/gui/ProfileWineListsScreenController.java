@@ -179,7 +179,8 @@ public class ProfileWineListsScreenController {
     }
 
     /**
-     * Loads the create list pop up when the create list button is clicked
+     * Loads the createList pop up when the create list button is clicked. Also adds the profile screen to the stack so
+     * it can be reloaded to update the wine lists view.
      */
     @FXML
     public void onCreateListButtonClicked() {
