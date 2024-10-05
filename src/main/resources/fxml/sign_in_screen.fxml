@@ -7,8 +7,10 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
@@ -96,16 +98,37 @@
       <font>
          <Font size="20.0" />
       </font>
+      <effect>
+         <InnerShadow>
+            <color>
+               <Color red="0.6980392336845398" green="0.6980392336845398" blue="0.6980392336845398" />
+            </color>
+         </InnerShadow>
+      </effect>
    </TextField>
    <PasswordField fx:id="enterPasswordField" layoutX="100.0" layoutY="280.0" prefHeight="45.0" prefWidth="400.0" promptText="Password">
       <font>
          <Font size="20.0" />
       </font>
+      <effect>
+         <InnerShadow>
+            <color>
+               <Color red="0.6980392336845398" green="0.6980392336845398" blue="0.6980392336845398" />
+            </color>
+         </InnerShadow>
+      </effect>
    </PasswordField>
    <PasswordField fx:id="reEnterPasswordField" layoutX="100.0" layoutY="360.0" prefHeight="45.0" prefWidth="400.0" promptText="Re-enter Password">
       <font>
          <Font size="20.0" />
       </font>
+      <effect>
+         <InnerShadow>
+            <color>
+               <Color red="0.6980392336845398" green="0.6980392336845398" blue="0.6980392336845398" />
+            </color>
+         </InnerShadow>
+      </effect>
    </PasswordField>
    <Button fx:id="loginButton" layoutX="150.0" layoutY="405.0" mnemonicParsing="false" onAction="#onLoginButtonClicked" prefHeight="75.0" prefWidth="300.0" text="Login">
       <font>

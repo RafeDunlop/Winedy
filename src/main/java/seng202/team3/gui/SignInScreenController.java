@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -141,6 +142,10 @@ public class SignInScreenController {
         colourPreferenceComboBox.getStyleClass().add("fifteen-combo-box");
         varietyPreferenceComboBox.getStyleClass().add("fifteen-combo-box");
         fullnessPreferenceComboBox.getStyleClass().add("fifteen-combo-box");
+
+        usernameTextField.getStyleClass().add("sign-in-screen-text-field");
+        enterPasswordField.getStyleClass().add("sign-in-screen-password-field");
+        reEnterPasswordField.getStyleClass().add("sign-in-screen-password-field");
 
         try {
             wineImageView.setImage(new Image("/images/signin_screen_wine.gif"));
