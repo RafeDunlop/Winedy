@@ -56,8 +56,7 @@ public class CreateNewListPopUpController {
         if (profileScreenService.isValidListName(listNameTextField.getText())) {
             wineListManager.newList(listNameTextField.getText(), "hello");
             FXWrapper.getInstance().removePopUp(overlayPane);
-            FXWrapper.getInstance().loadProfileTabPane(1);
-
+            FXWrapper.getInstance().loadPreviousScreen();
         }
     }
 
