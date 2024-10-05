@@ -92,6 +92,7 @@ public final class GuiService {
         addImageGraphicToButton(wineButton, "/images/" + wineToDisplay.getColour() + "_wine_image.png", 100, 100, false);
         wineButton.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineView(screenAnchorPane, wineToDisplay));
         wineButton.setContentDisplay(TOP);
+        wineButton.getStyleClass().add("nav-bar-button");
         return wineButton;
     }
 

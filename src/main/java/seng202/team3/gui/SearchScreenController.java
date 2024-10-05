@@ -6,9 +6,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import org.controlsfx.control.RangeSlider;
 import seng202.team3.models.WineAttribute;
 import seng202.team3.repository.Table;
@@ -57,6 +59,13 @@ public class SearchScreenController {
 
     @FXML
     private AnchorPane wineDetailsAnchorPane;
+
+    @FXML
+    private ScrollPane wineScrollPane;
+
+    @FXML
+    private Rectangle searchWinesRectangle;
+
     /**
      * Current wine colour filter selected by the Wine Drinker
      */
@@ -105,6 +114,8 @@ public class SearchScreenController {
         fullnessComboBox.setOnAction(select -> selectedFullness = (fullnessComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : fullnessComboBox.getSelectionModel().getSelectedItem());
         countryComboBox.setOnAction(select -> selectedCountry = (countryComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : countryComboBox.getSelectionModel().getSelectedItem());
         varietyComboBox.setOnAction(select -> selectedVariety = (varietyComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : varietyComboBox.getSelectionModel().getSelectedItem());
+
+        addStyleClasses();
 
         initialiseDateRangeComboBoxes();
     }
@@ -172,5 +183,13 @@ public class SearchScreenController {
             startDateComboBox.setOnAction(startDateComboBoxOnAction);
         });
 
+    }
+
+    /**
+     * Adds the appropriate style classes to the widgets
+     */
+    private void addStyleClasses() {
+        wineScrollPane.getStyleClass().add("red-wine-scroll-pane");
+        searchWinesRectangle.getStyleClass().add("red-wine-rectangle");
     }
 }
