@@ -1,7 +1,7 @@
 package seng202.team3.services;
 
-import seng202.team3.models.FavouritesWineList;
 import seng202.team3.models.UserWineList;
+import seng202.team3.models.Wine;
 
 import java.util.List;
 
@@ -21,8 +21,11 @@ public class WineListSelectService {
      * @return a list of the current WineDrinker's UserWineLists
      */
     public List<UserWineList> getWineLists() {
-        List<UserWineList> wineLists = wineListManager.getAllUserWineLists();
-        //wineLists.removeIf(wineList -> wineList.getWineListName().equals(FavouritesWineList.getFavouritesName()));
-        return wineLists;
+        return wineListManager.getAllUserWineLists();
     }
+
+    public void addWineToList(Wine wine, UserWineList wineList) {
+
+    }
+
 }

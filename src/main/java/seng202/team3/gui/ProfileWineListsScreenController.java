@@ -183,8 +183,8 @@ public class ProfileWineListsScreenController {
      */
     @FXML
     public void onCreateListButtonClicked() {
+        FXWrapper.getInstance().addPreviousScreen(() -> FXWrapper.getInstance().loadProfileTabPane(1));
         FXWrapper.getInstance().loadCreateListPopUp();
-
     }
 
     @FXML

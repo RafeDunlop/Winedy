@@ -1,11 +1,14 @@
 package seng202.team3.gui;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import seng202.team3.models.FavouritesWineList;
 import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
 import seng202.team3.services.WineDrinkerManager;
@@ -42,10 +45,16 @@ public class WineListSelectPopUpController {
         wineListSelectService = new WineListSelectService();
 
         GuiService.setUpPopUp(overlayPane, popUpAnchorPane);
+        setUpVBox(wineListsVBox);
 
         for (UserWineList wineList: wineListSelectService.getWineLists()) {
-            Button wineListButton = new Button(wineList.getWineListName());
-            wineListsVBox.getChildren().add(wineListButton);
+            if (!wineList.getWineListName().equals(FavouritesWineList.getFavouritesName())) {
+                Button wineListButton = new Button(wineList.getWineListName());
+                wineListButton.setOnAction(event -> onWineListButtonClicked(wineList));
+                wineListButton.setPrefSize(215, 55);
+                VBox.setVgrow(wineListButton, Priority.ALWAYS);
+                wineListsVBox.getChildren().add(wineListButton);
+            }
         }
     }
 
@@ -54,8 +63,18 @@ public class WineListSelectPopUpController {
      */
     @FXML
     public void onCreateListButtonClicked() {
+        FXWrapper.getInstance().removePopUp(overlayPane);
+        FXWrapper.getInstance().addPreviousScreen(() -> FXWrapper.getInstance().loadAddWineToListPopUp(wineToAdd));
         FXWrapper.getInstance().loadCreateListPopUp();
+    }
 
+    @FXML
+    public void onWineListButtonClicked(UserWineList wineList) {
+        wineListSelectService.addWineToList(wineToAdd, wineList);
+    }
+
+    private void setUpVBox(VBox vBox) {
+        vBox.setPadding(new Insets(5,5,5,5));
     }
 
 }

@@ -11,6 +11,7 @@ import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,12 +41,15 @@ public class FXWrapper {
      */
     private static FXWrapper instance;
 
+    private List<Runnable> previousScreen;
+
     /**
      * private default constructor to prevent instantiation outside this class
      */
     private FXWrapper() {
         screenPane = null;
         superPane = null;
+        previousScreen = new ArrayList<>();
     }
 
     /**
@@ -213,5 +217,18 @@ public class FXWrapper {
      */
     public void removePopUp(StackPane overlayPane) {
         superPane.getChildren().remove(overlayPane);
+    }
+
+    /**
+     * set the previous screen
+     * @param screen
+     */
+    public void addPreviousScreen(Runnable screen) {
+        previousScreen.add(screen);
+    }
+    public void loadPreviousScreen() {
+        if (previousScreen != null) {
+            previousScreen.removeLast().run();
+        }
     }
 }
