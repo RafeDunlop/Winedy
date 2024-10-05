@@ -88,3 +88,8 @@ CREATE TABLE award (
     PRIMARY KEY (wineId, name),
     Foreign KEY (wineId) REFERENCES wineSuper (id) ON DELETE CASCADE
 );
+
+CREATE TABLE drinkerPreferenceModel (
+    username text not null primary key,
+    Foreign KEY (username) REFERENCES wineDrinker (username) ON DELETE CASCADE
+);
