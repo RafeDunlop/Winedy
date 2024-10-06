@@ -63,7 +63,7 @@ public class RecommendationDAO {
                     for (int i = 2; i < 49; i++) {
                         prefValues.add(resultSet.getFloat(i));
                     }
-                    drinkerPrefModel.setHashValues(colNames, prefValues);
+                    drinkerPrefModel.setHashMapValues(colNames, prefValues);
                 }
                 return drinkerPrefModel;
             }

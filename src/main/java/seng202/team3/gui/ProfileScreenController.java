@@ -6,6 +6,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import seng202.team3.services.RecommendationManager;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.ProfileScreenService;
 
@@ -29,19 +30,13 @@ public class ProfileScreenController {
     private ComboBox<String> fullnessPreferenceComboBox;
 
     @FXML
-    private Button newListButton;
+    private Button mockRecommendButton;
 
     @FXML
     private Button savePreferencesButton;
 
     @FXML
-    private Button removeListButton;
-
-    @FXML
     private ListView<?> searchListView;
-
-    @FXML
-    private TextField usernameTextField;
 
     @FXML
     private ComboBox<String> varietyPreferenceComboBox;
@@ -54,7 +49,6 @@ public class ProfileScreenController {
      * Method called by JavaFX when initialising the profile screen.
      */
     public void initialize() {
-
         /**
          * The current instance of WineDrinkerManager
          */
@@ -68,17 +62,16 @@ public class ProfileScreenController {
                 "Pinot Gris", "Malbec", "Shiraz", "Viognier", "Syrah", "Grenache", "Merlot", "Prosecco");
         varietyPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getGrapePreference());
         abvLimitSlider.setValue(wineDrinkerManager.getCurrentUser().getAbvLimit());
-    }
-
-    @FXML
-    void onNewListButtonClicked() {
 
     }
 
     @FXML
-    void onRemoveListButtonClicked() {
-
+    private void onMockButtonClicked() {
+        RecommendationManager.getInstance().recommendWines();
     }
+
+
+
 
 
     /**

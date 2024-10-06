@@ -28,11 +28,16 @@ public class DrinkerPreferenceModel {
      * @param prefNames Arraylist of Strings representing preference types
      * @param prefNums Arraylist of Floats representing preference value for each string
      */
-    public void setHashValues(ArrayList<String> prefNames, ArrayList<Float> prefNums){
+    public void setHashMapValues(ArrayList<String> prefNames, ArrayList<Float> prefNums){
         for (int i = 0; i < prefNames.size(); i++) {
             if (preferencesHashMap.get(prefNames.get(i)) == null) {
-                preferencesHashMap.put(prefNames.get(i), prefNums.get(i));
+                preferencesHashMap.put(prefNames.get(i).toLowerCase(), prefNums.get(i));
             }
         }
+    }
+
+    public float getPrefValByAttr(String attributeToGet) {
+        System.out.println(preferencesHashMap.get(attributeToGet.toLowerCase()));
+        return preferencesHashMap.get(attributeToGet.toLowerCase());
     }
 }

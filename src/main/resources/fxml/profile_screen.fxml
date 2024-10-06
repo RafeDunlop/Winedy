@@ -69,6 +69,7 @@
                </GridPane.margin>
             </Slider>
             <Button fx:id="savePreferencesButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onSavePreferencesButtonClicked" text="Save Preferences" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <Button fx:id="mockRecommendButton" mnemonicParsing="false" onAction="#onMockButtonClicked" text="Mock Recommend" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>

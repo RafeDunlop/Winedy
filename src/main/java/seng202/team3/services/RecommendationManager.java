@@ -1,7 +1,6 @@
 package seng202.team3.services;
 
 
-import com.password4j.Hash;
 import seng202.team3.models.DrinkerPreferenceModel;
 import seng202.team3.models.Wine;
 import seng202.team3.models.WineDrinker;
@@ -9,10 +8,7 @@ import seng202.team3.repository.RecommendationDAO;
 import seng202.team3.repository.WineDAO;
 
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.List;
+import java.util.*;
 
 /**
  * A singleton manager class to handle all logic for recommendation screen
@@ -48,14 +44,25 @@ public class RecommendationManager {
      * @param wineToJudge the wine to calculate score with
      * @return integer score calculated from provided wine
      */
-    public int calculateWineScore(Wine wineToJudge){return 0;}
+    public float calculateWineScore(Wine wineToJudge){
+        String colour = wineToJudge.getColour();
+        String fullness = wineToJudge.getFullness();
+        String grapes = wineToJudge.getGrapes()[0];
+        System.out.println("Recommended wine has attributes style: " + grapes + " full: " + fullness + " colour: " + colour
+        + "wine description is = " + wineToJudge.getLongDescription());
+        float calculatedScore = curDrinkerPrefModel.getPrefValByAttr(colour) +curDrinkerPrefModel.getPrefValByAttr(fullness)
+        + curDrinkerPrefModel.getPrefValByAttr(grapes);
+        System.out.println("Wine score = " + calculatedScore);
+        return calculatedScore;
+    }
 
     /**
      * Retrieves the users builtin preferences through the database
      */
-    public  void getUserPreferenceModel(){
+    public  DrinkerPreferenceModel getUserPreferenceModel(){
         String curUsername = wineDrinkerManager.getCurrentUser().getUsername();
         curDrinkerPrefModel = recommendationDAO.getPreferenceModelByUsername(curUsername);
+        return curDrinkerPrefModel;
     }
 
     public void updatePreferenceModelWithUserSelectedPreferences(){
@@ -71,20 +78,23 @@ public class RecommendationManager {
 
     /**
      * Picks 5 wines for the recommendation using score threshold
-     * @return HashMap<Wine, Integer> A hash map of the select wines and it's score
+     * @return HashMap<Wine, Float> A hash map of the select wines and it's score
      */
-    public HashMap<Wine, Integer> recommendWines(){
+    public HashMap<Wine, Float> recommendWines(){
+        System.out.println("Got to recommend");
         if (wineIndexes == null){
             setupWineIndexList();
         }
+
         Random rand = new SecureRandom();
-        HashMap<Wine, Integer> selectedWines = new HashMap<>();
-        int THRESHOLD = 5;
+        HashMap<Wine, Float> selectedWines = new HashMap<>();
+        int THRESHOLD = 0; //TODO HAVE A GOOD THRESHOLD
         while (selectedWines.size() < 5) {
             int randomIndex = rand.nextInt(wineIndexes.size());
+            System.out.println(randomIndex);
             Wine wineToCheck = wineDAO.getWineByID(wineIndexes.get(randomIndex));
-            int wineScore = calculateWineScore(wineToCheck);
-            if (wineScore > THRESHOLD) {
+            float wineScore = calculateWineScore(wineToCheck); //TODO IMPLEMENT SCORE
+            if (wineScore >= THRESHOLD) {
                 selectedWines.put(wineToCheck, wineScore);
             }
         }
@@ -98,6 +108,7 @@ public class RecommendationManager {
      */
     public void setupWineIndexList(){
         List<Wine> wines = wineDAO.getAll();
+        wineIndexes = new ArrayList<>();
         for (Wine wine : wines) {
             wineIndexes.add(wine.getUniqueWineID());
         }
@@ -118,12 +129,13 @@ public class RecommendationManager {
      */
     public void InitialiseUserPreferenceModel(WineDrinker currentUser) {
         wineDrinkerManager = WineDrinkerManager.getInstance();
-        curDrinkerPrefModel = recommendationDAO.getPreferenceModelByUsername(currentUser.getUsername());
+        curDrinkerPrefModel = getUserPreferenceModel();
         if (curDrinkerPrefModel == null){
             recommendationDAO.createNewPreferenceModel(currentUser.getUsername());
             updatePreferenceModelWithUserSelectedPreferences();
+            curDrinkerPrefModel = getUserPreferenceModel();
         }
-        curDrinkerPrefModel = recommendationDAO.getPreferenceModelByUsername(currentUser.getUsername());
+
     }
 
     /**
