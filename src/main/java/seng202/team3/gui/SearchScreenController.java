@@ -126,10 +126,10 @@ public class SearchScreenController {
                 highYear,
                 (float) priceRangeSlider.getLowValue(),
                 (float) priceRangeSlider.getHighValue(),
-                selectedCountry,
-                selectedColour,
-                selectedFullness,
-                selectedVariety);
+                !"All".equals(selectedCountry) ? selectedCountry : null,
+                !"All".equals(selectedColour) ? selectedColour : null,
+                !"All".equals(selectedFullness) ? selectedFullness : null,
+                !"All".equals(selectedVariety) ? selectedVariety : null);
         List<Wine> resultsList = results.getWineList();
         Wine[] resultsArray = new Wine[resultsList.size()];
         resultsArray = resultsList.toArray(resultsArray);

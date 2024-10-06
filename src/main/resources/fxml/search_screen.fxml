@@ -13,18 +13,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.controlsfx.control.RangeSlider?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.SearchScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.SearchScreenController">
    <children>
       <GridPane prefHeight="720.0" prefWidth="1200.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="800.0" minWidth="800.0" prefWidth="800.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="10.0" prefWidth="400.0" />
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="800.0" minWidth="800.0" prefWidth="800.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="10.0" prefWidth="400.0" />
             <ColumnConstraints />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="150.0" minHeight="136.0" prefHeight="147.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="584.0" minHeight="570.0" prefHeight="573.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="150.0" minHeight="136.0" prefHeight="147.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="584.0" minHeight="570.0" prefHeight="573.0" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
             <TextField fx:id="searchBarTextField" maxWidth="600.0" minWidth="600.0" prefHeight="25.0" prefWidth="600.0" promptText="Search for a wine..." GridPane.halignment="RIGHT" GridPane.valignment="TOP">
                <GridPane.margin>
@@ -52,12 +52,12 @@
                   <Insets left="340.0" />
                </GridPane.margin>
             </Label>
-            <ComboBox fx:id="colourComboBox" prefWidth="130.0">
+            <ComboBox fx:id="colourComboBox" prefWidth="130.0" promptText="All">
                <GridPane.margin>
                   <Insets left="20.0" top="75.0" />
                </GridPane.margin>
             </ComboBox>
-            <ComboBox fx:id="varietyComboBox" prefWidth="130.0">
+            <ComboBox fx:id="varietyComboBox" prefWidth="130.0" promptText="All">
                <GridPane.margin>
                   <Insets left="180.0" top="75.0" />
                </GridPane.margin>
@@ -72,7 +72,7 @@
                   <Insets left="80.0" />
                </GridPane.margin>
             </Label>
-            <ComboBox fx:id="fullnessComboBox" prefWidth="130.0">
+            <ComboBox fx:id="fullnessComboBox" prefWidth="130.0" promptText="All">
                <GridPane.margin>
                   <Insets left="340.0" top="75.0" />
                </GridPane.margin>
@@ -82,7 +82,7 @@
                   <Insets left="500.0" />
                </GridPane.margin>
             </Label>
-            <ComboBox fx:id="countryComboBox" prefWidth="130.0">
+            <ComboBox fx:id="countryComboBox" prefWidth="130.0" promptText="All">
                <GridPane.margin>
                   <Insets left="500.0" top="75.0" />
                </GridPane.margin>
