@@ -2,13 +2,15 @@ package seng202.team3.gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import org.controlsfx.control.RangeSlider;
 import seng202.team3.models.WineAttribute;
 import seng202.team3.repository.Table;
@@ -22,7 +24,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * Controller class for the search screen
+ * Controller class for the search_screen.fxml
  *
  * @author Sophia Copley (sco207)
  */
@@ -57,34 +59,77 @@ public class SearchScreenController {
 
     @FXML
     private AnchorPane wineDetailsAnchorPane;
+
+    @FXML
+    private AnchorPane rootAnchorPane;
+
+    @FXML
+    private ScrollPane wineScrollPane;
+
+    @FXML
+    private Rectangle searchWinesRectangle;
+
+    @FXML
+    private Rectangle filterRectangle;
+
+    @FXML
+    private Rectangle searchRectangle;
+
+    @FXML
+    private Rectangle infoTextRectangle;
+
+    @FXML
+    private Button searchButton;
+
+    @FXML
+    private Button filterToggleButton;
+
+    @FXML
+    private VBox filterVBox;
+
+    @FXML
+    private Label infoTextLabel;
+
     /**
      * Current wine colour filter selected by the Wine Drinker
      */
     private String selectedColour = null;
+
     /**
      * Current grape variety filter selected by the Wine Drinker
      */
     private String selectedVariety = null;
+
     /**
      * Current wine fullness filter selected by the Wine Drinker
      */
     private String selectedFullness = null;
+
     /**
      * Current country filter selected by the Wine Drinker
      */
     private String selectedCountry = null;
+
     /**
      * Earliest year filter selected by the Wine Drinker
      */
     private Integer lowYear = null;
+
     /**
      * Latest year filter selected by the Wine Drinker
      */
     private Integer highYear = null;
 
     /**
-     * Method to initialise the search screen with the required combo boxes for
-     * TODO: initialise the combo boxes so that they get the possible options from the database instead of hard coding the options
+     * Boolean to store the state of the sort VBox
+     */
+    private boolean sortVBoxExpanded = false;
+
+    /**
+     * Called by JavaFX upon initialisation of the search screen. Sets the values of the price range slider to the low
+     * and high values. Adds all the possible attribute values to the combo boxes through searchScreenService. Sets the
+     * on actions of the combo boxes to change the selected filters. Collapses the filter VBox, adds the style classes
+     * to the widgets, and initialises the date range combo boxes.
      */
     public void initialize() {
 
@@ -106,12 +151,15 @@ public class SearchScreenController {
         countryComboBox.setOnAction(select -> selectedCountry = (countryComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : countryComboBox.getSelectionModel().getSelectedItem());
         varietyComboBox.setOnAction(select -> selectedVariety = (varietyComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : varietyComboBox.getSelectionModel().getSelectedItem());
 
+        collapseFilterVBox();
+        addStyleClasses();
         initialiseDateRangeComboBoxes();
     }
 
     /**
      * Method that sets the action of search button. It clears current search results, calls the WineManager
      * search method and displays the current search results
+     *
      * @param event ActionEvent for the button being clicked
      */
     @FXML
@@ -135,9 +183,30 @@ public class SearchScreenController {
         resultsArray = resultsList.toArray(resultsArray);
 
         GuiService.fillVboxGrid(resultsArray, searchResultsVBox, wineDetailsAnchorPane);
+
+        if (results.getWineList().isEmpty()) {
+            infoTextLabel.setText("Unfortunately there were no results for your search. Try checking your spelling or broadening your filters.");
+            infoTextRectangle.setOpacity(1);
+            infoTextLabel.setOpacity(1);
+        } else {
+            infoTextRectangle.setOpacity(0);
+            infoTextLabel.setOpacity(0);
+        }
     }
 
-
+    /**
+     * Used by JavaFX as the OnAction of the filter toggle button. Toggles the vbox between being expanded or collapsed
+     */
+    @FXML
+    void onFilterToggleButtonClicked() {
+        if (sortVBoxExpanded) {
+            collapseFilterVBox();
+            sortVBoxExpanded = false;
+        } else {
+            expandFilterVBox();
+            sortVBoxExpanded = true;
+        }
+    }
 
     /**
      * Method to initialise the date range combination box.
@@ -172,5 +241,70 @@ public class SearchScreenController {
             startDateComboBox.setOnAction(startDateComboBoxOnAction);
         });
 
+    }
+
+    /**
+     * Adds the appropriate style classes to the widgets
+     */
+    private void addStyleClasses() {
+        wineScrollPane.getStyleClass().add("red-wine-scroll-pane");
+        searchWinesRectangle.getStyleClass().add("red-wine-rectangle");
+        filterRectangle.getStyleClass().add("white-wine-rectangle");
+        searchRectangle.getStyleClass().add("white-wine-rectangle");
+        infoTextRectangle.getStyleClass().add("white-red-wine-rectangle");
+        searchButton.getStyleClass().add("nav-bar-button");
+        filterToggleButton.getStyleClass().add("nav-bar-button");
+        colourComboBox.getStyleClass().add("fifteen-combo-box");
+        countryComboBox.getStyleClass().add("fifteen-combo-box");
+        endDateComboBox.getStyleClass().add("fifteen-combo-box");
+        startDateComboBox.getStyleClass().add("fifteen-combo-box");
+        varietyComboBox.getStyleClass().add("fifteen-combo-box");
+        fullnessComboBox.getStyleClass().add("fifteen-combo-box");
+        searchBarTextField.getStyleClass().add("sign-in-screen-text-field");
+    }
+
+    /**
+     * Sets the preferred height of the filter Vbox and Rectangle to 84. Sets every child of the vbox other than the
+     * toggle button to be unmanaged, disabled, and invisible. Moves the wine details anchor pane to the front of the
+     * screen by removing and re-adding it to the root anchor pane.
+     */
+    private void collapseFilterVBox() {
+        filterVBox.setPrefHeight(84);
+        filterRectangle.setHeight(84);
+        for (Node vBoxChild : filterVBox.getChildren()) {
+            vBoxChild.setManaged(false);
+            vBoxChild.setDisable(true);
+            vBoxChild.setVisible(false);
+        }
+        filterToggleButton.setManaged(true);
+        filterToggleButton.setDisable(false);
+        filterToggleButton.setVisible(true);
+
+        rootAnchorPane.getChildren().remove(wineDetailsAnchorPane);
+        rootAnchorPane.getChildren().add(wineDetailsAnchorPane);
+
+        filterToggleButton.setText("Filter");
+    }
+
+    /**
+     * Sets the preferred height of the filter Vbox and Rectangle to 645. Sets every child of the vbox to be managed,
+     * enabled, and visible. Moves the filter rectangle and vbox to the front of screen by removing and re-adding them
+     * to the root anchor pane.
+     */
+    private void expandFilterVBox() {
+        filterVBox.setPrefHeight(645);
+        filterRectangle.setHeight(645);
+        for (Node vBoxChild : filterVBox.getChildren()) {
+            vBoxChild.setManaged(true);
+            vBoxChild.setDisable(false);
+            vBoxChild.setVisible(true);
+        }
+
+        rootAnchorPane.getChildren().remove(filterRectangle);
+        rootAnchorPane.getChildren().add(filterRectangle);
+        rootAnchorPane.getChildren().remove(filterVBox);
+        rootAnchorPane.getChildren().add(filterVBox);
+
+        filterToggleButton.setText("Close");
     }
 }
