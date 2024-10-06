@@ -127,7 +127,7 @@ public class ProfileWineListsScreenController {
                     listsToDelete.remove(wineLists.get(finalI));
                 }
 
-                if (listsToDelete.size() == 0) {
+                if (listsToDelete.isEmpty()) {
                     deleteButton.setText("Delete");
                     deleteButton.setDisable(true);
                     deleteButton.setOpacity(0.5);

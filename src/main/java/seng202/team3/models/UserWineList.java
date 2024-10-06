@@ -2,6 +2,8 @@ package seng202.team3.models;
 
 import seng202.team3.services.WineDrinkerManager;
 
+import java.util.Objects;
+
 /**
  * UserWineList class defines the personal wine lists that Wine Drinkers can create
  * This will be used in deliverable 3
@@ -19,16 +21,14 @@ public class UserWineList extends WineList {
      * Constructs new WineList object and initializes the list.
      * sets
      *
-     * @param description
+     * @param wineListName name of the wine list
+     * @param description description of the wine list
+     * @param sortKey sortKey for the wine list
      */
     public UserWineList(String wineListName, String description, Integer sortKey) {
         this.description = description;
         this.wineListName = wineListName;
-        if (sortKey == null) {
-            lastChanged = WineDrinkerManager.getInstance().getCurrentUser().getAndIncrementMinKey();
-        } else {
-            lastChanged = sortKey;
-        }
+        lastChanged = Objects.requireNonNullElseGet(sortKey, () -> WineDrinkerManager.getInstance().getCurrentUser().getAndIncrementMinKey());
     }
 
     /**

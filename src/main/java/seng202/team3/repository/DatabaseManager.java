@@ -171,7 +171,7 @@ public class DatabaseManager {
      */
     private void executeSQLScript(InputStream sqlFile) {
         String s;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(sqlFile))) {
             while((s=br.readLine()) != null) {
                 sb.append(s);

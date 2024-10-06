@@ -16,7 +16,7 @@ public class DrinkerPreferenceModel {
 
     /**
      * sets the arraylist of the
-     * @param usernameToSet
+     * @param usernameToSet username for current drinker preference model
      */
     public void setUsername(String usernameToSet){
         this.username = usernameToSet;
