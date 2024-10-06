@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the Wine model class
- * @author Krishna Sridhar
+ * @author Krishna Sridhar (nsr36)
  */
 
 public class WineTest {
