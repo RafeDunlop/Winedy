@@ -9,6 +9,11 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the WineDrinkerManager service class
+ * @author Krishna Sridhar (nsr36)
+ */
+
 public class WineDrinkerManagerTest {
     private static final String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
     private WineDrinkerManager wineDrinkerManager;
@@ -37,11 +42,16 @@ public class WineDrinkerManagerTest {
     }
 
     @Test
+    public void testRegisterCurrentUser() {
+        wineDrinkerManager.setCurrentUser(testWineDrinker);
+        wineDrinkerManager.registerWineDrinker();
+        assertNotNull(wineDrinkerManager.getWineDrinker(username));
+    }
+
+    @Test
     public void testLoginCurrentUser() {
-        if (wineDrinkerManager.getWineDrinker(username) == null) {
-            wineDrinkerManager.setCurrentUser(testWineDrinker);
-            wineDrinkerManager.registerWineDrinker();
-        }
+        wineDrinkerManager.setCurrentUser(testWineDrinker);
+        wineDrinkerManager.registerWineDrinker();
         wineDrinkerManager.loginCurrentUser(username, password);
         WineDrinker wineDrinker = wineDrinkerManager.getWineDrinker(username);
         assertEquals(username, wineDrinker.getUsername());
