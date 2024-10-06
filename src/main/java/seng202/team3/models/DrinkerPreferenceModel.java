@@ -10,6 +10,7 @@ import java.util.HashMap;
  */
 public class DrinkerPreferenceModel {
     private String username;
+    private double abvLimit;
     private HashMap<String, Float> preferencesHashMap = new HashMap<>();
 
     public DrinkerPreferenceModel(){}
@@ -54,7 +55,20 @@ public class DrinkerPreferenceModel {
         return preferencesHashMap;
     }
 
+    /**
+     * Get the username stored with this preference mode
+     * @return String of username
+     */
     public String getUsername() {
         return this.username;
+    }
+
+    /**
+     * Returns the current abv preference score
+     * ABV works differently and is always based of the users current preferences
+     * @return
+     */
+    public float getABV(){
+        return preferencesHashMap.get("abv");
     }
 }

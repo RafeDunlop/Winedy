@@ -55,15 +55,15 @@ public class RecommendationDAO {
                         colNames.add(colNamesSet.getString(1));
                     }
                 }
-
                 if (resultSet.next()) {
                     drinkerPrefModel = new DrinkerPreferenceModel();
                     drinkerPrefModel.setUsername(resultSet.getString("username"));
                     ArrayList<Float> prefValues = new ArrayList<>();
-                    for (int i = 2; i < 49; i++) {
+                    prefValues.add(resultSet.getFloat(2));
+                    for (int i = 3; i < 50; i++) {
                         prefValues.add(resultSet.getFloat(i));
                     }
-                    drinkerPrefModel.setHashMapValues(colNames, prefValues);
+                    drinkerPrefModel.setHashMapValues( colNames, prefValues);
                 }
                 return drinkerPrefModel;
             }

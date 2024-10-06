@@ -52,6 +52,12 @@ public class RecommendationManager {
         System.out.println("Recommended wine has attributes grape: " + grapes + " full: " + fullness + " colour: " + colour);
         float calculatedScore = curDrinkerPrefModel.getPrefValByAttr(colour) +curDrinkerPrefModel.getPrefValByAttr(fullness)
         + curDrinkerPrefModel.getPrefValByAttr(grapes);
+        double wineABV = wineToJudge.getAlcoholByVolume();
+        double userABV = WineDrinkerManager.getInstance().getCurrentUser().getAbvLimit();
+        System.out.println("wine abv / userabv" + wineABV + "/" + userABV);
+        if (wineABV >= (userABV - 2) && wineABV <= (userABV + 2)) {
+            calculatedScore += curDrinkerPrefModel.getABV();
+        }
         System.out.println("Wine score = " + calculatedScore);
         return (calculatedScore / findMaxPreferences()) * 100;
     }
@@ -79,8 +85,6 @@ public class RecommendationManager {
         if (fullnessPref != null){
             recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), fullnessPref, SELECT_PREFERENCE_DEFAULT_VALUE);
         }
-
-
     }
 
     /**
@@ -128,6 +132,12 @@ public class RecommendationManager {
         if (!likeStatus){
             valueChange*=-1;
         }
+        double wineABV = pickedWine.getAlcoholByVolume();
+        double userABV = WineDrinkerManager.getInstance().getCurrentUser().getAbvLimit();
+        if (wineABV >= (userABV - 2) && wineABV <= (userABV + 2)) {
+            recommendationDAO.updateIndividualPreferenceVal(username, "abv", curDrinkerPrefModel.getABV()+valueChange);
+        }
+
         //update database preference model
         recommendationDAO.updateIndividualPreferenceVal(username, colPref, curDrinkerPrefModel.getPrefValByAttr(colPref) + valueChange);
         recommendationDAO.updateIndividualPreferenceVal(username, grapePref, curDrinkerPrefModel.getPrefValByAttr(colPref) + valueChange);
@@ -151,7 +161,6 @@ public class RecommendationManager {
             updatePreferenceModelWithUserSelectedPreferences();
             curDrinkerPrefModel = getUserPreferenceModel();
         }
-
     }
 
     /**
@@ -165,7 +174,7 @@ public class RecommendationManager {
     /**
      * Finds the highest possible preferences for use in
      * threshold and percentage calculations
-     * @return maxScoreVal the total of the 3 highest preferences
+     * @return maxScoreVal the total of the 3 highest preferences and the abv preference
      */
     public float findMaxPreferences(){
         float maxScoreVal;
@@ -178,7 +187,7 @@ public class RecommendationManager {
                    topValues.add(0,score);
                }
         }
-        maxScoreVal = topValues.get(0) + topValues.get(1) + topValues.get(2);
+        maxScoreVal = topValues.get(0) + topValues.get(1) + topValues.get(2) + curDrinkerPrefModel.getABV();
         return maxScoreVal;
     }
 

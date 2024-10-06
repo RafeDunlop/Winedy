@@ -91,5 +91,6 @@ CREATE TABLE award (
 
 CREATE TABLE drinkerPreferenceModel (
     username text not null primary key,
+    abv double default 4,
     Foreign KEY (username) REFERENCES wineDrinker (username) ON DELETE CASCADE
 );
