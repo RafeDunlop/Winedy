@@ -5,6 +5,8 @@ import seng202.team3.repository.WineLogDAO;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -148,6 +150,11 @@ public class LogManager {
      */
     public void deleteLog(WineLog toDelete) {
         wineLogDAO.delete(toDelete);
+    }
+
+    public String getLogDateString(WineLog wineLog) {
+        LocalDate date = wineLog.getDate().toLocalDate();
+        return date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear();
     }
 
 }
