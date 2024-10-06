@@ -49,18 +49,17 @@ public class DeletingListsPopUpController {
         int rows = (listsToDelete.size() % 2 == 0)? listsToDelete.size() / 2 : listsToDelete.size() / 2 + 1;
         for (int i = 0; i < rows ; i++) {
             Label bullet1 = new Label("- " + listsToDelete.get(2 * i).getWineListName() + " (" + listsToDelete.get(2*i).getWineList().size() +" wines)");
-            bullet1.setPrefWidth(220);
+            bullet1.setPrefWidth(210);
             bullet1.setStyle("-fx-font-size: 16");
+            TextFlow bulletFlow = new TextFlow();
+            bulletFlow.getChildren().add(bullet1);
             if (2 * i + 1 < listsToDelete.size()) {
                 Label bullet2 = new Label("- " + listsToDelete.get(2 * i + 1).getWineListName() + " (" + listsToDelete.get(2 * i + 1).getWineList().size() + " wines)");
-                bullet2.setPrefWidth(220);
+                bullet2.setPrefWidth(210);
                 bullet2.setStyle("-fx-font-size: 16");
-                TextFlow bulletFlow = new TextFlow(bullet1, bullet2);
-                listNamesVBox.getChildren().add(bulletFlow);
-            } else {
-                TextFlow bulletFlow = new TextFlow(bullet1);
-                listNamesVBox.getChildren().add(bulletFlow);
+                bulletFlow.getChildren().add(bullet2);
             }
+            listNamesVBox.getChildren().add(bulletFlow);
         }
     }
 
