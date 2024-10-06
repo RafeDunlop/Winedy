@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import seng202.team3.models.FavouritesWineList;
 import seng202.team3.models.UserWineList;
 import seng202.team3.services.ProfileScreenService;
@@ -31,6 +32,9 @@ public class ProfileListViewScreenController {
 
     @FXML
     private VBox listContentsVBox;
+
+    @FXML
+    private ScrollPane listContentsScrollPane;
 
     @FXML
     private Button backButton;
@@ -68,6 +72,14 @@ public class ProfileListViewScreenController {
     @FXML
     private Label descErrorLabel;
 
+    @FXML
+    private Rectangle winesRectangle;
+
+    @FXML
+    private Rectangle descriptionRectangle;
+
+    @FXML
+    private ScrollPane descriptionScrollPane;
 
     private WineDrinkerManager wineDrinkerManager;
 
@@ -104,6 +116,12 @@ public class ProfileListViewScreenController {
         setUpTextAreaListenersForErrorMessages();
 
         styleButtons();
+        winesRectangle.getStyleClass().add("red-wine-rectangle");
+        descriptionRectangle.getStyleClass().add("white-wine-rectangle");
+        descriptionScrollPane.getStyleClass().add("white-wine-scroll-pane");
+        listContentsScrollPane.getStyleClass().add("red-wine-scroll-pane");
+        descriptionLabel.setStyle("-fx-background-color: transparent");
+        listContentsVBox.setStyle("-fx-background-color: transparent");
 
     }
 
@@ -191,7 +209,7 @@ public class ProfileListViewScreenController {
      */
     @FXML
     public void onEditDescriptionButtonClicked() {
-        descriptionLabel.setVisible(false);
+        descriptionScrollPane.setVisible(false);
         descriptionTextArea.setVisible(true);
         descriptionTextArea.setEditable(true);
 
@@ -209,7 +227,7 @@ public class ProfileListViewScreenController {
         wineListManager.update(listToDisplay);
 
         descriptionTextArea.setVisible(false);
-        descriptionLabel.setVisible(true);
+        descriptionScrollPane.setVisible(true);
         descriptionLabel.setText(descriptionTextArea.getText());
 
         saveDescChangesButton.setVisible(false);
