@@ -41,19 +41,19 @@ public class RecommendationManager {
 
     /**
      * Calculate the score of a wine against users hidden preferences
+     * the score represents the percentage that the wine matches the preferences
      * @param wineToJudge the wine to calculate score with
-     * @return integer score calculated from provided wine
+     * @return float score calculated from provided wine
      */
-    public float calculateWineScore(Wine wineToJudge){
+    private float calculateWineScore(Wine wineToJudge){
         String colour = wineToJudge.getColour();
         String fullness = wineToJudge.getFullness();
         String grapes = wineToJudge.getGrapes()[0];
-        System.out.println("Recommended wine has attributes style: " + grapes + " full: " + fullness + " colour: " + colour
-        + "wine description is = " + wineToJudge.getLongDescription());
+        System.out.println("Recommended wine has attributes grape: " + grapes + " full: " + fullness + " colour: " + colour);
         float calculatedScore = curDrinkerPrefModel.getPrefValByAttr(colour) +curDrinkerPrefModel.getPrefValByAttr(fullness)
         + curDrinkerPrefModel.getPrefValByAttr(grapes);
         System.out.println("Wine score = " + calculatedScore);
-        return calculatedScore;
+        return (calculatedScore / findMaxPreferences()) * 100;
     }
 
     /**
@@ -70,36 +70,37 @@ public class RecommendationManager {
         String colPref = curUser.getColourPreference();
         String grapePref = curUser.getGrapePreference();
         String fullnessPref = curUser.getFullnessPreference();
-        recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), colPref, SELECT_PREFERENCE_DEFAULT_VALUE);
-        recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), grapePref, SELECT_PREFERENCE_DEFAULT_VALUE);
-        recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), fullnessPref, SELECT_PREFERENCE_DEFAULT_VALUE);
+        if (colPref != null){
+            recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), colPref, SELECT_PREFERENCE_DEFAULT_VALUE);
+        }
+        if (grapePref != null){
+            recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), grapePref, SELECT_PREFERENCE_DEFAULT_VALUE);
+        }
+        if (fullnessPref != null){
+            recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), fullnessPref, SELECT_PREFERENCE_DEFAULT_VALUE);
+        }
+
 
     }
 
     /**
      * Picks 5 wines for the recommendation using score threshold
-     * @return HashMap<Wine, Float> A hash map of the select wines and it's score
+     * @return HashMap<Wine, Float> A hash map of the select wines, and it's matching percentage to users preferences
      */
-    public HashMap<Wine, Float> recommendWines(){
-        System.out.println("Got to recommend");
-        if (wineIndexes == null){
-            setupWineIndexList();
-        }
-
+    public void recommendWines(List<Wine> selectedWines, List<Float> selectedWinePercents){
+        setupWineIndexList();
         Random rand = new SecureRandom();
-        HashMap<Wine, Float> selectedWines = new HashMap<>();
-        int THRESHOLD = 0; //TODO HAVE A GOOD THRESHOLD
+        float score_threshold = findMaxPreferences() / 5;
         while (selectedWines.size() < 5) {
             int randomIndex = rand.nextInt(wineIndexes.size());
-            System.out.println(randomIndex);
             Wine wineToCheck = wineDAO.getWineByID(wineIndexes.get(randomIndex));
-            float wineScore = calculateWineScore(wineToCheck); //TODO IMPLEMENT SCORE
-            if (wineScore >= THRESHOLD) {
-                selectedWines.put(wineToCheck, wineScore);
+            float wineScore = calculateWineScore(wineToCheck);
+            if (wineScore >= score_threshold) {
+                selectedWines.add(wineToCheck);
+                System.out.println(wineScore);
+                selectedWinePercents.add((float) Math.round(wineScore * 100)/100);
             }
         }
-
-        return selectedWines;
     }
 
     /**
@@ -118,7 +119,22 @@ public class RecommendationManager {
      * Adjusts the users built in preference by whether they liked the given wine
      * called when user liking or disliking recommended wine
      */
-    public  void updateUserBuiltInPreferences(Wine pickedWine, Boolean likeStatus){}
+    public void updatePreferenceModelAfterUserSelection(Wine pickedWine, Boolean likeStatus){
+        String colPref = pickedWine.getColour();
+        String fullnessPref = pickedWine.getFullness();
+        String grapePref = pickedWine.getGrapes()[0];
+        String username = curDrinkerPrefModel.getUsername();
+        float valueChange = (float) 0.2;
+        if (!likeStatus){
+            valueChange*=-1;
+        }
+        //update database preference model
+        recommendationDAO.updateIndividualPreferenceVal(username, colPref, curDrinkerPrefModel.getPrefValByAttr(colPref) + valueChange);
+        recommendationDAO.updateIndividualPreferenceVal(username, grapePref, curDrinkerPrefModel.getPrefValByAttr(colPref) + valueChange);
+        recommendationDAO.updateIndividualPreferenceVal(username, fullnessPref, curDrinkerPrefModel.getPrefValByAttr(colPref) + valueChange);
+        //update the locally stored preference model
+        curDrinkerPrefModel = recommendationDAO.getPreferenceModelByUsername(username);
+    }
 
 
     /**
@@ -145,4 +161,25 @@ public class RecommendationManager {
     public DrinkerPreferenceModel getCurDrinkerPrefModel () {
         return curDrinkerPrefModel;
     }
+
+    /**
+     * Finds the highest possible preferences for use in
+     * threshold and percentage calculations
+     * @return maxScoreVal the total of the 3 highest preferences
+     */
+    public float findMaxPreferences(){
+        float maxScoreVal;
+        curDrinkerPrefModel = recommendationDAO.getPreferenceModelByUsername(curDrinkerPrefModel.getUsername());
+        HashMap<String, Float> prefMap = curDrinkerPrefModel.getPreferencesHashMap();
+        List<Float> topValues = new ArrayList<>();
+        topValues.add((float) 0);
+        for (float score : prefMap.values()){
+               if (score >= topValues.get(0)){
+                   topValues.add(0,score);
+               }
+        }
+        maxScoreVal = topValues.get(0) + topValues.get(1) + topValues.get(2);
+        return maxScoreVal;
+    }
+
 }

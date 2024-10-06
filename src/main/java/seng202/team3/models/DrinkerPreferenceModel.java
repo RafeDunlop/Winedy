@@ -36,8 +36,25 @@ public class DrinkerPreferenceModel {
         }
     }
 
+    /**
+     * Returns the float preference value of a given string attribute
+     * @param attributeToGet String representation of attribute to retrieve
+     * @return the float score value of the preference requested
+     */
     public float getPrefValByAttr(String attributeToGet) {
         System.out.println(preferencesHashMap.get(attributeToGet.toLowerCase()));
         return preferencesHashMap.get(attributeToGet.toLowerCase());
+    }
+
+    /**
+     * Returns the Attribute score pair for all attributes in the form of a hashmap
+     * @return preferenceHashMap - the hash map of String attributes mapped to float scores
+     */
+    public HashMap<String, Float> getPreferencesHashMap(){
+        return preferencesHashMap;
+    }
+
+    public String getUsername() {
+        return this.username;
     }
 }

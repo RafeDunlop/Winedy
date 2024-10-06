@@ -1,14 +1,14 @@
 package seng202.team3.gui;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import seng202.team3.models.Wine;
 import seng202.team3.services.RecommendationManager;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.ProfileScreenService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Controller for the profile_screen.fxml window
@@ -29,9 +29,20 @@ public class ProfileScreenController {
     @FXML
     private ComboBox<String> fullnessPreferenceComboBox;
 
+    //*******************************************************MOCK Recommendation
     @FXML
     private Button mockRecommendButton;
+    @FXML
+    private Label mockRecWineLabel;
+    @FXML
+    private Button mockSwipeLeft;
+    @FXML
+    private Button mockSwipeRight;
+    private int recommendedWineIndex = 0;
+    private List<Wine> recommendedWines = new ArrayList<>();
+    private List<Float> wineMatchPercentages = new ArrayList<>();
 
+    //******************************************************MOCK ENDS
     @FXML
     private Button savePreferencesButton;
 
@@ -67,8 +78,43 @@ public class ProfileScreenController {
 
     @FXML
     private void onMockButtonClicked() {
-        RecommendationManager.getInstance().recommendWines();
+        recommendedWineIndex = 0;
+        recommendedWines = new ArrayList<>();
+        wineMatchPercentages = new ArrayList<>();
+        RecommendationManager.getInstance().recommendWines(recommendedWines, wineMatchPercentages);
+        recommendNextWineToUser();
+
     }
+
+    private void recommendNextWineToUser(){
+        mockRecWineLabel.setText(recommendedWines.get(recommendedWineIndex).getLongDescription()
+             + "\n This wine matches your preferences " + wineMatchPercentages.get(recommendedWineIndex) + "%");
+    }
+    @FXML
+    void onMockSwipeLeftClicked(){
+        RecommendationManager.getInstance().
+            updatePreferenceModelAfterUserSelection(recommendedWines.get(recommendedWineIndex), false);
+        recommendedWineIndex++;
+        if (recommendedWineIndex < 5) {
+            recommendNextWineToUser();
+        } else {
+            //TODO EXIT recommendation
+            System.out.println("Need to exit now");
+        }
+    }
+    @FXML
+    void onMockSwipeRightClicked(){
+        RecommendationManager.getInstance().
+                updatePreferenceModelAfterUserSelection(recommendedWines.get(recommendedWineIndex), true);
+        recommendedWineIndex++;
+        if (recommendedWineIndex < 5) {
+            recommendNextWineToUser();
+        } else {
+            //TODO EXIT recommendation
+            System.out.println("Need to exit now");
+        }
+    }
+
 
 
 

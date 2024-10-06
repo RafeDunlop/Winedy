@@ -119,21 +119,25 @@ public class RecommendationDAO {
     }
 
     /**
-     * Updates individual preference of the currently logged in user
+     * Updates individual preference of the currently logged-in user
      * with the given input
      * @param username string representation of current user's username
      * @param prefToUpdate string of preference to update
      * @param newPrefValue new float value of updated preference
      */
     public void updateIndividualPreferenceVal(String username, String prefToUpdate, float newPrefValue) {
-        String sql = "UPDATE drinkerPreferenceModel SET " + prefToUpdate + "=? where username = ?";
-        try (Connection conn = databaseManager.connect();
-            PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setFloat(1,newPrefValue);
-            ps.setString(2,username);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            log.error(e);
+        if (newPrefValue >= 0 && newPrefValue <= 10){
+            String sql = "UPDATE drinkerPreferenceModel SET '" + prefToUpdate + "'=? where username = ?";
+            try (Connection conn = databaseManager.connect();
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setFloat(1,newPrefValue);
+                ps.setString(2,username);
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                log.error(e);
+            }
+        } else {
+            log.warn("Preference value already at max/min value - ignored");
         }
     }
 }
