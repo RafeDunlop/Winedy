@@ -3,7 +3,6 @@ package seng202.team3.gui;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import seng202.team3.models.UserWineList;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.WineListManager;
