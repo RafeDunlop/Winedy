@@ -116,37 +116,22 @@ public class ProfileWineListsScreenController {
         int start = pageIndex * listsPerPage;
         int end = Math.min(start + listsPerPage, wineLists.size());
         for (int i = start; i < end; i++) {
-            int finalI = i;
-            Button button = new Button(wineLists.get(i).getWineListName());
-            button.setOnAction(event -> FXWrapper.getInstance().loadIndividualListView(wineListsAnchorPane, wineLists.get(finalI)));
-            CheckBox checkBox = new CheckBox();
-            checkBox.setOnAction(event -> {
-                if (checkBox.isSelected()) {
-                    listsToDelete.add(wineLists.get(finalI));
-                } else {
-                    listsToDelete.remove(wineLists.get(finalI));
-                }
 
-                if (listsToDelete.size() == 0) {
-                    deleteButton.setText("Delete");
-                    deleteButton.setDisable(true);
-                    deleteButton.setOpacity(0.5);
-                } else if (listsToDelete.size() == 1){
-                    deleteButton.setText("Delete " + listsToDelete.size() + " list");
-                    deleteButton.setDisable(false);
-                    deleteButton.setOpacity(1);
-                }
-                else {
-                    deleteButton.setText("Delete " + listsToDelete.size() + " lists");
-                    deleteButton.setDisable(false);
-                    deleteButton.setOpacity(1);
-                }
-            });
-            checkBox.setVisible(false);
-            button.setPrefSize(800, 100);
-            HBox hbox = new HBox(button, checkBox);
-            checkBox.setPadding(new Insets(40, 20, 20,20));
+            int index = i;
+
+            HBox hbox = new HBox();
+
+            Button button = new Button(wineLists.get(index).getWineListName());
+            setUpWineListButton(button, index);
+            hbox.getChildren().add(button);
+
+            CheckBox checkBox = new CheckBox();
+            setUpCheckBox(checkBox, index);
+            hbox.getChildren().add(checkBox);
+
+
             wineListVBox.getChildren().add(hbox);
+            System.out.println();
         }
 
         return wineListVBox;
@@ -158,8 +143,11 @@ public class ProfileWineListsScreenController {
     private void toggleCheckBoxes(VBox pageVBox) {
         for (int i = 0; i < pageVBox.getChildren().size(); i++) {
             HBox hbox = (HBox) pageVBox.getChildren().get(i);
-            CheckBox checkBox = (CheckBox) hbox.getChildren().get(1);
-            checkBox.setVisible(deleteMode);
+            Button button = (Button) hbox.getChildren().get(0);
+            if (!button.getText().equals("Favourites")) {
+                CheckBox checkBox = (CheckBox) hbox.getChildren().get(1);
+                checkBox.setVisible(deleteMode);
+            }
         }
 
     }
@@ -167,7 +155,7 @@ public class ProfileWineListsScreenController {
     private void toggleDeleteMode() {
         deleteMode = !deleteMode;
 
-        for (int i = 0; i < numberOfPages; i++) {
+        for (int i = 0; i < numberOfPages; i++) { //index starting at
             VBox pageVBox = pageVBoxMap.get(i);
             toggleCheckBoxes(pageVBox);
         }
@@ -201,5 +189,41 @@ public class ProfileWineListsScreenController {
     public void onDeleteButtonClicked() {
         FXWrapper.getInstance().loadDeleteListPopUp(listsToDelete);
     }
+
+    public void setUpCheckBox(CheckBox checkBox, int index) {
+        checkBox.setOnAction(event -> {
+            if (checkBox.isSelected()) {
+                listsToDelete.add(wineLists.get(index));
+            } else {
+                listsToDelete.remove(wineLists.get(index));
+            }
+
+            if (listsToDelete.size() == 0) {
+                deleteButton.setText("Delete");
+                deleteButton.setDisable(true);
+                deleteButton.setOpacity(0.5);
+            } else if (listsToDelete.size() == 1){
+                deleteButton.setText("Delete " + listsToDelete.size() + " list");
+                deleteButton.setDisable(false);
+                deleteButton.setOpacity(1);
+            }
+            else {
+                deleteButton.setText("Delete " + listsToDelete.size() + " lists");
+                deleteButton.setDisable(false);
+                deleteButton.setOpacity(1);
+            }
+        });
+
+        checkBox.setVisible(false);
+        checkBox.setPadding(new Insets(40, 20, 20,20));
+
+    }
+
+    private void setUpWineListButton(Button button, int index) {
+        button.setOnAction(event -> FXWrapper.getInstance().loadIndividualListView(wineListsAnchorPane, wineLists.get(index)));
+        button.setPrefSize(800, 100);
+        button.getStyleClass().add("nav-bar-button");
+    }
+
 
 }

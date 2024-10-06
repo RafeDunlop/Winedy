@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import seng202.team3.models.FavouritesWineList;
 import seng202.team3.models.UserWineList;
 import seng202.team3.services.ProfileScreenService;
 import seng202.team3.services.WineDrinkerManager;
@@ -106,7 +107,11 @@ public class ProfileListViewScreenController {
         }
         descriptionTextArea.setVisible(false);
 
-        setUpTextAreaListenersForNameValidation();
+        if (listToDisplay.getWineListName().equals("Favourites")) {
+            renameButton.setVisible(false);
+            editDescriptionButton.setVisible(false);
+        }
+        setUpTextAreaListenersForErrorMessages();
 
     }
 
@@ -231,7 +236,7 @@ public class ProfileListViewScreenController {
     /**
      * Handles showing the error messages for the user based on the input into text fields
      */
-    private void setUpTextAreaListenersForNameValidation() {
+    private void setUpTextAreaListenersForErrorMessages() {
         wineListNameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!profileScreenService.isValidRenamedListName(listToDisplay.getWineListName(), newValue)) {
                 descErrorLabel.setVisible(false);
