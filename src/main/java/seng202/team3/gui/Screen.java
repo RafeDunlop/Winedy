@@ -18,6 +18,8 @@ public enum Screen {
     PROFILELISTVIEWSCREEN("profile_list_view_screen.fxml", false),
     CREATELISTPOPUP("create_list_pop_up.fxml", false),
     DELETELISTSPOPUP("deleting_lists_pop_up.fxml", false),
+
+    ADDLOGPOPUP("add_log_popup.fxml", false),
     WINELISTSELECTPOPUP("wine_list_select.fxml", false);
 
     /**
