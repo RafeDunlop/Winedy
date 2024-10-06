@@ -31,7 +31,7 @@ public class ProfileScreenController {
 
     //*******************************************************MOCK Recommendation
     @FXML
-    private Button mockRecommendButton;
+    private Button beginRecommendationButton;
     @FXML
     private Label mockRecWineLabel;
     @FXML
@@ -77,7 +77,7 @@ public class ProfileScreenController {
     }
 
     @FXML
-    private void onMockButtonClicked() {
+    private void onBeginRecommendationClicked() {
         recommendedWineIndex = 0;
         recommendedWines = new ArrayList<>();
         wineMatchPercentages = new ArrayList<>();

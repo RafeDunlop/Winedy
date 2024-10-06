@@ -49,16 +49,15 @@ public class RecommendationManager {
         String colour = wineToJudge.getColour();
         String fullness = wineToJudge.getFullness();
         String grapes = wineToJudge.getGrapes()[0];
-        System.out.println("Recommended wine has attributes grape: " + grapes + " full: " + fullness + " colour: " + colour);
         float calculatedScore = curDrinkerPrefModel.getPrefValByAttr(colour) +curDrinkerPrefModel.getPrefValByAttr(fullness)
         + curDrinkerPrefModel.getPrefValByAttr(grapes);
         double wineABV = wineToJudge.getAlcoholByVolume();
         double userABV = WineDrinkerManager.getInstance().getCurrentUser().getAbvLimit();
-        System.out.println("wine abv / userabv" + wineABV + "/" + userABV);
+
         if (wineABV >= (userABV - 2) && wineABV <= (userABV + 2)) {
             calculatedScore += curDrinkerPrefModel.getABV();
         }
-        System.out.println("Wine score = " + calculatedScore);
+
         return (calculatedScore / findMaxPreferences()) * 100;
     }
 
@@ -101,7 +100,6 @@ public class RecommendationManager {
             float wineScore = calculateWineScore(wineToCheck);
             if (wineScore >= score_threshold) {
                 selectedWines.add(wineToCheck);
-                System.out.println(wineScore);
                 selectedWinePercents.add((float) Math.round(wineScore * 100)/100);
             }
         }
@@ -134,8 +132,13 @@ public class RecommendationManager {
         }
         double wineABV = pickedWine.getAlcoholByVolume();
         double userABV = WineDrinkerManager.getInstance().getCurrentUser().getAbvLimit();
-        if (wineABV >= (userABV - 2) && wineABV <= (userABV + 2)) {
+        //ABV treated differently as stored as one value
+        //If user likes a wine close to their preference, the abv score increases
+        //Score only decreases if they like a wine out of range
+        if ((wineABV >= (userABV - 2) && wineABV <= (userABV + 2))) {
             recommendationDAO.updateIndividualPreferenceVal(username, "abv", curDrinkerPrefModel.getABV()+valueChange);
+        } else if(valueChange > 0){
+            recommendationDAO.updateIndividualPreferenceVal(username, "abv", curDrinkerPrefModel.getABV()-valueChange);
         }
 
         //update database preference model
@@ -182,10 +185,15 @@ public class RecommendationManager {
         HashMap<String, Float> prefMap = curDrinkerPrefModel.getPreferencesHashMap();
         List<Float> topValues = new ArrayList<>();
         topValues.add((float) 0);
-        for (float score : prefMap.values()){
-               if (score >= topValues.get(0)){
-                   topValues.add(0,score);
-               }
+        for (String key : prefMap.keySet()){
+            //Abv has lower priority on preference and is treated differently
+            if (key != "abv"){
+                float score = prefMap.get(key);
+                if (score >= topValues.get(0)){
+                    topValues.add(0,score);
+                }
+            }
+
         }
         maxScoreVal = topValues.get(0) + topValues.get(1) + topValues.get(2) + curDrinkerPrefModel.getABV();
         return maxScoreVal;

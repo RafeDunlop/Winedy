@@ -71,7 +71,7 @@
             <Button fx:id="savePreferencesButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onSavePreferencesButtonClicked" text="Save Preferences" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
                <children>
-                  <Button fx:id="mockRecommendButton" layoutX="331.0" layoutY="384.0" mnemonicParsing="false" onAction="#onMockButtonClicked" text="Mock Recommend" />
+                  <Button fx:id="beginRecommendationButton" layoutX="331.0" layoutY="384.0" mnemonicParsing="false" onAction="#onBeginRecommendationClicked" text="Mock Recommend" />
                   <Label fx:id="mockRecWineLabel" layoutX="335.0" layoutY="55.0" text="Wine info goes here&#10;T&#10;h&#10;e&#10;q&#10;u&#10;i&#10;c&#10;k&#10;b&#10;r&#10;o&#10;w&#10;n&#10;f&#10;o&#10;x&#10;" />
                   <Button fx:id="mockSwipeLeft" layoutX="188.0" layoutY="148.0" mnemonicParsing="false" onAction="#onMockSwipeLeftClicked" text="        //&#10;      //&#10;    //&#10;  //&#10;//&#10;\\&#10;  \\&#10;    \\&#10;      \\&#10;        \\" />
                   <Button fx:id="mockSwipeRight" layoutX="566.0" layoutY="148.0" mnemonicParsing="false" onAction="#onMockSwipeRightClicked" text="\\\\&#10;  \\&#10;    \\&#10;      \\&#10;        \\&#10;        //&#10;      //&#10;    //&#10;  //&#10;//" />

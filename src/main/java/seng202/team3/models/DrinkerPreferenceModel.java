@@ -43,7 +43,6 @@ public class DrinkerPreferenceModel {
      * @return the float score value of the preference requested
      */
     public float getPrefValByAttr(String attributeToGet) {
-        System.out.println(preferencesHashMap.get(attributeToGet.toLowerCase()));
         return preferencesHashMap.get(attributeToGet.toLowerCase());
     }
 
@@ -60,6 +59,9 @@ public class DrinkerPreferenceModel {
      * @return String of username
      */
     public String getUsername() {
+        for (String key : preferencesHashMap.keySet()){
+        }
+
         return this.username;
     }
 
