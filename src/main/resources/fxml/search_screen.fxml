@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -11,58 +12,100 @@
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.RangeSlider?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="724.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.SearchScreenController">
+<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="724.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.SearchScreenController">
    <children>
       <Rectangle fx:id="searchWinesRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="600.0" stroke="BLACK" strokeType="INSIDE" width="800.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
-      <Button layoutX="650.0" layoutY="20.0" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#onSearchButtonClicked" prefWidth="100.0" text="Search">
+      <Rectangle fx:id="searchRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="84.0" layoutX="-15.0" layoutY="-80.0" stroke="BLACK" strokeType="INSIDE" width="800.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
+      <Button fx:id="searchButton" layoutX="650.0" layoutY="27.0" mnemonicParsing="false" onAction="#onSearchButtonClicked" prefHeight="50.0" prefWidth="140.0" text="Search">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <TextField fx:id="searchBarTextField" layoutX="20.0" layoutY="20.0" maxWidth="600.0" minWidth="600.0" prefHeight="25.0" prefWidth="600.0" promptText="Search for a wine...">
+      <TextField fx:id="searchBarTextField" layoutX="30.0" layoutY="27.0" prefHeight="50.0" prefWidth="600.0" promptText="Search for a wine...">
          <font>
             <Font size="20.0" />
          </font>
       </TextField>
-      <AnchorPane fx:id="wineDetailsAnchorPane" layoutX="832.0" layoutY="174.0" maxHeight="532.0" maxWidth="347.0" minHeight="500.0" minWidth="300.0" prefHeight="532.0" prefWidth="347.0" AnchorPane.bottomAnchor="18.0" AnchorPane.rightAnchor="21.0" />
       <ScrollPane fx:id="wineScrollPane" fitToWidth="true" layoutX="20.0" layoutY="124.0" prefHeight="580.0" prefWidth="780.0">
          <content>
             <VBox fx:id="searchResultsVBox" />
          </content>
       </ScrollPane>
-      <ComboBox fx:id="colourComboBox" layoutX="940.0" layoutY="60.0" prefWidth="130.0" />
-      <ComboBox fx:id="endDateComboBox" layoutX="940.0" layoutY="428.0" prefWidth="130.0" promptText="End year" />
-      <ComboBox fx:id="startDateComboBox" layoutX="940.0" layoutY="390.0" prefWidth="130.0" promptText="Start year" />
-      <ComboBox fx:id="fullnessComboBox" layoutX="940.0" layoutY="285.0" prefWidth="130.0" />
-      <ComboBox fx:id="countryComboBox" layoutX="940.0" layoutY="525.0" prefWidth="130.0" />
-      <ComboBox fx:id="varietyComboBox" layoutX="940.0" layoutY="160.0" prefWidth="130.0" />
-      <RangeSlider fx:id="priceRangeSlider" blockIncrement="1.0" highValue="50.0" highValueChanging="true" layoutX="905.0" layoutY="646.0" lowValue="10.0" lowValueChanging="true" majorTickUnit="50.0" max="220.0" maxWidth="220.0" minorTickCount="4" prefHeight="16.0" prefWidth="200.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
-      <Label alignment="CENTER" layoutX="905.0" layoutY="30.0" prefWidth="200.0" text="Colour" textAlignment="CENTER">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <Label layoutX="965.0" layoutY="487.0" text="Country">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <Label alignment="CENTER" layoutX="905.0" layoutY="350.0" prefWidth="200.0" text="Date Range">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <Label alignment="CENTER" layoutX="905.0" layoutY="246.0" prefWidth="200.0" text="Fullness">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <Label alignment="CENTER" layoutX="905.0" layoutY="597.0" prefWidth="200.0" text="Price Range ($)">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Label>
-      <Label alignment="CENTER" layoutX="905.0" layoutY="129.0" prefWidth="200.0" text="Variety">
+      <AnchorPane fx:id="wineDetailsAnchorPane" layoutX="832.0" layoutY="174.0" prefHeight="532.0" prefWidth="360.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+      <Rectangle fx:id="filterRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="645.0" layoutX="725.0" layoutY="573.0" mouseTransparent="true" stroke="BLACK" strokeType="INSIDE" width="360.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+      <Rectangle fx:id="infoTextRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="200.0" layoutX="200.0" layoutY="250.0" mouseTransparent="true" stroke="BLACK" strokeType="INSIDE" width="400.0" />
+      <VBox fx:id="filterVBox" alignment="CENTER" layoutX="1079.0" layoutY="19.0" prefWidth="360.0" spacing="5.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="80.0" prefWidth="200.0" text="Colour" textAlignment="CENTER">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <ComboBox fx:id="colourComboBox" prefHeight="40.0" prefWidth="130.0" />
+            <Label alignment="CENTER" prefWidth="200.0" text="Variety">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <ComboBox fx:id="varietyComboBox" prefHeight="40.0" prefWidth="130.0" />
+            <Label text="Country">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <ComboBox fx:id="countryComboBox" prefHeight="40.0" prefWidth="130.0" />
+            <Label alignment="CENTER" prefWidth="200.0" text="Fullness">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <ComboBox fx:id="fullnessComboBox" prefHeight="40.0" prefWidth="130.0" />
+            <Label alignment="CENTER" prefWidth="200.0" text="Date Range">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <ComboBox fx:id="startDateComboBox" prefHeight="40.0" prefWidth="130.0" promptText="Start year" />
+            <ComboBox fx:id="endDateComboBox" prefHeight="40.0" prefWidth="130.0" promptText="End year" />
+            <Label alignment="CENTER" prefWidth="200.0" text="Price Range ($)">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Label>
+            <RangeSlider fx:id="priceRangeSlider" blockIncrement="1.0" highValue="50.0" highValueChanging="true" lowValue="10.0" lowValueChanging="true" majorTickUnit="50.0" max="220.0" maxWidth="220.0" minorTickCount="4" prefHeight="40.0" prefWidth="200.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+               <VBox.margin>
+                  <Insets bottom="30.0" />
+               </VBox.margin>
+            </RangeSlider>
+            <Button fx:id="filterToggleButton" mnemonicParsing="false" onAction="#onFilterToggleButtonClicked" prefHeight="40.0" prefWidth="130.0" text="Filter">
+               <VBox.margin>
+                  <Insets bottom="10.0" top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <Label fx:id="infoTextLabel" alignment="CENTER" layoutX="225.0" layoutY="275.0" mouseTransparent="true" prefHeight="150.0" prefWidth="350.0" text="Complete a search to see some wines. Unsure how to do this? head over to the Help Screen to learn more!" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="20.0" />
          </font>

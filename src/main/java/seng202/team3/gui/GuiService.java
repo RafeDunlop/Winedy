@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.models.Wine;
@@ -93,6 +94,7 @@ public final class GuiService {
         wineButton.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineView(screenAnchorPane, wineToDisplay));
         wineButton.setContentDisplay(TOP);
         wineButton.getStyleClass().add("nav-bar-button");
+        wineButton.setFont(new Font("System", 20));
         return wineButton;
     }
 
@@ -104,11 +106,7 @@ public final class GuiService {
     public static void fillVboxGrid(Wine[] wineList, VBox vBox, AnchorPane wineDetailsAnchorPane) {
         int length = wineList.length;
         int rows = (length % 3 == 0)? length / 3 : length / 3 + 1;
-        if (length == 0) {
-            Label noSearchResultsLabel = new Label("No Wines were found for your search!");
-            vBox.setAlignment(Pos.CENTER);
-            vBox.getChildren().add(noSearchResultsLabel);
-        }
+
         for (int i = 0; i < rows; i++) {
             HBox hbox = new HBox(10); // 10px
             hbox.setSpacing(20);

@@ -2,12 +2,12 @@ package seng202.team3.gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
@@ -61,10 +61,34 @@ public class SearchScreenController {
     private AnchorPane wineDetailsAnchorPane;
 
     @FXML
+    private AnchorPane rootAnchorPane;
+
+    @FXML
     private ScrollPane wineScrollPane;
 
     @FXML
     private Rectangle searchWinesRectangle;
+
+    @FXML
+    private Rectangle filterRectangle;
+
+    @FXML
+    private Rectangle searchRectangle;
+
+    @FXML
+    private Rectangle infoTextRectangle;
+
+    @FXML
+    private Button searchButton;
+
+    @FXML
+    private Button filterToggleButton;
+
+    @FXML
+    private VBox filterVBox;
+
+    @FXML
+    private Label infoTextLabel;
 
     /**
      * Current wine colour filter selected by the Wine Drinker
@@ -92,6 +116,11 @@ public class SearchScreenController {
     private Integer highYear = null;
 
     /**
+     * Boolean to store the state of the sort VBox
+     */
+    private boolean sortVBoxExpanded = false;
+
+    /**
      * Method to initialise the search screen with the required combo boxes for
      * TODO: initialise the combo boxes so that they get the possible options from the database instead of hard coding the options
      */
@@ -115,8 +144,8 @@ public class SearchScreenController {
         countryComboBox.setOnAction(select -> selectedCountry = (countryComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : countryComboBox.getSelectionModel().getSelectedItem());
         varietyComboBox.setOnAction(select -> selectedVariety = (varietyComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : varietyComboBox.getSelectionModel().getSelectedItem());
 
+        collapseFilterVBox();
         addStyleClasses();
-
         initialiseDateRangeComboBoxes();
     }
 
@@ -146,8 +175,27 @@ public class SearchScreenController {
         resultsArray = resultsList.toArray(resultsArray);
 
         GuiService.fillVboxGrid(resultsArray, searchResultsVBox, wineDetailsAnchorPane);
+
+        if (results.getWineList().isEmpty()) {
+            infoTextLabel.setText("Unfortunately there were no results for your search. Try checking your spelling or broadening your filters.");
+            infoTextRectangle.setOpacity(1);
+            infoTextLabel.setOpacity(1);
+        } else {
+            infoTextRectangle.setOpacity(0);
+            infoTextLabel.setOpacity(0);
+        }
     }
 
+    @FXML
+    void onFilterToggleButtonClicked() {
+        if (sortVBoxExpanded) {
+            collapseFilterVBox();
+            sortVBoxExpanded = false;
+        } else {
+            expandFilterVBox();
+            sortVBoxExpanded = true;
+        }
+    }
 
 
     /**
@@ -191,5 +239,51 @@ public class SearchScreenController {
     private void addStyleClasses() {
         wineScrollPane.getStyleClass().add("red-wine-scroll-pane");
         searchWinesRectangle.getStyleClass().add("red-wine-rectangle");
+        filterRectangle.getStyleClass().add("white-wine-rectangle");
+        searchRectangle.getStyleClass().add("white-wine-rectangle");
+        infoTextRectangle.getStyleClass().add("white-red-wine-rectangle");
+        searchButton.getStyleClass().add("nav-bar-button");
+        filterToggleButton.getStyleClass().add("nav-bar-button");
+        colourComboBox.getStyleClass().add("fifteen-combo-box");
+        countryComboBox.getStyleClass().add("fifteen-combo-box");
+        endDateComboBox.getStyleClass().add("fifteen-combo-box");
+        startDateComboBox.getStyleClass().add("fifteen-combo-box");
+        varietyComboBox.getStyleClass().add("fifteen-combo-box");
+        fullnessComboBox.getStyleClass().add("fifteen-combo-box");
+        searchBarTextField.getStyleClass().add("sign-in-screen-text-field");
+    }
+
+    /**
+     *
+     */
+    private void collapseFilterVBox() {
+        filterVBox.setPrefHeight(84);
+        filterRectangle.setHeight(84);
+        for (Node vBoxChild : filterVBox.getChildren()) {
+            vBoxChild.setManaged(false);
+            vBoxChild.setDisable(true);
+            vBoxChild.setOpacity(0);
+        }
+        filterToggleButton.setManaged(true);
+        filterToggleButton.setDisable(false);
+        filterToggleButton.setOpacity(1);
+
+        rootAnchorPane.getChildren().remove(wineDetailsAnchorPane);
+        rootAnchorPane.getChildren().add(wineDetailsAnchorPane);
+    }
+
+    private void expandFilterVBox() {
+        filterVBox.setPrefHeight(645);
+        filterRectangle.setHeight(645);
+        for (Node vBoxChild : filterVBox.getChildren()) {
+            vBoxChild.setManaged(true);
+            vBoxChild.setDisable(false);
+            vBoxChild.setOpacity(1);
+        }
+
+        rootAnchorPane.getChildren().remove(filterRectangle);
+        rootAnchorPane.getChildren().add(filterRectangle);
+        rootAnchorPane.getChildren().remove(filterVBox);
+        rootAnchorPane.getChildren().add(filterVBox);
     }
 }
