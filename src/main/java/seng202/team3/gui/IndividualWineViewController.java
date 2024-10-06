@@ -59,25 +59,10 @@ public class IndividualWineViewController {
     private Label volumeLabel;
 
     @FXML
-    private Label descriptionLabel;
-
-    @FXML
-    private Label wineDescriptionLabel;
-
-    @FXML
-    private Label awardsLabel;
-
-    @FXML
-    private Label wineAwardsLabel;
-
-    @FXML
     private Label notLoggedInLabel;
 
     @FXML
     private Rectangle rectangle;
-
-    @FXML
-    private ScrollPane descriptionScrollPane;
 
     @FXML
     private Button likeButton;
@@ -85,13 +70,17 @@ public class IndividualWineViewController {
     @FXML
     private Button addToListButton;
 
+    @FXML
+    private Button viewInDetailButton;
+
+
     /**
      * the Wine object whose details are displayed on the screen
      */
     private final Wine wineToDisplay;
 
     /**
-     * Constructor to pass the Wine to be displayed into teh controller
+     * Constructor to pass the Wine to be displayed into the controller
      * @param wineToDisplay Wine whose details are to be displayed
      */
     public IndividualWineViewController(Wine wineToDisplay) {
@@ -110,15 +99,15 @@ public class IndividualWineViewController {
         WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
 
         rectangle.getStyleClass().add("white-wine-rectangle");
-        descriptionScrollPane.getStyleClass().add("individual-wine-view-scroll-pane");
         likeButton.getStyleClass().add("like-button");
         addToListButton.getStyleClass().add("add-to-list-button");
-        descriptionLabel.setStyle("-fx-background-color: transparent");
+        viewInDetailButton.getStyleClass().add("nav-bar-button");
         wineNameLabel.setText(wineToDisplay.getName());
         fullnessLabel.setText(wineToDisplay.getFullness());
         priceLabel.setText("$" + wineToDisplay.getPricePerBottle());
         ABVLabel.setText(wineToDisplay.getAlcoholByVolume() + "%");
         volumeLabel.setText(wineToDisplay.getVolumeInMl() + "mL");
+        notLoggedInLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour");
 
         if (!wineToDisplay.getStyle().isEmpty()) {
             wineStyleLabel.setVisible(true);
@@ -130,23 +119,6 @@ public class IndividualWineViewController {
             wineCountryLabel.setText(wineToDisplay.getCountry());
             countryLabel.setVisible(true);
         }
-        if (!wineToDisplay.getLongDescription().isEmpty()) {
-            descriptionLabel.setVisible(true);
-            wineDescriptionLabel.setText(wineToDisplay.getLongDescription());
-        } else {
-            wineDescriptionLabel.setText("This wine does not have a description");
-        }
-        if (!(Arrays.stream(wineToDisplay.getAwards()).allMatch(award -> award == null || award.isEmpty()))) {
-            awardsLabel.setVisible(true);
-            String awards = Arrays
-                    .stream(wineToDisplay.getAwards())
-                    .filter(Objects::nonNull)
-                    .collect(Collectors.joining("\n"));
-            wineAwardsLabel.setText(awards);
-        } else {
-            wineAwardsLabel.setAlignment(Pos.TOP_CENTER);
-            wineAwardsLabel.setText("This wine does not have any awards");
-        }
 
         if (wineDrinkerManager.getCurrentUser() == null) {
             likeButton.setDisable(true);
@@ -156,11 +128,9 @@ public class IndividualWineViewController {
             notLoggedInLabel.setVisible(true);
         }  else {
            if (individualWineService.inFavourites(wineToDisplay)) {
-               likeButton.setStyle(individualWineService.inFavourites(wineToDisplay)? "-fx-background-color: red" : "");
+               likeButton.setStyle(individualWineService.inFavourites(wineToDisplay)? "-fx-background-color: -fx-dark-red-wine-colour" : "");
            }
         }
-
-
 
         log.info("Individual wine view loaded successfully");
     }
@@ -168,11 +138,16 @@ public class IndividualWineViewController {
     @FXML
     public void onLikeButtonClicked() {
         individualWineService.updateFavourites(wineToDisplay);
-        likeButton.setStyle(individualWineService.inFavourites(wineToDisplay)? "-fx-background-color: red" : "");
+        likeButton.setStyle(individualWineService.inFavourites(wineToDisplay)? "-fx-background-color: -fx-dark-red-wine-colour" : "");
     }
 
     @FXML
     public void onAddButtonClicked() {
+
+    }
+
+    @FXML
+    public void onViewInDetailButtonClicked() {
 
     }
 

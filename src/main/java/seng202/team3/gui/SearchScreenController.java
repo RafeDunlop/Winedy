@@ -270,6 +270,8 @@ public class SearchScreenController {
 
         rootAnchorPane.getChildren().remove(wineDetailsAnchorPane);
         rootAnchorPane.getChildren().add(wineDetailsAnchorPane);
+
+        filterToggleButton.setText("Filter");
     }
 
     private void expandFilterVBox() {
@@ -285,5 +287,7 @@ public class SearchScreenController {
         rootAnchorPane.getChildren().add(filterRectangle);
         rootAnchorPane.getChildren().remove(filterVBox);
         rootAnchorPane.getChildren().add(filterVBox);
+
+        filterToggleButton.setText("Close");
     }
 }
