@@ -1,11 +1,17 @@
 package seng202.team3.services;
 
 
+import com.password4j.Hash;
 import seng202.team3.models.DrinkerPreferenceModel;
 import seng202.team3.models.Wine;
 import seng202.team3.models.WineDrinker;
 import seng202.team3.repository.RecommendationDAO;
+import seng202.team3.repository.WineDAO;
 
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 import java.util.List;
 
 /**
@@ -15,9 +21,10 @@ import java.util.List;
  */
 public class RecommendationManager {
     private static RecommendationManager instance;
-    private float  SELECT_PREFERENCE_DEFAULT = 7;
-
+    private final float SELECT_PREFERENCE_DEFAULT_VALUE = 7;
     private  RecommendationDAO recommendationDAO;
+    private WineDAO wineDAO;
+    private List<Integer> wineIndexes;
     private  WineDrinkerManager wineDrinkerManager;
     private  DrinkerPreferenceModel curDrinkerPrefModel;
 
@@ -33,6 +40,7 @@ public class RecommendationManager {
      */
     private RecommendationManager (){
         recommendationDAO = new RecommendationDAO();
+        wineDAO = new WineDAO();
     }
 
     /**
@@ -55,18 +63,45 @@ public class RecommendationManager {
         String colPref = curUser.getColourPreference();
         String grapePref = curUser.getGrapePreference();
         String fullnessPref = curUser.getFullnessPreference();
-        recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), colPref, SELECT_PREFERENCE_DEFAULT);
-        recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), grapePref, SELECT_PREFERENCE_DEFAULT);
-        recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), fullnessPref, SELECT_PREFERENCE_DEFAULT);
+        recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), colPref, SELECT_PREFERENCE_DEFAULT_VALUE);
+        recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), grapePref, SELECT_PREFERENCE_DEFAULT_VALUE);
+        recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), fullnessPref, SELECT_PREFERENCE_DEFAULT_VALUE);
 
     }
 
     /**
      * Picks 5 wines for the recommendation using score threshold
-     * @return List<Wine> A list of 5 wines to run
+     * @return HashMap<Wine, Integer> A hash map of the select wines and it's score
      */
-    // could return a hash map of wine to the calculated score
-    public  List<Wine> chooseWinesToRecommend(){return null;}
+    public HashMap<Wine, Integer> recommendWines(){
+        if (wineIndexes == null){
+            setupWineIndexList();
+        }
+        Random rand = new SecureRandom();
+        HashMap<Wine, Integer> selectedWines = new HashMap<>();
+        int THRESHOLD = 5;
+        while (selectedWines.size() < 5) {
+            int randomIndex = rand.nextInt(wineIndexes.size());
+            Wine wineToCheck = wineDAO.getWineByID(wineIndexes.get(randomIndex));
+            int wineScore = calculateWineScore(wineToCheck);
+            if (wineScore > THRESHOLD) {
+                selectedWines.put(wineToCheck, wineScore);
+            }
+        }
+
+        return selectedWines;
+    }
+
+    /**
+     * Gets all wines from Database and inputs their id's
+     * into a list for random selection
+     */
+    public void setupWineIndexList(){
+        List<Wine> wines = wineDAO.getAll();
+        for (Wine wine : wines) {
+            wineIndexes.add(wine.getUniqueWineID());
+        }
+    }
 
     /**
      * Adjusts the users built in preference by whether they liked the given wine
@@ -86,8 +121,8 @@ public class RecommendationManager {
         curDrinkerPrefModel = recommendationDAO.getPreferenceModelByUsername(currentUser.getUsername());
         if (curDrinkerPrefModel == null){
             recommendationDAO.createNewPreferenceModel(currentUser.getUsername());
+            updatePreferenceModelWithUserSelectedPreferences();
         }
-        updatePreferenceModelWithUserSelectedPreferences();
         curDrinkerPrefModel = recommendationDAO.getPreferenceModelByUsername(currentUser.getUsername());
     }
 
