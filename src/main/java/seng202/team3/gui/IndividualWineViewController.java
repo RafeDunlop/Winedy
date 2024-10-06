@@ -29,8 +29,6 @@ public class IndividualWineViewController {
      */
     private static final Logger log = LogManager.getLogger(IndividualWineViewController.class);
 
-    private IndividualWineViewService individualWineService;
-
     @FXML
     private Label wineNameLabel;
 
@@ -73,14 +71,19 @@ public class IndividualWineViewController {
     @FXML
     private Button viewInDetailButton;
 
+    /**
+     * Service class for handling logic based tasks
+     */
+    private IndividualWineViewService individualWineService;
 
     /**
-     * the Wine object whose details are displayed on the screen
+     * The Wine object whose details are displayed on the screen
      */
     private final Wine wineToDisplay;
 
     /**
      * Constructor to pass the Wine to be displayed into the controller
+     *
      * @param wineToDisplay Wine whose details are to be displayed
      */
     public IndividualWineViewController(Wine wineToDisplay) {
@@ -88,9 +91,9 @@ public class IndividualWineViewController {
     }
 
     /**
-     * initializes the fxml file and sets the relevant styles.
-     * displays all non-null attributes which are to be displayed to their outlined labels and makes invisible any
-     * that are null along with their indicator labels
+     * Initializes the fxml file and sets the relevant styles.
+     * Displays all non-null attributes which are to be displayed to their outlined labels and makes invisible any
+     * that are null along with their indicator labels.
      */
     @FXML
     public void initialize() {
@@ -135,17 +138,28 @@ public class IndividualWineViewController {
         log.info("Individual wine view loaded successfully");
     }
 
+    /**
+     * Used by JavaFX as the OnAction of the Like Button.
+     * Updates whether the wine is the Wine Drinker's favourites list.
+     * Sets the style of the button to reflect whether the Wine has been added or removed from the favourites list
+     */
     @FXML
     public void onLikeButtonClicked() {
         individualWineService.updateFavourites(wineToDisplay);
         likeButton.setStyle(individualWineService.inFavourites(wineToDisplay)? "-fx-background-color: -fx-dark-red-wine-colour" : "");
     }
 
+    /**
+     * Used by JavaFX as OnAction of the Add Button.
+     */
     @FXML
     public void onAddButtonClicked() {
 
     }
 
+    /**
+     * Used by JavaFX as the OnAction of the View In Detail Button.
+     */
     @FXML
     public void onViewInDetailButtonClicked() {
 
