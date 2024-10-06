@@ -148,8 +148,7 @@ public class WineDAOTest {
 
     @Test
     void testSearchWinesNoKeywordsAndFilters() {
-        List<String> keywords = new ArrayList<>();
-        SearchWineList searchWineList = wineDAO.searchWines(keywords, null, null, 0.0f, 220.0f, null, null, null, null);
+        SearchWineList searchWineList = wineDAO.searchWines(null, null, null, 0.0f, 220.0f, null, null, null, null);
         assertEquals(CSV_LENGTH, searchWineList.getWineList().size());
     }
 }
