@@ -18,25 +18,10 @@ import seng202.team3.services.WineListManager;
 public class ProfileListViewScreenController {
 
     @FXML
-    private Button backButton;
-
-    @FXML
-    private Button removeAllButton;
-
-    @FXML
     private Button renameButton;
 
     @FXML
     private Button saveChangesButton;
-
-    @FXML
-    private ListView<?> searchListView;
-
-    @FXML
-    private ComboBox<?> sortByComboBox;
-
-    @FXML
-    private AnchorPane wineDetailsAnchorPane;
 
     @FXML
     private AnchorPane rootAnchorPane;
@@ -48,9 +33,8 @@ public class ProfileListViewScreenController {
     private Label wineListNameLabel;
 
     @FXML
-    private VBox listContentsVBox;
-    @FXML
     private Button editListButton;
+
     @FXML
     private Button cancelChangesButton;
 

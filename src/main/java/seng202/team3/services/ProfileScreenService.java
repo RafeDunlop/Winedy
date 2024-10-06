@@ -1,5 +1,6 @@
 package seng202.team3.services;
 
+import seng202.team3.models.UserWineList;
 import seng202.team3.models.WineDrinker;
 
 import java.util.List;
@@ -51,7 +52,7 @@ public class ProfileScreenService {
      * @return boolean of whether it is valid
      */
     public boolean isValidListName(String listName) {
-        List<String> currentListNames = wineListManager.getAllUserWineLists().stream().map(list -> list.getWineListName()).collect(Collectors.toList());
+        List<String> currentListNames = wineListManager.getAllUserWineLists().stream().map(UserWineList::getWineListName).toList();
         return !listName.trim().isEmpty() && !currentListNames.contains(listName);
     }
 }

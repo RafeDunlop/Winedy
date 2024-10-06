@@ -37,7 +37,7 @@ public final class GuiService {
 
     /**
      * Returns the content of the file at the given path as a String
-     * @param filePath
+     * @param filePath given path of file
      * @return A String of the file content at the given path
      */
     public static String getContentFromFile(String filePath) {
@@ -97,8 +97,8 @@ public final class GuiService {
 
     /** Fills VBox with wines. This could be search results or contents of a wine list.
      *
-     * @param wineList
-     * @param vBox
+     * @param wineList wineList to get wines from
+     * @param vBox vBox to fill
      */
     public static void fillVboxGrid(Wine[] wineList, VBox vBox, AnchorPane wineDetailsAnchorPane) {
         int length = wineList.length;
