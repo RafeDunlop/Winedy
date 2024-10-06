@@ -101,6 +101,8 @@ public class ProfileWineListsScreenController {
 
         rootVBox.getChildren().add(pagination);
 
+        styleButtons();
+
     }
 
     /**
@@ -219,11 +221,24 @@ public class ProfileWineListsScreenController {
 
     }
 
+    /**
+     * Sets up and styles the wine list button
+     * @param button the button to set up
+     * @param index index of the wine list that it represents
+     */
     private void setUpWineListButton(Button button, int index) {
         button.setOnAction(event -> FXWrapper.getInstance().loadIndividualListView(wineListsAnchorPane, wineLists.get(index)));
         button.setPrefSize(800, 100);
         button.getStyleClass().add("nav-bar-button");
     }
 
-
+    /**
+     * Styles the buttons to be consistent with all other buttons in the UI
+     */
+    private void styleButtons() {
+        createListButton.getStyleClass().add("nav-bar-button");
+        deleteListsButton.getStyleClass().add("nav-bar-button");
+        cancelButton.getStyleClass().add("nav-bar-button");
+        deleteButton.getStyleClass().add("nav-bar-button");
+    }
 }

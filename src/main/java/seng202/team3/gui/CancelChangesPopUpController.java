@@ -28,6 +28,9 @@ public class CancelChangesPopUpController {
     @FXML
     private Button cancelChangesButton;
 
+    @FXML
+    private Button exitButton;
+
     private AnchorPane toNest;
 
     private WineListManager wineListManager;
@@ -66,6 +69,7 @@ public class CancelChangesPopUpController {
             areYouSureLabel.setText("You have unsaved changes! Would you like to save them or discard them?");
         }
 
+        styleButtons();
     }
 
     /**
@@ -104,5 +108,14 @@ public class CancelChangesPopUpController {
     @FXML
     public void onExitButtonClicked() {
         FXWrapper.getInstance().removePopUp(overlayPane);
+    }
+
+    /**
+     * Styles the buttons to be consistent with all other buttons in the UI
+     */
+    private void styleButtons() {
+        saveChangesButton.getStyleClass().add("nav-bar-button");
+        cancelChangesButton.getStyleClass().add("nav-bar-button");
+        exitButton.getStyleClass().add("nav-bar-button");
     }
 }

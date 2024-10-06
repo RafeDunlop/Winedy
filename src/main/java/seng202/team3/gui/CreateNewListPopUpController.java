@@ -63,6 +63,7 @@ public class CreateNewListPopUpController {
 
         setUpTextAreaListenersForNameValidation();
 
+        styleButtons();
     }
 
     /**
@@ -119,5 +120,13 @@ public class CreateNewListPopUpController {
                 descErrorLabel.setVisible(false);
             }
         });
+    }
+
+    /**
+     * Styles the buttons to be consistent with all other buttons in the UI
+     */
+    private void styleButtons() {
+         exitButton.getStyleClass().add("nav-bar-button");
+         createNewListButton.getStyleClass().add("nav-bar-button");
     }
 }

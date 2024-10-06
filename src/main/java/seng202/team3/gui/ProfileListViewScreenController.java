@@ -19,26 +19,6 @@ import seng202.team3.services.WineListManager;
  */
 public class ProfileListViewScreenController {
 
-    @FXML
-    private Button backButton;
-
-    @FXML
-    private Button removeAllButton;
-
-    @FXML
-    private Button renameButton;
-
-    @FXML
-    private Button saveListChangesButton;
-
-    @FXML
-    private ListView<?> searchListView;
-
-    @FXML
-    private ComboBox<?> sortByComboBox;
-
-    @FXML
-    private AnchorPane wineDetailsAnchorPane;
 
     @FXML
     private AnchorPane rootAnchorPane;
@@ -51,6 +31,16 @@ public class ProfileListViewScreenController {
 
     @FXML
     private VBox listContentsVBox;
+
+    @FXML
+    private Button backButton;
+
+    @FXML
+    private Button renameButton;
+
+    @FXML
+    private Button saveListChangesButton;
+
     @FXML
     private Button editListButton;
 
@@ -112,6 +102,8 @@ public class ProfileListViewScreenController {
             editDescriptionButton.setVisible(false);
         }
         setUpTextAreaListenersForErrorMessages();
+
+        styleButtons();
 
     }
 
@@ -268,5 +260,19 @@ public class ProfileListViewScreenController {
                 descErrorLabel.setVisible(false);
             }
         });
+    }
+
+    /**
+     * Styles the buttons to be consistent with all other buttons in the UI
+     */
+    private void styleButtons() {
+        backButton.getStyleClass().add("nav-bar-button");
+        renameButton.getStyleClass().add("nav-bar-button");
+        saveListChangesButton.getStyleClass().add("nav-bar-button");
+        editListButton.getStyleClass().add("nav-bar-button");
+        cancelListChangesButton.getStyleClass().add("nav-bar-button");
+        cancelDescChangesButton.getStyleClass().add("nav-bar-button");
+        editDescriptionButton.getStyleClass().add("nav-bar-button");
+        saveDescChangesButton.getStyleClass().add("nav-bar-button");
     }
 }

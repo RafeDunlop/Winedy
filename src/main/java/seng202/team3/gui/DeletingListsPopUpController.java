@@ -1,6 +1,7 @@
 package seng202.team3.gui;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -25,9 +26,16 @@ public class DeletingListsPopUpController {
     @FXML
     private VBox listNamesVBox;
 
+    @FXML
+    private Button cancelButton;
+
+    @FXML
+    private Button yesButton;
+
     private WineListManager wineListManager;
 
     private List<UserWineList> listsToDelete;
+
 
 
     public DeletingListsPopUpController(List<UserWineList> listsToDelete) {
@@ -46,6 +54,8 @@ public class DeletingListsPopUpController {
 
         areYouSureLabel.setText("Are you sure you would like to delete " + listsToDelete.size() + " lists?");
 
+        styleButtons();
+
         int rows = (listsToDelete.size() % 2 == 0)? listsToDelete.size() / 2 : listsToDelete.size() / 2 + 1;
         for (int i = 0; i < rows ; i++) {
             Label bullet1 = new Label("- " + listsToDelete.get(2 * i).getWineListName() + " (" + listsToDelete.get(2*i).getWineList().size() +" wines)");
@@ -61,6 +71,7 @@ public class DeletingListsPopUpController {
             }
             listNamesVBox.getChildren().add(bulletFlow);
         }
+
     }
 
     /**
@@ -82,5 +93,13 @@ public class DeletingListsPopUpController {
         }
         FXWrapper.getInstance().removePopUp(overlayPane);
         FXWrapper.getInstance().loadProfileTabPane(1);
+    }
+
+    /**
+     * Styles the buttons to be consistent with all other buttons in the UI
+     */
+    private void styleButtons() {
+        yesButton.getStyleClass().add("nav-bar-button");
+        cancelButton.getStyleClass().add("nav-bar-button");
     }
 }
