@@ -2,7 +2,6 @@ package seng202.team3.gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -179,10 +178,8 @@ public class SearchScreenController {
                 !"All".equals(selectedFullness) ? selectedFullness : null,
                 !"All".equals(selectedVariety) ? selectedVariety : null);
         List<Wine> resultsList = results.getWineList();
-        Wine[] resultsArray = new Wine[resultsList.size()];
-        resultsArray = resultsList.toArray(resultsArray);
 
-        GuiService.fillVboxGrid(resultsArray, searchResultsVBox, wineDetailsAnchorPane);
+        GuiService.startButtonGeneration(resultsList, searchResultsVBox, wineDetailsAnchorPane, 3);
 
         if (results.getWineList().isEmpty()) {
             infoTextLabel.setText("Unfortunately there were no results for your search. Try checking your spelling or broadening your filters.");
@@ -217,7 +214,7 @@ public class SearchScreenController {
 
         List<Integer> years = IntStream.rangeClosed(2007, 2019)
                 .boxed()
-                .collect(Collectors.toList());
+                .toList();
         ObservableList<Integer> yearList = FXCollections.observableArrayList();
         yearList.add(null);
         yearList.addAll(years);
