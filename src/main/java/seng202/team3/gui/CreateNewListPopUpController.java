@@ -94,7 +94,7 @@ public class CreateNewListPopUpController {
     @FXML
     public void onExitClicked() {
         FXWrapper.getInstance().removePopUp(overlayPane);
-        FXWrapper.getInstance().loadProfileTabPane(1);
+        FXWrapper.getInstance().loadPreviousScreen();
     }
 
     /**
