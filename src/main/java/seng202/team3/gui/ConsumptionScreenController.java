@@ -131,7 +131,7 @@ public class ConsumptionScreenController {
             Button button = new Button();
 
             button.setGraphic(buttonGraphic);
-            button.setOnAction(event -> FXWrapper.getInstance().loadLogPopup(log));
+            button.setOnAction(event -> FXWrapper.getInstance().loadLogPopup(log, null));
             button.setPrefSize(500, 80);
             vbox.getChildren().add(button);
 ;        }
@@ -165,7 +165,9 @@ public class ConsumptionScreenController {
      */
     @FXML
     void onLogClicked() {
-
+        FXWrapper fxWrapper = FXWrapper.getInstance();
+        fxWrapper.addPreviousScreen(() -> fxWrapper.loadProfileTabPane(2));
+        FXWrapper.getInstance().loadLogPopup(null, null);
     }
 
 }

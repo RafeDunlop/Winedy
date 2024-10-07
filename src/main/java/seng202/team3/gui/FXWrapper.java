@@ -171,10 +171,10 @@ public class FXWrapper {
         }
     }
 
-    public void loadLogPopup(WineLog wineLog) {
+    public void loadLogPopup(WineLog wineLog, Wine wine) {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.ADDLOGPOPUP.file));
-            popupLoader.setControllerFactory(param -> new LogPopupController(wineLog));
+            popupLoader.setControllerFactory(param -> new LogPopupController(wineLog, wine));
             StackPane popup = popupLoader.load();
             superPane.getChildren().add(popup);
         } catch (IOException e) {
