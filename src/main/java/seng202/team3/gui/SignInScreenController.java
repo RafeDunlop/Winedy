@@ -14,8 +14,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team3.models.WineAttribute;
+import seng202.team3.repository.Table;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.SignInScreenService;
+import seng202.team3.services.SearchScreenService;
 import seng202.team3.exceptions.IllegalWineDrinkerException;
 
 /**
@@ -121,12 +124,12 @@ public class SignInScreenController {
      * TODO: variety combobox is neither exhaustive nor can in be this long!
      */
     public void initialize() {
+        SearchScreenService searchScreenService = new SearchScreenService();
         toggleSignInButton.setOnAction(x -> toggleMode());
         toggleMode();
-        colourPreferenceComboBox.getItems().addAll(null, "Red", "White", "Rose");
-        fullnessPreferenceComboBox.getItems().addAll(null, "Off Dry", "Dry", "Light", "Medium", "Full");
-        varietyPreferenceComboBox.getItems().addAll(null, "Pinot Noir", "Chardonnay", "Sauvignon Blanc", "Cabernet Sauvignon",
-                "Pinot Gris", "Malbec", "Shiraz", "Viognier", "Syrah", "Grenache", "Merlot", "Prosecco");
+        colourPreferenceComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER));
+        fullnessPreferenceComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.FULLNESS, Table.WINESUPER));
+        varietyPreferenceComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE));
 
         addStyleClasses();
 
