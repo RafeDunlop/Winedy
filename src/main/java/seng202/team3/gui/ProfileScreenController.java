@@ -78,6 +78,13 @@ public class ProfileScreenController {
 
     @FXML
     private void onBeginRecommendationClicked() {
+        beginRecommendationButton.setVisible(false);
+        beginRecommendationButton.setDisable(true);
+        mockSwipeLeft.setVisible(true);
+        mockSwipeLeft.setDisable(false);
+        mockSwipeRight.setVisible(true);
+        mockSwipeRight.setDisable(false);
+        mockRecWineLabel.setVisible(true);
         recommendedWineIndex = 0;
         recommendedWines = new ArrayList<>();
         wineMatchPercentages = new ArrayList<>();
