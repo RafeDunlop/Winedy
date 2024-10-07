@@ -1,0 +1,19 @@
+/*
+ * This style sheet defines the white-wine-pane style class for AnchorPane.
+ */
+.root {
+    -fx-white-wine-colour: #EEEDC4;
+    -fx-dark-white-wine-colour: derive(-fx-white-wine-colour, -30%);
+}
+
+/*
+ * AnchorPane with a tan/yellow background, slightly darker border (stroke), and rounded corners.
+ */
+.white-wine-pane {
+    -fx-background-color: -fx-white-wine-colour;
+    -fx-background-radius: 50px; /* Rounded corners */
+
+    -fx-border-color: -fx-dark-white-wine-colour;
+    -fx-border-width: 5px;
+    -fx-border-radius: 50px;
+}

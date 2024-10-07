@@ -132,6 +132,7 @@ public final class GuiService {
 
     public static void setUpPopUp(StackPane overlayPane, AnchorPane popUpAnchorPane) {
         overlayPane.getStyleClass().add("overlay-stackpane");
+        popUpAnchorPane.getStyleClass().add("white-wine-pane");
         overlayPane.setOnMouseClicked(event -> {
             Bounds popUpBounds = popUpAnchorPane.localToScene(popUpAnchorPane.getLayoutBounds());
             if (!popUpBounds.contains(event.getSceneX(), event.getSceneY())) {
