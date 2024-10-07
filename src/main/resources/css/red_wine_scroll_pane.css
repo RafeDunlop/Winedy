@@ -2,14 +2,14 @@
  * This style sheets defines the red-wine-scroll-pane style class.
  */
 .root {
-     -fx-rwsp-main-colour: derive(#821D38, 30%);
+    -fx-rwsp-main-colour: derive(#821D38, 30%);
 }
 
- /*
- * A ScrollPane used to control the viewpoint of the information section of the Help Screen.
- * Everything is transparent other than the thumb.
- * ScrollBar styles are only defined for the vertical pseudo class as this ScrollPane has no horizontal ScrollBar.
- */
+/*
+* A ScrollPane used to control the viewpoint of the information section of the Help Screen.
+* Everything is transparent other than the thumb.
+* ScrollBar styles are only defined for the vertical pseudo class as this ScrollPane has no horizontal ScrollBar.
+*/
 .red-wine-scroll-pane,
 .red-wine-scroll-pane .viewport,
 .red-wine-scroll-pane .scroll-bar:vertical,
@@ -34,13 +34,4 @@
     -fx-background-color: -fx-rwsp-main-colour;
     -fx-scale-x: 1.5;
     -fx-scale-y: 1.5;
-}
-
-.red-wine-scroll-pane .viewport {
-    -fx-background-color: #f0f0f0; /* Light gray background */
-    -fx-background-insets: 2px; /* Insets to keep background within borders */
-    -fx-border-color: -fx-rwsp-main-colour;
-    -fx-border-width: 2px;
-    -fx-border-radius: 30px;
-    -fx-background-radius: 28px; /* Smaller than border-radius to keep background inside */
 }

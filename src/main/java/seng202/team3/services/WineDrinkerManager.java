@@ -163,7 +163,7 @@ public class WineDrinkerManager {
 
     /**
      * Sets wineDrinkerDao used for setting up test database
-     * @param wineDrinkerDAO
+     * @param wineDrinkerDAO DAO for the wine drinker
      */
     public void setWineDrinkerDAO(WineDrinkerDAO wineDrinkerDAO) {
        this.wineDrinkerDAO = wineDrinkerDAO;

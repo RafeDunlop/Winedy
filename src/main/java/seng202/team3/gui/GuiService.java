@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.models.Wine;
@@ -37,7 +38,7 @@ public final class GuiService {
 
     /**
      * Returns the content of the file at the given path as a String
-     * @param filePath
+     * @param filePath given path of file
      * @return A String of the file content at the given path
      */
     public static String getContentFromFile(String filePath) {
@@ -92,22 +93,20 @@ public final class GuiService {
         addImageGraphicToButton(wineButton, "/images/" + wineToDisplay.getColour() + "_wine_image.png", 100, 100, false);
         wineButton.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineView(screenAnchorPane, wineToDisplay));
         wineButton.setContentDisplay(TOP);
+        wineButton.getStyleClass().add("nav-bar-button");
+        wineButton.setFont(new Font("System", 20));
         return wineButton;
     }
 
     /** Fills VBox with wines. This could be search results or contents of a wine list.
      *
-     * @param wineList
-     * @param vBox
+     * @param wineList wineList to get wines from
+     * @param vBox vBox to fill
      */
     public static void fillVboxGrid(Wine[] wineList, VBox vBox, AnchorPane wineDetailsAnchorPane) {
         int length = wineList.length;
         int rows = (length % 3 == 0)? length / 3 : length / 3 + 1;
-        if (length == 0) {
-            Label noSearchResultsLabel = new Label("No Wines were found for your search!");
-            vBox.setAlignment(Pos.CENTER);
-            vBox.getChildren().add(noSearchResultsLabel);
-        }
+
         for (int i = 0; i < rows; i++) {
             HBox hbox = new HBox(10); // 10px
             hbox.setSpacing(20);
@@ -133,6 +132,7 @@ public final class GuiService {
 
     public static void setUpPopUp(StackPane overlayPane, AnchorPane popUpAnchorPane) {
         overlayPane.getStyleClass().add("overlay-stackpane");
+        popUpAnchorPane.getStyleClass().add("white-wine-pane");
         overlayPane.setOnMouseClicked(event -> {
             Bounds popUpBounds = popUpAnchorPane.localToScene(popUpAnchorPane.getLayoutBounds());
             if (!popUpBounds.contains(event.getSceneX(), event.getSceneY())) {

@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Cucumber tests for AT_26 and AT_27 (updating user preferences)
- * @author Krishna Sridhar
+ * @author Krishna Sridhar (nsr36)
  */
 
 public class UpdatePreferencesStepDefinitions {
