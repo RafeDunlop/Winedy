@@ -229,7 +229,7 @@ public class FXWrapper {
         }
     }
 
-     * Loads a pop-up that allows user to select a wineList. The wine is added to the selected list
+     /** Loads a pop-up that allows user to select a wineList. The wine is added to the selected list
      * @param wine The wine to be added to the list
      */
     public void loadAddWineToListPopUp(Wine wine) {
