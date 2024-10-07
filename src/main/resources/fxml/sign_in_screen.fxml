@@ -56,10 +56,10 @@
                <Font size="20.0" />
             </font>
          </Label>
-         <ComboBox fx:id="colourPreferenceComboBox" layoutX="71.0" layoutY="279.0" prefHeight="40.0" prefWidth="130.0" promptText="Select" visibleRowCount="5" AnchorPane.leftAnchor="71.0" AnchorPane.topAnchor="279.0" />
-         <ComboBox fx:id="varietyPreferenceComboBox" layoutX="235.0" layoutY="280.0" prefHeight="40.0" prefWidth="130.0" promptText="Select" visibleRowCount="5" />
-         <ComboBox fx:id="fullnessPreferenceComboBox" layoutX="398.0" layoutY="279.0" prefHeight="40.0" prefWidth="130.0" promptText="Select" visibleRowCount="5" />
-         <Slider fx:id="abvLimitSlider" blockIncrement="1.0" layoutX="150.0" layoutY="440.0" majorTickUnit="1.0" max="16.0" maxWidth="300.0" min="8.0" minWidth="300.0" minorTickCount="1" prefHeight="14.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" AnchorPane.leftAnchor="150.0" />
+         <ComboBox fx:id="colourPreferenceComboBox" layoutX="71.0" layoutY="279.0" prefHeight="40.0" prefWidth="130.0" promptText="None" visibleRowCount="5" AnchorPane.leftAnchor="71.0" AnchorPane.topAnchor="279.0" />
+         <ComboBox fx:id="varietyPreferenceComboBox" layoutX="235.0" layoutY="280.0" prefHeight="40.0" prefWidth="130.0" promptText="None" visibleRowCount="5" />
+         <ComboBox fx:id="fullnessPreferenceComboBox" layoutX="398.0" layoutY="279.0" prefHeight="40.0" prefWidth="130.0" promptText="None" visibleRowCount="5" />
+         <Slider fx:id="abvLimitSlider" blockIncrement="1.0" layoutX="150.0" layoutY="440.0" majorTickUnit="1.0" max="16.0" maxWidth="300.0" min="8.0" minWidth="300.0" minorTickCount="1" prefHeight="14.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" AnchorPane.leftAnchor="150.0" value="16"/>
       </children>
    </AnchorPane>
    <Label fx:id="toggleLabel" alignment="CENTER" layoutX="150.0" layoutY="570.0" prefWidth="300.0" text="Don't have an account?">
