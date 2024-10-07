@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
+import seng202.team3.models.WineLog;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -166,6 +167,17 @@ public class FXWrapper {
             Parent leaf = individualListViewLoader.load();
             clearPane(toNest);
             toNest.getChildren().add(leaf);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    public void loadLogPopup(WineLog wineLog, Wine wine) {
+        try {
+            FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.ADDLOGPOPUP.file));
+            popupLoader.setControllerFactory(param -> new LogPopupController(wineLog, wine));
+            StackPane popup = popupLoader.load();
+            superPane.getChildren().add(popup);
         } catch (IOException e) {
             log.error(e);
         }
