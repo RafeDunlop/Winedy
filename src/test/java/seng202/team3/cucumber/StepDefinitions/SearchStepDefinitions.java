@@ -41,9 +41,11 @@ public class SearchStepDefinitions {
 
     @When("search with the phrase {string}")
     public void searchWithPhrase(String phrase) {
-        this.keywords = List.of(phrase.split(" "));
-        SearchWineList searchWineList = wineDAO.searchWines(keywords, null, null, null, null, null, null, null, null);
-        addWines(searchWineList);
+        if (phrase != null) {
+            this.keywords = List.of(phrase.split(" "));
+            SearchWineList searchWineList = wineDAO.searchWines(keywords, null, null, null, null, null, null, null, null);
+            addWines(searchWineList);
+        }
     }
     @When("enters the filter Colour: {string}")
     public void searchWithColourFilter(String colour) {
@@ -70,7 +72,7 @@ public class SearchStepDefinitions {
     public void theSearchedWinesShouldMatchPhraseAndFilters(String phrase, String colour, String fullness, String country) {
         List<String> keywords = List.of(phrase.split(" "));
         SearchWineList searchWineList = wineDAO.searchWines(keywords, null, null, null, null, country, colour, fullness, null);
-        int matching = getMatching(keywords);
+        int matching = getMatching(this.keywords);
         assertEquals(searchWineList.getWineList().size(), matching);
     }
 
@@ -79,10 +81,12 @@ public class SearchStepDefinitions {
         boolean wordMatch;
         for (Wine wine : searchedWines.getWineList()) {
             wordMatch = false;
-            for (String word : keywords) {
-                if (wine.getName().contains(word) || wine.getLongDescription().contains(word)) {
-                    wordMatch = true;
-                    break;
+            if (keywords != null) {
+                for (String word : keywords) {
+                    if (wine.getName().contains(word) || wine.getLongDescription().contains(word)) {
+                        wordMatch = true;
+                        break;
+                    }
                 }
             }
             if (wine.getColour().equals(this.colour) && wine.getFullness().equals(this.fullness) && wine.getCountry().equals(this.country) && wordMatch) {

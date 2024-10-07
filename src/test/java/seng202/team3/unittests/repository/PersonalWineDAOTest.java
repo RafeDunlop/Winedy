@@ -73,10 +73,8 @@ public class PersonalWineDAOTest {
         wineDrinkerManager = WineDrinkerManager.getInstance(DATABASE_PATH);
         wineDAO = new WineDAO(DATABASE_PATH);
         personalWineDAO = new PersonalWineDAO(DATABASE_PATH);
-        if (wineDrinkerManager.getWineDrinker(username) == null) {
-            wineDrinkerManager.setCurrentUser(testWineDrinker);
-            wineDrinkerManager.registerWineDrinker();
-        }
+        wineDrinkerManager.setCurrentUser(testWineDrinker);
+        wineDrinkerManager.registerWineDrinker();
         wineDrinkerManager.loginCurrentUser(username, password);
     }
 
@@ -124,7 +122,7 @@ public class PersonalWineDAOTest {
     }
 
     @Test
-    public void testUpdate() throws WineDrinkerAlreadyExistsException {
+    public void testUpdateExistingPersonalWine() throws WineDrinkerAlreadyExistsException {
         WINE_2.setUniqueWineID(HIGHEST_ID+4);
         personalWineDAO.add(WINE_2);
         WINE_2.setCountry("France");
@@ -134,7 +132,7 @@ public class PersonalWineDAOTest {
     }
 
     @Test
-    public void testNonExistingUpdate() {
+    public void testUpdateNonExistingNonPersonalWine() {
         assertEquals(0, personalWineDAO.update(WINE_2));
     }
 }

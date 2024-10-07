@@ -154,16 +154,6 @@ public class WineDrinker {
         return abvLimit;
     }
 
-
-    /**
-     * Sets the WineDrinker's unique username
-     * @param username unique username for the WineDrinker
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-
     /**
      * Sets the WineDrinker's preferred wine colour
      * @param colourPreference the preferred wine colour out of red, white and rose

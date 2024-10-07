@@ -27,11 +27,11 @@ public class SearchScreenService {
     public ArrayList<String> getAttributeValues(WineAttribute attribute, Table table) {
 
         ArrayList<String> values = new ArrayList<>();
-        values.add("");
         if (searchDAO.isValidAttribute(attribute.attributeName, table.tableName)) {
             values.addAll(searchDAO.getWineAttributeValues(attribute.attributeName, table.tableName));
         }
         Collections.sort(values);
+        values.addFirst("All");
 
         return values;
     }

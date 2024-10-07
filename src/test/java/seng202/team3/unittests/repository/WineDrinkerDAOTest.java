@@ -7,10 +7,12 @@ import seng202.team3.repository.DatabaseManager;
 import seng202.team3.repository.WineDrinkerDAO;
 
 import java.io.File;
+
 /**
  * Unit tests for WineDrinkerDAO
  * @author Yuvraj Fagotra (yfa50)
  */
+
 public class WineDrinkerDAOTest {
     final String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
     WineDrinkerDAO wineDrinkerDAO;

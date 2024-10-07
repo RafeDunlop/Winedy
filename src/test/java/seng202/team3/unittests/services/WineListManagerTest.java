@@ -14,6 +14,11 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the WineListManager service class
+ * @author Rafe Dunlop (rdu46)
+ */
+
 public class WineListManagerTest {
     private WineListManager toTest;
     private final int HIGHEST_ID = 782;
