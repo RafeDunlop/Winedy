@@ -2,12 +2,17 @@ package seng202.team3.gui;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import seng202.team3.services.WineListManager;
 import seng202.team3.models.UserWineList;
 
@@ -126,7 +131,7 @@ public class ProfileWineListsScreenController {
 
             HBox hbox = new HBox();
 
-            Button button = new Button(wineLists.get(index).getWineListName());
+            Button button = new Button();
             setUpWineListButton(button, index);
             hbox.getChildren().add(button);
 
@@ -253,6 +258,25 @@ public class ProfileWineListsScreenController {
         button.setOnAction(event -> FXWrapper.getInstance().loadIndividualListView(wineListsAnchorPane, wineLists.get(index)));
         button.setPrefSize(800, 100);
         button.getStyleClass().add("nav-bar-button");
+        Image image = new Image("/images/wine_box_image.png");
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(80);
+        imageView.setFitWidth(80);
+
+        Label nameLabel = new Label(wineLists.get(index).getWineListName());
+        styleListNameLabel(nameLabel);
+
+        Rectangle line = new Rectangle(3, 80);
+        line.setArcHeight(10);
+        line.setArcWidth(10);
+        line.setStyle("-fx-fill: black");
+
+        Label numberLabel = new Label(wineLists.get(index).getWineList().size() + " Wines");
+        numberLabel.setStyle("-fx-font-size: 25");
+
+        HBox hbox = new HBox( 30, imageView, nameLabel, line, numberLabel);
+        hbox.setAlignment(Pos.CENTER_LEFT);
+        button.setGraphic(hbox);
     }
 
     /**
@@ -263,5 +287,18 @@ public class ProfileWineListsScreenController {
         deleteListsButton.getStyleClass().add("nav-bar-button");
         cancelButton.getStyleClass().add("nav-bar-button");
         deleteButton.getStyleClass().add("nav-bar-button");
+    }
+
+    /**
+     * Styles the label for the name of the list which will go on to the button
+     * that takes you to that list
+     * @param nameLabel name label to style
+     */
+    private void styleListNameLabel(Label nameLabel) {
+        nameLabel.setStyle("-fx-font-size: 25");
+        nameLabel.setMinWidth(430);
+        nameLabel.setMaxWidth(430);
+        nameLabel.setPadding(new Insets(10, 10, 0, 10));
+        nameLabel.setWrapText(true);
     }
 }
