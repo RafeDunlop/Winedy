@@ -19,8 +19,8 @@
                   <Font size="25.0" />
                </font>
             </Button>
-            <Button fx:id="mockSwipeLeft" disable="true" layoutX="29.0" layoutY="454.0" mnemonicParsing="false" onAction="#onMockSwipeLeftClicked" text="  &lt;-------&#10;Dislike Wine&#10;" visible="false" />
-            <Button fx:id="mockSwipeRight" disable="true" layoutX="366.0" layoutY="454.0" mnemonicParsing="false" onAction="#onMockSwipeRightClicked" prefHeight="40.0" prefWidth="98.0" text="----&gt;&#10;Like Wine&#10;" visible="false" />
+            <Button fx:id="swipeRecommendationLeftButton" disable="true" layoutX="29.0" layoutY="454.0" mnemonicParsing="false" onAction="#onSwipeLeftClicked" text="  &lt;-------&#10;Dislike Wine&#10;" visible="false" />
+            <Button fx:id="swipeRecommedationRightButton" disable="true" layoutX="366.0" layoutY="454.0" mnemonicParsing="false" onAction="#onSwipeRightClicked" prefHeight="40.0" prefWidth="98.0" text="----&gt;&#10;Like Wine&#10;" visible="false" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="637.0" layoutY="32.0">

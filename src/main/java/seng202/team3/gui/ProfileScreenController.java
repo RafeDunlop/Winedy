@@ -35,9 +35,9 @@ public class ProfileScreenController {
     @FXML
     private Label mockRecWineLabel;
     @FXML
-    private Button mockSwipeLeft;
+    private Button swipeRecommendationLeftButton;
     @FXML
-    private Button mockSwipeRight;
+    private Button swipeRecommedationRightButton;
     private int recommendedWineIndex = 0;
     private List<Wine> recommendedWines = new ArrayList<>();
     private List<Float> wineMatchPercentages = new ArrayList<>();
@@ -76,15 +76,21 @@ public class ProfileScreenController {
 
     }
 
+    /**
+     * Called when the recommendation button is clicked
+     * Shows and hides the correct buttons and begins the
+     * recommendation
+     */
     @FXML
     private void onBeginRecommendationClicked() {
         beginRecommendationButton.setVisible(false);
         beginRecommendationButton.setDisable(true);
-        mockSwipeLeft.setVisible(true);
-        mockSwipeLeft.setDisable(false);
-        mockSwipeRight.setVisible(true);
-        mockSwipeRight.setDisable(false);
+        swipeRecommendationLeftButton.setVisible(true);
+        swipeRecommendationLeftButton.setDisable(false);
+        swipeRecommedationRightButton.setVisible(true);
+        swipeRecommedationRightButton.setDisable(false);
         mockRecWineLabel.setVisible(true);
+
         recommendedWineIndex = 0;
         recommendedWines = new ArrayList<>();
         wineMatchPercentages = new ArrayList<>();
@@ -93,39 +99,55 @@ public class ProfileScreenController {
 
     }
 
+    /**
+     * helper function to show wine info
+     * TODO will show indiviudal wine view rather than text
+     */
     private void recommendNextWineToUser(){
         mockRecWineLabel.setText(recommendedWines.get(recommendedWineIndex).getLongDescription()
              + "\n This wine matches your preferences " + wineMatchPercentages.get(recommendedWineIndex) + "%");
     }
+
+    /**
+     * Called by FXML swipe left
+     * moves the recommendation along 1 point and updates preference model accordingly
+     */
     @FXML
-    void onMockSwipeLeftClicked(){
+    void onSwipeLeftClicked(){
         RecommendationManager.getInstance().
             updatePreferenceModelAfterUserSelection(recommendedWines.get(recommendedWineIndex), false);
         recommendedWineIndex++;
         if (recommendedWineIndex < 5) {
             recommendNextWineToUser();
         } else {
-            //TODO EXIT recommendation
-            System.out.println("Need to exit now");
+            endRecommendationReturnWines();
         }
     }
+
+    /**
+     * Called by FXML swipe left
+     * moves the recommendation along 1 point and updates preference model accordingly
+     */
     @FXML
-    void onMockSwipeRightClicked(){
+    void onSwipeRightClicked(){
         RecommendationManager.getInstance().
                 updatePreferenceModelAfterUserSelection(recommendedWines.get(recommendedWineIndex), true);
         recommendedWineIndex++;
         if (recommendedWineIndex < 5) {
             recommendNextWineToUser();
         } else {
-            //TODO EXIT recommendation
-            System.out.println("Need to exit now");
+            endRecommendationReturnWines();
+
         }
     }
 
-
-
-
-
+    /**
+     * Ends the recommendation and shows the result set of buttons that the user can
+     * interact with
+     */
+    private void endRecommendationReturnWines(){
+        System.out.println("To implement");
+    }
 
     /**
      * Saves the user preferences from the screen into the database
