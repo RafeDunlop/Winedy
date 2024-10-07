@@ -8,6 +8,12 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import seng202.team3.services.WineDrinkerManager;
 
+/**
+ * Controller for profile_tab_pane.fxml file
+ * Controls the tab pane which contains all user actions
+ *
+ * @author Sophia Copley (sco207)
+ */
 public class ProfileTabPaneController {
     @FXML
     private TabPane profileTabPane;
@@ -35,7 +41,18 @@ public class ProfileTabPaneController {
     @FXML
     private Button logoutButton;
 
+    /**
+     * Index of tab that the tab pane should open to
+     */
     private int startTabIndex;
+
+    /**
+     * Constructor for the profile tab pane controller
+     * @param startTabIndex Index of tab that the tab pane should open to
+     */
+    public ProfileTabPaneController(int startTabIndex) {
+        this.startTabIndex = startTabIndex;
+    }
 
     /**
      * Initialises the tab pane that holds all the functionality that logged-in users can do
@@ -49,20 +66,14 @@ public class ProfileTabPaneController {
         profileTabPane.getSelectionModel().select(startTabIndex);
     }
 
-    public ProfileTabPaneController(int startTabIndex) {
-        this.startTabIndex = startTabIndex;
-    }
     /**
      * Removes the current logged-in user and launches the sign-in screen
      */
     @FXML
     public void onLogoutButtonClicked(){
         WineDrinkerManager.getInstance().setCurrentUser(null);
-        //TODO Save data?
         FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
     }
-
-
 
 
 }

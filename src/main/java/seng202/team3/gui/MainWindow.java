@@ -56,6 +56,7 @@ public class MainWindow extends Application {
                 "/css/add_to_list_button.css",
                 "/css/like_button.css",
                 "/css/overlay.css",
+                "/css/white_wine_pane.css",
                 "/css/wine_list_select.css",
                 "/css/white_red_wine_rectangle.css",
                 "/css/fifteen_combo_box.css",

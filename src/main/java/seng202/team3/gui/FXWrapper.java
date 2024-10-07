@@ -41,6 +41,7 @@ public class FXWrapper {
      */
     private static FXWrapper instance;
 
+
     /**
      * A stack of Runnable objects that call appropriate methods to load a specific screen. This is not enforced in any
      * way and the runnable could contain code to do anything.
@@ -192,6 +193,10 @@ public class FXWrapper {
         }
     }
 
+    /**
+     * Loads delete lists pop up which allows the users to confirm whether they would like to delete lists or not
+     * @param wineLists a list of the users wine lists to be deleted
+     */
     public void loadDeleteListPopUp(List<UserWineList> wineLists) {
         try {
             FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.DELETELISTSPOPUP.file));
@@ -204,7 +209,27 @@ public class FXWrapper {
     }
 
     /**
-     * Loads a pop-up that allows user to select a wineList. The wine is added to the selected list
+     * Loads the cancel changes pop up
+     * @param currentList the list the user is currently viewing
+     * @param cancelButtonClicked if true the pop-up will handle the user trying to cancel their changes
+     *                            if false this means the user has tried to exit the page with unsaved changes
+     *                            and the version of the pop-up will be changed for this
+     * @param name name from text field that may have been updated
+     * @param description Description of list from text area that may have been updated
+     * @param toNest pane to nest the next screen
+     */
+    public void loadCancelChangesPopUp(UserWineList currentList, boolean cancelButtonClicked, String name, String description, AnchorPane toNest) {
+        try {
+            FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.CANCELCHANGESPOPUP.file));
+            popUpLoader.setControllerFactory(param -> new CancelChangesPopUpController(currentList, cancelButtonClicked, name, description, toNest));
+            StackPane popUpRoot = popUpLoader.load();
+            superPane.getChildren().add(popUpRoot);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+     /** Loads a pop-up that allows user to select a wineList. The wine is added to the selected list
      * @param wine The wine to be added to the list
      */
     public void loadAddWineToListPopUp(Wine wine) {

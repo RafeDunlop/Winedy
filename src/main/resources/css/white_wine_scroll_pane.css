@@ -1,5 +1,5 @@
 /*
- * This style sheets defines the red-wine-scroll-pane style class.
+ * This style sheets defines the white-wine-scroll-pane style class.
  */
 .root {
     -fx-wwsp-main-colour: derive(#EEEDC4, -30%);

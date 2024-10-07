@@ -16,6 +16,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controller for the profile_wine_lists_screen.fxml file
+ * the screen where a users can view all of their wine lists
+ *
+ * @author Sophia Copley (sco207)
+ */
 public class ProfileWineListsScreenController {
     @FXML
     private VBox rootVBox;
@@ -48,10 +54,10 @@ public class ProfileWineListsScreenController {
     /**
      * Number of lists to be displayed on each page
      */
-    private int listsPerPage = 4;
+    private final int listsPerPage = 4;
 
     /**
-     * WineList manager singleton instance
+     * WineList manager singleton instance to handle wine list related actions
      */
     private WineListManager wineListManager;
 
@@ -63,14 +69,14 @@ public class ProfileWineListsScreenController {
     /**
      * List of wines lists to delete
      */
-    private List<UserWineList> listsToDelete = new ArrayList<>();
+    private final List<UserWineList> listsToDelete = new ArrayList<>();
 
     /**
      * Boolean variable to declare whether the screen is in delete mode or not
      */
     private boolean deleteMode = false;
 
-    private Map<Integer, VBox> pageVBoxMap = new HashMap<>();
+    private final Map<Integer, VBox> pageVBoxMap = new HashMap<>();
 
 
     /**
@@ -87,9 +93,6 @@ public class ProfileWineListsScreenController {
         }
 
         pagination = new Pagination(numberOfPages, 0); // 2 = total items / items per page
-        if (numberOfPages <= 1) {
-            //set style so that the pagination controls do not show
-        }
 
         for (int i = 0; i < numberOfPages; i++) {
             VBox pageContent = createPage(i);
@@ -100,6 +103,8 @@ public class ProfileWineListsScreenController {
         pagination.setPageFactory(pageIndex -> pageVBoxMap.get(pageIndex));
 
         rootVBox.getChildren().add(pagination);
+
+        styleButtons();
 
     }
 
@@ -116,37 +121,22 @@ public class ProfileWineListsScreenController {
         int start = pageIndex * listsPerPage;
         int end = Math.min(start + listsPerPage, wineLists.size());
         for (int i = start; i < end; i++) {
-            int finalI = i;
-            Button button = new Button(wineLists.get(i).getWineListName());
-            button.setOnAction(event -> FXWrapper.getInstance().loadIndividualListView(wineListsAnchorPane, wineLists.get(finalI)));
-            CheckBox checkBox = new CheckBox();
-            checkBox.setOnAction(event -> {
-                if (checkBox.isSelected()) {
-                    listsToDelete.add(wineLists.get(finalI));
-                } else {
-                    listsToDelete.remove(wineLists.get(finalI));
-                }
 
-                if (listsToDelete.isEmpty()) {
-                    deleteButton.setText("Delete");
-                    deleteButton.setDisable(true);
-                    deleteButton.setOpacity(0.5);
-                } else if (listsToDelete.size() == 1){
-                    deleteButton.setText("Delete " + listsToDelete.size() + " list");
-                    deleteButton.setDisable(false);
-                    deleteButton.setOpacity(1);
-                }
-                else {
-                    deleteButton.setText("Delete " + listsToDelete.size() + " lists");
-                    deleteButton.setDisable(false);
-                    deleteButton.setOpacity(1);
-                }
-            });
-            checkBox.setVisible(false);
-            button.setPrefSize(800, 100);
-            HBox hbox = new HBox(button, checkBox);
-            checkBox.setPadding(new Insets(40, 20, 20,20));
+            int index = i;
+
+            HBox hbox = new HBox();
+
+            Button button = new Button(wineLists.get(index).getWineListName());
+            setUpWineListButton(button, index);
+            hbox.getChildren().add(button);
+
+            CheckBox checkBox = new CheckBox();
+            setUpCheckBox(checkBox, index);
+            hbox.getChildren().add(checkBox);
+
+
             wineListVBox.getChildren().add(hbox);
+            System.out.println();
         }
 
         return wineListVBox;
@@ -158,16 +148,22 @@ public class ProfileWineListsScreenController {
     private void toggleCheckBoxes(VBox pageVBox) {
         for (int i = 0; i < pageVBox.getChildren().size(); i++) {
             HBox hbox = (HBox) pageVBox.getChildren().get(i);
-            CheckBox checkBox = (CheckBox) hbox.getChildren().get(1);
-            checkBox.setVisible(deleteMode);
+            Button button = (Button) hbox.getChildren().get(0);
+            if (!button.getText().equals("Favourites")) {
+                CheckBox checkBox = (CheckBox) hbox.getChildren().get(1);
+                checkBox.setVisible(deleteMode);
+            }
         }
 
     }
 
+    /**
+     * Toggles screen between delete mode and regular mode
+     */
     private void toggleDeleteMode() {
         deleteMode = !deleteMode;
 
-        for (int i = 0; i < numberOfPages; i++) {
+        for (int i = 0; i < numberOfPages; i++) { //index starting at
             VBox pageVBox = pageVBoxMap.get(i);
             toggleCheckBoxes(pageVBox);
         }
@@ -188,19 +184,84 @@ public class ProfileWineListsScreenController {
         FXWrapper.getInstance().loadCreateListPopUp();
     }
 
+    /**
+     * Turns on delete mode when the delete button is clicked
+     */
     @FXML
     public void onDeleteListsButtonClicked() {
         toggleDeleteMode();
     }
 
+    /**
+     * Turns delete mode off when the cancel button is clicked
+     */
     @FXML
     public void onCancelButtonClicked() {
         toggleDeleteMode();
     }
 
+    /**
+     * Loads the delete list pop up when you click the delete button to ask
+     * the user to confirm they would like to delete the selected lists
+     */
     @FXML
     public void onDeleteButtonClicked() {
         FXWrapper.getInstance().loadDeleteListPopUp(listsToDelete);
     }
 
+    /**
+     * Sets up the checkboxes that go with each list so that they can be deleted.
+     * Check box is disabled for the favourites list
+     * @param checkBox
+     * @param index
+     */
+    public void setUpCheckBox(CheckBox checkBox, int index) {
+        checkBox.setOnAction(event -> {
+            if (checkBox.isSelected()) {
+                listsToDelete.add(wineLists.get(index));
+            } else {
+                listsToDelete.remove(wineLists.get(index));
+            }
+
+            if (listsToDelete.size() == 0) {
+                deleteButton.setText("Delete");
+                deleteButton.setDisable(true);
+                deleteButton.setOpacity(0.5);
+            } else if (listsToDelete.size() == 1){
+                deleteButton.setText("Delete " + listsToDelete.size() + " list");
+                deleteButton.setDisable(false);
+                deleteButton.setOpacity(1);
+            }
+            else {
+                deleteButton.setText("Delete " + listsToDelete.size() + " lists");
+                deleteButton.setDisable(false);
+                deleteButton.setOpacity(1);
+            }
+        });
+
+        checkBox.setVisible(false);
+        checkBox.setPadding(new Insets(40, 20, 20,20));
+
+    }
+
+    /**
+     * Sets up and styles the wine list button
+     * @param button the button to set up
+     * @param index index of the wine list that it represents
+     */
+    private void setUpWineListButton(Button button, int index) {
+        button.setOnAction(event -> FXWrapper.getInstance().loadIndividualListView(wineListsAnchorPane, wineLists.get(index)));
+        button.setPrefSize(800, 100);
+        button.getStyleClass().add("nav-bar-button");
+    }
+
+    /**
+     * Styles the buttons to be consistent with all other buttons in the UI
+     */
+    private void styleButtons() {
+        createListButton.getStyleClass().add("nav-bar-button");
+        deleteListsButton.getStyleClass().add("nav-bar-button");
+        cancelButton.getStyleClass().add("nav-bar-button");
+        deleteButton.getStyleClass().add("nav-bar-button");
+    }
 }
