@@ -104,6 +104,7 @@ public final class GuiService {
      * Generates an HBox that contains buttons for each wine in the given list. This could be search results or contents of a wine list.
      *
      * @param wineList Contains the wines to generate buttons for
+     * @param wineDetailsAnchorPane The anchor pane needed for the onAction() method of the buttons
      * @return An HBox containing wine buttons
      *
      * @see GuiService#generateWineButton(Wine, AnchorPane, double, double)
