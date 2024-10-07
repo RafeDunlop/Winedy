@@ -185,5 +185,11 @@ public class ProfileScreenController {
         profileFullnessPreferenceRectangle.getStyleClass().add("white-red-wine-rectangle");
         profileAbvLimitRectangle.getStyleClass().add("white-red-wine-rectangle");
         profilePreferenceTextRectangle.getStyleClass().add("white-red-wine-rectangle");
+
+        colourPreferenceComboBox.getStyleClass().add("fifteen-combo-box");
+        varietyPreferenceComboBox.getStyleClass().add("fifteen-combo-box");
+        fullnessPreferenceComboBox.getStyleClass().add("fifteen-combo-box");
+
+        savePreferencesButton.getStyleClass().add("nav_bar_button.css");
     }
 }

@@ -45,7 +45,7 @@ public class RecommendationManager {
      * @param wineToJudge the wine to calculate score with
      * @return float score calculated from provided wine
      */
-    private float calculateWineScore(Wine wineToJudge){
+    public float calculateWineScore(Wine wineToJudge){
         String colour = wineToJudge.getColour();
         String fullness = wineToJudge.getFullness();
         String grapes = wineToJudge.getGrapes()[0];
@@ -91,17 +91,23 @@ public class RecommendationManager {
      * @return HashMap<Wine, Float> A hash map of the select wines, and it's matching percentage to users preferences
      */
     public void recommendWines(List<Wine> selectedWines, List<Float> selectedWinePercents){
-        setupWineIndexList();
         Random rand = new SecureRandom();
-        float score_threshold = findMaxPreferences() / 5;
+        setupWineIndexList();
         while (selectedWines.size() < 5) {
             int randomIndex = rand.nextInt(wineIndexes.size());
-            Wine wineToCheck = wineDAO.getWineByID(wineIndexes.get(randomIndex));
-            float wineScore = calculateWineScore(wineToCheck);
-            if (wineScore >= score_threshold) {
-                selectedWines.add(wineToCheck);
-                selectedWinePercents.add((float) Math.round(wineScore * 100)/100);
-            }
+            selectWinesWithIndex(selectedWines, selectedWinePercents, randomIndex);
+            System.out.println(selectedWinePercents.size() + "  size of the selectedWine");
+        }
+
+    }
+
+    public void selectWinesWithIndex(List<Wine> selectedWines, List<Float> selectedWinePercents, int indexToSearch){
+        float score_threshold = findMaxPreferences() / 5;
+        Wine wineToCheck = wineDAO.getWineByID(wineIndexes.get(indexToSearch));
+        float wineScore = calculateWineScore(wineToCheck);
+        if (wineScore >= score_threshold) {
+            selectedWines.add(wineToCheck);
+            selectedWinePercents.add((float) Math.round(wineScore * 100)/100);
         }
     }
 
