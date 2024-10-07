@@ -1,0 +1,45 @@
+.root {
+    -fx-sstf-body-colour: #F0F0F0;
+    -fx-sstf-hover-colour: #F7DBE2;
+    -fx-sstf-border-colour: black;
+}
+
+/* Base style for the TextField */
+.sign-in-screen-password-field,
+.sign-in-screen-text-field {
+    -fx-background-color:  -fx-sstf-body-colour;
+    -fx-background-radius: 5;
+    -fx-text-fill: #333333;
+    -fx-border-color: -fx-sstf-border-colour;
+    -fx-border-radius: 5;
+    -fx-border-width: 2;
+    -fx-padding: 10;
+    -fx-highlight-fill: -fx-dark-red-wine-colour;
+}
+
+/* Focused state style */
+.sign-in-screen-password-field:focused,
+.sign-in-screen-text-field:focused {
+    -fx-border-insets: 2;
+    -fx-background-insets: 2;
+}
+
+/* Hover effect */
+.sign-in-screen-password-field:hover,
+.sign-in-screen-text-field:hover {
+    -fx-background-color: -fx-sstf-hover-colour;
+}
+
+/* Placeholder text style */
+.sign-in-screen-password-field .text-field-placeholder,
+.sign-in-screen-text-field .text-field-placeholder {
+    -fx-text-fill: #aaaaaa;
+}
+
+/* Disabled state unused currently */
+.sign-in-screen-password-field:disabled,
+.sign-in-screen-text-field:disabled {
+    -fx-background-color: #f5f5f5;
+    -fx-text-fill: #aaaaaa;
+    -fx-border-color: #dddddd;
+}

@@ -4,11 +4,10 @@ import seng202.team3.models.UserWineList;
 import seng202.team3.models.WineDrinker;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Service class for the profile screen
- * @author Yuvraj (yfa50)
+ * @author Yuvraj Fagotra (yfa50)
  */
 public class ProfileScreenService {
     /**

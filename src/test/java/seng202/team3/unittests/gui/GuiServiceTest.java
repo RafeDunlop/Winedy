@@ -6,6 +6,11 @@ import seng202.team3.gui.GuiService;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/**
+ * Unit tests for GuiService
+ * @author Rafe Dunlop (rdu46)
+ */
+
 public class GuiServiceTest {
     @Test
     public void getContentFromFileTest() {

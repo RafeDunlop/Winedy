@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Singleton class responsible for interaction with SQLite database
  *
- * @author Yuvraj Singh Fagotra (Yfa50)
+ * @author Yuvraj Singh Fagotra (Yfa50), Steven Leishman(sle159)
  */
 public class DatabaseManager {
 
@@ -50,11 +50,24 @@ public class DatabaseManager {
             log.info("Populating database");
             try {
                 populateWineTables("/csv/majestic_df_preprocessed.csv");
+                initialisePreferenceModelTable();
             } catch (URISyntaxException | FileNotFoundException e) {
                 log.error("Error populating database", e);
             }
         }
     }
+
+    /**
+     * initialise the preferencemodel table by dynamically setting column names
+     * by attributes read from populated tables
+     */
+    private static void initialisePreferenceModelTable(){
+        RecommendationDAO recommendationDAO = new RecommendationDAO();
+        recommendationDAO.addColumnsToPrefModelFromPopulatedTables("fullness", "wineSuper");
+        recommendationDAO.addColumnsToPrefModelFromPopulatedTables("colour", "wineSuper");
+        recommendationDAO.addColumnsToPrefModelFromPopulatedTables("name", "grape");
+    }
+
 
     /**
      * Singleton method to get current Instance if exists otherwise create it
@@ -158,7 +171,7 @@ public class DatabaseManager {
      */
     private void executeSQLScript(InputStream sqlFile) {
         String s;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(sqlFile))) {
             while((s=br.readLine()) != null) {
                 sb.append(s);

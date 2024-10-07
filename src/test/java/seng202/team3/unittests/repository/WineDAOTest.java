@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the WineDAO service class
- * @author Krishna Sridhar
+ * @author Krishna Sridhar (nsr36)
  */
 
 public class WineDAOTest {
@@ -77,13 +77,11 @@ public class WineDAOTest {
     public void testAddUniqueWine() {
         int insertId = wineDAO.add(WINE_1);
         assertEquals(HIGHEST_ID + 1, insertId);
-        wineDAO.delete(WINE_1);
     }
 
     @Test
     public void testAddNonUniqueWine() {
         assertDoesNotThrow(() -> wineDAO.add(WINE_1));
-        wineDAO.delete(WINE_1);
     }
 
     @Test
@@ -97,7 +95,6 @@ public class WineDAOTest {
         int insertId = wineDAO.add(WINE_1);
         Wine retrievedWine = wineDAO.getWineByID(insertId);
         assertEquals(WINE_1.getLongDescription(), retrievedWine.getLongDescription());
-        wineDAO.delete(WINE_1);
     }
 
     @Test
@@ -143,17 +140,15 @@ public class WineDAOTest {
     }
 
     @Test
-    void testSearchWines() {
+    void testSearchWinesWithKeywordsAndFilters() {
         List<String> keywords = List.of("Waihopai");
         SearchWineList searchWineList = wineDAO.searchWines(keywords, 2018, 2018, 0.0f, 20.0f, "New Zealand", "White", "DRY", "Sauvignon Blanc");
         assertEquals("The Ned Waihopai River Sauvignon Blanc 2018 Marlborough", searchWineList.getWineList().getFirst().getName());
-        wineDAO.delete(WINE_2);
     }
 
     @Test
     void testSearchWinesNoKeywordsAndFilters() {
-        List<String> keywords = new ArrayList<>();
-        SearchWineList searchWineList = wineDAO.searchWines(keywords, null, null, 0.0f, 220.0f, null, null, null, null);
+        SearchWineList searchWineList = wineDAO.searchWines(null, null, null, 0.0f, 220.0f, null, null, null, null);
         assertEquals(CSV_LENGTH, searchWineList.getWineList().size());
     }
 }

@@ -1,7 +1,6 @@
 package seng202.team3.gui;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -86,7 +85,8 @@ public class CreateNewListPopUpController {
     public void onCreateListButtonClicked() {
             wineListManager.newList(listNameTextField.getText(), descriptionTextArea.getText());
             FXWrapper.getInstance().removePopUp(overlayPane);
-            FXWrapper.getInstance().loadProfileTabPane(1);
+            FXWrapper.getInstance().loadPreviousScreen();
+        }
     }
 
     /**

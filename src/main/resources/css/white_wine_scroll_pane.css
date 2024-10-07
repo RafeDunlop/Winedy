@@ -2,7 +2,7 @@
  * This style sheets defines the white-wine-scroll-pane style class.
  */
 .root {
-    -fx-wwsp-main-colour: derive(#EEEDC4, 30%);
+    -fx-wwsp-main-colour: derive(#EEEDC4, -30%);
 }
 
 /*
