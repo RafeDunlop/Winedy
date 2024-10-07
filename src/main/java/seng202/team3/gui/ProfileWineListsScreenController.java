@@ -16,6 +16,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controller for the profile_wine_lists_screen.fxml file
+ * the screen where a users can view all of their wine lists
+ *
+ * @author Sophia Copley (sco207)
+ */
 public class ProfileWineListsScreenController {
     @FXML
     private VBox rootVBox;
@@ -48,10 +54,10 @@ public class ProfileWineListsScreenController {
     /**
      * Number of lists to be displayed on each page
      */
-    private int listsPerPage = 4;
+    private final int listsPerPage = 4;
 
     /**
-     * WineList manager singleton instance
+     * WineList manager singleton instance to handle wine list related actions
      */
     private WineListManager wineListManager;
 
@@ -63,14 +69,14 @@ public class ProfileWineListsScreenController {
     /**
      * List of wines lists to delete
      */
-    private List<UserWineList> listsToDelete = new ArrayList<>();
+    private final List<UserWineList> listsToDelete = new ArrayList<>();
 
     /**
      * Boolean variable to declare whether the screen is in delete mode or not
      */
     private boolean deleteMode = false;
 
-    private Map<Integer, VBox> pageVBoxMap = new HashMap<>();
+    private final Map<Integer, VBox> pageVBoxMap = new HashMap<>();
 
 
     /**
@@ -87,9 +93,6 @@ public class ProfileWineListsScreenController {
         }
 
         pagination = new Pagination(numberOfPages, 0); // 2 = total items / items per page
-        if (numberOfPages <= 1) {
-            //set style so that the pagination controls do not show
-        }
 
         for (int i = 0; i < numberOfPages; i++) {
             VBox pageContent = createPage(i);
@@ -154,6 +157,9 @@ public class ProfileWineListsScreenController {
 
     }
 
+    /**
+     * Toggles screen between delete mode and regular mode
+     */
     private void toggleDeleteMode() {
         deleteMode = !deleteMode;
 
@@ -177,21 +183,37 @@ public class ProfileWineListsScreenController {
 
     }
 
+    /**
+     * Turns on delete mode when the delete button is clicked
+     */
     @FXML
     public void onDeleteListsButtonClicked() {
         toggleDeleteMode();
     }
 
+    /**
+     * Turns delete mode off when the cancel button is clicked
+     */
     @FXML
     public void onCancelButtonClicked() {
         toggleDeleteMode();
     }
 
+    /**
+     * Loads the delete list pop up when you click the delete button to ask
+     * the user to confirm they would like to delete the selected lists
+     */
     @FXML
     public void onDeleteButtonClicked() {
         FXWrapper.getInstance().loadDeleteListPopUp(listsToDelete);
     }
 
+    /**
+     * Sets up the checkboxes that go with each list so that they can be deleted.
+     * Check box is disabled for the favourites list
+     * @param checkBox
+     * @param index
+     */
     public void setUpCheckBox(CheckBox checkBox, int index) {
         checkBox.setOnAction(event -> {
             if (checkBox.isSelected()) {

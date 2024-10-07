@@ -200,6 +200,16 @@ public class FXWrapper {
         }
     }
 
+    /**
+     * Loads the cancel changes pop up
+     * @param currentList the list the user is currently viewing
+     * @param cancelButtonClicked if true the pop-up will handle the user trying to cancel their changes
+     *                            if false this means the user has tried to exit the page with unsaved changes
+     *                            and the version of the pop-up will be changed for this
+     * @param name name from text field that may have been updated
+     * @param description Description of list from text area that may have been updated
+     * @param toNest pane to nest the next screen
+     */
     public void loadCancelChangesPopUp(UserWineList currentList, boolean cancelButtonClicked, String name, String description, AnchorPane toNest) {
         try {
             FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.CANCELCHANGESPOPUP.file));

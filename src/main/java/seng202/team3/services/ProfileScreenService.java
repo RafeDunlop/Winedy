@@ -49,13 +49,19 @@ public class ProfileScreenService {
      * Checks if a new list name is valid
      * Checks if it has the same name as another list, whether it has the right number of characters and whether it is empty
      * @param listName name of the list to be validated
-     * @return boolean of whether it is valid
+     * @return boolean of whether it is valid name for a new list
      */
     public Boolean isValidNewListName(String listName) {
         List<String> currentListNames = getCurrentListNames();
         return !listName.trim().isEmpty() && !currentListNames.contains(listName);
     }
 
+    /**
+     * Checks if a new name for an already existing list is valid
+     * @param oldListName the old name of the list
+     * @param newListName the new name for the list
+     * @return whether the list is a valid new name for the list
+     */
     public Boolean isValidRenamedListName(String oldListName, String newListName) {
         List<String> currentListNames = getCurrentListNames();
         currentListNames.remove(oldListName);
@@ -95,6 +101,12 @@ public class ProfileScreenService {
         return wineListManager.getAllUserWineLists().stream().map(UserWineList::getWineListName).collect(Collectors.toList());
     }
 
+    /**
+     * Checks if there are unsaved changes by comparing the previous string to a new string
+     * @param oldString old string
+     * @param newString newly entered string
+     * @return true if there are unsaved changes and false if there are no changes.
+     */
     public boolean unsavedChanges(String oldString, String newString) {
         return !oldString.equals(newString);
     }

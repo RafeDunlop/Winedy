@@ -13,6 +13,13 @@ import seng202.team3.services.WineListManager;
 
 import java.util.List;
 
+/**
+ * Controller for deleting_lists_pop_up.fxml file
+ * Pops up when the user tries to delete a list/lists
+ *
+ * @author Sophia Copley (sco207)
+ */
+
 public class DeletingListsPopUpController {
     @FXML
     private StackPane overlayPane;
@@ -32,12 +39,21 @@ public class DeletingListsPopUpController {
     @FXML
     private Button yesButton;
 
+    /**
+     * Wine list manager to handle list related actions
+     */
     private WineListManager wineListManager;
 
+    /**
+     * Selected lists to delete
+     */
     private List<UserWineList> listsToDelete;
 
 
-
+    /**
+     * Deleting lists pop up controller
+     * @param listsToDelete
+     */
     public DeletingListsPopUpController(List<UserWineList> listsToDelete) {
         this.listsToDelete = listsToDelete;
     }
@@ -84,7 +100,7 @@ public class DeletingListsPopUpController {
     }
 
     /**
-     * removes the pop up and deletes the wine list
+     * removes the pop-up and deletes the wine list
      */
     @FXML
     public void onYesButtonClicked() {

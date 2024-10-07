@@ -11,6 +11,12 @@ import javafx.scene.layout.StackPane;
 import seng202.team3.services.ProfileScreenService;
 import seng202.team3.services.WineListManager;
 
+/**
+ * Controller for the create_list_pop_up.fxml file
+ * Allows the user to create a new list and give it a description
+ *
+ * @author Sophia Copley (sco207)
+ */
 
 public class CreateNewListPopUpController {
 
@@ -48,8 +54,14 @@ public class CreateNewListPopUpController {
      */
     private WineListManager wineListManager;
 
-    private final int listNameCharLimit = 40;
+    /**
+     * Character limit for a list name
+     */
+    private final int listNameCharLimit = 30;
 
+    /**
+     * Character limit for a description
+     */
     private final int descCharLimit = 500;
 
     /**
@@ -62,6 +74,7 @@ public class CreateNewListPopUpController {
         GuiService.setUpPopUp(overlayPane,popUpAnchorPane);
 
         setUpTextAreaListenersForNameValidation();
+        setUpListenersForDescValidation();
 
         styleButtons();
     }
@@ -109,7 +122,12 @@ public class CreateNewListPopUpController {
                 createNewListButton.setOpacity(1);
             }
         });
+    }
 
+    /**
+     * Controls labels that will show the user when they have reached the character limit for the description
+     */
+    private void setUpListenersForDescValidation() {
         descriptionTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
             if (profileScreenService.reachedCharLimit(descriptionTextArea.getText(), descCharLimit)) {
                 descriptionTextArea.setText(oldValue);

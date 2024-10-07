@@ -12,6 +12,13 @@ import seng202.team3.services.WineListManager;
 
 import java.util.List;
 
+/**
+ * Controller for the cancel_changes_pop_up.fxml file
+ * Handles the pop-up that appears when a user press a cancel button
+ * on their changes or exits the page with unsaved changes
+ *
+ * @author Sophia Copley (sco207)
+ */
 public class CancelChangesPopUpController {
     @FXML
     private StackPane overlayPane;
@@ -31,21 +38,49 @@ public class CancelChangesPopUpController {
     @FXML
     private Button exitButton;
 
+    /**
+     * AnchorPane to nest the next screen into if the pop-up is used in the case
+     * where the user is trying to exit the page and there are unsaved changes
+     */
     private AnchorPane toNest;
 
+    /**
+     * Wine list manager to handle all wine line related actions
+     */
     private WineListManager wineListManager;
 
-    private boolean cancelButtonClicked;
+    /**
+     * Boolean to check if the cancel button has been clicked.
+     * This determines which version of the cancel changes pop up it should show,
+     * the cancel changes version or the unsaved changes version
+     */
+    private final boolean cancelButtonClicked;
 
-    private UserWineList currentList;
-    private String name;
+    /**
+     * The list the user is currently viewing
+     */
+    private final UserWineList currentList;
 
-    private String description;
+    /**
+     * The name of the list from the text field (may have unsaved changes)
+     */
+    private final String name;
 
+    /**
+     * Description of current list from the text field (may have unsaved changes
+     */
+    private final String description;
 
-
-
-
+    /**
+     * Constructor for cancel changes pop up
+     * @param currentList the list the user is currently viewing
+     * @param cancelButtonClicked if true the pop-up will handle the user trying to cancel their changes
+     *                            if false this means the user has tried to exit the page with unsaved changes
+     *                            and the version of the pop-up will be changed for this
+     * @param name name from text field that may have been updated
+     * @param description Description of list from text area that may have been updated
+     * @param toNest pane to nest the next screen
+     */
 
     public CancelChangesPopUpController(UserWineList currentList, boolean cancelButtonClicked, String name, String description, AnchorPane toNest) {
         this.cancelButtonClicked = cancelButtonClicked;

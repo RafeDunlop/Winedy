@@ -13,10 +13,9 @@ import seng202.team3.services.WineListManager;
 
 /**
  * Controller for the profile_list_view_screen.fxml window
- * Not implemented in deliverable 2 (coming in deliverable 3)
- * Will display the contents of a user's list
+ * Displays the contents of the users lists
  *
- * @author Krishna Sridhar (nsr36)
+ * @author Sophia Copley (sco207)
  */
 public class ProfileListViewScreenController {
 
@@ -81,20 +80,51 @@ public class ProfileListViewScreenController {
     @FXML
     private ScrollPane descriptionScrollPane;
 
+    /**
+     * Wine drinker manager to handle wine drinker related actions
+     */
     private WineDrinkerManager wineDrinkerManager;
 
+    /**
+     * Wine list manager to handle wine list related actions
+     */
     private WineListManager wineListManager;
 
+    /**
+     * List that is being displayed on the screen
+     */
     private UserWineList listToDisplay;
 
+    /**
+     * Profile screen service instance to deal with list name validation
+     */
     private ProfileScreenService profileScreenService;
 
-    private final int listNameCharLimit = 40;
+    /**
+     * Character limit for a list name
+     */
+    private final int listNameCharLimit = 30;
 
+    /**
+     * Character limit for a list description
+     */
     private final int descCharLimit = 500;
 
+    /**
+     * Constructor for the profileListView controller
+     * @param listToDisplay list to be displayed in the individual list view
+     */
+    public ProfileListViewScreenController(UserWineList listToDisplay) {
 
+        this.listToDisplay = listToDisplay;
+        this.wineDrinkerManager = wineDrinkerManager.getInstance();
+        this.wineListManager = WineListManager.getInstance();
+        this.profileScreenService = new ProfileScreenService();
+    }
 
+    /**
+     * Initialises the list view screen where a user can view one of their lists in detail
+     */
     public void initialize() {
         wineListNameTextField.setText(listToDisplay.getWineListName());
         wineListNameLabel.setText(listToDisplay.getWineListName());
@@ -125,24 +155,9 @@ public class ProfileListViewScreenController {
 
     }
 
-    /**
-     * Constructor for the profileListView controller
-     * @param listToDisplay list to be displayed in the individual list view
-     */
-    public ProfileListViewScreenController(UserWineList listToDisplay) {
-
-        this.listToDisplay = listToDisplay;
-        this.wineDrinkerManager = wineDrinkerManager.getInstance();
-        this.wineListManager = WineListManager.getInstance();
-        this.profileScreenService = new ProfileScreenService();
-
-
-
-    }
 
     /**
      * Saves the name of the list when the list is renamed
-     * TODO add valid list name logic and don't allow user to rename their favourites
      */
     @FXML
     public void onSaveListChangesButtonClicked() {
@@ -197,7 +212,6 @@ public class ProfileListViewScreenController {
 
     /**
      * Loads Pop up that asks the WineDrinker if they are sure they would like to cancel their changes
-     * TODO allow user to confirm they would like to cancel their changes.
      */
     @FXML
     public void onCancelListChangesButtonClicked() {
@@ -238,6 +252,9 @@ public class ProfileListViewScreenController {
         errorLabel.setVisible(false);
     }
 
+    /**
+     * Loads Pop up that asks the WineDrinker if they are sure they would like to cancel their changes on their description
+     */
     @FXML
     public void onCancelDescChangesButtonClicked() {
         FXWrapper.getInstance().loadCancelChangesPopUp(listToDisplay, true, wineListNameTextField.getText(), descriptionTextArea.getText(), rootAnchorPane);
@@ -267,7 +284,12 @@ public class ProfileListViewScreenController {
                 saveListChangesButton.setOpacity(1);
             }
         });
+    }
 
+    /**
+     *  Controls labels that will show the user when they have reached the character limit for the description
+     */
+    private void setUpListenersForDescValidation() {
         descriptionTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
             if (profileScreenService.reachedCharLimit(descriptionTextArea.getText(), descCharLimit)) {
                 descriptionTextArea.setText(oldValue);
