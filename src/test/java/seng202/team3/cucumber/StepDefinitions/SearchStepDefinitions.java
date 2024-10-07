@@ -72,17 +72,17 @@ public class SearchStepDefinitions {
     public void theSearchedWinesShouldMatchPhraseAndFilters(String phrase, String colour, String fullness, String country) {
         List<String> keywords = List.of(phrase.split(" "));
         SearchWineList searchWineList = wineDAO.searchWines(keywords, null, null, null, null, country, colour, fullness, null);
-        int matching = getMatching(this.keywords);
+        int matching = getMatching();
         assertEquals(searchWineList.getWineList().size(), matching);
     }
 
-    private int getMatching(List<String> keywords) {
+    private int getMatching() {
         int matching = 0;
         boolean wordMatch;
         for (Wine wine : searchedWines.getWineList()) {
             wordMatch = false;
-            if (keywords != null) {
-                for (String word : keywords) {
+            if (this.keywords != null) {
+                for (String word : this.keywords) {
                     if (wine.getName().contains(word) || wine.getLongDescription().contains(word)) {
                         wordMatch = true;
                         break;

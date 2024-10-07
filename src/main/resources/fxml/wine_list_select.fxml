@@ -27,7 +27,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="210.0" text="Select Wine List" textFill="#f0f0f0" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="210.0" text="Select Wine List" textFill="#f0f0f0" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" fx:id="titleLabel">
                      <font>
                         <Font size="30.0" />
                      </font>
