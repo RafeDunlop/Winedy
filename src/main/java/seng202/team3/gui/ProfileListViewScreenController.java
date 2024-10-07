@@ -5,7 +5,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
-import seng202.team3.models.FavouritesWineList;
 import seng202.team3.models.UserWineList;
 import seng202.team3.services.ProfileScreenService;
 import seng202.team3.services.WineDrinkerManager;
@@ -145,13 +144,7 @@ public class ProfileListViewScreenController {
         }
         setUpTextAreaListenersForErrorMessages();
 
-        styleButtons();
-        winesRectangle.getStyleClass().add("red-wine-rectangle");
-        descriptionRectangle.getStyleClass().add("white-wine-rectangle");
-        descriptionScrollPane.getStyleClass().add("white-wine-scroll-pane");
-        listContentsScrollPane.getStyleClass().add("red-wine-scroll-pane");
-        descriptionLabel.setStyle("-fx-background-color: transparent");
-        listContentsVBox.setStyle("-fx-background-color: transparent");
+        addStyleSheets();
 
     }
 
@@ -305,7 +298,7 @@ public class ProfileListViewScreenController {
     /**
      * Styles the buttons to be consistent with all other buttons in the UI
      */
-    private void styleButtons() {
+    private void addStyleSheets() {
         backButton.getStyleClass().add("nav-bar-button");
         renameButton.getStyleClass().add("nav-bar-button");
         saveListChangesButton.getStyleClass().add("nav-bar-button");
@@ -314,5 +307,15 @@ public class ProfileListViewScreenController {
         cancelDescChangesButton.getStyleClass().add("nav-bar-button");
         editDescriptionButton.getStyleClass().add("nav-bar-button");
         saveDescChangesButton.getStyleClass().add("nav-bar-button");
+
+        winesRectangle.getStyleClass().add("red-wine-rectangle");
+        descriptionRectangle.getStyleClass().add("white-wine-rectangle");
+        descriptionScrollPane.getStyleClass().add("white-wine-scroll-pane");
+        listContentsScrollPane.getStyleClass().add("red-wine-scroll-pane");
+        descriptionLabel.setStyle("-fx-background-color: transparent");
+        listContentsVBox.setStyle("-fx-background-color: transparent");
+
+        wineListNameTextField.getStyleClass().add("sign-in-screen-text-field");
+        descriptionTextArea.getStyleClass().add("description-text-area");
     }
 }

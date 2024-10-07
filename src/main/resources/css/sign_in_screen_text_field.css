@@ -6,7 +6,8 @@
 
 /* Base style for the TextField */
 .sign-in-screen-password-field,
-.sign-in-screen-text-field {
+.sign-in-screen-text-field,
+.description-text-area {
     -fx-background-color:  -fx-sstf-body-colour;
     -fx-background-radius: 5;
     -fx-text-fill: #333333;
@@ -17,29 +18,89 @@
     -fx-highlight-fill: -fx-dark-red-wine-colour;
 }
 
+.description-text-area .content {
+    -fx-background-color:  -fx-sstf-body-colour;
+    -fx-background-radius: 5;
+    -fx-text-fill: #333333;
+    -fx-highlight-fill: -fx-dark-red-wine-colour;
+}
+
+/* Inner content styling for TextArea */
+.description-text-area .content {
+    -fx-background-color: -fx-sstf-body-colour;
+}
+
 /* Focused state style */
 .sign-in-screen-password-field:focused,
-.sign-in-screen-text-field:focused {
+.sign-in-screen-text-field:focused,
+.description-text-area:focused {
     -fx-border-insets: 2;
     -fx-background-insets: 2;
 }
 
 /* Hover effect */
 .sign-in-screen-password-field:hover,
-.sign-in-screen-text-field:hover {
+.sign-in-screen-text-field:hover,
+.description-text-area:hover {
+    -fx-background-color: -fx-sstf-hover-colour;
+}
+
+.description-text-area:hover .content {
     -fx-background-color: -fx-sstf-hover-colour;
 }
 
 /* Placeholder text style */
 .sign-in-screen-password-field .text-field-placeholder,
-.sign-in-screen-text-field .text-field-placeholder {
+.sign-in-screen-text-field .text-field-placeholder,
+.description-text-area .text-field-placeholder {
     -fx-text-fill: #aaaaaa;
 }
 
 /* Disabled state unused currently */
 .sign-in-screen-password-field:disabled,
-.sign-in-screen-text-field:disabled {
+.sign-in-screen-text-field:disabled,
+.description-text-area:disabled {
     -fx-background-color: #f5f5f5;
     -fx-text-fill: #aaaaaa;
     -fx-border-color: #dddddd;
 }
+
+/* Base scrollbar styling */
+.description-text-area .scroll-bar {
+    -fx-background-color: transparent; /* Background of the scrollbar */
+}
+
+/* Style for the vertical scrollbar */
+.description-text-area .scroll-bar:vertical {
+    -fx-background-color: transparent; /* Background of the vertical scrollbar */
+}
+
+/* Style for the increment and decrement buttons */
+.description-text-area .scroll-bar:vertical .increment-button,
+.description-text-area .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent; /* Transparent background */
+}
+
+/* Style for the decrement and increment arrows */
+.description-text-area .scroll-bar:vertical .decrement-arrow,
+.description-text-area .scroll-bar:vertical .increment-arrow {
+    -fx-background-color: -fx-hsb-border-colour; /* Color of the arrows */
+    -fx-scale-x: 1.5; /* Scale width */
+    -fx-scale-y: 1.5; /* Scale height */
+}
+
+/* Style for the vertical track */
+.description-text-area .scroll-bar:vertical .track {
+    -fx-background-color: transparent; /* Transparent track background */
+}
+
+/* Style for the vertical scrollbar thumb */
+.description-text-area .scroll-bar:vertical .thumb {
+    -fx-pref-height: 3px; /* Height of the thumb */
+    -fx-background-color: -fx-hsb-body-colour; /* Color of the thumb */
+    -fx-background-insets: 1; /* Inset for the thumb */
+    -fx-border-color: -fx-hsb-border-colour; /* Border color for the thumb */
+    -fx-border-radius: 4px; /* Rounded corners for the thumb */
+    -fx-border-width: 2px; /* Border width for the thumb */
+}
+
