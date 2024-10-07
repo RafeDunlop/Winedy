@@ -75,7 +75,7 @@ public class CreateNewListPopUpController {
         setUpTextAreaListenersForNameValidation();
         setUpListenersForDescValidation();
 
-        styleButtons();
+        addStyleClasses();
     }
 
     /**
@@ -142,8 +142,10 @@ public class CreateNewListPopUpController {
     /**
      * Styles the buttons to be consistent with all other buttons in the UI
      */
-    private void styleButtons() {
+    private void addStyleClasses() {
          exitButton.getStyleClass().add("nav-bar-button");
          createNewListButton.getStyleClass().add("nav-bar-button");
+         listNameTextField.getStyleClass().add("sign-in-screen-text-field");
+         descriptionTextArea.getStyleClass().add("description-text-area");
     }
 }
