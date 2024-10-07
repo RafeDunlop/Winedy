@@ -1,11 +1,8 @@
 package seng202.team3.gui;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.ProfileScreenService;
 
@@ -23,25 +20,7 @@ public class ProfileScreenController {
     private ComboBox<String> colourPreferenceComboBox;
 
     @FXML
-    private Button editUsernameButton;
-
-    @FXML
     private ComboBox<String> fullnessPreferenceComboBox;
-
-    @FXML
-    private Button newListButton;
-
-    @FXML
-    private Button savePreferencesButton;
-
-    @FXML
-    private Button removeListButton;
-
-    @FXML
-    private ListView<?> searchListView;
-
-    @FXML
-    private TextField usernameTextField;
 
     @FXML
     private ComboBox<String> varietyPreferenceComboBox;
@@ -54,10 +33,6 @@ public class ProfileScreenController {
      * Method called by JavaFX when initialising the profile screen.
      */
     public void initialize() {
-
-        /**
-         * The current instance of WineDrinkerManager
-         */
         WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
         profileScreenService = new ProfileScreenService();
         colourPreferenceComboBox.getItems().addAll("Red", "White", "Rose");

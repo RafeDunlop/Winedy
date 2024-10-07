@@ -135,7 +135,7 @@ public class HelpScreenController {
             addContentsButtonsStyleClass();
 
             contentsScrollPane.getStyleClass().add("white-wine-scroll-pane");
-            informationScrollPane.getStyleClass().add("red-wine-scroll-pane");
+            informationScrollPane.getStyleClass().add("white-red-wine-scroll-pane");
         } catch (NullPointerException e) {
             log.warn("Error loading CSS style classes. Did you misspell their names?");
         }

@@ -11,6 +11,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Unit tests for WineCSVImporter
+ * @author Rafe Dunlop (rdu46)
+ */
+
 public class WineCSVImporterTest {
 
     private static Wine wineFromMethod;

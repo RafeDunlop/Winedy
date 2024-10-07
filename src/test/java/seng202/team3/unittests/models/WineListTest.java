@@ -9,6 +9,11 @@ import seng202.team3.models.WineList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for WineList
+ * @author Rafe Dunlop (rdu46)
+ */
+
 public class WineListTest {
 
     private static WineList toTest;
@@ -35,32 +40,32 @@ public class WineListTest {
 
     @BeforeEach
     public void resetList() {
-        toTest = new SearchWineList(); // used to test concrete methods in abstract class
+        toTest = new SearchWineList();
     }
 
     @Test
-    public void testRemoveNull() {
+    public void testRemoveNullFromList() {
         assertThrows(NullPointerException.class, () -> toTest.removeWineFromList(null));
     }
 
     @Test
-    public void testAddNull() {
+    public void testAddNullToList() {
         assertThrows(NullPointerException.class, () -> toTest.addWineToList(null));
     }
 
     @Test
-    public void testRemoveNotInList() {
+    public void testRemoveNonExistingWineFromList() {
         assertFalse(toTest.removeWineFromList(toAdd));
     }
 
     @Test
-    public void testRemoveInList() {
+    public void testRemoveExistingWineFromList() {
         toTest.addWineToList(toAdd);
         assertTrue(toTest.removeWineFromList(toAdd));
     }
 
     @Test
-    public void testAdd() {
+    public void testAddWineToList() {
         toTest.addWineToList(toAdd);
         assertEquals(toAdd, toTest.getWineList().getFirst());
     }

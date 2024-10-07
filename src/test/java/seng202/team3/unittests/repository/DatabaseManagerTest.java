@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for DatabaseManager
- * @author Krishna Sridhar
+ * @author Krishna Sridhar (nsr36)
  * @author Yuvraj Fagotra (yfa50)
  */
 
@@ -61,7 +61,6 @@ public class DatabaseManagerTest {
         Connection conn = databaseManager.connect();
         Assertions.assertNotNull(conn);
         Assertions.assertEquals(conn.getMetaData().getURL(), DATABASE_PATH);
-        conn.close();
     }
 
     @Test
