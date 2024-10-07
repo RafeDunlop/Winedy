@@ -125,6 +125,8 @@ public class SearchScreenController {
      */
     private boolean sortVBoxExpanded = false;
 
+    private static SearchWineList previousSearch;
+
     /**
      * Called by JavaFX upon initialisation of the search screen. Sets the values of the price range slider to the low
      * and high values. Adds all the possible attribute values to the combo boxes through searchScreenService. Sets the
@@ -154,6 +156,10 @@ public class SearchScreenController {
         collapseFilterVBox();
         addStyleClasses();
         initialiseDateRangeComboBoxes();
+
+        if (previousSearch != null) {
+
+        }
     }
 
     /**

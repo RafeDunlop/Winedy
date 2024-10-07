@@ -45,7 +45,7 @@ public final class GuiService {
         try (InputStream inputStream = Objects.requireNonNull(GuiService.class.getResourceAsStream(filePath))) {
             return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            log.error("IO Exception occured");
+            log.error("IO Exception occurred");
             return null;
         }
     }

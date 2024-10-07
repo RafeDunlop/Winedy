@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
+import seng202.team3.models.WineList;
 
 import java.io.IOException;
 import java.util.List;
@@ -163,6 +164,25 @@ public class FXWrapper {
     }
 
     /**
+     * Loads the wine list view
+     *
+     * @param wineListToDisplay
+     * @param toNest
+     * @param wineDetailsAnchorPane
+     */
+    public void loadWineListView(WineList wineListToDisplay, Pane toNest, AnchorPane wineDetailsAnchorPane) {
+        try {
+            FXMLLoader wineListViewLoader = new FXMLLoader(getClass().getResource("/fxml/wine_list_view.fxml"));
+            wineListViewLoader.setControllerFactory(param -> new WineListViewController(wineListToDisplay, wineDetailsAnchorPane));
+            Parent leaf = wineListViewLoader.load();
+            clearPane(toNest);
+            toNest.getChildren().add(leaf);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    /**
      * Removes all FXML components, including the navBar
      * @throws NullPointerException thrown if superPane is not set yet via setSuperPane
      */
@@ -194,6 +214,7 @@ public class FXWrapper {
             log.error(e);
         }
     }
+
     /**
      * Removes pop up from screen. Any updates made on the pop-up will require the screen below to be reloaded
      * after this method is called
