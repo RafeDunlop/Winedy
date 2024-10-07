@@ -2,6 +2,7 @@ package seng202.team3.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.shape.Rectangle;
 import seng202.team3.models.Wine;
 import seng202.team3.services.RecommendationManager;
 import seng202.team3.services.WineDrinkerManager;
@@ -24,10 +25,25 @@ public class ProfileScreenController {
     private ComboBox<String> colourPreferenceComboBox;
 
     @FXML
-    private Button editUsernameButton;
+    private ComboBox<String> fullnessPreferenceComboBox;
 
     @FXML
-    private ComboBox<String> fullnessPreferenceComboBox;
+    private Rectangle profilePreferenceRectangle;
+
+    @FXML
+    private Rectangle profileColourPreferenceRectangle;
+
+    @FXML
+    private Rectangle profileVarietyPreferenceRectangle;
+
+    @FXML
+    private Rectangle profileFullnessPreferenceRectangle;
+
+    @FXML
+    private Rectangle profilePreferenceTextRectangle;
+
+    @FXML
+    private Rectangle profileAbvLimitRectangle;
 
     //*******************************************************MOCK Recommendation
     @FXML
@@ -73,6 +89,7 @@ public class ProfileScreenController {
                 "Pinot Gris", "Malbec", "Shiraz", "Viognier", "Syrah", "Grenache", "Merlot", "Prosecco");
         varietyPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getGrapePreference());
         abvLimitSlider.setValue(wineDrinkerManager.getCurrentUser().getAbvLimit());
+        addStyleClasses();
 
     }
 
@@ -159,5 +176,14 @@ public class ProfileScreenController {
         String grapeVariety =  varietyPreferenceComboBox.valueProperty().getValue();
         double abvLimit = abvLimitSlider.getValue();
         profileScreenService.savePreferences(colour, fullness, grapeVariety, abvLimit);
+    }
+
+    private void addStyleClasses() {
+        profilePreferenceRectangle.getStyleClass().add("red-wine-rectangle");
+        profileColourPreferenceRectangle.getStyleClass().add("white-red-wine-rectangle");
+        profileVarietyPreferenceRectangle.getStyleClass().add("white-red-wine-rectangle");
+        profileFullnessPreferenceRectangle.getStyleClass().add("white-red-wine-rectangle");
+        profileAbvLimitRectangle.getStyleClass().add("white-red-wine-rectangle");
+        profilePreferenceTextRectangle.getStyleClass().add("white-red-wine-rectangle");
     }
 }
