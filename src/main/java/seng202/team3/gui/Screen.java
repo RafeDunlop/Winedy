@@ -19,6 +19,7 @@ public enum Screen {
     CREATELISTPOPUP("create_list_pop_up.fxml", false),
     DELETELISTSPOPUP("deleting_lists_pop_up.fxml", false),
     CANCELCHANGESPOPUP("cancel_changes_pop_up.fxml", false),
+    ADDLOGPOPUP("add_log_pop_up.fxml", false),
     WINELISTSELECTPOPUP("wine_list_select.fxml", false);
 
     /**
