@@ -36,7 +36,7 @@ public class RecommendationDAO {
      * Retrieves the set of preferences from the database
      *
      * @param username string of record to retrieve
-     * @return drinkerPreferenceModel
+     * @return drinkerPreferenceModel filled with retrieved data
      */
     public DrinkerPreferenceModel getPreferenceModelByUsername(String username) {
         DrinkerPreferenceModel drinkerPrefModel = null;
@@ -50,21 +50,20 @@ public class RecommendationDAO {
                 ResultSet colNamesSet = psColName.executeQuery()) {
 
                 ArrayList<String> colNames = new ArrayList<>();
-
                 while (colNamesSet.next()){
                     if (colNamesSet.getString(1).compareTo( "username") != 0){
                         colNames.add(colNamesSet.getString(1));
                     }
                 }
-
                 if (resultSet.next()) {
                     drinkerPrefModel = new DrinkerPreferenceModel();
                     drinkerPrefModel.setUsername(resultSet.getString("username"));
                     ArrayList<Float> prefValues = new ArrayList<>();
-                    for (int i = 2; i < 49; i++) {
+                    prefValues.add(resultSet.getFloat(2));
+                    for (int i = 3; i < 50; i++) {
                         prefValues.add(resultSet.getFloat(i));
                     }
-                    drinkerPrefModel.setHashValues(colNames, prefValues);
+                    drinkerPrefModel.setHashMapValues( colNames, prefValues);
                 }
                 return drinkerPrefModel;
             }
@@ -78,6 +77,7 @@ public class RecommendationDAO {
     /**
      * Retrieves the all distinct attributes from specified column in table
      * and adds those attributes as columns in the drinkerPreferenceModel table
+     * with default value 5
      *
      * @param nameOfColumn string column to retrieve values from
      */
@@ -101,14 +101,43 @@ public class RecommendationDAO {
         }
     }
 
+    /**
+     * Creates a new drinkerPreferenceModel tuple
+     * by initialising the username and setting all values to defaults
+     *
+     * @param username string of username for primary key
+     */
     public void createNewPreferenceModel (String username) {
-        String sql = "Insert into drinkerPreferenceModel (username) values (?)";
+        String sql = "INSERT INTO drinkerPreferenceModel (username) VALUES (?)";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)){
             ps.setString(1,username);
             ps.executeUpdate();
         } catch(SQLException e){
             log.error(e);
+        }
+    }
+
+    /**
+     * Updates individual preference of the currently logged-in user
+     * with the given input
+     * @param username string representation of current user's username
+     * @param prefToUpdate string of preference to update
+     * @param newPrefValue new float value of updated preference
+     */
+    public void updateIndividualPreferenceVal(String username, String prefToUpdate, float newPrefValue) {
+        if (newPrefValue >= 0 && newPrefValue <= 10){
+            String sql = "UPDATE drinkerPreferenceModel SET '" + prefToUpdate + "'=? where username = ?";
+            try (Connection conn = databaseManager.connect();
+                 PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setFloat(1,newPrefValue);
+                ps.setString(2,username);
+                ps.executeUpdate();
+            } catch (SQLException e) {
+                log.error(e);
+            }
+        } else {
+            log.warn("Preference value already at max/min value - ignored");
         }
     }
 }
