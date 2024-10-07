@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileListViewScreenController">
+<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileListViewScreenController">
    <children>
       <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="830.0">
         <columnConstraints>
@@ -106,7 +106,7 @@
             </Label>
          </content>
       </ScrollPane>
-      <TextArea fx:id="descriptionTextArea" layoutX="841.0" layoutY="159.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="345.0" prefWidth="325.0" style="-fx-background-color: transparent;" visible="false" wrapText="true">
+      <TextArea fx:id="descriptionTextArea" layoutX="841.0" layoutY="159.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="345.0" prefWidth="325.0" visible="false" wrapText="true">
          <font>
             <Font size="18.0" />
          </font>

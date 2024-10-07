@@ -66,8 +66,11 @@ public class DeletingListsPopUpController {
 
         GuiService.setUpPopUp(overlayPane,popUpAnchorPane);
 
-
-        areYouSureLabel.setText("Are you sure you would like to delete " + listsToDelete.size() + " lists?");
+        if (listsToDelete.size() > 1) {
+            areYouSureLabel.setText("Are you sure you would like to delete " + listsToDelete.size() + " lists?");
+        } else {
+            areYouSureLabel.setText("Are you sure you would like to delete " + listsToDelete.size() + " list?");
+        }
 
         styleButtons();
 
