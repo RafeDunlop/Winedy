@@ -154,7 +154,9 @@ public class ProfileWineListsScreenController {
         for (int i = 0; i < pageVBox.getChildren().size(); i++) {
             HBox hbox = (HBox) pageVBox.getChildren().get(i);
             Button button = (Button) hbox.getChildren().get(0);
-            if (!button.getText().equals("Favourites")) {
+            HBox buttonHBox = (HBox) button.getGraphic();
+            Label label = (Label) buttonHBox.getChildren().get(1);
+            if (!label.getText().equals("Favourites")) {
                 CheckBox checkBox = (CheckBox) hbox.getChildren().get(1);
                 checkBox.setVisible(deleteMode);
             }
@@ -275,6 +277,7 @@ public class ProfileWineListsScreenController {
         numberLabel.setStyle("-fx-font-size: 25");
 
         HBox hbox = new HBox( 30, imageView, nameLabel, line, numberLabel);
+        nameLabel.setAlignment(Pos.CENTER);
         hbox.setAlignment(Pos.CENTER_LEFT);
         button.setGraphic(hbox);
     }
@@ -298,7 +301,7 @@ public class ProfileWineListsScreenController {
         nameLabel.setStyle("-fx-font-size: 25");
         nameLabel.setMinWidth(430);
         nameLabel.setMaxWidth(430);
-        nameLabel.setPadding(new Insets(10, 10, 0, 10));
+        nameLabel.setPadding(new Insets(10, 10, 10, 10));
         nameLabel.setWrapText(true);
     }
 }
