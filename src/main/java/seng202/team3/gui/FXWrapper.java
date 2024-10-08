@@ -338,4 +338,20 @@ public class FXWrapper {
     public void setPreviousSearch(SearchWineList wineList) {
         previousSearch = wineList;
     }
+
+    /**
+     * Loads the individual wine view popup to show the given wine
+     *
+     * @param wineToDisplay the wine to be displayed in the popup
+     */
+    public void loadIndividualWineViewPopup(Wine wineToDisplay) {
+        try {
+            FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.INDIVIDUALWINEVIEWPOPUP.file));
+            popUpLoader.setControllerFactory(param -> new IndividualWineViewPopupController(wineToDisplay));
+            StackPane popUpRoot = popUpLoader.load();
+            superPane.getChildren().add(popUpRoot);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
 }
