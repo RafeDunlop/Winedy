@@ -130,6 +130,23 @@ public final class GuiService {
         }
     }
 
+    /**
+     * Changes the visibility and ability of anchor panes in the recommendation system
+     * @param toTurnOff the anchor pane to make invisible and unable to be interacted
+     */
+    public static void turnOffPane(AnchorPane toTurnOff){
+        toTurnOff.setVisible(false);
+        toTurnOff.setDisable(true);
+    }
+    /**
+     * Changes the visibility and ability of anchor panes in the recommendation system
+     * @param toTurnOn the anchor pane to make visible and able to be interacted
+     */
+    public static void turnOnPane(AnchorPane toTurnOn){
+        toTurnOn.setVisible(true);
+        toTurnOn.setDisable(false);
+    }
+
     public static void setUpPopUp(StackPane overlayPane, AnchorPane popUpAnchorPane) {
         overlayPane.getStyleClass().add("overlay-stackpane");
         popUpAnchorPane.getStyleClass().add("white-wine-pane");

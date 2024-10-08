@@ -2,6 +2,8 @@ package seng202.team3.gui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import seng202.team3.models.Wine;
 import seng202.team3.services.RecommendationManager;
@@ -28,6 +30,9 @@ public class ProfileScreenController {
     private ComboBox<String> fullnessPreferenceComboBox;
 
     @FXML
+    private ComboBox<String> varietyPreferenceComboBox;
+
+    @FXML
     private Rectangle profilePreferenceRectangle;
 
     @FXML
@@ -44,8 +49,10 @@ public class ProfileScreenController {
 
     @FXML
     private Rectangle profileAbvLimitRectangle;
+    @FXML
+    private Button savePreferencesButton;
 
-    //*******************************************************MOCK Recommendation
+    //******************************************************* Recommendation
     @FXML
     private Button beginRecommendationButton;
     @FXML
@@ -54,19 +61,25 @@ public class ProfileScreenController {
     private Button swipeRecommendationLeftButton;
     @FXML
     private Button swipeRecommedationRightButton;
+    @FXML
+    private Button beginNewRecommendationButton;
+    @FXML
+    private AnchorPane recommendStep1Pane;
+    @FXML
+    private AnchorPane recommendStep2Pane;
+    @FXML
+    private AnchorPane recommendStep3Pane;
+    @FXML
+    private VBox recommendedWinesVBox;
+    @FXML
+    private Rectangle recommendationRectangle;
     private int recommendedWineIndex = 0;
     private List<Wine> recommendedWines = new ArrayList<>();
+    private ArrayList<Wine> userSelectedRecommendWines = new ArrayList<>();
     private List<Float> wineMatchPercentages = new ArrayList<>();
 
-    //******************************************************MOCK ENDS
-    @FXML
-    private Button savePreferencesButton;
+    //****************************************************** ENDS
 
-    @FXML
-    private ListView<?> searchListView;
-
-    @FXML
-    private ComboBox<String> varietyPreferenceComboBox;
     /**
      * Instance of the ProfileScreenServiceClass, used for data validation
      */
@@ -89,28 +102,26 @@ public class ProfileScreenController {
                 "Pinot Gris", "Malbec", "Shiraz", "Viognier", "Syrah", "Grenache", "Merlot", "Prosecco");
         varietyPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getGrapePreference());
         abvLimitSlider.setValue(wineDrinkerManager.getCurrentUser().getAbvLimit());
+        GuiService.turnOnPane(recommendStep1Pane);
         addStyleClasses();
 
     }
 
     /**
      * Called when the recommendation button is clicked
-     * Shows and hides the correct buttons and begins the
+     * Shows and hides the correct panes and begins the
      * recommendation
      */
     @FXML
     private void onBeginRecommendationClicked() {
-        beginRecommendationButton.setVisible(false);
-        beginRecommendationButton.setDisable(true);
-        swipeRecommendationLeftButton.setVisible(true);
-        swipeRecommendationLeftButton.setDisable(false);
-        swipeRecommedationRightButton.setVisible(true);
-        swipeRecommedationRightButton.setDisable(false);
-        mockRecWineLabel.setVisible(true);
+        GuiService.turnOffPane(recommendStep1Pane);
+        GuiService.turnOffPane(recommendStep3Pane);
+        GuiService.turnOnPane(recommendStep2Pane);
 
         recommendedWineIndex = 0;
         recommendedWines = new ArrayList<>();
         wineMatchPercentages = new ArrayList<>();
+        userSelectedRecommendWines = new ArrayList<>();
         RecommendationManager.getInstance().recommendWines(recommendedWines, wineMatchPercentages);
         recommendNextWineToUser();
 
@@ -118,11 +129,11 @@ public class ProfileScreenController {
 
     /**
      * helper function to show wine info
-     * TODO will show indiviudal wine view rather than text
+     * TODO will show individual wine view rather than text
      */
     private void recommendNextWineToUser(){
-        mockRecWineLabel.setText(recommendedWines.get(recommendedWineIndex).getLongDescription()
-             + "\n This wine matches your preferences " + wineMatchPercentages.get(recommendedWineIndex) + "%");
+//        recommendedWines.get(recommendedWineIndex).getLongDescription()
+        mockRecWineLabel.setText("This wine matches your preferences " + wineMatchPercentages.get(recommendedWineIndex) + "%");
     }
 
     /**
@@ -149,6 +160,7 @@ public class ProfileScreenController {
     void onSwipeRightClicked(){
         RecommendationManager.getInstance().
                 updatePreferenceModelAfterUserSelection(recommendedWines.get(recommendedWineIndex), true);
+        userSelectedRecommendWines.add(recommendedWines.get(recommendedWineIndex));
         recommendedWineIndex++;
         if (recommendedWineIndex < 5) {
             recommendNextWineToUser();
@@ -163,7 +175,11 @@ public class ProfileScreenController {
      * interact with
      */
     private void endRecommendationReturnWines(){
-        System.out.println("To implement");
+        GuiService.turnOnPane(recommendStep3Pane);
+        GuiService.turnOffPane(recommendStep2Pane);
+        recommendedWinesVBox.getChildren().clear();
+        GuiService.fillVboxGrid(userSelectedRecommendWines.toArray(new Wine[userSelectedRecommendWines.size()]),
+                recommendedWinesVBox, recommendStep3Pane);
     }
 
     /**
@@ -178,6 +194,9 @@ public class ProfileScreenController {
         profileScreenService.savePreferences(colour, fullness, grapeVariety, abvLimit);
     }
 
+    /**
+     * Adds the style classes to the elements on the main profile tab
+     */
     private void addStyleClasses() {
         profilePreferenceRectangle.getStyleClass().add("red-wine-rectangle");
         profileColourPreferenceRectangle.getStyleClass().add("white-red-wine-rectangle");
@@ -185,11 +204,16 @@ public class ProfileScreenController {
         profileFullnessPreferenceRectangle.getStyleClass().add("white-red-wine-rectangle");
         profileAbvLimitRectangle.getStyleClass().add("white-red-wine-rectangle");
         profilePreferenceTextRectangle.getStyleClass().add("white-red-wine-rectangle");
+        recommendationRectangle.getStyleClass().add("white-wine-rectangle");
 
         colourPreferenceComboBox.getStyleClass().add("fifteen-combo-box");
         varietyPreferenceComboBox.getStyleClass().add("fifteen-combo-box");
         fullnessPreferenceComboBox.getStyleClass().add("fifteen-combo-box");
 
-        savePreferencesButton.getStyleClass().add("nav_bar_button.css");
+        beginRecommendationButton.getStyleClass().add("nav-bar-button");
+        beginNewRecommendationButton.getStyleClass().add("nav-bar-button");
+        swipeRecommedationRightButton.getStyleClass().add("nav-bar-button");
+        swipeRecommendationLeftButton.getStyleClass().add("nav-bar-button");
+        savePreferencesButton.getStyleClass().add("nav-bar-button");
     }
 }
