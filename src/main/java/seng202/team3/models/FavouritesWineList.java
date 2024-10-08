@@ -5,7 +5,7 @@ public class FavouritesWineList extends UserWineList {
 
     private static final String FAVOURITES_NAME = "Favourites";
 
-    private static final String FAVOURITES_DESCRIPTION = "Here you'll find all the wines you've hearted";
+    private static final String FAVOURITES_DESCRIPTION = "Here you'll find all the wines you've hearted!";
 
     /**
      * Constructs new WineList object and initializes the list.

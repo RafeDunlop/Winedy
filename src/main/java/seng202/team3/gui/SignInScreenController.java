@@ -8,15 +8,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team3.models.WineAttribute;
+import seng202.team3.repository.Table;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.SignInScreenService;
+import seng202.team3.services.SearchScreenService;
 import seng202.team3.exceptions.IllegalWineDrinkerException;
 
 /**
@@ -122,12 +124,12 @@ public class SignInScreenController {
      * TODO: variety combobox is neither exhaustive nor can in be this long!
      */
     public void initialize() {
+        SearchScreenService searchScreenService = new SearchScreenService();
         toggleSignInButton.setOnAction(x -> toggleMode());
         toggleMode();
-        colourPreferenceComboBox.getItems().addAll(null, "Red", "White", "Rose");
-        fullnessPreferenceComboBox.getItems().addAll(null, "Off Dry", "Dry", "Light", "Medium", "Full");
-        varietyPreferenceComboBox.getItems().addAll(null, "Pinot Noir", "Chardonnay", "Sauvignon Blanc", "Cabernet Sauvignon",
-                "Pinot Gris", "Malbec", "Shiraz", "Viognier", "Syrah", "Grenache", "Merlot", "Prosecco");
+        colourPreferenceComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER));
+        fullnessPreferenceComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.FULLNESS, Table.WINESUPER));
+        varietyPreferenceComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE));
 
         addStyleClasses();
 
@@ -156,9 +158,7 @@ public class SignInScreenController {
             String variety = getComboInput(varietyPreferenceComboBox);
             int ABVLimit = (int) abvLimitSlider.getValue();
 
-            SignInScreenService.validateRegisteringUsername(username);
-            SignInScreenService.validateRegisteringPasswords(password, secondPassword);
-            SignInScreenService.registerUser(username, password, null, colour, fullness, variety, ABVLimit);
+            SignInScreenService.validateAndRegisterUser(username, password, secondPassword, null, colour, fullness, variety, ABVLimit);
             FXWrapper.getInstance().loadProfileTabPane(0);
 
         } catch (IllegalWineDrinkerException e) {
@@ -179,7 +179,7 @@ public class SignInScreenController {
         try {
             String username = usernameTextField.getText();
             String password = enterPasswordField.getText();
-            wineDrinkerManager.loginCurrentUser(username, password);
+            SignInScreenService.validateAndLoginUser(username, password);
             FXWrapper.getInstance().loadProfileTabPane(0);
         } catch (IllegalWineDrinkerException e) {
             fullDisable(errorLabel, false);

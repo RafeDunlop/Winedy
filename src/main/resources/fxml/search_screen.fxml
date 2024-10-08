@@ -6,12 +6,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.RangeSlider?>
 
-<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="724.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.SearchScreenController">
+<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="724.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.SearchScreenController">
    <children>
       <Rectangle fx:id="searchWinesRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="600.0" stroke="BLACK" strokeType="INSIDE" width="800.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
       <Rectangle fx:id="searchRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="84.0" layoutX="-15.0" layoutY="-80.0" stroke="BLACK" strokeType="INSIDE" width="800.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
@@ -86,10 +87,12 @@
                </VBox.margin>
             </Label>
             <RangeSlider fx:id="priceRangeSlider" blockIncrement="1.0" highValue="50.0" highValueChanging="true" lowValue="10.0" lowValueChanging="true" majorTickUnit="50.0" max="220.0" maxWidth="220.0" minorTickCount="4" prefHeight="40.0" prefWidth="200.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
-               <VBox.margin>
-                  <Insets bottom="30.0" />
-               </VBox.margin>
             </RangeSlider>
+            <HBox alignment="CENTER" spacing="10.0">
+               <TextField fx:id="lowPriceTextField" prefHeight="40.0" prefWidth="60.0" promptText="Min" alignment="CENTER" />
+               <Label text="-" />
+               <TextField fx:id="highPriceTextField" prefHeight="40.0" prefWidth="60.0" promptText="Max" alignment="CENTER" />
+            </HBox>
             <Button fx:id="filterToggleButton" mnemonicParsing="false" onAction="#onFilterToggleButtonClicked" prefHeight="40.0" prefWidth="130.0" text="Filter">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />

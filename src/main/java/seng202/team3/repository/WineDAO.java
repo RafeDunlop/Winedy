@@ -104,7 +104,7 @@ public class WineDAO implements DAOInterface<Wine> {
      * Gets a list of Strings representing the multivariable attribute associated with a wine ID
      *
      * @param wineId ID of the wine to get the multivariable attributes from
-     * @param sql statement in the form of  "SELECT * FROM <table name> award WHERE wineId = ?"
+     * @param sql statement in the form of  "SELECT * FROM table_name award WHERE wineId = ?"
      * @return a list corresponding to the desired multivalued attribute
      */
     @Nullable
@@ -383,7 +383,10 @@ public class WineDAO implements DAOInterface<Wine> {
         return 1;
     }
 
-    protected String addAnd() {
+    /**
+     * Helper function to keep track of whether an "AND" is needed in the filters part of the sql search query
+     */
+    private String addAnd() {
         if (!hasOne) {
             hasOne = true;
             return " ";
@@ -392,7 +395,39 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     /**
-     * TODO: Change to a string builder
+     * Helper function to create the keywords part of the sql search query
+     * @param sql the sql search query as a StringBuilder object to build on
+     * @param keywords list of keywords from the search bar of the search screen
+     */
+    private void addKeywords(StringBuilder sql, List<String> keywords) {
+        if (keywords != null) {
+            sql.append("(");
+            for (int i = 0; i < keywords.size(); i++) {
+                if (!hasOne) {
+                    hasOne = true;
+                }
+                sql.append("(LOWER(wineSuper.name) LIKE ? OR LOWER(style) LIKE ? OR LOWER(longDescription) LIKE ?)");
+                if (i < keywords.size() - 1) {
+                    sql.append(" OR ");
+                }
+            }
+            sql.append(") ");
+        }
+    }
+
+    /**
+     * Helper function to create the filters part of the sql search query
+     * @param sql the sql search query as a StringBuilder object to build on
+     * @param condition filter condition in sql formatting
+     * @param parameter value of the respective filter for the condition
+     */
+    private void addFilter(StringBuilder sql, String condition, Object parameter) {
+        if (parameter != null) {
+            sql.append(addAnd()).append(condition).append(" ");
+        }
+    }
+
+    /**
      * Sets up the SQL query string for a wine search based on the existence of the provided parameters
      * @param keywords list of keywords that have been collected from the search bar on the app
      * @param minYear the earliest year a wine can be from, specified by the wine drinker
@@ -407,51 +442,21 @@ public class WineDAO implements DAOInterface<Wine> {
      */
     protected String setUpSearchQuery(List<String> keywords, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice, String country, String colour, String fullness, String grapeName) {
         hasOne = false;
-        String sql = "SELECT * FROM wineSuper ";
+        StringBuilder sql = new StringBuilder("SELECT * FROM wineSuper ");
         if (grapeName != null) {
-            sql += "JOIN grape ON grape.wineId = wineSuper.id ";
+            sql.append("JOIN grape ON grape.wineId = wineSuper.id ");
         }
-        sql += "JOIN wine ON wine.id = wineSuper.id ";
-        sql += "WHERE ";
-        if (keywords != null) {
-            for (int i = 0; i < keywords.size(); i++) {
-                if (!hasOne) {
-                    sql += "(";
-                    hasOne = true;
-                }
-                if (i == keywords.size() - 1) {
-                    sql += "(LOWER(wineSuper.name) LIKE ? OR LOWER(style) LIKE ? OR LOWER(longDescription) LIKE ?)";
-                    sql += ") ";
-                } else {
-                    sql += "(LOWER(wineSuper.name) LIKE ? OR LOWER(style) LIKE ? OR LOWER(longDescription) LIKE ?) OR ";
-                }
-            }
-        }
-        if (minYear != null) {
-            sql += addAnd() + "year >= ? ";
-        }
-        if (maxYear != null) {
-            sql += addAnd() + "year <= ? ";
-        }
-        if (minPrice != null) {
-            sql += addAnd() + "pricePerBottle >= ? ";
-        }
-        if (maxPrice != null) {
-            sql += addAnd() + "pricePerBottle <= ? ";
-        }
-        if (country != null) {
-            sql += addAnd() + "country=? ";
-        }
-        if (colour != null) {
-            sql += addAnd() + "colour=? ";
-        }
-        if (fullness != null) {
-            sql += addAnd() + "fullness=? ";
-        }
-        if (grapeName != null) {
-            sql += addAnd() + "grape.name=? ";
-        }
-        return sql;
+        sql.append("JOIN wine ON wine.id = wineSuper.id WHERE ");
+        addKeywords(sql, keywords);
+        addFilter(sql, "year >= ?", minYear);
+        addFilter(sql, "year <= ?", maxYear);
+        addFilter(sql, "pricePerBottle >= ?", minPrice);
+        addFilter(sql, "pricePerBottle <= ?", maxPrice);
+        addFilter(sql, "country=?", country);
+        addFilter(sql, "colour=?", colour);
+        addFilter(sql, "fullness=?", fullness);
+        addFilter(sql, "grape.name=?", grapeName);
+        return sql.toString();
     }
 
     /**

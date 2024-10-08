@@ -83,6 +83,7 @@ public class DatabaseManager {
     /**
      * getInstance method where a url can be passed into the function. This function can handle the case where the url is
      * null as well.
+     * @param url path to specify a location to create database
      * @return the single instance DatabaseSingleton for a database located at the given url
      */
     public static DatabaseManager getInstance(String url){
@@ -171,7 +172,7 @@ public class DatabaseManager {
      */
     private void executeSQLScript(InputStream sqlFile) {
         String s;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(sqlFile))) {
             while((s=br.readLine()) != null) {
                 sb.append(s);

@@ -5,7 +5,7 @@ plugins {
     id 'jacoco'
 }
 
-archivesBaseName = 'wino'
+archivesBaseName = 'Winedy'
 group = 'seng202.team3'
 version = '1.0-SNAPSHOT'
 mainClassName = 'seng202.team3.App'

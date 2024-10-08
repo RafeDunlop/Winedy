@@ -31,6 +31,7 @@ public class WineDrinkerManager {
     private WineDrinker currentUser = null;
 
     private static WineDrinkerManager instance;
+    private RecommendationManager recommendationManager;
 
     /**
      * Creates a new WineDrinkerManager object and creates a private WineDrinkerDAO object that it will later
@@ -38,6 +39,7 @@ public class WineDrinkerManager {
      */
     private WineDrinkerManager(String url) {
         wineDrinkerDAO = new WineDrinkerDAO(url);
+        recommendationManager = RecommendationManager.getInstance();
     }
 
     /**
@@ -100,6 +102,7 @@ public class WineDrinkerManager {
         try {
             if (currentUser != null) {
                 wineDrinkerDAO.add(currentUser);
+                recommendationManager.InitialiseUserPreferenceModel(currentUser);
             }
         } catch (WineDrinkerAlreadyExistsException e) {
             log.error(e);
@@ -116,9 +119,10 @@ public class WineDrinkerManager {
 
         WineDrinker wineDrinker = wineDrinkerDAO.getWineDrinkerFromUsername(username);
         if (wineDrinker != null) {
-            String[] saltPass = wineDrinker.getPassword().split(":");
-            if (Password.check(password, saltPass[1]).addSalt(saltPass[0]).withBcrypt()) {
+            String hash = wineDrinker.getPassword();
+            if (Password.check(password, hash).withBcrypt()) {
                 setCurrentUser(wineDrinker);
+                recommendationManager.InitialiseUserPreferenceModel(currentUser);
                 WineListManager.getInstance().setupFavourites();
             } else {
                 throw new IllegalWineDrinkerException("Password Incorrect");
@@ -159,7 +163,7 @@ public class WineDrinkerManager {
 
     /**
      * Sets wineDrinkerDao used for setting up test database
-     * @param wineDrinkerDAO
+     * @param wineDrinkerDAO DAO for the wine drinker
      */
     public void setWineDrinkerDAO(WineDrinkerDAO wineDrinkerDAO) {
        this.wineDrinkerDAO = wineDrinkerDAO;

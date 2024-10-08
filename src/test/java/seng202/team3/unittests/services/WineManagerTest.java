@@ -17,6 +17,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+/**
+ * Unit tests for the WineManager service class
+ * @author Sophia Copley (sco207)
+ */
+
 public class WineManagerTest {
     private WineManager wineManager;
     private final int HIGHEST_ID = 782;
@@ -87,7 +92,6 @@ public class WineManagerTest {
     public void searchWines() {
         SearchWineList searchedWines = wineManager.searchWines("fruity", 2008, 2018, null, (float) 100, "New Zealand", "White", null, "Sauvignon Blanc");
         assertEquals(22, searchedWines.getWineList().size());
-
     }
 
 }

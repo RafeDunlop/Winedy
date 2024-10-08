@@ -18,7 +18,10 @@ public enum Screen {
     PROFILELISTVIEWSCREEN("profile_list_view_screen.fxml", false),
     CREATELISTPOPUP("create_list_pop_up.fxml", false),
     DELETELISTSPOPUP("deleting_lists_pop_up.fxml", false),
-    INDIVIDUALWINEVIEWPOPUP("individual_wine_view_popup.fxml", false);
+    INDIVIDUALWINEVIEWPOPUP("individual_wine_view_popup.fxml", false),
+    CANCELCHANGESPOPUP("cancel_changes_pop_up.fxml", false),
+    ADDLOGPOPUP("add_log_pop_up.fxml", false),
+    WINELISTSELECTPOPUP("wine_list_select.fxml", false);
 
     /**
      * The file name of the fxml file related to this screen without prefix i.e. "main.fxml"

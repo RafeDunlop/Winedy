@@ -1,9 +1,12 @@
 package seng202.team3.gui;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -19,6 +22,7 @@ import seng202.team3.models.Wine;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Objects;
 
 import static javafx.scene.control.ContentDisplay.TOP;
@@ -94,8 +98,11 @@ public final class GuiService {
      * Creates and returns a Button that contains an image graphic relevant to the colour of the given wine and the
      * title of the given wine. Sets the button's on-action event to load the individual wine view at the given
      * anchor pane of the given wine.
+     *
      * @param wineToDisplay The wine to be displayed on the button
      * @param screenAnchorPane The anchor pane that the individual wine view should be loaded on to
+     * @param prefWidth preferred width of wineButton
+     * @param prefHeight preferred height of wineButton
      * @return a Button that displays the wine image and loads an individual wine view when clicked.
      */
     public static Button generateWineButton(Wine wineToDisplay, AnchorPane screenAnchorPane, double prefWidth, double prefHeight) {
@@ -110,40 +117,78 @@ public final class GuiService {
         return wineButton;
     }
 
-    /** Fills VBox with wines. This could be search results or contents of a wine list.
+    /**
+     * Generates an HBox that contains buttons for each wine in the given list. This could be search results or contents of a wine list.
      *
-     * @param wineList the wine list containing the wines to be put in the VBox
-     * @param vBox the VBox to be filled
+     * @param wineList Contains the wines to generate buttons for
+     * @param wineDetailsAnchorPane The anchor pane needed for the onAction() method of the buttons
+     * @return An HBox containing wine buttons
+     *
+     * @see GuiService#generateWineButton(Wine, AnchorPane, double, double)
+     * @see GuiService#startButtonGeneration(List, VBox, AnchorPane, int)
+     * @param wineDetailsAnchorPane the anchor pane of the wine details
      */
-    public static void fillVboxGrid(Wine[] wineList, VBox vBox, AnchorPane wineDetailsAnchorPane) {
-        int length = wineList.length;
-        int rows = (length % 3 == 0)? length / 3 : length / 3 + 1;
+    public static HBox GenerateHBox(List<Wine> wineList, AnchorPane wineDetailsAnchorPane) {
 
-        for (int i = 0; i < rows; i++) {
-            HBox hbox = new HBox(10); // 10px
-            hbox.setSpacing(20);
-            hbox.setPadding(new Insets(10, 15, 10, 15));
-            hbox.setPrefWidth(800); // Set preferred width for the HBox
+        HBox hBox = new HBox(10); // 10px
+        hBox.setSpacing(20);
+        hBox.setPadding(new Insets(10, 15, 10, 15));
+        hBox.setPrefWidth(800); // Set preferred width for the HBox
 
-            Button button1 = GuiService.generateWineButton(wineList[3 * i], wineDetailsAnchorPane, 240, 240);
-            hbox.getChildren().add(button1);
-
-            if (3 * i + 1 < wineList.length) {
-                Button button2 = GuiService.generateWineButton(wineList[3 * i  + 1], wineDetailsAnchorPane, 240, 240);
-                hbox.getChildren().add(button2);
-            }
-
-            if (3 * i + 2 < wineList.length) {
-                Button button3 = GuiService.generateWineButton(wineList[3 * i + 2], wineDetailsAnchorPane, 240, 240);
-                hbox.getChildren().add(button3);
-            }
-
-            vBox.getChildren().add(hbox);
+        for (Wine wine: wineList) {
+            Button button = generateWineButton(wine, wineDetailsAnchorPane, 240, 240);
+            hBox.getChildren().add(button);
         }
+
+        return hBox;
     }
 
+    /**
+     * Creates a task which generates and updates the wine buttons for all given wines and updates the vbox safely on the
+     * JavaFX Application thread.
+     *
+     * @param wineList Contains wines to generate buttons for
+     * @param vBox  The VBox that will contain the generated buttons
+     * @param wineDetailsAnchorPane The anchor pane which the contains the VBox
+     * @param buttonsPerRow The number of buttons to be generated per row/HBox
+     *
+     * @see GuiService#GenerateHBox(List, AnchorPane)
+     */
+    public static void startButtonGeneration(List<Wine> wineList, VBox vBox, AnchorPane wineDetailsAnchorPane, int buttonsPerRow) {
+
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+
+                for (int i = 0; i < wineList.size(); i+=buttonsPerRow) {
+
+                    HBox hBox;
+                    if (i+buttonsPerRow >= wineList.size()) {
+                        hBox = GenerateHBox(wineList.subList(i,wineList.size()), wineDetailsAnchorPane);
+                    } else {
+                        hBox = GenerateHBox(wineList.subList(i,i+buttonsPerRow), wineDetailsAnchorPane);
+                    }
+
+                    Platform.runLater(() -> vBox.getChildren().add(hBox));
+                }
+
+                return null;
+            }
+        };
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true); //Make this thread a Daemon thread so that it closes when the main Application thread is closed
+        thread.start();
+    }
+
+    /** Sets up the pop-up
+     *
+     * @param overlayPane the overlay pane for the pop-up
+     * @param popUpAnchorPane the anchor pane for the pop-up
+     */
     public static void setUpPopUp(StackPane overlayPane, AnchorPane popUpAnchorPane) {
         overlayPane.getStyleClass().add("overlay-stackpane");
+        popUpAnchorPane.getStyleClass().add("white-wine-pane");
         overlayPane.setOnMouseClicked(event -> {
             Bounds popUpBounds = popUpAnchorPane.localToScene(popUpAnchorPane.getLayoutBounds());
             if (!popUpBounds.contains(event.getSceneX(), event.getSceneY())) {

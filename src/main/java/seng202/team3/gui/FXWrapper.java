@@ -10,9 +10,11 @@ import org.apache.logging.log4j.Logger;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
+import seng202.team3.models.WineLog;
 import seng202.team3.models.WineList;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,12 +49,21 @@ public class FXWrapper {
      */
     private static FXWrapper instance;
 
+
+    /**
+     * A stack of Runnable objects that call appropriate methods to load a specific screen. This is not enforced in any
+     * way and the runnable could contain code to do anything.
+     */
+    private final List<Runnable> previousScreens;
+
     /**
      * private default constructor to prevent instantiation outside this class
      */
     private FXWrapper() {
         screenPane = null;
         superPane = null;
+        previousScreens = new ArrayList<>();
+        previousSearch = null;
     }
 
     /**
@@ -157,6 +168,7 @@ public class FXWrapper {
             log.error(e);
         }
     }
+
     /**
      * Loads the view of a list where you can see the wines etc
      *
@@ -170,6 +182,23 @@ public class FXWrapper {
             Parent leaf = individualListViewLoader.load();
             clearPane(toNest);
             toNest.getChildren().add(leaf);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    /**
+     * Loads the logging pop up onto the screen.
+     *
+     * @param wineLog the wine log being displayed on the screen
+     * @param wine the logged wine contained in the wine log
+     */
+    public void loadLogPopup(WineLog wineLog, Wine wine) {
+        try {
+            FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.ADDLOGPOPUP.file));
+            popupLoader.setControllerFactory(param -> new LogPopupController(wineLog, wine));
+            StackPane popup = popupLoader.load();
+            superPane.getChildren().add(popup);
         } catch (IOException e) {
             log.error(e);
         }
@@ -196,7 +225,7 @@ public class FXWrapper {
 
     /**
      * Removes all FXML components, including the navBar
-     *
+     * @param toClear the pane which needs to be cleared
      * @throws NullPointerException thrown if superPane is not set yet via setSuperPane
      */
     public void clearPane(Pane toClear) throws NullPointerException {
@@ -204,7 +233,7 @@ public class FXWrapper {
     }
 
     /**
-     * Loads the 'create list pop up' screen which disables and dims background functionality
+     * Loads the createList pop up screen which disables and dims background functionality
      * and allows users to create new lists
      */
     public void loadCreateListPopUp() {
@@ -217,10 +246,49 @@ public class FXWrapper {
         }
     }
 
+    /**
+     * Loads delete lists pop up which allows the users to confirm whether they would like to delete lists or not
+     * @param wineLists a list of the users wine lists to be deleted
+     */
     public void loadDeleteListPopUp(List<UserWineList> wineLists) {
         try {
             FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.DELETELISTSPOPUP.file));
             popUpLoader.setControllerFactory(param -> new DeletingListsPopUpController(wineLists));
+            StackPane popUpRoot = popUpLoader.load();
+            superPane.getChildren().add(popUpRoot);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    /**
+     * Loads the cancel changes pop up
+     * @param currentList the list the user is currently viewing
+     * @param cancelButtonClicked if true the pop-up will handle the user trying to cancel their changes
+     *                            if false this means the user has tried to exit the page with unsaved changes
+     *                            and the version of the pop-up will be changed for this
+     * @param name name from text field that may have been updated
+     * @param description Description of list from text area that may have been updated
+     * @param toNest pane to nest the next screen
+     */
+    public void loadCancelChangesPopUp(UserWineList currentList, boolean cancelButtonClicked, String name, String description, AnchorPane toNest) {
+        try {
+            FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.CANCELCHANGESPOPUP.file));
+            popUpLoader.setControllerFactory(param -> new CancelChangesPopUpController(currentList, cancelButtonClicked, name, description, toNest));
+            StackPane popUpRoot = popUpLoader.load();
+            superPane.getChildren().add(popUpRoot);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    /** Loads a pop-up that allows user to select a wineList. The wine is added to the selected list
+     * @param wine The wine to be added to the list
+     */
+    public void loadAddWineToListPopUp(Wine wine) {
+        try {
+            FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.WINELISTSELECTPOPUP.file));
+            popUpLoader.setControllerFactory(param -> new WineListSelectPopUpController(wine));
             StackPane popUpRoot = popUpLoader.load();
             superPane.getChildren().add(popUpRoot);
         } catch (IOException e) {
@@ -239,7 +307,25 @@ public class FXWrapper {
     }
 
     /**
+     * Push a screen onto the previousScreen stack
+     * @param screen A Runnable that calls the necessary methods with the correct parameters needed to load the screen
+     */
+    public void addPreviousScreen(Runnable screen) {
+        previousScreens.add(screen);
+    }
+
+    /**
+     * Loads the screen at the top of the previousScreens stack and removes it from the stack
+     */
+    public void loadPreviousScreen() {
+        if (previousScreens.getLast() != null) {
+            previousScreens.removeLast().run();
+        }
+    }
+
+    /**
      * Returns the previous search
+     * @return the previous search as a SearchWineList object
      */
     public SearchWineList getPreviousSearch() {
         return previousSearch;
@@ -247,6 +333,7 @@ public class FXWrapper {
 
     /**
      * Sets the previous search to be the given SearchWineList
+     * @param wineList SearchWineList object to save as the previous search
      */
     public void setPreviousSearch(SearchWineList wineList) {
         previousSearch = wineList;
