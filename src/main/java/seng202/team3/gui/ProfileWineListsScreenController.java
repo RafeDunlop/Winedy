@@ -88,11 +88,11 @@ public class ProfileWineListsScreenController {
         wineLists = wineListManager.getAllUserWineLists();
 
         numberOfPages = wineLists.size() / listsPerPage;
-        if (wineLists.size() % 4 != 0) { //Add an extra page for the lists where required
+        if (wineLists.size() % listsPerPage != 0) { //Add an extra page for the lists where required
             numberOfPages += 1;
         }
 
-        pagination = new Pagination(numberOfPages, 0); // 2 = total items / items per page
+        pagination = new Pagination(numberOfPages, 0);
 
         for (int i = 0; i < numberOfPages; i++) {
             VBox pageContent = createPage(i);
