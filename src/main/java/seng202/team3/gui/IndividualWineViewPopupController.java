@@ -155,6 +155,9 @@ public class IndividualWineViewPopupController {
         exitButton.getStyleClass().add("nav-bar-button");
     }
 
+    /**
+     * used by JavaFX as the onAction for the exit button. calls the remove popup method in FXWrapper to close this popup
+     */
     @FXML
     public void onExitButtonClicked() {
         FXWrapper.getInstance().removePopUp(overlayPane);
