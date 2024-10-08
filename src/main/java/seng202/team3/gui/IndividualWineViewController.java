@@ -5,6 +5,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -104,6 +106,7 @@ public class IndividualWineViewController {
         rectangle.getStyleClass().add("white-wine-rectangle");
         likeButton.getStyleClass().add("like-button");
         addToListButton.getStyleClass().add("add-to-list-button");
+        GuiService.addImageGraphicToButton(addToListButton, "/images/list_icon.png", 100, 100, false);
         viewInDetailButton.getStyleClass().add("nav-bar-button");
         wineNameLabel.setText(wineToDisplay.getName());
         fullnessLabel.setText(wineToDisplay.getFullness());

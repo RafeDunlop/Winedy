@@ -1,0 +1,16 @@
+<svg viewbox="0 0 100 100" stroke-width="2">
+
+    <circle
+            cx ="20" cy="75" r = "4"
+            stroke="black" fill="none"/>
+    <circle
+            cx ="20" cy="50" r = "4"
+            stroke="black" fill="none"/>
+    <circle
+            cx ="20" cy="25" r = "4"
+            stroke="black" fill="none"/>
+
+    <path d="M 30 25 H 70
+           M 30 50 H 70
+           M 30 75 H 70" stroke="black"/>
+</svg>
