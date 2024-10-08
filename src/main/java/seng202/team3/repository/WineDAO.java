@@ -58,12 +58,8 @@ public class WineDAO implements DAOInterface<Wine> {
     public List<Wine> getAll() {
         List<Wine> wines = new ArrayList<>();
         String sqlWine = "SELECT * FROM wineSuper JOIN wine on wineSuper.id = wine.id ORDER BY name DESC";
-        String sqlPersonal = "SELECT * FROM wineSuper JOIN personalWine ON wineSuper.id = personalWine.id WHERE wineDrinker = ?";
         try (Connection conn = databaseManager.connect();
-             PreparedStatement psWine = conn.prepareStatement(sqlWine);
-             PreparedStatement psPersonal = conn.prepareStatement(sqlPersonal)) {
-            psPersonal.setString(1, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
-            ResultSet resultPersonal = psPersonal.executeQuery();
+             PreparedStatement psWine = conn.prepareStatement(sqlWine);) {
             ResultSet resultSet = psWine.executeQuery();
                 Wine newWine;
                 int id;
@@ -75,12 +71,11 @@ public class WineDAO implements DAOInterface<Wine> {
                     wines.add(newWine);
                 }
 
-                while (resultPersonal.next()) {
-                    id = resultSet.getInt("id");
-                    String[] grapeList = getGrapesByID(id);
-                    String[] awardList = getGrapesByID(id);
-                    newWine = getWineFromResultSet(resultSet, grapeList, awardList);
-                    wines.add(newWine);
+                try {
+                    PersonalWineDAO personalWineDAO = new PersonalWineDAO();
+                    wines.addAll(personalWineDAO.getAll());
+                } catch (NullPointerException e)  {
+                    log.info("no logged in user");
                 }
 
                 return wines;
