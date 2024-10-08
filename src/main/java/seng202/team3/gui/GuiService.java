@@ -96,6 +96,8 @@ public final class GuiService {
      * anchor pane of the given wine.
      * @param wineToDisplay The wine to be displayed on the button
      * @param screenAnchorPane The anchor pane that the individual wine view should be loaded on to
+     * @param prefWidth preferred width of wineButton
+     * @param prefHeight preferred height of wineButton
      * @return a Button that displays the wine image and loads an individual wine view when clicked.
      */
     public static Button generateWineButton(Wine wineToDisplay, AnchorPane screenAnchorPane, double prefWidth, double prefHeight) {
@@ -114,6 +116,7 @@ public final class GuiService {
      *
      * @param wineList the wine list containing the wines to be put in the VBox
      * @param vBox the VBox to be filled
+     * @param wineDetailsAnchorPane the anchor pane of the wine details
      */
     public static void fillVboxGrid(Wine[] wineList, VBox vBox, AnchorPane wineDetailsAnchorPane) {
         int length = wineList.length;
@@ -142,6 +145,11 @@ public final class GuiService {
         }
     }
 
+    /** Sets up the pop-up
+     *
+     * @param overlayPane the overlay pane for the pop-up
+     * @param popUpAnchorPane the anchor pane for the pop-up
+     */
     public static void setUpPopUp(StackPane overlayPane, AnchorPane popUpAnchorPane) {
         overlayPane.getStyleClass().add("overlay-stackpane");
         popUpAnchorPane.getStyleClass().add("white-wine-pane");
