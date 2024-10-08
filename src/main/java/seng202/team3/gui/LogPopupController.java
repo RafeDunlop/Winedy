@@ -15,9 +15,13 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import org.controlsfx.control.RangeSlider;
+import org.controlsfx.control.SearchableComboBox;
 import org.controlsfx.control.ToggleSwitch;
 import seng202.team3.models.Wine;
 import seng202.team3.models.WineLog;
+import seng202.team3.services.WineManager;
+
+import java.util.List;
 
 public class LogPopupController {
 
@@ -34,34 +38,13 @@ public class LogPopupController {
     private Button cancelLogButton;
 
     @FXML
-    private ComboBox<?> colourComboBox;
-
-    @FXML
-    private ComboBox<?> countryComboBox;
-
-    @FXML
     private Button createPersonalButton;
 
     @FXML
     private DatePicker datePicker;
 
     @FXML
-    private ComboBox<?> endDateComboBox;
-
-    @FXML
     private Label errorDisplayLabel;
-
-    @FXML
-    private Rectangle filterRectangle;
-
-    @FXML
-    private Button filterToggleButton;
-
-    @FXML
-    private VBox filterVBox;
-
-    @FXML
-    private ComboBox<?> fullnessComboBox;
 
     @FXML
     private ToggleSwitch glassesToggle;
@@ -79,35 +62,19 @@ public class LogPopupController {
     private AnchorPane popUpAnchorPane;
 
     @FXML
-    private RangeSlider priceRangeSlider;
-
-    @FXML
-    private ListView<?> resultsListView;
-
-    @FXML
-    private TextField searchBarTextField;
-
-    @FXML
-    private Button searchButton;
+    private SearchableComboBox<Wine> searchComboBox;
 
     @FXML
     private Rectangle searchRectangle;
 
     @FXML
-    private HBox selectedHBox;
-
-    @FXML
     private Rectangle selectedWineRectangle;
-
-    @FXML
-    private ComboBox<?> startDateComboBox;
-
-    @FXML
-    private ComboBox<?> varietyComboBox;
 
     private WineLog preExistingLog;
 
     private Wine preSelectedWine;
+
+    private List<Wine> wines;
 
     public LogPopupController(WineLog preExistingLog, Wine preSelectedWine) {
         this.preExistingLog = preExistingLog;
@@ -116,6 +83,27 @@ public class LogPopupController {
 
     public void initialize() {
         GuiService.setUpPopUp(overlayPane, popUpAnchorPane);
+
+        WineManager wineManager = WineManager.getInstance();
+        wines = wineManager.getAllWines();
+
+
+
+        if (preExistingLog != null) {
+            setLogParams();
+        }
+
+        if (preSelectedWine != null) {
+            setSelected();
+        }
+    }
+
+    private void setLogParams() {
+
+    }
+
+    private void setSelected() {
+
     }
 
     @FXML
