@@ -30,12 +30,12 @@ public class WineListViewController {
     /**
      * The Wine List to be displayed on the screen
      */
-    private Wine[] wineToDisplay;
+    private final Wine[] wineToDisplay;
 
     /**
      * The AnchorPane where the wine details should be displayed
      */
-    private AnchorPane wineDetailsAnchorPane;
+    private final AnchorPane wineDetailsAnchorPane;
 
     /**
      * Constructor for the WineListViewController.
@@ -53,7 +53,9 @@ public class WineListViewController {
      * Called by JavaFX upon initialisation of the Wine List View Screen
      */
     public void initialize() {
+        log.info("Wine list view loaded");
         GuiService.fillVboxGrid(wineToDisplay, wineVBox, wineDetailsAnchorPane);
+        wineScrollPane.getStyleClass().add("red-wine-scroll-pane");
     }
 
 }
