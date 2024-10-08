@@ -296,6 +296,8 @@ public class SearchScreenController {
         varietyComboBox.getStyleClass().add("fifteen-combo-box");
         fullnessComboBox.getStyleClass().add("fifteen-combo-box");
         searchBarTextField.getStyleClass().add("sign-in-screen-text-field");
+        lowPriceTextField.getStyleClass().add("sign-in-screen-text-field");
+        highPriceTextField.getStyleClass().add("sign-in-screen-text-field");
     }
 
     /**

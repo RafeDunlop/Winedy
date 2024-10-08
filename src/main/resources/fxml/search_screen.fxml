@@ -89,9 +89,9 @@
             <RangeSlider fx:id="priceRangeSlider" blockIncrement="1.0" highValue="50.0" highValueChanging="true" lowValue="10.0" lowValueChanging="true" majorTickUnit="50.0" max="220.0" maxWidth="220.0" minorTickCount="4" prefHeight="40.0" prefWidth="200.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
             </RangeSlider>
             <HBox alignment="CENTER" spacing="10.0">
-               <TextField fx:id="lowPriceTextField" prefHeight="40.0" prefWidth="47.0" promptText="Min" alignment="CENTER" />
+               <TextField fx:id="lowPriceTextField" prefHeight="40.0" prefWidth="60.0" promptText="Min" alignment="CENTER" />
                <Label text="-" />
-               <TextField fx:id="highPriceTextField" prefHeight="40.0" prefWidth="47.0" promptText="Max" alignment="CENTER" />
+               <TextField fx:id="highPriceTextField" prefHeight="40.0" prefWidth="60.0" promptText="Max" alignment="CENTER" />
             </HBox>
             <Button fx:id="filterToggleButton" mnemonicParsing="false" onAction="#onFilterToggleButtonClicked" prefHeight="40.0" prefWidth="130.0" text="Filter">
                <VBox.margin>
