@@ -1,5 +1,6 @@
 package seng202.team3.services;
 
+import javafx.util.StringConverter;
 import seng202.team3.models.WineLog;
 import seng202.team3.repository.WineLogDAO;
 
@@ -155,6 +156,33 @@ public class LogManager {
     public String getLogDateString(WineLog wineLog) {
         LocalDate date = wineLog.getDate().toLocalDate();
         return date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear();
+    }
+
+    public StringConverter<Integer> getHourConverter() {
+        return new StringConverter<Integer>() {
+            @Override
+            public String toString(Integer integer) {
+                if (integer == 0) {
+                    return "12AM";
+                }
+
+                if (integer / 12 == 1) {
+                    return (integer != 12) ? integer % 12 + "PM" : "12PM";
+                }
+
+                return integer + "AM";
+            }
+
+            @Override
+            public Integer fromString(String s) {
+                if (s.endsWith("PM")) {
+                    s = s.replace("PM", "");
+                    return (!s.equals("12")) ? Integer.parseInt(s) + 12 : 12;
+                }
+
+                return Integer.parseInt(s.replace("AM", ""));
+            }
+        };
     }
 
 }
