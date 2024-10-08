@@ -68,7 +68,7 @@ public class DrinkerPreferenceModel {
     /**
      * Returns the current abv preference score
      * ABV works differently and is always based of the users current preferences
-     * @return
+     * @return current abv preference score
      */
     public float getABV(){
         return preferencesHashMap.get("abv");

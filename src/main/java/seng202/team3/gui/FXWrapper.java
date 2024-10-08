@@ -224,7 +224,7 @@ public class FXWrapper {
 
     /**
      * Removes all FXML components, including the navBar
-     *
+     * @param toClear the pane which needs to be cleared
      * @throws NullPointerException thrown if superPane is not set yet via setSuperPane
      */
     public void clearPane(Pane toClear) throws NullPointerException {
@@ -324,6 +324,7 @@ public class FXWrapper {
 
     /**
      * Returns the previous search
+     * @return the previous search as a SearchWineList object
      */
     public SearchWineList getPreviousSearch() {
         return previousSearch;
@@ -331,6 +332,7 @@ public class FXWrapper {
 
     /**
      * Sets the previous search to be the given SearchWineList
+     * @param wineList SearchWineList object to save as the previous search
      */
     public void setPreviousSearch(SearchWineList wineList) {
         previousSearch = wineList;

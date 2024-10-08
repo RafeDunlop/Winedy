@@ -88,7 +88,8 @@ public class RecommendationManager {
 
     /**
      * Picks 5 wines for the recommendation using score threshold
-     * @return HashMap<Wine, Float> A hash map of the select wines, and it's matching percentage to users preferences
+     * @param selectedWines list of selected wines
+     * @param selectedWinePercents the matching percentages of all selected wines based on the users preferences
      */
     public void recommendWines(List<Wine> selectedWines, List<Float> selectedWinePercents){
         Random rand = new SecureRandom();
