@@ -1,0 +1,62 @@
+.root {
+    -fx-nbb-border-colour: "Black";
+    -fx-nbb-body-colour: #F0F0F0; /* Off-white grey */
+    -fx-nbb-hover-colour: #F7DBE2; /* derive(-fx-hsb-body-colour, -10%); */
+    -fx-red-wine-colour: derive(-fx-dark-red-wine-colour, 30%);
+}
+
+.wine-pagination .pagination-control {
+    -fx-font-size: 14px;
+}
+.wine-pagination .page:selected {
+    -fx-font-size: 14px; /* Larger font size for the selected page */
+    -fx-background-color: -fx-nbb-hover-colour; /* Green background for selected page */
+}
+
+.wine-pagination .pagination-control .number-button,
+.wine-pagination .pagination-control .bullet-button,
+.wine-pagination .pagination-control .left-arrow-button,
+.wine-pagination .pagination-control .right-arrow-button {
+    -fx-font-size: 14px;
+    -fx-min-width: 30;
+    -fx-min-height: 30;
+
+    -fx-background-color: -fx-nbb-body-colour;
+    -fx-background-radius: 20;
+    -fx-background-insets: 1;
+
+    -fx-border-color: -fx-nbb-border-colour;
+    -fx-border-radius: 8;
+    -fx-border-width: 3;
+}
+
+.wine-pagination .pagination-control .number-button:hover,
+.wine-pagination .pagination-control .bullet-button:hover,
+.wine-pagination .pagination-control .left-arrow-button:hover,
+.wine-pagination .pagination-control .right-arrow-button:hover {
+    -fx-background-color: -fx-nbb-hover-colour; /* Background color on hover */
+}
+
+.wine-pagination .pagination-control .number-button:selected,
+.wine-pagination .pagination-control .bullet-button:selected,
+.wine-pagination .pagination-control .left-arrow-button:selected,
+.wine-pagination .pagination-control .right-arrow-button:selected {
+    -fx-background-color: derive(-fx-red-wine-colour, 30%); /* Background color on hover */
+    -fx-text-fill: black;
+}
+
+.wine-pagination .pagination-control .number-button:focused,
+.wine-pagination .pagination-control .bullet-button:focused,
+.wine-pagination .pagination-control .left-arrow-button:focused,
+.wine-pagination .pagination-control .right-arrow-button:focused {
+    -fx-background-insets: 2;
+    -fx-border-insets: 1;
+}
+
+.wine-pagination .pagination-control .number-button:pressed,
+.wine-pagination .pagination-control .bullet-button:pressed,
+.wine-pagination .pagination-control .left-arrow-button:pressed,
+.wine-pagination .pagination-control .right-arrow-button:pressed {
+    -fx-background-insets: 5;
+    -fx-border-insets: 4;
+}
