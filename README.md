@@ -44,4 +44,4 @@ IntelliJ has built-in support for Gradle. To import your project:
 
 ## Run App
 - Open a command line interface inside the project directory and run `cd target` to change into the target directory.
-- Run the command `java -jar winedy-1.0-SNAPSHOT.jar` to open the application.
+- Run the command `java -jar Winedy-1.0-SNAPSHOT.jar` to open the application.
