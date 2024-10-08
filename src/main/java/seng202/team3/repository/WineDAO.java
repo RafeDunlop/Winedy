@@ -44,6 +44,8 @@ public class WineDAO implements DAOInterface<Wine> {
     /**
      * Creates a new WineDAO object and gets a reference to the database singleton for a database at the specified url.
      * Used for testing.
+     *
+     * @param url the url that the test database is located at
      */
     public WineDAO(String url) {
         databaseManager = DatabaseManager.getInstance(url);
@@ -104,7 +106,7 @@ public class WineDAO implements DAOInterface<Wine> {
      * Gets a list of Strings representing the multivariable attribute associated with a wine ID
      *
      * @param wineId ID of the wine to get the multivariable attributes from
-     * @param sql statement in the form of  "SELECT * FROM <table name> award WHERE wineId = ?"
+     * @param sql statement in the form of  "SELECT * FROM {table name} award WHERE wineId = ?"
      * @return a list corresponding to the desired multivalued attribute
      */
     @Nullable
@@ -234,6 +236,13 @@ public class WineDAO implements DAOInterface<Wine> {
         }
     }
 
+    /**
+     * Updates the note a Wine Drinker has left on a wine in the database
+     *
+     * @param toSet the wine whose note is to be updated
+     * @param note the new note to be set in the database
+     * @return an integer representing the success code of the method
+     */
     public int updateNote(Wine toSet, String note) {
         String sql = "UPDATE writesNoteAbout SET note = ? WHERE wineDrinker = ? AND wineId = ?";
         try (Connection conn = databaseManager.connect();
@@ -249,6 +258,13 @@ public class WineDAO implements DAOInterface<Wine> {
         }
     }
 
+    /**
+     * Adds a note written by a Wine Drinker to a wine in the database
+     *
+     * @param toSet the wine that the note was written about
+     * @param note the note written about the wine
+     * @return an integer representing the success code of the method
+     */
     public int addNote(Wine toSet, String note) {
         String sql = "INSERT INTO writesNoteAbout (wineDrinker, wineId, note) VALUES (?, ?, ?)";
         try (Connection conn = databaseManager.connect();
@@ -264,6 +280,12 @@ public class WineDAO implements DAOInterface<Wine> {
         }
     }
 
+    /**
+     * Gets and returns the note that the current user had written about the given wine from the database.
+     *
+     * @param hasNote the wine whose note is to be retrieved from the database
+     * @return an integer representing the success code of the method
+     */
     public String getNote(Wine hasNote) {
         String sql = "SELECT * FROM writesNoteAbout WHERE wineDrinker = ? AND wineId = ?";
         try (Connection conn = databaseManager.connect();
@@ -396,6 +418,7 @@ public class WineDAO implements DAOInterface<Wine> {
 
     /**
      * Helper function to create the keywords part of the sql search query
+     *
      * @param sql the sql search query as a StringBuilder object to build on
      * @param keywords list of keywords from the search bar of the search screen
      */
@@ -417,6 +440,7 @@ public class WineDAO implements DAOInterface<Wine> {
 
     /**
      * Helper function to create the filters part of the sql search query
+     *
      * @param sql the sql search query as a StringBuilder object to build on
      * @param condition filter condition in sql formatting
      * @param parameter value of the respective filter for the condition
@@ -429,6 +453,7 @@ public class WineDAO implements DAOInterface<Wine> {
 
     /**
      * Sets up the SQL query string for a wine search based on the existence of the provided parameters
+     *
      * @param keywords list of keywords that have been collected from the search bar on the app
      * @param minYear the earliest year a wine can be from, specified by the wine drinker
      * @param maxYear the latest year a wine can be from
@@ -461,6 +486,7 @@ public class WineDAO implements DAOInterface<Wine> {
 
     /**
      * Adds the required parameters to a PreparedStatement for the search method
+     *
      * @param ps prepared statement to add parameters to
      * @param keywords list of keywords that have been collected from the search bar on the app
      * @param minYear the earliest year a wine can be from, specified by the wine drinker
@@ -518,6 +544,7 @@ public class WineDAO implements DAOInterface<Wine> {
 
     /**
      * Searches database for wines based on keywords from the search bar and a number of filters
+     *
      * @param keywords keywords that have been collected from the search bar on the app
      * @param minYear the earliest year a wine can be from, specified by the wine drinker
      * @param maxYear the latest year a wine can be from
