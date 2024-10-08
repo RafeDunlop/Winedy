@@ -186,6 +186,12 @@ public class FXWrapper {
         }
     }
 
+    /**
+     * Loads the logging pop up onto the screen.
+     *
+     * @param wineLog the wine log being displayed on the screen
+     * @param wine the logged wine contained in the wine log
+     */
     public void loadLogPopup(WineLog wineLog, Wine wine) {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.ADDLOGPOPUP.file));
