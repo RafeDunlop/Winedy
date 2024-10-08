@@ -2,9 +2,8 @@ package seng202.team3.gui;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -12,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.models.Wine;
@@ -38,14 +38,15 @@ public final class GuiService {
 
     /**
      * Returns the content of the file at the given path as a String
-     * @param filePath given path of file
+     *
+     * @param filePath the relative path that the file is located at
      * @return A String of the file content at the given path
      */
     public static String getContentFromFile(String filePath) {
         try (InputStream inputStream = Objects.requireNonNull(GuiService.class.getResourceAsStream(filePath))) {
             return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            log.error("IO Exception occured");
+            log.error("IO Exception occurred");
             return null;
         }
     }
@@ -53,6 +54,8 @@ public final class GuiService {
     /**
      * Adds a graphic to the given Button of the image located at the given path.
      * If isInvisible is true, the ImageView's opacity is set to 0, and it's height is set to 1 pixel.
+     * If an error occurs loading the image, the graphic is instead set to show that the image was not found.
+     *
      * @param button The Button the image graphic is being added to
      * @param imagePath The path the image is located at
      * @param fitWidth The width the image should be
@@ -61,21 +64,30 @@ public final class GuiService {
      * @return The ImageView containing the image added to the button
      */
     public static ImageView addImageGraphicToButton(Button button, String imagePath, double fitWidth, double fitHeight, boolean isInvisible) {
-        Image image = new Image(imagePath);
-        ImageView imageView = new ImageView(image);
+        Node graphic = null;
 
-        imageView.setPreserveRatio(true);
-        if (isInvisible) {
-            imageView.setOpacity(0);
-            imageView.setFitHeight(1);
-        } else {
-            imageView.setFitHeight(fitHeight);
-            imageView.setFitWidth(fitWidth);
+        try {
+            Image image = new Image(imagePath);
+            ImageView imageView = new ImageView(image);
+            imageView.setPreserveRatio(true);
+            if (isInvisible) {
+                imageView.setOpacity(0);
+                imageView.setFitHeight(1);
+            } else {
+                imageView.setFitHeight(fitHeight);
+                imageView.setFitWidth(fitWidth);
+            }
+            graphic = imageView;
+        } catch (IllegalArgumentException e) {
+            log.warn("Image path not recognised: " + e.getMessage());
         }
 
-        button.setGraphic(imageView);
+        if (graphic == null) {
+            graphic = new Text("Image not found :(");
+        }
+        button.setGraphic(graphic);
 
-        return imageView;
+        return (graphic instanceof ImageView) ? (ImageView) graphic : new ImageView();
     }
 
     /**
@@ -100,8 +112,8 @@ public final class GuiService {
 
     /** Fills VBox with wines. This could be search results or contents of a wine list.
      *
-     * @param wineList wineList to get wines from
-     * @param vBox vBox to fill
+     * @param wineList the wine list containing the wines to be put in the VBox
+     * @param vBox the VBox to be filled
      */
     public static void fillVboxGrid(Wine[] wineList, VBox vBox, AnchorPane wineDetailsAnchorPane) {
         int length = wineList.length;

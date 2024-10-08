@@ -2,7 +2,6 @@ package seng202.team3.gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,7 +16,6 @@ import seng202.team3.repository.Table;
 import seng202.team3.services.SearchScreenService;
 import seng202.team3.services.WineManager;
 import seng202.team3.models.SearchWineList;
-import seng202.team3.models.Wine;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,9 +44,6 @@ public class SearchScreenController {
     private TextField searchBarTextField;
 
     @FXML
-    private VBox searchResultsVBox;
-
-    @FXML
     private ComboBox<Integer> startDateComboBox;
 
     @FXML
@@ -62,9 +57,6 @@ public class SearchScreenController {
 
     @FXML
     private AnchorPane rootAnchorPane;
-
-    @FXML
-    private ScrollPane wineScrollPane;
 
     @FXML
     private Rectangle searchWinesRectangle;
@@ -89,6 +81,9 @@ public class SearchScreenController {
 
     @FXML
     private Label infoTextLabel;
+
+    @FXML
+    private AnchorPane searchResultsAnchorPane;
 
     /**
      * Current wine colour filter selected by the Wine Drinker
@@ -129,7 +124,8 @@ public class SearchScreenController {
      * Called by JavaFX upon initialisation of the search screen. Sets the values of the price range slider to the low
      * and high values. Adds all the possible attribute values to the combo boxes through searchScreenService. Sets the
      * on actions of the combo boxes to change the selected filters. Collapses the filter VBox, adds the style classes
-     * to the widgets, and initialises the date range combo boxes.
+     * to the widgets, and initialises the date range combo boxes. Loads the previous search into the VBox, if there is
+     * no previous search, this is set to all the wines in the database.
      */
     public void initialize() {
 
@@ -154,6 +150,22 @@ public class SearchScreenController {
         collapseFilterVBox();
         addStyleClasses();
         initialiseDateRangeComboBoxes();
+
+        SearchWineList previousSearch = FXWrapper.getInstance().getPreviousSearch();
+        if (previousSearch == null) {
+            previousSearch = WineManager.getInstance().searchWines(
+                    searchBarTextField.getText(),
+                    lowYear,
+                    highYear,
+                    (float) priceRangeSlider.getLowValue(),
+                    (float) priceRangeSlider.getHighValue(),
+                    selectedCountry,
+                    selectedColour,
+                    selectedFullness,
+                    selectedVariety);
+            FXWrapper.getInstance().setPreviousSearch(previousSearch);
+        }
+        FXWrapper.getInstance().loadWineListView(previousSearch, searchResultsAnchorPane, wineDetailsAnchorPane);
     }
 
     /**
@@ -164,7 +176,6 @@ public class SearchScreenController {
      */
     @FXML
     void onSearchButtonClicked(ActionEvent event) {
-        searchResultsVBox.getChildren().clear();
         FXWrapper.getInstance().clearPane(wineDetailsAnchorPane);
         WineManager wineManager = WineManager.getInstance();
 
@@ -178,11 +189,8 @@ public class SearchScreenController {
                 !"All".equals(selectedColour) ? selectedColour : null,
                 !"All".equals(selectedFullness) ? selectedFullness : null,
                 !"All".equals(selectedVariety) ? selectedVariety : null);
-        List<Wine> resultsList = results.getWineList();
-        Wine[] resultsArray = new Wine[resultsList.size()];
-        resultsArray = resultsList.toArray(resultsArray);
 
-        GuiService.fillVboxGrid(resultsArray, searchResultsVBox, wineDetailsAnchorPane);
+        FXWrapper.getInstance().loadWineListView(results, searchResultsAnchorPane, wineDetailsAnchorPane);
 
         if (results.getWineList().isEmpty()) {
             infoTextLabel.setText("Unfortunately there were no results for your search. Try checking your spelling or broadening your filters.");
@@ -192,6 +200,8 @@ public class SearchScreenController {
             infoTextRectangle.setOpacity(0);
             infoTextLabel.setOpacity(0);
         }
+
+        FXWrapper.getInstance().setPreviousSearch(results);
     }
 
     /**
@@ -247,7 +257,6 @@ public class SearchScreenController {
      * Adds the appropriate style classes to the widgets
      */
     private void addStyleClasses() {
-        wineScrollPane.getStyleClass().add("red-wine-scroll-pane");
         searchWinesRectangle.getStyleClass().add("red-wine-rectangle");
         filterRectangle.getStyleClass().add("white-wine-rectangle");
         searchRectangle.getStyleClass().add("white-wine-rectangle");
