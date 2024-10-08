@@ -219,8 +219,8 @@ public class ProfileWineListsScreenController {
     /**
      * Sets up the checkboxes that go with each list so that they can be deleted.
      * Check box is disabled for the favourites list
-     * @param checkBox
-     * @param index
+     * @param checkBox the check-box to be set up
+     * @param index index of wine list that the checkbox is associated with
      */
     public void setUpCheckBox(CheckBox checkBox, int index) {
         checkBox.setOnAction(event -> {
