@@ -174,6 +174,8 @@ public class SearchScreenController {
         };
         lowPriceTextField.textProperty().bindBidirectional(priceRangeSlider.lowValueProperty(), converter);
         highPriceTextField.textProperty().bindBidirectional(priceRangeSlider.highValueProperty(), converter);
+        lowPriceTextField.setTextFormatter(new TextFormatter<>(change -> change.getControlNewText().matches("\\d*") ? change : null));
+        highPriceTextField.setTextFormatter(new TextFormatter<>(change -> change.getControlNewText().matches("\\d*") ? change : null));
 
         SearchWineList previousSearch = FXWrapper.getInstance().getPreviousSearch();
         if (previousSearch == null) {
