@@ -211,10 +211,10 @@ public class FXWrapper {
      * @param toNest the pane that the wine list view should be nested in
      * @param wineDetailsAnchorPane the anchor pane that the details view of each wine should be bound to
      */
-    public void loadWineListView(WineList wineListToDisplay, Pane toNest, AnchorPane wineDetailsAnchorPane) {
+    public void loadWineListView(WineList wineListToDisplay, Pane toNest, AnchorPane wineDetailsAnchorPane, int scrollPaneHeight) {
         try {
             FXMLLoader wineListViewLoader = new FXMLLoader(getClass().getResource("/fxml/wine_list_view.fxml"));
-            wineListViewLoader.setControllerFactory(param -> new WineListViewController(wineListToDisplay, wineDetailsAnchorPane));
+            wineListViewLoader.setControllerFactory(param -> new WineListViewController(wineListToDisplay, wineDetailsAnchorPane, scrollPaneHeight));
             Parent leaf = wineListViewLoader.load();
             clearPane(toNest);
             toNest.getChildren().add(leaf);

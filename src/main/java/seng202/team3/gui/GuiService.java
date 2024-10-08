@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Pagination;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -110,7 +111,13 @@ public final class GuiService {
         wineButton.setPrefSize(prefWidth,prefHeight);
         wineButton.setWrapText(true);
         addImageGraphicToButton(wineButton, "/images/" + wineToDisplay.getColour() + "_wine_image.png", 100, 100, false);
-        wineButton.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineView(screenAnchorPane, wineToDisplay));
+
+        if (screenAnchorPane != null) {
+            wineButton.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineView(screenAnchorPane, wineToDisplay));
+        } else {
+            wineButton.setOnAction(event -> FXWrapper.getInstance().loadCreateListPopUp()); /*TODO this currently loads the incorrect pop up, change so it loads the individual wine view pop up */
+        }
+
         wineButton.setContentDisplay(TOP);
         wineButton.getStyleClass().add("nav-bar-button");
         wineButton.setFont(new Font("System", 20));

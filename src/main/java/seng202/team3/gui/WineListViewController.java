@@ -1,6 +1,8 @@
 package seng202.team3.gui;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.control.Pagination;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -27,17 +29,32 @@ public class WineListViewController {
     private ScrollPane wineScrollPane;
 
     @FXML
-    private VBox wineVBox;
+    private VBox rootVBox;
 
     /**
      * The Wine List to be displayed on the screen
      */
-    private final List<Wine> wineToDisplay;
+    private final List<Wine> winesToDisplay;
 
     /**
      * The AnchorPane where the wine details should be displayed
      */
     private final AnchorPane wineDetailsAnchorPane;
+
+    /**
+     * The number of rows of wines per page
+     */
+    private int rowsPerPage = 4;
+
+    /**
+     * The number of wines per row
+     */
+    private int winesPerRow = 3;
+
+    /**
+     * Height of scrollpane required for a particular screen
+     */
+    private int scrollPaneHeight;
 
     /**
      * Constructor for the WineListViewController.
@@ -46,9 +63,10 @@ public class WineListViewController {
      * @param wineListToDisplay the wine list to be assigned
      * @param wineDetailsAnchorPane the AnchorPane that the wine details should be inserted into on clicking
      */
-    public WineListViewController(WineList wineListToDisplay, AnchorPane wineDetailsAnchorPane) {
-        this.wineToDisplay = wineListToDisplay.getWineList();
+    public WineListViewController(WineList wineListToDisplay, AnchorPane wineDetailsAnchorPane, int scrollPaneHeight) {
+        this.winesToDisplay = wineListToDisplay.getWineList();
         this.wineDetailsAnchorPane = wineDetailsAnchorPane;
+        this.scrollPaneHeight = scrollPaneHeight;
     }
 
     /**
@@ -56,8 +74,41 @@ public class WineListViewController {
      */
     public void initialize() {
         log.info("Wine list view loaded");
-        GuiService.startButtonGeneration(wineToDisplay, wineVBox, wineDetailsAnchorPane, 3);
+        createPagination();
         wineScrollPane.getStyleClass().add("red-wine-scroll-pane");
+    }
+
+    /**
+     * Creates paginated view to display wines
+     */
+
+    public void createPagination() {
+        int winesPerPage = 12;
+        int numberOfPages = winesToDisplay.size() / winesPerPage;
+
+        if (winesToDisplay.size() % 4 != 0) { //Add an extra page for the lists where required
+            numberOfPages += 1;
+        }
+
+        Pagination pagination = new Pagination(numberOfPages, 0);
+        rootVBox.getChildren().add(pagination);
+        pagination.getStyleClass().add("wine-pagination");
+
+
+        pagination.setPageFactory(pageIndex ->  {
+            VBox pageContent = new VBox();
+            int start = pageIndex * rowsPerPage * winesPerRow;
+            int end = Math.min(start + rowsPerPage * winesPerRow, winesToDisplay.size());
+            GuiService.startButtonGeneration(winesToDisplay.subList(start, end), pageContent, wineDetailsAnchorPane, winesPerRow);
+            ScrollPane scrollPane = new ScrollPane(pageContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.getStyleClass().add("red-wine-scroll-pane");
+            scrollPane.setMinHeight(scrollPaneHeight); //TODO this will probably need to be different for other screens
+            VBox outerVBox = new VBox(scrollPane);
+            outerVBox.setPadding(new Insets(0, 0, 10, 0));
+            return outerVBox;
+        });
+
     }
 
 }
