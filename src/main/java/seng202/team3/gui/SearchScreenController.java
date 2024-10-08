@@ -221,17 +221,18 @@ public class SearchScreenController {
 
                 FXWrapper.getInstance().setPreviousSearch(results);
 
-                Platform.runLater(() -> {
 
-                    FXWrapper.getInstance().loadWineListView(results, searchResultsAnchorPane, wineDetailsAnchorPane);
+                Platform.runLater(() -> {
+                    searchResultsAnchorPane.getChildren().clear();
 
                     if (results.getWineList().isEmpty()) {
                         infoTextLabel.setText("Unfortunately there were no results for your search. Try checking your spelling or broadening your filters.");
-                        infoTextRectangle.setOpacity(1);
-                        infoTextLabel.setOpacity(1);
+                        infoTextRectangle.setVisible(true);
+                        infoTextLabel.setVisible(true);
                     } else {
-                        infoTextRectangle.setOpacity(0);
-                        infoTextLabel.setOpacity(0);
+                        infoTextRectangle.setVisible(false);
+                        infoTextLabel.setVisible(false);
+                        FXWrapper.getInstance().loadWineListView(results, searchResultsAnchorPane, wineDetailsAnchorPane, 475);
                     }
 
                 });
