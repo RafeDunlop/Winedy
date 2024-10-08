@@ -1,5 +1,8 @@
 package seng202.team3.models;
 
+import javafx.util.StringConverter;
+import org.apache.commons.lang3.NotImplementedException;
+
 import java.util.Objects;
 
 /**
@@ -64,6 +67,18 @@ public class Wine {
      * Volume of the wine bottle
      */
     private float volumeInMl;
+
+    private static final StringConverter<Wine> stringConverter = new StringConverter<>() {
+        @Override
+        public String toString(Wine wine) {
+            return wine.getName();
+        }
+
+        @Override
+        public Wine fromString(String s) {
+            throw new NotImplementedException("I hope this isn't used");
+        }
+    };
 
     /**
      * Constructor for the Wine object
@@ -246,6 +261,10 @@ public class Wine {
      */
     public String getStyle() {
         return style;
+    }
+
+    public static StringConverter<Wine> getStringConverter() {
+        return stringConverter;
     }
 
     /**
