@@ -104,7 +104,7 @@ public class WineDAO implements DAOInterface<Wine> {
      * Gets a list of Strings representing the multivariable attribute associated with a wine ID
      *
      * @param wineId ID of the wine to get the multivariable attributes from
-     * @param sql statement in the form of  "SELECT * FROM <table name> award WHERE wineId = ?"
+     * @param sql statement in the form of  "SELECT * FROM table_name award WHERE wineId = ?"
      * @return a list corresponding to the desired multivalued attribute
      */
     @Nullable
