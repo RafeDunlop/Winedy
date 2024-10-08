@@ -7,12 +7,14 @@ import java.util.List;
 /**
  * Interface for Database Access Objects (DAOs) that provides common functionality for database access
  *
+ * @param <T> the model type that the DAO accesses and returns
  * @author Morgan English
  */
 public interface DAOInterface<T> {
     /**
      * Gets all of T from the database where T contains a foreign key of a Wine Drinker, only tuples which reference
      * the currently logged in Wine Drinker are returned.
+     *
      * @return List of all objects type T from the database
      */
     List<T> getAll();
@@ -20,6 +22,7 @@ public interface DAOInterface<T> {
 
     /**
      * Adds a single object of type T to database
+     *
      * @param toAdd object of type T to add
      * @return object insert id if inserted correctly
      * @throws WineDrinkerAlreadyExistsException if method is called with a WineDrinker with a username that already exists
@@ -28,13 +31,17 @@ public interface DAOInterface<T> {
 
     /**
      * Deletes and object from database that matches id given
+     *
      * @param toDelete Object to be deleted
+     * @return an integer representing the success code of the method
      */
     int delete(T toDelete);
 
     /**
      * Updates an object in the database
+     *
      * @param toUpdate Object that needs to be updated (this object must be able to identify itself and its previous self)
+     * @return an integer representing the success code of the method
      */
     int update(T toUpdate);
 
