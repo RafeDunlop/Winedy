@@ -63,6 +63,7 @@ public class FXWrapper {
         screenPane = null;
         superPane = null;
         previousScreens = new ArrayList<>();
+        previousSearch = null;
     }
 
     /**

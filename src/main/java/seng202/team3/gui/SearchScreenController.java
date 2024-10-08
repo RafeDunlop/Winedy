@@ -1,7 +1,9 @@
 package seng202.team3.gui;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -17,8 +19,10 @@ import seng202.team3.repository.Table;
 import seng202.team3.services.SearchScreenService;
 import seng202.team3.services.WineManager;
 import seng202.team3.models.SearchWineList;
+import seng202.team3.models.Wine;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -50,6 +54,9 @@ public class SearchScreenController {
     private TextField searchBarTextField;
 
     @FXML
+    private VBox searchResultsVBox;
+
+    @FXML
     private ComboBox<Integer> startDateComboBox;
 
     @FXML
@@ -63,6 +70,9 @@ public class SearchScreenController {
 
     @FXML
     private AnchorPane rootAnchorPane;
+
+    @FXML
+    private ScrollPane wineScrollPane;
 
     @FXML
     private Rectangle searchWinesRectangle;
@@ -177,21 +187,7 @@ public class SearchScreenController {
         lowPriceTextField.setTextFormatter(new TextFormatter<>(change -> change.getControlNewText().matches("\\d*") ? change : null));
         highPriceTextField.setTextFormatter(new TextFormatter<>(change -> change.getControlNewText().matches("\\d*") ? change : null));
 
-        SearchWineList previousSearch = FXWrapper.getInstance().getPreviousSearch();
-        if (previousSearch == null) {
-            previousSearch = WineManager.getInstance().searchWines(
-                    searchBarTextField.getText(),
-                    lowYear,
-                    highYear,
-                    (float) priceRangeSlider.getLowValue(),
-                    (float) priceRangeSlider.getHighValue(),
-                    selectedCountry,
-                    selectedColour,
-                    selectedFullness,
-                    selectedVariety);
-            FXWrapper.getInstance().setPreviousSearch(previousSearch);
-        }
-        FXWrapper.getInstance().loadWineListView(previousSearch, searchResultsAnchorPane, wineDetailsAnchorPane);
+        getSearchResults(); //Loads all wines into results box
     }
 
     /**
@@ -202,32 +198,52 @@ public class SearchScreenController {
      */
     @FXML
     void onSearchButtonClicked(ActionEvent event) {
+        searchButton.setDisable(true);
         FXWrapper.getInstance().clearPane(wineDetailsAnchorPane);
-        WineManager wineManager = WineManager.getInstance();
+        getSearchResults();
+    }
 
-        SearchWineList results = wineManager.searchWines(
-                searchBarTextField.getText(),
-                lowYear,
-                highYear,
-                (float) priceRangeSlider.getLowValue(),
-                (float) priceRangeSlider.getHighValue(),
-                !"All".equals(selectedCountry) ? selectedCountry : null,
-                !"All".equals(selectedColour) ? selectedColour : null,
-                !"All".equals(selectedFullness) ? selectedFullness : null,
-                !"All".equals(selectedVariety) ? selectedVariety : null);
 
-        FXWrapper.getInstance().loadWineListView(results, searchResultsAnchorPane, wineDetailsAnchorPane);
+    private void getSearchResults() {
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+                SearchWineList results = WineManager.getInstance().searchWines(
+                        searchBarTextField.getText(),
+                        lowYear,
+                        highYear,
+                        (float) priceRangeSlider.getLowValue(),
+                        (float) priceRangeSlider.getHighValue(),
+                        !"All".equals(selectedCountry) ? selectedCountry : null,
+                        !"All".equals(selectedColour) ? selectedColour : null,
+                        !"All".equals(selectedFullness) ? selectedFullness : null,
+                        !"All".equals(selectedVariety) ? selectedVariety : null);
 
-        if (results.getWineList().isEmpty()) {
-            infoTextLabel.setText("Unfortunately there were no results for your search. Try checking your spelling or broadening your filters.");
-            infoTextRectangle.setOpacity(1);
-            infoTextLabel.setOpacity(1);
-        } else {
-            infoTextRectangle.setOpacity(0);
-            infoTextLabel.setOpacity(0);
-        }
+                FXWrapper.getInstance().setPreviousSearch(results);
 
-        FXWrapper.getInstance().setPreviousSearch(results);
+                Platform.runLater(() -> {
+
+                    FXWrapper.getInstance().loadWineListView(results, searchResultsAnchorPane, wineDetailsAnchorPane);
+
+                    if (results.getWineList().isEmpty()) {
+                        infoTextLabel.setText("Unfortunately there were no results for your search. Try checking your spelling or broadening your filters.");
+                        infoTextRectangle.setOpacity(1);
+                        infoTextLabel.setOpacity(1);
+                    } else {
+                        infoTextRectangle.setOpacity(0);
+                        infoTextLabel.setOpacity(0);
+                    }
+
+                });
+                return null;
+            }
+        };
+
+        task.setOnSucceeded(e -> searchButton.setDisable(false));
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     /**

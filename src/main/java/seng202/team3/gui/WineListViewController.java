@@ -9,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 import seng202.team3.models.Wine;
 import seng202.team3.models.WineList;
 
+import java.util.List;
+
 /**
  * Controller for the wine_list_view.fxml
  *
@@ -30,7 +32,7 @@ public class WineListViewController {
     /**
      * The Wine List to be displayed on the screen
      */
-    private final Wine[] wineToDisplay;
+    private final List<Wine> wineToDisplay;
 
     /**
      * The AnchorPane where the wine details should be displayed
@@ -45,7 +47,7 @@ public class WineListViewController {
      * @param wineDetailsAnchorPane the AnchorPane that the wine details should be inserted into on clicking
      */
     public WineListViewController(WineList wineListToDisplay, AnchorPane wineDetailsAnchorPane) {
-        this.wineToDisplay = wineListToDisplay.getWineList().toArray(new Wine[0]);
+        this.wineToDisplay = wineListToDisplay.getWineList();
         this.wineDetailsAnchorPane = wineDetailsAnchorPane;
     }
 
@@ -54,7 +56,7 @@ public class WineListViewController {
      */
     public void initialize() {
         log.info("Wine list view loaded");
-        GuiService.fillVboxGrid(wineToDisplay, wineVBox, wineDetailsAnchorPane);
+        GuiService.startButtonGeneration(wineToDisplay, wineVBox, wineDetailsAnchorPane, 3);
         wineScrollPane.getStyleClass().add("red-wine-scroll-pane");
     }
 
