@@ -106,7 +106,6 @@ public class IndividualWineViewController {
         rectangle.getStyleClass().add("white-wine-rectangle");
         likeButton.getStyleClass().add("like-button");
         addToListButton.getStyleClass().add("add-to-list-button");
-        GuiService.addImageGraphicToButton(addToListButton, "/images/list_icon.png", 100, 100, false);
         viewInDetailButton.getStyleClass().add("nav-bar-button");
         wineNameLabel.setText(wineToDisplay.getName());
         fullnessLabel.setText(wineToDisplay.getFullness());
