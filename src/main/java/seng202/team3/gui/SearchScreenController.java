@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.util.StringConverter;
 import org.controlsfx.control.RangeSlider;
 import seng202.team3.models.WineAttribute;
 import seng202.team3.repository.Table;
@@ -18,7 +19,6 @@ import seng202.team3.services.WineManager;
 import seng202.team3.models.SearchWineList;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -39,6 +39,12 @@ public class SearchScreenController {
 
     @FXML
     private RangeSlider priceRangeSlider;
+
+    @FXML
+    private TextField lowPriceTextField;
+
+    @FXML
+    private TextField highPriceTextField;
 
     @FXML
     private TextField searchBarTextField;
@@ -151,6 +157,24 @@ public class SearchScreenController {
         addStyleClasses();
         initialiseDateRangeComboBoxes();
 
+        StringConverter<Number> converter = new StringConverter<>() {
+            @Override
+            public String toString(Number number) {
+                return String.valueOf(number.intValue());
+            }
+            @Override
+            public Number fromString(String s) {
+                try {
+                    return Integer.parseInt(s);
+                }
+                catch (NumberFormatException e) {
+                    return null;
+                }
+            }
+        };
+        lowPriceTextField.textProperty().bindBidirectional(priceRangeSlider.lowValueProperty(), converter);
+        highPriceTextField.textProperty().bindBidirectional(priceRangeSlider.highValueProperty(), converter);
+
         SearchWineList previousSearch = FXWrapper.getInstance().getPreviousSearch();
         if (previousSearch == null) {
             previousSearch = WineManager.getInstance().searchWines(
@@ -227,7 +251,7 @@ public class SearchScreenController {
 
         List<Integer> years = IntStream.rangeClosed(2007, 2019)
                 .boxed()
-                .collect(Collectors.toList());
+                .toList();
         ObservableList<Integer> yearList = FXCollections.observableArrayList();
         yearList.add(null);
         yearList.addAll(years);
