@@ -87,7 +87,7 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
     public int add(WineDrinker toAdd) throws WineDrinkerAlreadyExistsException {
         String sqlQuery = "INSERT INTO wineDrinker(username, password, countryPreference, colourPreference, fullnessPreference, grapePreference, abvLimit) values (?,?,?,?,?,?,?);";
         Hash hash = Password.hash(toAdd.getPassword()).withBcrypt();
-        String password = hash.getSalt()+":"+hash.getResult();
+        String password = hash.getResult();
         try (Connection conn = database.connect();
             PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
             preparedStatement.setString(1, toAdd.getUsername());

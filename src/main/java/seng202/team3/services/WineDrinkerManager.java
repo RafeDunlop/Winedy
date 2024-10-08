@@ -119,8 +119,8 @@ public class WineDrinkerManager {
 
         WineDrinker wineDrinker = wineDrinkerDAO.getWineDrinkerFromUsername(username);
         if (wineDrinker != null) {
-            String[] saltPass = wineDrinker.getPassword().split(":");
-            if (Password.check(password, saltPass[1]).addSalt(saltPass[0]).withBcrypt()) {
+            String hash = wineDrinker.getPassword();
+            if (Password.check(password, hash).withBcrypt()) {
                 setCurrentUser(wineDrinker);
                 recommendationManager.InitialiseUserPreferenceModel(currentUser);
                 WineListManager.getInstance().setupFavourites();
