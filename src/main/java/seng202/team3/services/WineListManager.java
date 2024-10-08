@@ -92,7 +92,6 @@ public class WineListManager {
         List<UserWineList> all = getAllUserWineLists();
         if (!all.isEmpty()) {
             UserWineList first = all.getFirst();
-            System.out.println("(setup) size: " + first.getWineList().size());
             favourites = FavouritesWineList.toFavourites(all.getFirst());
         } else {
             favourites = new FavouritesWineList();

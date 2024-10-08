@@ -22,6 +22,8 @@ public class WineListSelectPopUpController {
     @FXML
     private VBox wineListsVBox;
     @FXML
+    private Label titleLabel;
+    @FXML
     private Label addWineStatusLabel;
     @FXML
     private Button exitButton;
@@ -98,8 +100,9 @@ public class WineListSelectPopUpController {
     }
 
     private void setStyleClasses() {
-        addWineStatusLabel.setStyle("-fx-text-fill: #F0F0F0; -fx-font-size: 20;");
-        popUpAnchorPane.getStyleClass().add("red-wine-pane");
+        titleLabel.getStyleClass().add("status-label");
+        addWineStatusLabel.getStyleClass().add("status-label");
+        //popUpAnchorPane.getStyleClass().add("red-wine-pane");
         gridPane.setStyle("-fx-background-color: transparent");
         scrollPane.getStyleClass().add("wine-list-scroll-pane");
         createListButton.getStyleClass().add("wine-list-button");
