@@ -48,9 +48,11 @@
     -fx-background-color: -fx-nbb-hover-colour;
 }
 
+/* Disables the hover colour for the currently selected tab */
+.profile-tab-pane .tab:selected:hover {
+    -fx-background-color: #f8f4f4;
+}
 /*Ensures the default background for the tab pane is not visible */
-
-
 .tab-pane .tab-header-area .tab-header-background {
     -fx-opacity: 0;
 }
