@@ -59,7 +59,7 @@
          <ComboBox fx:id="colourPreferenceComboBox" layoutX="71.0" layoutY="279.0" prefHeight="40.0" prefWidth="130.0" promptText="None" visibleRowCount="5" AnchorPane.leftAnchor="71.0" AnchorPane.topAnchor="279.0" />
          <ComboBox fx:id="varietyPreferenceComboBox" layoutX="235.0" layoutY="280.0" prefHeight="40.0" prefWidth="130.0" promptText="None" visibleRowCount="5" />
          <ComboBox fx:id="fullnessPreferenceComboBox" layoutX="398.0" layoutY="279.0" prefHeight="40.0" prefWidth="130.0" promptText="None" visibleRowCount="5" />
-         <Slider fx:id="abvLimitSlider" blockIncrement="1.0" layoutX="150.0" layoutY="440.0" majorTickUnit="1.0" max="16.0" maxWidth="300.0" min="8.0" minWidth="300.0" minorTickCount="1" prefHeight="14.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" AnchorPane.leftAnchor="150.0" value="16"/>
+         <Slider fx:id="abvLimitSlider" blockIncrement="1.0" layoutX="150.0" layoutY="440.0" majorTickUnit="1.0" max="16.0" maxWidth="300.0" min="8.0" minWidth="300.0" minorTickCount="1" prefHeight="14.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="16" AnchorPane.leftAnchor="150.0" />
       </children>
    </AnchorPane>
    <Label fx:id="toggleLabel" alignment="CENTER" layoutX="150.0" layoutY="570.0" prefWidth="300.0" text="Don't have an account?">
@@ -95,7 +95,7 @@
          <Font size="20.0" />
       </font>
    </Label>
-   <TextField fx:id="usernameTextField" layoutX="100.0" layoutY="180.0" prefHeight="45.0" prefWidth="400.0" promptText="Username">
+   <TextField fx:id="usernameTextField" layoutX="100.0" layoutY="180.0" onAction="#onEnterPressed" prefHeight="45.0" prefWidth="400.0" promptText="Username">
       <font>
          <Font size="20.0" />
       </font>
@@ -107,7 +107,7 @@
          </InnerShadow>
       </effect>
    </TextField>
-   <PasswordField fx:id="enterPasswordField" layoutX="100.0" layoutY="280.0" prefHeight="45.0" prefWidth="400.0" promptText="Password">
+   <PasswordField fx:id="enterPasswordField" layoutX="100.0" layoutY="280.0" onAction="#onEnterPressed" prefHeight="45.0" prefWidth="400.0" promptText="Password">
       <font>
          <Font size="20.0" />
       </font>
@@ -119,7 +119,7 @@
          </InnerShadow>
       </effect>
    </PasswordField>
-   <PasswordField fx:id="reEnterPasswordField" layoutX="100.0" layoutY="360.0" prefHeight="45.0" prefWidth="400.0" promptText="Re-enter Password">
+   <PasswordField fx:id="reEnterPasswordField" layoutX="100.0" layoutY="360.0" onAction="#onEnterPressed" prefHeight="45.0" prefWidth="400.0" promptText="Re-enter Password">
       <font>
          <Font size="20.0" />
       </font>
