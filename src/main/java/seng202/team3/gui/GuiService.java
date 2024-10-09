@@ -112,7 +112,6 @@ public final class GuiService {
         wineButton.setPrefSize(prefWidth,prefHeight);
         wineButton.setWrapText(true);
         addImageGraphicToButton(wineButton, "/images/" + wineToDisplay.getColour() + "_wine_image.png", 100, 100, false);
-        System.out.println(screenAnchorPane);
         if (screenAnchorPane != null) {
             wineButton.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineView(screenAnchorPane, wineToDisplay));
         } else {
