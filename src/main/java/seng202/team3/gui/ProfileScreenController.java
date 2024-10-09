@@ -3,6 +3,7 @@ package seng202.team3.gui;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import seng202.team3.models.Wine;
@@ -56,7 +57,7 @@ public class ProfileScreenController {
     @FXML
     private Button beginRecommendationButton;
     @FXML
-    private Label mockRecWineLabel;
+    private Label wineMatchLabel;
     @FXML
     private Button swipeRecommendationLeftButton;
     @FXML
@@ -71,6 +72,8 @@ public class ProfileScreenController {
     private AnchorPane recommendStep3Pane;
     @FXML
     private VBox recommendedWinesVBox;
+    @FXML
+    private Pane wineViewPane;
     @FXML
     private Rectangle recommendationRectangle;
     private int recommendedWineIndex = 0;
@@ -132,8 +135,8 @@ public class ProfileScreenController {
      * TODO will show individual wine view rather than text
      */
     private void recommendNextWineToUser(){
-//        recommendedWines.get(recommendedWineIndex).getLongDescription()
-        mockRecWineLabel.setText("This wine matches your preferences " + wineMatchPercentages.get(recommendedWineIndex) + "%");
+        FXWrapper.getInstance().loadIndividualWineView(wineViewPane,recommendedWines.get(recommendedWineIndex));
+        wineMatchLabel.setText("This wine matches your preferences " + wineMatchPercentages.get(recommendedWineIndex) + "%");
     }
 
     /**
