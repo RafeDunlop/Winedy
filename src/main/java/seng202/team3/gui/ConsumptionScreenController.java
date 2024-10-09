@@ -134,7 +134,7 @@ public class ConsumptionScreenController {
             button.setOnAction(event -> FXWrapper.getInstance().loadLogPopup(log, null));
             button.setPrefSize(500, 80);
             vbox.getChildren().add(button);
-;        }
+        }
         ScrollPane page = new ScrollPane(vbox);
         page.setPrefSize(570, 445);
         page.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);

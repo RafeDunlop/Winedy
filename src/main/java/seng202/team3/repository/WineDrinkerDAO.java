@@ -30,8 +30,12 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
 
     /**
      *  Creates a WineDrinkerDAO object and gets a reference to the database singleton
+     *
+     * @param url the relative url that the test database is located at
      */
-    public WineDrinkerDAO(String url){database = DatabaseManager.getInstance(url);}
+    public WineDrinkerDAO(String url) {
+        database = DatabaseManager.getInstance(url);
+    }
 
     /**
      * TODO: implement for deliverable 3
@@ -87,7 +91,7 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
     public int add(WineDrinker toAdd) throws WineDrinkerAlreadyExistsException {
         String sqlQuery = "INSERT INTO wineDrinker(username, password, countryPreference, colourPreference, fullnessPreference, grapePreference, abvLimit) values (?,?,?,?,?,?,?);";
         Hash hash = Password.hash(toAdd.getPassword()).withBcrypt();
-        String password = hash.getSalt()+":"+hash.getResult();
+        String password = hash.getResult();
         try (Connection conn = database.connect();
             PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
             preparedStatement.setString(1, toAdd.getUsername());

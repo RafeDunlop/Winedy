@@ -70,9 +70,12 @@ public class Wine {
 
     /**
      * Constructor for the Wine object
+     *
      * @param uniqueWineID identifying value for the wine
      * @param name of the wine
      * @param colour of wine, either red, white or rose
+     * @param style of the wine e.g. rich, fruity, smooth, bog
+     * @param grapes a list of the grapes used to make the wine
      * @param country that the wine was made in
      * @param year the year that the wine was made
      * @param fullness 1-2 word description of the fullness of the wine, e.g. "dry"

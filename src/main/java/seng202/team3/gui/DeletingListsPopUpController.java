@@ -51,7 +51,7 @@ public class DeletingListsPopUpController {
 
     /**
      * Deleting lists pop up controller
-     * @param listsToDelete
+     * @param listsToDelete selected lists to delete
      */
     public DeletingListsPopUpController(List<UserWineList> listsToDelete) {
         this.listsToDelete = listsToDelete;

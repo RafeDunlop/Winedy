@@ -51,7 +51,7 @@
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Button fx:id="createNewListButton" mnemonicParsing="false" onAction="#onCreateListButtonClicked" prefHeight="49.0" prefWidth="162.0" text="Create New List" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                  <Button fx:id="createNewListButton" disable = "true" mnemonicParsing="false" onAction="#onCreateListButtonClicked" prefHeight="49.0" prefWidth="162.0" text="Create New List" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets right="15.0" />
                      </GridPane.margin>

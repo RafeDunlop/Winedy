@@ -1,75 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileScreenController">
    <children>
-      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="618.0" prefWidth="1200.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="800.0" minWidth="800.0" prefWidth="800.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="400.0" minWidth="10.0" prefWidth="400.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="150.0" minHeight="150.0" prefHeight="150.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="570.0" minHeight="570.0" prefHeight="570.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <AnchorPane layoutX="47.0" layoutY="32.0">
          <children>
-            <Label text="Preferences" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+            <Rectangle fx:id="recommendationRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="550.0" layoutX="-1.0" stroke="BLACK" strokeType="INSIDE" width="500.0" />
+            <AnchorPane fx:id="recommendStep1Pane" disable="true" layoutX="-1.0" layoutY="3.0" prefHeight="550.0" prefWidth="500.0" visible="false">
+               <children>
+                  <Button fx:id="beginRecommendationButton" layoutX="25.0" layoutY="199.0" mnemonicParsing="false" onAction="#onBeginRecommendationClicked" prefHeight="76.0" prefWidth="450.0" text="Recommend Me A Wine" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="recommendStep3Pane" disable="true" layoutY="-1.0" prefHeight="550.0" prefWidth="500.0" visible="false">
+               <children>
+                  <Label layoutX="132.0" text="You Selected:" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="30.0">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <VBox fx:id="recommendedWinesVBox" layoutY="71.0" prefHeight="401.0" prefWidth="500.0" />
+                  <Button fx:id="beginNewRecommendationButton" layoutX="147.0" layoutY="489.0" mnemonicParsing="false" onAction="#onBeginRecommendationClicked" prefHeight="47.0" prefWidth="207.0" text="Begin New Recommendation" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="recommendStep2Pane" disable="true" layoutX="-1.0" layoutY="33.0" prefHeight="555.0" prefWidth="500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label alignment="CENTER" layoutX="-4.0" layoutY="27.0" prefHeight="36.0" prefWidth="500.0" text="You Might Like :" textAlignment="CENTER">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="wineMatchLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="-1.0" layoutY="407.0" prefHeight="27.0" prefWidth="500.0" text="This wine matches your preferences __%" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <Button fx:id="swipeRecommendationLeftButton" layoutX="25.0" layoutY="441.0" mnemonicParsing="false" onAction="#onSwipeLeftClicked" prefHeight="75.0" prefWidth="200.0" text="Not For Me" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="25.0">
+                     <font>
+                        <Font size="20.0" />
+                     </font></Button>
+                  <Button fx:id="swipeRecommedationRightButton" alignment="CENTER" layoutX="349.0" layoutY="441.0" mnemonicParsing="false" onAction="#onSwipeRightClicked" prefHeight="75.0" prefWidth="200.0" text="I'm Interested" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="25.0">
+                     <font>
+                        <Font size="20.0" />
+                     </font></Button>
+                  <AnchorPane fx:id="wineViewPane" layoutX="46.0" layoutY="72.0" prefHeight="315.0" prefWidth="400.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="637.0" layoutY="32.0">
+         <children>
+            <Rectangle fx:id="profilePreferenceRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="550.0" stroke="BLACK" strokeType="INSIDE" width="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+            <Rectangle fx:id="profilePreferenceTextRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="141.0" layoutY="26.0" stroke="BLACK" strokeType="INSIDE" width="219.0" />
+            <Rectangle fx:id="profileColourPreferenceRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="115.0" layoutX="20.0" layoutY="156.0" stroke="BLACK" strokeType="INSIDE" width="150.0" AnchorPane.bottomAnchor="279.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="335.0" AnchorPane.topAnchor="156.0" />
+            <Rectangle fx:id="profileFullnessPreferenceRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="115.0" layoutX="177.0" layoutY="157.0" stroke="BLACK" strokeType="INSIDE" width="150.0" AnchorPane.bottomAnchor="279.0" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="175.0" AnchorPane.topAnchor="156.0" />
+            <Rectangle fx:id="profileVarietyPreferenceRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="115.0" layoutX="338.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="150.0" AnchorPane.bottomAnchor="279.0" AnchorPane.leftAnchor="335.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="156.0" />
+            <Rectangle fx:id="profileAbvLimitRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="83.0" layoutY="312.0" stroke="BLACK" strokeType="INSIDE" width="350.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" />
+            <Label fx:id="preferencesTextRectangle" layoutX="172.0" layoutY="38.0" prefHeight="76.0" prefWidth="154.0" text="Preferences (Optional)" textAlignment="CENTER" wrapText="true">
                <font>
-                  <Font size="20.0" />
+                  <Font size="25.0" />
                </font>
             </Label>
-            <Label text="Colour" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets bottom="475.0" left="100.0" />
-               </GridPane.margin>
-            </Label>
-            <ComboBox fx:id="colourPreferenceComboBox" prefHeight="25.0" prefWidth="118.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets bottom="475.0" left="50.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <Label text="Fullness" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets bottom="375.0" left="100.0" />
-               </GridPane.margin>
-            </Label>
-            <ComboBox fx:id="fullnessPreferenceComboBox" prefHeight="25.0" prefWidth="118.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets bottom="375.0" left="50.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <Label text="Variety" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets bottom="275.0" left="100.0" />
-               </GridPane.margin>
-            </Label>
-            <ComboBox fx:id="varietyPreferenceComboBox" prefHeight="25.0" prefWidth="118.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets bottom="275.0" left="50.0" />
-               </GridPane.margin>
-            </ComboBox>
-            <Label text="ABV Limit (Alcohol by Volume %)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets bottom="175.0" />
-               </GridPane.margin>
-            </Label>
-            <Slider fx:id="abvLimitSlider" majorTickUnit="5.0" max="25.0" maxWidth="300.0" minWidth="300.0" minorTickCount="4" prefHeight="14.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-               <GridPane.margin>
-                  <Insets bottom="100.0" />
-               </GridPane.margin>
-            </Slider>
-            <Button fx:id="savePreferencesButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onSavePreferencesButtonClicked" text="Save Preferences" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+            <Button fx:id="savePreferencesButton" alignment="CENTER" contentDisplay="CENTER" layoutX="140.0" layoutY="463.0" mnemonicParsing="false" onAction="#onSavePreferencesButtonClicked" prefHeight="60.0" prefWidth="225.0" text="Save Preferences" textAlignment="CENTER" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="135.0">
+               <font>
+                  <Font size="20.0" />
+               </font></Button>
+            <ComboBox fx:id="colourPreferenceComboBox" layoutX="36.0" layoutY="223.0" prefHeight="25.0" prefWidth="118.0" />
+            <Label layoutX="70.0" layoutY="176.0" text="Colour" />
+            <ComboBox fx:id="fullnessPreferenceComboBox" layoutX="190.0" layoutY="224.0" prefHeight="25.0" prefWidth="118.0" />
+            <Label layoutX="222.0" layoutY="175.0" text="Fullness" />
+            <ComboBox fx:id="varietyPreferenceComboBox" layoutX="353.0" layoutY="224.0" prefHeight="25.0" prefWidth="118.0" />
+            <Label layoutX="388.0" layoutY="175.0" text="Variety" />
+            <Label layoutX="174.0" layoutY="337.0" text="ABV Limit (Alcohol by Volume %)" AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="140.0" />
+            <Slider fx:id="abvLimitSlider" blockIncrement="1.0" layoutX="98.0" layoutY="365.0" majorTickUnit="1.0" max="16.0" maxWidth="300.0" min="8.0" minWidth="300.0" minorTickCount="1" prefHeight="14.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
          </children>
-      </GridPane>
+      </AnchorPane>
    </children>
 </AnchorPane>

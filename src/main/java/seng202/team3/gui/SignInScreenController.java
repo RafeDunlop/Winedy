@@ -1,7 +1,6 @@
 package seng202.team3.gui;
 
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -14,8 +13,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team3.models.WineAttribute;
+import seng202.team3.repository.Table;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.SignInScreenService;
+import seng202.team3.services.SearchScreenService;
 import seng202.team3.exceptions.IllegalWineDrinkerException;
 import static seng202.team3.gui.GuiService.fullDisable;
 
@@ -114,20 +116,19 @@ public class SignInScreenController {
     /**
      * state variable (state design pattern) to decide if the UI is in register mode (true) or login mode (false)
      */
-    private boolean registerMode = false;
+    private boolean signInMode = false;
 
     /**
-     * sets up combo-boxes, sets Button actions and sets the GUI to login mode
-     * TODO: replace Strings of combobox with enum types
-     * TODO: variety combobox is neither exhaustive nor can in be this long!
+     * Adds the preference values to the combo boxes, toggles the screen into sign-in mode. Calls the addStyleClasses
+     * method to set up all the styles. Adds the gif into the image view.
      */
     public void initialize() {
+        SearchScreenService searchScreenService = new SearchScreenService();
         toggleSignInButton.setOnAction(x -> toggleMode());
         toggleMode();
-        colourPreferenceComboBox.getItems().addAll(null, "Red", "White", "Rose");
-        fullnessPreferenceComboBox.getItems().addAll(null, "Off Dry", "Dry", "Light", "Medium", "Full");
-        varietyPreferenceComboBox.getItems().addAll(null, "Pinot Noir", "Chardonnay", "Sauvignon Blanc", "Cabernet Sauvignon",
-                "Pinot Gris", "Malbec", "Shiraz", "Viognier", "Syrah", "Grenache", "Merlot", "Prosecco");
+        colourPreferenceComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER));
+        fullnessPreferenceComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.FULLNESS, Table.WINESUPER));
+        varietyPreferenceComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE));
 
         addStyleClasses();
 
@@ -156,9 +157,7 @@ public class SignInScreenController {
             String variety = getComboInput(varietyPreferenceComboBox);
             int ABVLimit = (int) abvLimitSlider.getValue();
 
-            SignInScreenService.validateRegisteringUsername(username);
-            SignInScreenService.validateRegisteringPasswords(password, secondPassword);
-            SignInScreenService.registerUser(username, password, null, colour, fullness, variety, ABVLimit);
+            SignInScreenService.validateAndRegisterUser(username, password, secondPassword, null, colour, fullness, variety, ABVLimit);
             FXWrapper.getInstance().loadProfileTabPane(0);
 
         } catch (IllegalWineDrinkerException e) {
@@ -179,7 +178,7 @@ public class SignInScreenController {
         try {
             String username = usernameTextField.getText();
             String password = enterPasswordField.getText();
-            wineDrinkerManager.loginCurrentUser(username, password);
+            SignInScreenService.validateAndLoginUser(username, password);
             FXWrapper.getInstance().loadProfileTabPane(0);
         } catch (IllegalWineDrinkerException e) {
             fullDisable(errorLabel, false);
@@ -194,19 +193,19 @@ public class SignInScreenController {
      * Not a direct FXML button method because called upon initialization
      */
     private void toggleMode() {
-        fullDisable(preferencesAnchorPane, !registerMode);
-        toggleLabel.setText((registerMode) ? "Already have an account?" : "Don't have an account?");
-        toggleSignInButton.setText((registerMode) ? "Sign in" : "Register");
-        signInTitleLabel.setText((registerMode) ? "Create An Account" : "Login To Account");
-        errorLabel.setLayoutY((registerMode) ? 400 : 325);
-        fullDisable(reEnterPasswordField, !registerMode);
-        fullDisable(reEnterPasswordLabel, !registerMode);
-        fullDisable(loginButton, registerMode);
-        fullDisable(createAccountButton, !registerMode);
+        fullDisable(preferencesAnchorPane, !signInMode);
+        toggleLabel.setText((signInMode) ? "Already have an account?" : "Don't have an account?");
+        toggleSignInButton.setText((signInMode) ? "Sign in" : "Register");
+        signInTitleLabel.setText((signInMode) ? "Create An Account" : "Login To Account");
+        errorLabel.setLayoutY((signInMode) ? 400 : 325);
+        fullDisable(reEnterPasswordField, !signInMode);
+        fullDisable(reEnterPasswordLabel, !signInMode);
+        fullDisable(loginButton, signInMode);
+        fullDisable(createAccountButton, !signInMode);
         fullDisable(errorLabel, true);
-        fullDisable(wineImageView, registerMode);
-        fullDisable(wineImageRectangle, registerMode);
-        registerMode = !registerMode;
+        fullDisable(wineImageView, signInMode);
+        fullDisable(wineImageRectangle, signInMode);
+        signInMode = !signInMode;
     }
 
 
@@ -248,5 +247,18 @@ public class SignInScreenController {
         usernameTextField.getStyleClass().add("sign-in-screen-text-field");
         enterPasswordField.getStyleClass().add("sign-in-screen-password-field");
         reEnterPasswordField.getStyleClass().add("sign-in-screen-password-field");
+    }
+
+    /**
+     * The onAction of the text and password fields, if the screen is in sign in mode, the log-in button on action is
+     * called. Otherwise, the create account button on action is called
+     */
+    @FXML
+    public void onEnterPressed() {
+        if (signInMode) {
+            onLoginButtonClicked();
+        } else {
+            onCreateAccountButtonClicked();
+        }
     }
 }
