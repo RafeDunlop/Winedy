@@ -178,8 +178,7 @@ public class ProfileScreenController {
         GuiService.turnOnPane(recommendStep3Pane);
         GuiService.turnOffPane(recommendStep2Pane);
         recommendedWinesVBox.getChildren().clear();
-        GuiService.fillVboxGrid(userSelectedRecommendWines.toArray(new Wine[userSelectedRecommendWines.size()]),
-                recommendedWinesVBox, recommendStep3Pane);
+        GuiService.startButtonGeneration(userSelectedRecommendWines, recommendedWinesVBox, null, 3);
     }
 
     /**

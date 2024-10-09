@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileScreenController">
    <children>
       <AnchorPane layoutX="47.0" layoutY="32.0">
          <children>
@@ -23,18 +23,6 @@
                   </Button>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="recommendStep2Pane" disable="true" layoutX="-1.0" layoutY="33.0" prefHeight="555.0" prefWidth="500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <Label layoutX="121.0" layoutY="27.0" text="You Might Like :">
-                     <font>
-                        <Font size="25.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="mockRecWineLabel" layoutX="156.0" layoutY="81.0" text="Wine info goes here&#10;T&#10;h&#10;e&#10;q&#10;u&#10;i&#10;c&#10;k&#10;b&#10;r&#10;o&#10;w&#10;n&#10;f&#10;o&#10;x&#10;" />
-                  <Button fx:id="swipeRecommendationLeftButton" layoutX="25.0" layoutY="441.0" mnemonicParsing="false" onAction="#onSwipeLeftClicked" prefHeight="75.0" prefWidth="150.0" text="  &lt;---&#10;Not for me" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="25.0" />
-                  <Button fx:id="swipeRecommedationRightButton" layoutX="349.0" layoutY="441.0" mnemonicParsing="false" onAction="#onSwipeRightClicked" prefHeight="75.0" prefWidth="150.0" text=" --&gt; &#10;I'm intereseted" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="25.0" />
-               </children>
-            </AnchorPane>
             <AnchorPane fx:id="recommendStep3Pane" disable="true" layoutY="-1.0" prefHeight="550.0" prefWidth="500.0" visible="false">
                <children>
                   <Label layoutX="132.0" text="You Selected:" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="30.0">
@@ -44,6 +32,18 @@
                   </Label>
                   <VBox fx:id="recommendedWinesVBox" layoutY="71.0" prefHeight="401.0" prefWidth="500.0" />
                   <Button fx:id="beginNewRecommendationButton" layoutX="147.0" layoutY="489.0" mnemonicParsing="false" onAction="#onBeginRecommendationClicked" prefHeight="47.0" prefWidth="207.0" text="Begin New Recommendation" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="recommendStep2Pane" disable="true" layoutX="-1.0" layoutY="33.0" prefHeight="555.0" prefWidth="500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label layoutX="121.0" layoutY="27.0" text="You Might Like :">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="mockRecWineLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="122.0" layoutY="407.0" prefHeight="17.0" prefWidth="257.0" text="This wine matches your preferences __%" textAlignment="CENTER" />
+                  <Button fx:id="swipeRecommendationLeftButton" layoutX="25.0" layoutY="441.0" mnemonicParsing="false" onAction="#onSwipeLeftClicked" prefHeight="75.0" prefWidth="150.0" text="  &lt;---&#10;Not for me" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="25.0" />
+                  <Button fx:id="swipeRecommedationRightButton" layoutX="349.0" layoutY="441.0" mnemonicParsing="false" onAction="#onSwipeRightClicked" prefHeight="75.0" prefWidth="150.0" text=" --&gt; &#10;I'm intereseted" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="25.0" />
                </children>
             </AnchorPane>
          </children>
