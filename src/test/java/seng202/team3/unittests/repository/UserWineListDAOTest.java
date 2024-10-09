@@ -114,7 +114,7 @@ public class UserWineListDAOTest {
         UserWineList testWineList = new UserWineList("Name", "Description", null);
         userWineListDAO.add(testWineList);
         List<UserWineList> retrievedWineList = userWineListDAO.getAll();
-        assertEquals(testWineList.getDescription(), retrievedWineList.getFirst().getDescription());
+        assertEquals(testWineList.getDescription(), retrievedWineList.get(1).getDescription());
     }
 
     @Test
@@ -131,7 +131,7 @@ public class UserWineListDAOTest {
         testWineList.addWineToList(testWine1);
         userWineListDAO.add(testWineList);
         List<UserWineList> retrievedWineList = userWineListDAO.getAll();
-        assertEquals(testWine1.getUniqueWineID(), retrievedWineList.getFirst().getWineList().getFirst().getUniqueWineID());
+        assertEquals(testWine1.getUniqueWineID(), retrievedWineList.get(1).getWineList().getFirst().getUniqueWineID());
     }
 
     @Test
@@ -140,18 +140,18 @@ public class UserWineListDAOTest {
         UserWineList testWineList1 = new UserWineList("Name1", "Description1", null);
         userWineListDAO.add(testWineList);
         userWineListDAO.add(testWineList1);
-        List<UserWineList> retrievedWineList = userWineListDAO.getAll();
-        assertEquals(2, retrievedWineList.size());
+        List<UserWineList> retrievedWineLists = userWineListDAO.getAll();
+        assertEquals(3, retrievedWineLists.size());
     }
 
     @Test
     public void testUpdateList() {
         UserWineList testWineList = new UserWineList("Name", "Description", null);
         userWineListDAO.add(testWineList);
-        int currentNumber = userWineListDAO.getAll().getFirst().getWineList().size();
+        int currentNumber = userWineListDAO.getAll().get(1).getWineList().size();
         testWineList.addWineToList(testWine1);
         userWineListDAO.update(testWineList);
-        int newNumber = userWineListDAO.getAll().getFirst().getWineList().size();
+        int newNumber = userWineListDAO.getAll().get(1).getWineList().size();
         assertEquals(1, newNumber - currentNumber);
     }
 
@@ -164,8 +164,8 @@ public class UserWineListDAOTest {
         testWineList.setWineList(new ArrayList<>());
         testWineList.addWineToList(testWine3);
         userWineListDAO.update(testWineList);
-        assertEquals("test3", userWineListDAO.getAll().getFirst().getWineList().getFirst().getName());
-        assertEquals(1, userWineListDAO.getAll().size());
+        assertEquals("test3", userWineListDAO.getAll().get(1).getWineList().getFirst().getName());
+        assertEquals(2, userWineListDAO.getAll().size());
     }
 
     @Test
@@ -174,7 +174,7 @@ public class UserWineListDAOTest {
         userWineListDAO.add(testWineList);
         testWineList.setDescription("new description");
         userWineListDAO.update(testWineList);
-        assertEquals("new description", userWineListDAO.getAll().getFirst().getDescription());
+        assertEquals("new description", userWineListDAO.getAll().get(1).getDescription());
     }
 
     @Test
@@ -184,7 +184,7 @@ public class UserWineListDAOTest {
         int keyPrev = testWineList.getSortKey();
         testWineList.addWineToList(testWine1);
         userWineListDAO.update(testWineList);
-        assertEquals(1, keyPrev - userWineListDAO.getAll().getFirst().getSortKey());
+        assertEquals(1, keyPrev - userWineListDAO.getAll().get(1).getSortKey());
     }
 
     @Test
@@ -208,6 +208,6 @@ public class UserWineListDAOTest {
         UserWineList testWineList = new UserWineList("Name", "Description", null);
         userWineListDAO.add(testWineList);
         userWineListDAO.rename(testWineList, "newName");
-        assertEquals("newName", userWineListDAO.getAll().getFirst().getWineListName());
+        assertEquals("newName", userWineListDAO.getAll().get(1).getWineListName());
     }
 }
