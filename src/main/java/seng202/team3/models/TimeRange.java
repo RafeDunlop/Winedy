@@ -68,7 +68,7 @@ public enum TimeRange {
         return List.of(THISWEEK, LASTWEEK, PASTTWOWEEKS, THISMONTH, LASTMONTH, THISYEAR, LASTYEAR);
     }
 
-    private static Calendar getResetCalendar() {
+    public static Calendar getResetCalendar() {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("NZDT"));
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.clear(Calendar.MINUTE);
