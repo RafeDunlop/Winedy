@@ -71,8 +71,8 @@ public class ProfileListViewScreenController {
     @FXML
     private Label descErrorLabel;
 
-    //@FXML
-    //private Rectangle winesRectangle;
+    @FXML
+    private Rectangle winesRectangle;
 
     @FXML
     private Rectangle descriptionRectangle;
@@ -111,6 +111,10 @@ public class ProfileListViewScreenController {
     private final int descCharLimit = 500;
 
     /**
+     * Pagination to style
+     */
+    private Pagination winePagination;
+    /**
      * Constructor for the profileListView controller
      * @param listToDisplay list to be displayed in the individual list view
      */
@@ -144,13 +148,14 @@ public class ProfileListViewScreenController {
             editDescriptionButton.setVisible(false);
         }
         setUpTextAreaListenersForErrorMessages();
+        setUpListenersForDescValidation();
 
         addStyleSheets();
 
-        createPagination();
+        this.winePagination = GuiService.createPagination(listToDisplay.getWineList(), listContentsVBox, 4, 3, null);
+        winePagination.getStyleClass().add("wine-list-pagination");
 
     }
-
 
     /**
      * Saves the name of the list when the list is renamed
@@ -311,43 +316,17 @@ public class ProfileListViewScreenController {
         editDescriptionButton.getStyleClass().add("nav-bar-button");
         saveDescChangesButton.getStyleClass().add("nav-bar-button");
 
-        //winesRectangle.getStyleClass().add("red-wine-rectangle");
+        winesRectangle.getStyleClass().add("red-wine-rectangle");
         descriptionRectangle.getStyleClass().add("white-wine-rectangle");
         descriptionScrollPane.getStyleClass().add("white-wine-scroll-pane");
-        listContentsScrollPane.getStyleClass().add("red-wine-scroll-pane");
         descriptionLabel.setStyle("-fx-background-color: transparent");
         listContentsVBox.setStyle("-fx-background-color: transparent");
 
         wineListNameTextField.getStyleClass().add("sign-in-screen-text-field");
         descriptionTextArea.getStyleClass().add("description-text-area");
+
+        errorLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour;");
+        descErrorLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour;");
     }
 
-    public void createPagination() {
-        int winesPerPage = 12;
-        int numberOfPages = listToDisplay.getWineList().size() / winesPerPage;
-
-        if (listToDisplay.getWineList().size() % 4 != 0) { //Add an extra page for the lists where required
-            numberOfPages += 1;
-        }
-
-        Pagination pagination = new Pagination(numberOfPages, 0);
-        listContentsVBox.getChildren().add(pagination);
-        pagination.getStyleClass().add("wine-pagination");
-
-
-        pagination.setPageFactory(pageIndex ->  {
-            VBox pageContent = new VBox();
-            int start = pageIndex * 4 * 3;
-            int end = Math.min(start + 4 * 3, listToDisplay.getWineList().size());
-            GuiService.startButtonGeneration(listToDisplay.getWineList().subList(start, end), pageContent, null, 3);
-            ScrollPane scrollPane = new ScrollPane(pageContent);
-            scrollPane.setFitToWidth(true);
-            scrollPane.getStyleClass().add("red-wine-scroll-pane");
-            scrollPane.setMinHeight(428);
-            VBox outerVBox = new VBox(scrollPane);
-            outerVBox.setPadding(new Insets(0, 0, 10, 0));
-            return outerVBox;
-        });
-
-    }
 }
