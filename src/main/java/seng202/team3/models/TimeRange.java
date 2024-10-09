@@ -9,6 +9,12 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
+/**
+ * An Enum to represent time ranges and their string representations. Provides userful methods for getting the relevant
+ * dates for these time ranges.
+ *
+ * @author Rafe Dunlop (rdu46)
+ */
 public enum TimeRange {
 
     /**
