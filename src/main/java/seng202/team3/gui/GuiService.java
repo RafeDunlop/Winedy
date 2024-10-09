@@ -133,7 +133,6 @@ public final class GuiService {
      *
      * @see GuiService#generateWineButton(Wine, AnchorPane, double, double)
      * @see GuiService#startButtonGeneration(List, VBox, AnchorPane, int)
-     * @param wineDetailsAnchorPane the anchor pane of the wine details
      */
     public static HBox GenerateHBox(List<Wine> wineList, AnchorPane wineDetailsAnchorPane) {
 
@@ -238,5 +237,22 @@ public final class GuiService {
             return scrollPane;
         });
         return pagination;
+    }
+
+    /**
+     * Changes the visibility and ability of anchor panes in the recommendation system
+     * @param toTurnOff the anchor pane to make invisible and unable to be interacted
+     */
+    public static void turnOffPane(AnchorPane toTurnOff){
+        toTurnOff.setVisible(false);
+        toTurnOff.setDisable(true);
+    }
+    /**
+     * Changes the visibility and ability of anchor panes in the recommendation system
+     * @param toTurnOn the anchor pane to make visible and able to be interacted
+     */
+    public static void turnOnPane(AnchorPane toTurnOn){
+        toTurnOn.setVisible(true);
+        toTurnOn.setDisable(false);
     }
 }

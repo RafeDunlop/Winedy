@@ -151,6 +151,23 @@ public class FXWrapper {
             log.error(e);
         }
     }
+    /**
+     * loads the screen onto which the wine details are displayed
+     *
+     * @param toNest the Pane to load the wine details onto
+     * @param wineToDisplay the wine to be passed to the constructor so that its information can be displayed
+     */
+    public void loadMiniIndividualWineView(Pane toNest, Wine wineToDisplay) {
+        try {
+            FXMLLoader miniIndividualWineViewLoader = new FXMLLoader(getClass().getResource("/fxml/individual_wine_view_mini.fxml"));
+            miniIndividualWineViewLoader.setControllerFactory(param -> new MiniIndividualWineViewController(wineToDisplay));
+            Parent leaf = miniIndividualWineViewLoader.load();
+            clearPane(toNest);
+            toNest.getChildren().add(leaf);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
 
     /**
      * Loads the profile tab pane, so it opens to a specified tab
@@ -210,6 +227,7 @@ public class FXWrapper {
      * @param wineListToDisplay the wine list containing the wines to be displayed in the view
      * @param toNest the pane that the wine list view should be nested in
      * @param wineDetailsAnchorPane the anchor pane that the details view of each wine should be bound to
+     * @param scrollPaneHeight the height of the scroll pane in the wine list view
      */
     public void loadWineListView(WineList wineListToDisplay, Pane toNest, AnchorPane wineDetailsAnchorPane, int scrollPaneHeight) {
         try {

@@ -30,8 +30,12 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
 
     /**
      *  Creates a WineDrinkerDAO object and gets a reference to the database singleton
+     *
+     * @param url the relative url that the test database is located at
      */
-    public WineDrinkerDAO(String url){database = DatabaseManager.getInstance(url);}
+    public WineDrinkerDAO(String url) {
+        database = DatabaseManager.getInstance(url);
+    }
 
     /**
      * TODO: implement for deliverable 3
