@@ -364,6 +364,11 @@ public class SearchScreenController {
      * attribute combo boxes to update the value of the selected attribute to the selected item
      */
     private void initialiseAttributeComboBoxes() {
+        colourComboBox.setPromptText("All");
+        fullnessComboBox.setPromptText("All");
+        countryComboBox.setPromptText("All");
+        varietyComboBox.setPromptText("All");
+
         colourComboBox.getItems().addAll(SearchScreenService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER));
         fullnessComboBox.getItems().addAll(SearchScreenService.getAttributeValues(WineAttribute.FULLNESS, Table.WINESUPER));
         countryComboBox.getItems().addAll(SearchScreenService.getAttributeValues(WineAttribute.COUNTRY, Table.WINESUPER));

@@ -76,10 +76,10 @@ public class SearchWineList extends WineList {
         this.maxYear = (maxYear != null) ? maxYear : 2019;
         this.minPrice = (minPrice != null) ? minPrice : 0f;
         this.maxPrice = (maxPrice != null) ? maxPrice : 0f;
-        this.country = (country != null) ? country : "All";
-        this.colour = (colour != null) ? colour : "All";
-        this.fullness = (fullness != null) ? fullness : "All";
-        this.grapeName = (grapeName != null) ? grapeName : "All";
+        this.country = (country != null && !country.isEmpty()) ? country : "All";
+        this.colour = (colour != null && !colour.isEmpty()) ? colour : "All";
+        this.fullness = (fullness != null && !fullness.isEmpty()) ? fullness : "All";
+        this.grapeName = (grapeName != null && !grapeName.isEmpty()) ? grapeName : "All";
 
         if (keywords != null) {
             this.keywords = String.join(" ", keywords);
