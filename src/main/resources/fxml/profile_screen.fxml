@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
@@ -12,25 +13,49 @@
    <children>
       <AnchorPane layoutX="47.0" layoutY="32.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="550.0" stroke="BLACK" strokeType="INSIDE" width="500.0" />
-            <Label fx:id="mockRecWineLabel" layoutX="185.0" layoutY="33.0" text="Wine info goes here&#10;T&#10;h&#10;e&#10;q&#10;u&#10;i&#10;c&#10;k&#10;b&#10;r&#10;o&#10;w&#10;n&#10;f&#10;o&#10;x&#10;" visible="false" wrapText="true" />
-            <Button fx:id="beginRecommendationButton" layoutX="105.0" layoutY="229.0" mnemonicParsing="false" onAction="#onBeginRecommendationClicked" text="Recommend me a wine" textAlignment="CENTER" wrapText="true">
-               <font>
-                  <Font size="25.0" />
-               </font>
-            </Button>
-            <Button fx:id="swipeRecommendationLeftButton" disable="true" layoutX="29.0" layoutY="454.0" mnemonicParsing="false" onAction="#onSwipeLeftClicked" text="  &lt;-------&#10;Dislike Wine&#10;" visible="false" />
-            <Button fx:id="swipeRecommedationRightButton" disable="true" layoutX="366.0" layoutY="454.0" mnemonicParsing="false" onAction="#onSwipeRightClicked" prefHeight="40.0" prefWidth="98.0" text="----&gt;&#10;Like Wine&#10;" visible="false" />
+            <Rectangle fx:id="recommendationRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="550.0" layoutX="-1.0" stroke="BLACK" strokeType="INSIDE" width="500.0" />
+            <AnchorPane fx:id="recommendStep1Pane" disable="true" layoutX="-1.0" layoutY="3.0" prefHeight="550.0" prefWidth="500.0" visible="false">
+               <children>
+                  <Button fx:id="beginRecommendationButton" layoutX="25.0" layoutY="199.0" mnemonicParsing="false" onAction="#onBeginRecommendationClicked" prefHeight="76.0" prefWidth="450.0" text="Recommend Me A Wine" textAlignment="CENTER" wrapText="true">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="recommendStep3Pane" disable="true" layoutY="-1.0" prefHeight="550.0" prefWidth="500.0" visible="false">
+               <children>
+                  <Label layoutX="132.0" text="You Selected:" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="30.0">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <VBox fx:id="recommendedWinesVBox" layoutY="71.0" prefHeight="401.0" prefWidth="500.0" />
+                  <Button fx:id="beginNewRecommendationButton" layoutX="147.0" layoutY="489.0" mnemonicParsing="false" onAction="#onBeginRecommendationClicked" prefHeight="47.0" prefWidth="207.0" text="Begin New Recommendation" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="recommendStep2Pane" disable="true" layoutX="-1.0" layoutY="33.0" prefHeight="555.0" prefWidth="500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label layoutX="121.0" layoutY="27.0" text="You Might Like :">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="mockRecWineLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="122.0" layoutY="407.0" prefHeight="17.0" prefWidth="257.0" text="This wine matches your preferences __%" textAlignment="CENTER" />
+                  <Button fx:id="swipeRecommendationLeftButton" layoutX="25.0" layoutY="441.0" mnemonicParsing="false" onAction="#onSwipeLeftClicked" prefHeight="75.0" prefWidth="150.0" text="  &lt;---&#10;Not for me" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="25.0" />
+                  <Button fx:id="swipeRecommedationRightButton" layoutX="349.0" layoutY="441.0" mnemonicParsing="false" onAction="#onSwipeRightClicked" prefHeight="75.0" prefWidth="150.0" text=" --&gt; &#10;I'm intereseted" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="25.0" />
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
       <AnchorPane layoutX="637.0" layoutY="32.0">
          <children>
-            <Rectangle fx:id="profilePreferenceRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="550.0" stroke="BLACK" strokeType="INSIDE" width="500.0" />
+            <Rectangle fx:id="profilePreferenceRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="550.0" stroke="BLACK" strokeType="INSIDE" width="500.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
             <Rectangle fx:id="profilePreferenceTextRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="141.0" layoutY="26.0" stroke="BLACK" strokeType="INSIDE" width="219.0" />
             <Rectangle fx:id="profileColourPreferenceRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="115.0" layoutX="20.0" layoutY="156.0" stroke="BLACK" strokeType="INSIDE" width="150.0" AnchorPane.bottomAnchor="279.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="335.0" AnchorPane.topAnchor="156.0" />
             <Rectangle fx:id="profileFullnessPreferenceRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="115.0" layoutX="177.0" layoutY="157.0" stroke="BLACK" strokeType="INSIDE" width="150.0" AnchorPane.bottomAnchor="279.0" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="175.0" AnchorPane.topAnchor="156.0" />
             <Rectangle fx:id="profileVarietyPreferenceRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="115.0" layoutX="338.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="150.0" AnchorPane.bottomAnchor="279.0" AnchorPane.leftAnchor="335.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="156.0" />
-            <Rectangle fx:id="profileAbvLimitRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="83.0" layoutY="312.0" stroke="BLACK" strokeType="INSIDE" width="336.0" AnchorPane.leftAnchor="82.0" AnchorPane.rightAnchor="82.0" />
+            <Rectangle fx:id="profileAbvLimitRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="100.0" layoutX="83.0" layoutY="312.0" stroke="BLACK" strokeType="INSIDE" width="350.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="75.0" />
             <Label fx:id="preferencesTextRectangle" layoutX="172.0" layoutY="38.0" prefHeight="76.0" prefWidth="154.0" text="Preferences (Optional)" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="25.0" />
@@ -38,13 +63,13 @@
             </Label>
             <Button fx:id="savePreferencesButton" alignment="CENTER" contentDisplay="CENTER" layoutX="169.0" layoutY="462.0" mnemonicParsing="false" onAction="#onSavePreferencesButtonClicked" prefHeight="60.0" prefWidth="170.0" text="Save Preferences" textAlignment="CENTER" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="164.0" />
             <ComboBox fx:id="colourPreferenceComboBox" layoutX="36.0" layoutY="223.0" prefHeight="25.0" prefWidth="118.0" />
-            <Label layoutX="76.0" layoutY="176.0" text="Colour" />
+            <Label layoutX="70.0" layoutY="176.0" text="Colour" />
             <ComboBox fx:id="fullnessPreferenceComboBox" layoutX="190.0" layoutY="224.0" prefHeight="25.0" prefWidth="118.0" />
-            <Label layoutX="231.0" layoutY="175.0" text="Fullness" />
+            <Label layoutX="222.0" layoutY="175.0" text="Fullness" />
             <ComboBox fx:id="varietyPreferenceComboBox" layoutX="353.0" layoutY="224.0" prefHeight="25.0" prefWidth="118.0" />
-            <Label layoutX="393.0" layoutY="175.0" text="Variety" />
-            <Label layoutX="187.0" layoutY="337.0" text="ABV Limit (Alcohol by Volume %)" />
-            <Slider fx:id="abvLimitSlider" blockIncrement="1.0" layoutX="98.0" layoutY="365.0" majorTickUnit="1.0" max="16.0" maxWidth="300.0" min="8.0" minWidth="300.0" minorTickCount="1" prefHeight="14.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" />
+            <Label layoutX="388.0" layoutY="175.0" text="Variety" />
+            <Label layoutX="174.0" layoutY="337.0" text="ABV Limit (Alcohol by Volume %)" AnchorPane.leftAnchor="145.0" AnchorPane.rightAnchor="140.0" />
+            <Slider fx:id="abvLimitSlider" blockIncrement="1.0" layoutX="98.0" layoutY="365.0" majorTickUnit="1.0" max="16.0" maxWidth="300.0" min="8.0" minWidth="300.0" minorTickCount="1" prefHeight="14.0" prefWidth="300.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" />
          </children>
       </AnchorPane>
    </children>

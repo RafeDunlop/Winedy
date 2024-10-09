@@ -57,8 +57,11 @@ public class RecommendationManager {
         if (wineABV >= (userABV - 2) && wineABV <= (userABV + 2)) {
             calculatedScore += curDrinkerPrefModel.getABV();
         }
-
-        return (calculatedScore / findMaxPreferences()) * 100;
+        calculatedScore = (calculatedScore / findMaxPreferences()) * 100;
+        if (calculatedScore > 100){
+            calculatedScore = 100;
+        }
+        return calculatedScore;
     }
 
     /**
@@ -97,7 +100,6 @@ public class RecommendationManager {
         while (selectedWines.size() < 5) {
             int randomIndex = rand.nextInt(wineIndexes.size());
             selectWinesWithIndex(selectedWines, selectedWinePercents, randomIndex);
-            System.out.println(selectedWinePercents.size() + "  size of the selectedWine");
         }
 
     }
