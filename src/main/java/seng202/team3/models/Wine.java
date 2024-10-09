@@ -68,18 +68,6 @@ public class Wine {
      */
     private float volumeInMl;
 
-    private static final StringConverter<Wine> stringConverter = new StringConverter<>() {
-        @Override
-        public String toString(Wine wine) {
-            return wine.getName();
-        }
-
-        @Override
-        public Wine fromString(String s) {
-            throw new NotImplementedException("I hope this isn't used");
-        }
-    };
-
     /**
      * Constructor for the Wine object
      * @param uniqueWineID identifying value for the wine
@@ -263,10 +251,6 @@ public class Wine {
         return style;
     }
 
-    public static StringConverter<Wine> getStringConverter() {
-        return stringConverter;
-    }
-
     /**
      * Sets the personal wine ID
      * @param uniqueWineID Integer identifier of the wine
@@ -289,6 +273,7 @@ public class Wine {
     public void setColour(String colour) {
         this.colour = colour;
     }
+
     /**
      * Sets the personal wine entry for a wine drinker
      * @param personalWineEntry Wine note taken by the user
@@ -365,6 +350,14 @@ public class Wine {
      */
     public void setVolumeInMl(float volumeInMl) {
         this.volumeInMl = volumeInMl;
+    }
+
+    /**
+     * Ensures that implicit casts to String of a Wine object return readable values
+     * @return the Wine's name
+     */
+    public String toString() {
+        return name;
     }
 }
 

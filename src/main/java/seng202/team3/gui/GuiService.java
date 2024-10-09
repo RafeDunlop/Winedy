@@ -2,9 +2,8 @@ package seng202.team3.gui;
 
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -139,5 +138,16 @@ public final class GuiService {
                 FXWrapper.getInstance().removePopUp(overlayPane);
             }
         });
+    }
+
+    /**
+     * Helper function for toggleMode to disable and make invisible the component in one line.
+
+     * @param component Node object, fx component to disable
+     * @param fullDisable whether to disable or enable the component
+     */
+    public static void fullDisable(Node component, boolean fullDisable) {
+        component.setDisable(fullDisable);
+        component.setOpacity((fullDisable) ? 0 : 1);
     }
 }
