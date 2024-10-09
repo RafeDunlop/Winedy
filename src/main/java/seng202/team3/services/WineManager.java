@@ -126,12 +126,15 @@ public class WineManager {
     public SearchWineList searchWines(String searchBarInput, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice,
                                       String country, String colour, String fullness, String grapeName) {
         List<String> keywords = getWordsFromSearchBar(searchBarInput);
-        return wineDAO.searchWines(keywords, minYear, maxYear, minPrice, maxPrice, country, colour, fullness, grapeName);
+        SearchWineList results = wineDAO.searchWines(keywords, minYear, maxYear, minPrice, maxPrice, country, colour, fullness, grapeName);
+        results.setKeywords(searchBarInput);
+        return results;
     }
 
     /**
      * Gets all the keywords from an input into the search bar.
      * This is based on the input into the search bar searchBarInput
+     *
      * @param searchBarInput String of input from the search bar
      * @return List of words entered into the search bar
      */

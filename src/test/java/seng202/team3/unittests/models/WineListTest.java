@@ -7,6 +7,8 @@ import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
 import seng202.team3.models.WineList;
 
+import java.util.Collections;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -40,7 +42,8 @@ public class WineListTest {
 
     @BeforeEach
     public void resetList() {
-        toTest = new SearchWineList();
+        toTest = new SearchWineList(Collections.emptyList(), 0, 0, 0f, 0f,
+                null, null, null, null);
     }
 
     @Test
