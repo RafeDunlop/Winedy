@@ -109,6 +109,7 @@ public class WineDrinkerManager {
             if (currentUser != null) {
                 wineDrinkerDAO.add(currentUser);
                 recommendationManager.InitialiseUserPreferenceModel(currentUser);
+                WineListManager.getInstance().setupFavourites();
             }
         } catch (WineDrinkerAlreadyExistsException e) {
             log.error(e);
