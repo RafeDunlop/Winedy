@@ -112,7 +112,7 @@ public final class GuiService {
         wineButton.setPrefSize(prefWidth,prefHeight);
         wineButton.setWrapText(true);
         addImageGraphicToButton(wineButton, "/images/" + wineToDisplay.getColour() + "_wine_image.png", 100, 100, false);
-
+        System.out.println(screenAnchorPane);
         if (screenAnchorPane != null) {
             wineButton.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineView(screenAnchorPane, wineToDisplay));
         } else {
@@ -232,7 +232,7 @@ public final class GuiService {
             VBox pageContent = new VBox();
             int start = pageIndex * rowsPerPage * winesPerRow;
             int end = Math.min(start + rowsPerPage * winesPerRow, winesToDisplay.size());
-            GuiService.startButtonGeneration(winesToDisplay.subList(start, end), pageContent, null, 3);
+            GuiService.startButtonGeneration(winesToDisplay.subList(start, end), pageContent, wineDetailsAnchorPane, 3);
             ScrollPane scrollPane = new ScrollPane(pageContent);
             scrollPane.setFitToWidth(true);
             scrollPane.getStyleClass().add("red-wine-scroll-pane");
