@@ -62,6 +62,7 @@ public class WineListViewController {
      *
      * @param wineListToDisplay the wine list to be assigned
      * @param wineDetailsAnchorPane the AnchorPane that the wine details should be inserted into on clicking
+     * @param scrollPaneHeight the height of the ScrollPane in the wine list view
      */
     public WineListViewController(WineList wineListToDisplay, AnchorPane wineDetailsAnchorPane, int scrollPaneHeight) {
         this.winesToDisplay = wineListToDisplay.getWineList();

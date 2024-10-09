@@ -37,6 +37,8 @@ public class SearchDAO {
     /**
      * Creates a new WineDAO object and gets a reference to the database singleton for a database at the specified url.
      * Used for testing.
+     *
+     * @param url the relative url where the test database is located
      */
     public SearchDAO(String url) {
         databaseManager = DatabaseManager.getInstance(url);
@@ -45,8 +47,10 @@ public class SearchDAO {
 
     /**
      * Gets all distinct values that occur in a given attribute (column) in the database
-     * @param attribute
-     * @return
+     *
+     * @param attribute the attribute whose values are being selected from the database
+     * @param tableName the name of the table whose attribute values are being selected
+     * @return a list of the distinct attribute values retrieved from the database
      */
     public ArrayList<String> getWineAttributeValues(String attribute, String tableName) {
 

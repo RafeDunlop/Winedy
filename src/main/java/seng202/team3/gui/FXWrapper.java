@@ -210,6 +210,7 @@ public class FXWrapper {
      * @param wineListToDisplay the wine list containing the wines to be displayed in the view
      * @param toNest the pane that the wine list view should be nested in
      * @param wineDetailsAnchorPane the anchor pane that the details view of each wine should be bound to
+     * @param scrollPaneHeight the height of the scroll pane in the wine list view
      */
     public void loadWineListView(WineList wineListToDisplay, Pane toNest, AnchorPane wineDetailsAnchorPane, int scrollPaneHeight) {
         try {

@@ -52,6 +52,8 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
     /**
      * Creates a new UserWineListDAO object and gets a reference to the database singleton for a database at the specified url.
      * Used for testing.
+     *
+     * @param url the relative url that the test database is located at
      */
     public UserWineListDAO(String url) {
         databaseManager = DatabaseManager.getInstance(url);
