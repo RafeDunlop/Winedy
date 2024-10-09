@@ -15,21 +15,21 @@
 <?import org.controlsfx.control.SearchableComboBox?>
 <?import org.controlsfx.control.ToggleSwitch?>
 
-<StackPane fx:id="overlayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(0,0,0, 0.5);" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.CreateNewListPopUpController">
+<StackPane fx:id="overlayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(0,0,0, 0.5);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.LogPopupController">
     <children>
         <AnchorPane fx:id="popUpAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="707.0" prefWidth="669.0" StackPane.alignment="CENTER">
             <StackPane.margin>
                 <Insets />
             </StackPane.margin>
          <children>
-            <AnchorPane layoutX="22.0" layoutY="101.0" prefHeight="338.0" prefWidth="274.0" AnchorPane.leftAnchor="22.0">
+            <AnchorPane layoutX="22.0" layoutY="101.0" prefHeight="352.0" prefWidth="274.0" AnchorPane.leftAnchor="22.0">
                <children>
-                  <ToggleSwitch fx:id="glassesToggle" layoutX="9.0" layoutY="126.0" prefHeight="27.0" prefWidth="261.0" text="log by glasses:">
+                  <ToggleSwitch fx:id="glassesToggle" layoutX="9.0" layoutY="126.0" prefHeight="27.0" prefWidth="261.0" text="  log by glasses:">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </ToggleSwitch>
-                  <ToggleSwitch fx:id="bottlesToggle" layoutX="7.0" layoutY="179.0" prefHeight="27.0" prefWidth="261.0" text="log by bottles:">
+                  <ToggleSwitch fx:id="bottlesToggle" layoutX="7.0" layoutY="179.0" prefHeight="27.0" prefWidth="261.0" text="  log by bottles:">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -47,7 +47,7 @@
                   </Label>
                   <ComboBox fx:id="hoursComboBox" layoutX="64.0" layoutY="70.0" prefHeight="25.0" prefWidth="200.0" />
                   <TextField fx:id="amountTextField" layoutX="6.0" layoutY="236.0" prefHeight="30.0" prefWidth="252.0" promptText="enter how many {bottles, glasses} you had" />
-                  <Label fx:id="errorDisplayLabel" layoutX="80.0" layoutY="274.0" text="errorDisplayLabel" underline="true" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="274.0" />
+                  <Label fx:id="qtyDisplayLabel" alignment="CENTER" layoutX="4.0" layoutY="268.0" prefHeight="80.0" prefWidth="269.0" text="errorDisplayLabel" AnchorPane.leftAnchor="4.0" AnchorPane.topAnchor="268.0" />
                </children>
             </AnchorPane>
             <Rectangle fx:id="searchRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutX="337.0" layoutY="9.0" stroke="BLACK" strokeType="INSIDE" width="318.0" />
