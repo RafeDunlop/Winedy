@@ -23,12 +23,12 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="My Wine Lists" GridPane.valignment="TOP">
+            <Label prefHeight="53.0" prefWidth="264.0" text="My Wine Lists" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="20.0" top="20.0" />
+                  <Insets left="40.0" top="20.0" />
                </GridPane.margin>
                <font>
-                  <Font size="30.0" />
+                  <Font name="System Bold" size="30.0" />
                </font>
             </Label>
             <VBox fx:id="rootVBox" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="548.0" prefWidth="872.0" GridPane.rowSpan="3" GridPane.valignment="TOP">

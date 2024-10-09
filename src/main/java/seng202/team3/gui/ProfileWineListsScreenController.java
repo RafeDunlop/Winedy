@@ -2,12 +2,17 @@ package seng202.team3.gui;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import seng202.team3.services.WineListManager;
 import seng202.team3.models.UserWineList;
 
@@ -88,11 +93,11 @@ public class ProfileWineListsScreenController {
         wineLists = wineListManager.getAllUserWineLists();
 
         numberOfPages = wineLists.size() / listsPerPage;
-        if (wineLists.size() % 4 != 0) { //Add an extra page for the lists where required
+        if (wineLists.size() % listsPerPage != 0) { //Add an extra page for the lists where required
             numberOfPages += 1;
         }
 
-        pagination = new Pagination(numberOfPages, 0); // 2 = total items / items per page
+        pagination = new Pagination(numberOfPages, 0);
 
         for (int i = 0; i < numberOfPages; i++) {
             VBox pageContent = createPage(i);
@@ -126,7 +131,7 @@ public class ProfileWineListsScreenController {
 
             HBox hbox = new HBox();
 
-            Button button = new Button(wineLists.get(index).getWineListName());
+            Button button = new Button();
             setUpWineListButton(button, index);
             hbox.getChildren().add(button);
 
@@ -149,7 +154,9 @@ public class ProfileWineListsScreenController {
         for (int i = 0; i < pageVBox.getChildren().size(); i++) {
             HBox hbox = (HBox) pageVBox.getChildren().get(i);
             Button button = (Button) hbox.getChildren().get(0);
-            if (!button.getText().equals("Favourites")) {
+            HBox buttonHBox = (HBox) button.getGraphic();
+            Label label = (Label) buttonHBox.getChildren().get(1);
+            if (!label.getText().equals("Favourites")) {
                 CheckBox checkBox = (CheckBox) hbox.getChildren().get(1);
                 checkBox.setVisible(deleteMode);
             }
@@ -212,8 +219,8 @@ public class ProfileWineListsScreenController {
     /**
      * Sets up the checkboxes that go with each list so that they can be deleted.
      * Check box is disabled for the favourites list
-     * @param checkBox
-     * @param index
+     * @param checkBox the check-box to be set up
+     * @param index index of wine list that the checkbox is associated with
      */
     public void setUpCheckBox(CheckBox checkBox, int index) {
         checkBox.setOnAction(event -> {
@@ -223,7 +230,7 @@ public class ProfileWineListsScreenController {
                 listsToDelete.remove(wineLists.get(index));
             }
 
-            if (listsToDelete.size() == 0) {
+            if (listsToDelete.isEmpty()) {
                 deleteButton.setText("Delete");
                 deleteButton.setDisable(true);
                 deleteButton.setOpacity(0.5);
@@ -253,6 +260,26 @@ public class ProfileWineListsScreenController {
         button.setOnAction(event -> FXWrapper.getInstance().loadIndividualListView(wineListsAnchorPane, wineLists.get(index)));
         button.setPrefSize(800, 100);
         button.getStyleClass().add("nav-bar-button");
+        Image image = new Image("/images/wine_box_image.png");
+        ImageView imageView = new ImageView(image);
+        imageView.setFitHeight(80);
+        imageView.setFitWidth(80);
+
+        Label nameLabel = new Label(wineLists.get(index).getWineListName());
+        styleListNameLabel(nameLabel);
+
+        Rectangle line = new Rectangle(3, 80);
+        line.setArcHeight(10);
+        line.setArcWidth(10);
+        line.setStyle("-fx-fill: black");
+
+        Label numberLabel = new Label(wineLists.get(index).getWineList().size() + " Wines");
+        numberLabel.setStyle("-fx-font-size: 25");
+
+        HBox hbox = new HBox( 30, imageView, nameLabel, line, numberLabel);
+        nameLabel.setAlignment(Pos.CENTER);
+        hbox.setAlignment(Pos.CENTER_LEFT);
+        button.setGraphic(hbox);
     }
 
     /**
@@ -263,5 +290,18 @@ public class ProfileWineListsScreenController {
         deleteListsButton.getStyleClass().add("nav-bar-button");
         cancelButton.getStyleClass().add("nav-bar-button");
         deleteButton.getStyleClass().add("nav-bar-button");
+    }
+
+    /**
+     * Styles the label for the name of the list which will go on to the button
+     * that takes you to that list
+     * @param nameLabel name label to style
+     */
+    private void styleListNameLabel(Label nameLabel) {
+        nameLabel.setStyle("-fx-font-size: 25");
+        nameLabel.setMinWidth(430);
+        nameLabel.setMaxWidth(430);
+        nameLabel.setPadding(new Insets(10, 10, 10, 10));
+        nameLabel.setWrapText(true);
     }
 }

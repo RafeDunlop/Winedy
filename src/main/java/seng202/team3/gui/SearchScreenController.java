@@ -1,5 +1,6 @@
 package seng202.team3.gui;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -11,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.util.StringConverter;
 import org.controlsfx.control.RangeSlider;
 import seng202.team3.models.WineAttribute;
 import seng202.team3.repository.Table;
@@ -41,6 +43,12 @@ public class SearchScreenController {
 
     @FXML
     private RangeSlider priceRangeSlider;
+
+    @FXML
+    private TextField lowPriceTextField;
+
+    @FXML
+    private TextField highPriceTextField;
 
     @FXML
     private TextField searchBarTextField;
@@ -90,6 +98,9 @@ public class SearchScreenController {
     @FXML
     private Label infoTextLabel;
 
+    @FXML
+    private AnchorPane searchResultsAnchorPane;
+
     /**
      * Current wine colour filter selected by the Wine Drinker
      */
@@ -129,7 +140,8 @@ public class SearchScreenController {
      * Called by JavaFX upon initialisation of the search screen. Sets the values of the price range slider to the low
      * and high values. Adds all the possible attribute values to the combo boxes through searchScreenService. Sets the
      * on actions of the combo boxes to change the selected filters. Collapses the filter VBox, adds the style classes
-     * to the widgets, and initialises the date range combo boxes.
+     * to the widgets, and initialises the date range combo boxes. Loads the previous search into the VBox, if there is
+     * no previous search, this is set to all the wines in the database.
      */
     public void initialize() {
 
@@ -154,6 +166,28 @@ public class SearchScreenController {
         collapseFilterVBox();
         addStyleClasses();
         initialiseDateRangeComboBoxes();
+
+        StringConverter<Number> converter = new StringConverter<>() {
+            @Override
+            public String toString(Number number) {
+                return String.valueOf(number.intValue());
+            }
+            @Override
+            public Number fromString(String s) {
+                try {
+                    return Integer.parseInt(s);
+                }
+                catch (NumberFormatException e) {
+                    return null;
+                }
+            }
+        };
+        lowPriceTextField.textProperty().bindBidirectional(priceRangeSlider.lowValueProperty(), converter);
+        highPriceTextField.textProperty().bindBidirectional(priceRangeSlider.highValueProperty(), converter);
+        lowPriceTextField.setTextFormatter(new TextFormatter<>(change -> change.getControlNewText().matches("\\d*") ? change : null));
+        highPriceTextField.setTextFormatter(new TextFormatter<>(change -> change.getControlNewText().matches("\\d*") ? change : null));
+
+        getSearchResults(); //Loads all wines into results box
     }
 
     /**
@@ -164,34 +198,53 @@ public class SearchScreenController {
      */
     @FXML
     void onSearchButtonClicked(ActionEvent event) {
-        searchResultsVBox.getChildren().clear();
+        searchButton.setDisable(true);
         FXWrapper.getInstance().clearPane(wineDetailsAnchorPane);
-        WineManager wineManager = WineManager.getInstance();
+        getSearchResults();
+    }
 
-        SearchWineList results = wineManager.searchWines(
-                searchBarTextField.getText(),
-                lowYear,
-                highYear,
-                (float) priceRangeSlider.getLowValue(),
-                (float) priceRangeSlider.getHighValue(),
-                !"All".equals(selectedCountry) ? selectedCountry : null,
-                !"All".equals(selectedColour) ? selectedColour : null,
-                !"All".equals(selectedFullness) ? selectedFullness : null,
-                !"All".equals(selectedVariety) ? selectedVariety : null);
-        List<Wine> resultsList = results.getWineList();
-        Wine[] resultsArray = new Wine[resultsList.size()];
-        resultsArray = resultsList.toArray(resultsArray);
 
-        GuiService.fillVboxGrid(resultsArray, searchResultsVBox, wineDetailsAnchorPane);
+    private void getSearchResults() {
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+                SearchWineList results = WineManager.getInstance().searchWines(
+                        searchBarTextField.getText(),
+                        lowYear,
+                        highYear,
+                        (float) priceRangeSlider.getLowValue(),
+                        (float) priceRangeSlider.getHighValue(),
+                        !"All".equals(selectedCountry) ? selectedCountry : null,
+                        !"All".equals(selectedColour) ? selectedColour : null,
+                        !"All".equals(selectedFullness) ? selectedFullness : null,
+                        !"All".equals(selectedVariety) ? selectedVariety : null);
 
-        if (results.getWineList().isEmpty()) {
-            infoTextLabel.setText("Unfortunately there were no results for your search. Try checking your spelling or broadening your filters.");
-            infoTextRectangle.setOpacity(1);
-            infoTextLabel.setOpacity(1);
-        } else {
-            infoTextRectangle.setOpacity(0);
-            infoTextLabel.setOpacity(0);
-        }
+                FXWrapper.getInstance().setPreviousSearch(results);
+
+
+                Platform.runLater(() -> {
+                    searchResultsAnchorPane.getChildren().clear();
+
+                    if (results.getWineList().isEmpty()) {
+                        infoTextLabel.setText("Unfortunately there were no results for your search. Try checking your spelling or broadening your filters.");
+                        infoTextRectangle.setVisible(true);
+                        infoTextLabel.setVisible(true);
+                    } else {
+                        infoTextRectangle.setVisible(false);
+                        infoTextLabel.setVisible(false);
+                        FXWrapper.getInstance().loadWineListView(results, searchResultsAnchorPane, wineDetailsAnchorPane, 475);
+                    }
+
+                });
+                return null;
+            }
+        };
+
+        task.setOnSucceeded(e -> searchButton.setDisable(false));
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     /**
@@ -217,7 +270,7 @@ public class SearchScreenController {
 
         List<Integer> years = IntStream.rangeClosed(2007, 2019)
                 .boxed()
-                .collect(Collectors.toList());
+                .toList();
         ObservableList<Integer> yearList = FXCollections.observableArrayList();
         yearList.add(null);
         yearList.addAll(years);
@@ -247,7 +300,6 @@ public class SearchScreenController {
      * Adds the appropriate style classes to the widgets
      */
     private void addStyleClasses() {
-        wineScrollPane.getStyleClass().add("red-wine-scroll-pane");
         searchWinesRectangle.getStyleClass().add("red-wine-rectangle");
         filterRectangle.getStyleClass().add("white-wine-rectangle");
         searchRectangle.getStyleClass().add("white-wine-rectangle");
@@ -261,6 +313,8 @@ public class SearchScreenController {
         varietyComboBox.getStyleClass().add("fifteen-combo-box");
         fullnessComboBox.getStyleClass().add("fifteen-combo-box");
         searchBarTextField.getStyleClass().add("sign-in-screen-text-field");
+        lowPriceTextField.getStyleClass().add("sign-in-screen-text-field");
+        highPriceTextField.getStyleClass().add("sign-in-screen-text-field");
     }
 
     /**

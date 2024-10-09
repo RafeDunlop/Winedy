@@ -7,9 +7,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team3.models.SearchWineList;
 import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
 import seng202.team3.models.WineLog;
+import seng202.team3.models.WineList;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,6 +33,11 @@ public class FXWrapper {
      *Logger for robust error logging
      */
     private static final Logger log = LogManager.getLogger(FXWrapper.class);
+
+    /**
+     * The previous search the Wine Drinker made. Stored to be loaded upon the initialisation of the Search Screen.
+     */
+    private static SearchWineList previousSearch;
 
     /**
      * higher level container for all GUI in the application
@@ -56,11 +63,13 @@ public class FXWrapper {
         screenPane = null;
         superPane = null;
         previousScreens = new ArrayList<>();
+        previousSearch = null;
     }
 
     /**
      * sets the container for screens below the navigation bar.
      * Used each time the navigation bar is re-initialised.
+     *
      * @param screenPane container in which to load screens within the navigation bar
      */
     protected void setScreenPane(AnchorPane screenPane) {
@@ -77,6 +86,7 @@ public class FXWrapper {
 
     /**
      * provides the singleton instance of SuperWrapper so that it is available to any GUI Controller class
+     *
      * @return the SuperWrapper instance which can be used to call non-static methods
      */
     public static FXWrapper getInstance() {
@@ -88,6 +98,7 @@ public class FXWrapper {
 
     /**
      * loads specified screen passed via enum
+     *
      * @param screen Enum which contains fxml path and
      */
     public void loadScreen(Screen screen) {
@@ -107,8 +118,8 @@ public class FXWrapper {
     }
 
     /**
-     * method for loading screens which are nested within other screens
-     * this method is unused for deliverable two but will be used in later releases
+     * Method for loading screens which are nested within other screens
+     *
      * @param toNest the Pane object that the screen is loaded into
      * @param toLoad a member of the NestedScreen enum which specifies teh screen to be loaded
      */
@@ -125,6 +136,7 @@ public class FXWrapper {
 
     /**
      * loads the screen onto which the wine details are displayed
+     *
      * @param toNest the Pane to load the wine details onto
      * @param wineToDisplay the wine to be passed to the constructor so that its information can be displayed
      */
@@ -142,6 +154,7 @@ public class FXWrapper {
 
     /**
      * Loads the profile tab pane, so it opens to a specified tab
+     *
      * @param index tab index to be opened. It will between 0, 1 and 2.
      */
     public void loadProfileTabPane(int index) {
@@ -155,8 +168,10 @@ public class FXWrapper {
             log.error(e);
         }
     }
+
     /**
      * Loads the view of a list where you can see the wines etc
+     *
      * @param toNest Pane to nest the new screen into
      * @param listToDisplay wine list to display
      */
@@ -172,6 +187,12 @@ public class FXWrapper {
         }
     }
 
+    /**
+     * Loads the logging pop up onto the screen.
+     *
+     * @param wineLog the wine log being displayed on the screen
+     * @param wine the logged wine contained in the wine log
+     */
     public void loadLogPopup(WineLog wineLog, Wine wine) {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.ADDLOGPOPUP.file));
@@ -184,7 +205,27 @@ public class FXWrapper {
     }
 
     /**
+     * Loads the wine list view by nesting it into a Pane.
+     *
+     * @param wineListToDisplay the wine list containing the wines to be displayed in the view
+     * @param toNest the pane that the wine list view should be nested in
+     * @param wineDetailsAnchorPane the anchor pane that the details view of each wine should be bound to
+     */
+    public void loadWineListView(WineList wineListToDisplay, Pane toNest, AnchorPane wineDetailsAnchorPane, int scrollPaneHeight) {
+        try {
+            FXMLLoader wineListViewLoader = new FXMLLoader(getClass().getResource("/fxml/wine_list_view.fxml"));
+            wineListViewLoader.setControllerFactory(param -> new WineListViewController(wineListToDisplay, wineDetailsAnchorPane, scrollPaneHeight));
+            Parent leaf = wineListViewLoader.load();
+            clearPane(toNest);
+            toNest.getChildren().add(leaf);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    /**
      * Removes all FXML components, including the navBar
+     * @param toClear the pane which needs to be cleared
      * @throws NullPointerException thrown if superPane is not set yet via setSuperPane
      */
     public void clearPane(Pane toClear) throws NullPointerException {
@@ -241,7 +282,7 @@ public class FXWrapper {
         }
     }
 
-     /** Loads a pop-up that allows user to select a wineList. The wine is added to the selected list
+    /** Loads a pop-up that allows user to select a wineList. The wine is added to the selected list
      * @param wine The wine to be added to the list
      */
     public void loadAddWineToListPopUp(Wine wine) {
@@ -258,6 +299,7 @@ public class FXWrapper {
     /**
      * Removes pop up from screen. Any updates made on the pop-up will require the screen below to be reloaded
      * after this method is called
+     *
      * @param overlayPane Parent pane of the pop-up
      */
     public void removePopUp(StackPane overlayPane) {
@@ -278,6 +320,38 @@ public class FXWrapper {
     public void loadPreviousScreen() {
         if (previousScreens.getLast() != null) {
             previousScreens.removeLast().run();
+        }
+    }
+
+    /**
+     * Returns the previous search
+     * @return the previous search as a SearchWineList object
+     */
+    public SearchWineList getPreviousSearch() {
+        return previousSearch;
+    }
+
+    /**
+     * Sets the previous search to be the given SearchWineList
+     * @param wineList SearchWineList object to save as the previous search
+     */
+    public void setPreviousSearch(SearchWineList wineList) {
+        previousSearch = wineList;
+    }
+
+    /**
+     * Loads the individual wine view popup to show the given wine
+     *
+     * @param wineToDisplay the wine to be displayed in the popup
+     */
+    public void loadIndividualWineViewPopup(Wine wineToDisplay) {
+        try {
+            FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.INDIVIDUALWINEVIEWPOPUP.file));
+            popUpLoader.setControllerFactory(param -> new IndividualWineViewPopupController(wineToDisplay));
+            StackPane popUpRoot = popUpLoader.load();
+            superPane.getChildren().add(popUpRoot);
+        } catch (IOException e) {
+            log.error(e);
         }
     }
 }
