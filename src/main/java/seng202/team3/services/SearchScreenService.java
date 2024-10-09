@@ -21,7 +21,9 @@ public class SearchScreenService {
 
     /**
      * Gets all distinct values that occur in the given attribute (column) in the database
+     *
      * @param attribute the name of the attribute (column) to get values from
+     * @param table the name of the table whose attribute values are being selected
      * @return a list of strings of all distinct values in the given column in the wineSuper table
      */
     public ArrayList<String> getAttributeValues(WineAttribute attribute, Table table) {

@@ -80,8 +80,10 @@ public class WineListSelectPopUpController {
     }
 
     /**
+     * Used by JavaFX as the onAction of the wine list button. Updates the wine list by toggling whether the wine is in
+     * the list or not. Sets the status label to show whether the wine was added or removed from the list
      *
-     * @param wineList
+     * @param wineList the wine list to be updated
      */
     @FXML
     public void onWineListButtonClicked(UserWineList wineList) {

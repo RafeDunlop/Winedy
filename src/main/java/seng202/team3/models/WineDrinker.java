@@ -59,16 +59,16 @@ public class WineDrinker {
      */
     private int totalListChanges;
 
-
-
     /**
      * Initialises WineDrinker object with some given parameters
+     *
      * @param username unique username to identify the WineDrinker
      * @param password password for the WineDrinker to get into the account
      * @param countryPreference a WineDrinker's preferred country of wine
      * @param colourPreference a Wine Drinker's preferred colour of wine
      * @param fullnessPreference a WineDrinker's preferred colour of wine
      * @param grapePreference a WineDrinker's preferred grape variety
+     * @param abvLimit a WineDrinker's ABV (Alcohol by volume percentage) limit
      */
     public WineDrinker(String username, String password, String countryPreference, String colourPreference, String fullnessPreference, String grapePreference, double abvLimit) {
         this.username = username;
@@ -102,6 +102,7 @@ public class WineDrinker {
 
     /**
      * Returns the username of current instance of WineDrinker
+     *
      * @return this.username
      */
     public String getUsername(){
@@ -110,12 +111,14 @@ public class WineDrinker {
 
     /**
      * get users password for adding into DB
+     *
      * @return password
      */
     public String getPassword(){return this.password;}
 
     /**
      * Gets a string containing the WineDrinker's country preference
+     *
      * @return preferred country of wine
      */
     public String getCountryPreference() {
@@ -124,6 +127,7 @@ public class WineDrinker {
 
     /**
      * Gets a string containing a WineDrinker's wine colour preference
+     *
      * @return preferred colour of wine out of red, white and rose
      */
     public String getColourPreference() {
@@ -132,6 +136,7 @@ public class WineDrinker {
 
     /**
      * Gets a string with a WineDrinker's wine fullness preference
+     *
      * @return preferred fullness of wine
      */
     public String getFullnessPreference() {
@@ -140,6 +145,7 @@ public class WineDrinker {
 
     /**
      * Gets a string with the WineDrinker's preferred grape variety
+     *
      * @return the preferred grape variety
      */
     public String getGrapePreference() {
@@ -148,6 +154,7 @@ public class WineDrinker {
 
     /**
      * Gets the Wine Drinker's preferred abv limit
+     *
      * @return abv limit preference
      */
     public double getAbvLimit() {
@@ -156,6 +163,7 @@ public class WineDrinker {
 
     /**
      * Sets the WineDrinker's preferred wine colour
+     *
      * @param colourPreference the preferred wine colour out of red, white and rose
      */
     public void setColourPreference(String colourPreference) {
@@ -164,6 +172,7 @@ public class WineDrinker {
 
     /**
      * Sets the Wine Drinker's preferred wine fullness
+     *
      * @param fullnessPreference the preferred fullness
      */
     public void setFullnessPreference(String fullnessPreference) {
@@ -172,6 +181,7 @@ public class WineDrinker {
 
     /**
      * Sets the WineDrinker's preferred grape for their wine
+     *
      * @param grapePreference type of grape the WineDrinker prefers
      */
     public void setGrapePreference(String grapePreference) {
@@ -180,6 +190,7 @@ public class WineDrinker {
 
     /**
      * Sets the Wine Drinker's preferred abv limit
+     *
      * @param abvLimit the new abv limit preference
      */
     public void setAbvLimit(double abvLimit) {

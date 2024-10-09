@@ -19,6 +19,8 @@ public final class SignInScreenService {
     /**
      * does nothing as long as the inputted passwords are matching
      *
+     * @param password1 the first password inputted by the Wine Drinker
+     * @param password2 the re-entered password inputted by the Wine Drinker
      * @throws IllegalWineDrinkerException thrown if the passwords do not match
      */
     public static void validateRegisteringPasswords(String password1, String password2) throws IllegalWineDrinkerException {
