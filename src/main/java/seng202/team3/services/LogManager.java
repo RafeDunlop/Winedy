@@ -1,13 +1,15 @@
 package seng202.team3.services;
 
 import javafx.util.StringConverter;
+import seng202.team3.models.TimeRange;
+import seng202.team3.models.Wine;
 import seng202.team3.models.WineLog;
 import seng202.team3.repository.WineLogDAO;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -26,6 +28,16 @@ public class LogManager {
      * Singleton instance of WineLogManager
      */
     private static LogManager instance;
+
+    public final static float RHO_ALCOHOL = 0.8f;
+
+    public final static float DEFAULT_WINE_VOLUME = 750.0f;
+
+    public final static float DEFAULT_WINE_ABV = 14.0f; //typically 12-14 but assume high for safety
+
+    public final static float GRAMS_ALCOHOL_PER_NZ_STAN_DRINK = 10.0f;
+
+    public final static float STANDARDS_PER_GLASS = 1.4f;
 
     /**
      * private constructor with specified database path
@@ -116,14 +128,36 @@ public class LogManager {
     /**
      * adds a log with the specified parameters to the database
      * all parameters except note are mandatory
-     * @param loggedID foreign key to the wine in wineSuper which teh log is about
+     * note that a glass is defined as 1.4 standards. This is because a "glass of wine" is slightly ill-defined.
+     * A user logging port, for instance, should log a port glass of wine as one glass. The inflexibility of this
+     * assumption is negligible in comparison to the human error with the logging itself
+     * @param wine Wine object which contains the foreign key to the wine in wineSuper which the log is about
      * @param note the note associated with this log
      * @param date the date of the log as a Java.sql.date object
-     * @param time the time of day teh log was created as a Java.sql.Time object
-     * @param standards the number of NZ standard drinks the log corresponds to as a float
+     * @param hour the time of day the log was created as an int
+     * @param isBottles whether the following parameter should be interpreted as a number of bottles or glasses
+     * @param amtConsumed the amount of bottles/glasses consumed
      * @return the added WineLog object
      */
-    public WineLog addLog(int loggedID, String note, Date date, Time time, float standards) {
+    public WineLog addLog(Wine wine, String note, Date date, int hour, boolean isBottles, float amtConsumed) {
+        int loggedID = wine.getUniqueWineID();
+
+        Calendar cal = TimeRange.getResetCalendar();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, hour);
+        Time time = new Time(cal.getTimeInMillis());
+
+        float standards;
+        if (isBottles) {
+            float mlsWine = (wine.getVolumeInMl() != 0) ? wine.getVolumeInMl() : DEFAULT_WINE_VOLUME;
+            float percentageABV = (wine.getAlcoholByVolume() != 0) ? wine.getAlcoholByVolume() : DEFAULT_WINE_ABV;
+            float mlsAlcohol = (percentageABV * mlsWine) / 100; //convert percentage to decimal
+            float gramsAlcohol = mlsAlcohol * RHO_ALCOHOL;
+            standards = gramsAlcohol / GRAMS_ALCOHOL_PER_NZ_STAN_DRINK;
+        } else { //glasses
+            standards = amtConsumed / STANDARDS_PER_GLASS;
+        }
+
         WineLog toLog = new WineLog(loggedID, note, date, time, standards);
         wineLogDAO.add(toLog);
         return toLog;
