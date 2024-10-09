@@ -83,7 +83,6 @@ public class SearchWineList extends WineList {
 
         if (keywords != null) {
             this.keywords = String.join(" ", keywords);
-            this.keywords = capitalizeFirstLetter(this.keywords);
         } else {
             this.keywords = "";
         }
@@ -181,16 +180,13 @@ public class SearchWineList extends WineList {
     }
 
     /**
-     * Capitalises the first letter of a string, if it is not null or empty
+     * Sets the keywords to the given String.
+     * Used by the WineManager instance to change the keywords to have the correct capitalisation
      *
-     * @param str the string to be capitalised
-     * @return the same string but with a capital first letter
+     * @param keywords the keywords from the search bar
      */
-    private String capitalizeFirstLetter(String str) {
-        if (str == null || str.isEmpty()) {
-            return str;
-        }
-        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
     }
 
 }
