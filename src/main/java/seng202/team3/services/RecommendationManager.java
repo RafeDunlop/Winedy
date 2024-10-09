@@ -46,9 +46,18 @@ public class RecommendationManager {
      * @return float score calculated from provided wine
      */
     public float calculateWineScore(Wine wineToJudge){
-        String colour = wineToJudge.getColour();
-        String fullness = wineToJudge.getFullness();
-        String grapes = wineToJudge.getGrapes()[0];
+        String colour;
+        String fullness;
+        String grapes;
+        try {
+            colour = wineToJudge.getColour();
+            fullness = wineToJudge.getFullness();
+            grapes = wineToJudge.getGrapes()[0];
+        } catch (RuntimeException e){
+            // if wine contains attributes not stored
+            return 0;
+        }
+
         float calculatedScore = curDrinkerPrefModel.getPrefValByAttr(colour) +curDrinkerPrefModel.getPrefValByAttr(fullness)
         + curDrinkerPrefModel.getPrefValByAttr(grapes);
         double wineABV = wineToJudge.getAlcoholByVolume();

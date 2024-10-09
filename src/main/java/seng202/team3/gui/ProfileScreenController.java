@@ -73,7 +73,7 @@ public class ProfileScreenController {
     @FXML
     private VBox recommendedWinesVBox;
     @FXML
-    private Pane wineViewPane;
+    private AnchorPane wineViewPane;
     @FXML
     private Rectangle recommendationRectangle;
     private int recommendedWineIndex = 0;
@@ -135,7 +135,7 @@ public class ProfileScreenController {
      * TODO will show individual wine view rather than text
      */
     private void recommendNextWineToUser(){
-        FXWrapper.getInstance().loadIndividualWineView(wineViewPane,recommendedWines.get(recommendedWineIndex));
+        FXWrapper.getInstance().loadMiniIndividualWineView(wineViewPane,recommendedWines.get(recommendedWineIndex));
         wineMatchLabel.setText("This wine matches your preferences " + wineMatchPercentages.get(recommendedWineIndex) + "%");
     }
 
