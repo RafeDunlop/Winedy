@@ -15,14 +15,14 @@
 <?import org.controlsfx.control.SearchableComboBox?>
 <?import org.controlsfx.control.ToggleSwitch?>
 
-<StackPane fx:id="overlayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(0,0,0, 0.5);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.LogPopupController">
+<StackPane fx:id="overlayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(0,0,0, 0.5);" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.LogPopupController">
     <children>
-        <AnchorPane fx:id="popUpAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="707.0" prefWidth="669.0" StackPane.alignment="CENTER">
+        <AnchorPane fx:id="popUpAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="771.0" prefWidth="683.0" StackPane.alignment="CENTER">
             <StackPane.margin>
                 <Insets />
             </StackPane.margin>
          <children>
-            <AnchorPane layoutX="22.0" layoutY="101.0" prefHeight="352.0" prefWidth="274.0" AnchorPane.leftAnchor="22.0">
+            <AnchorPane layoutX="368.0" layoutY="122.0" prefHeight="412.0" prefWidth="274.0" AnchorPane.leftAnchor="368.0">
                <children>
                   <ToggleSwitch fx:id="glassesToggle" layoutX="9.0" layoutY="126.0" prefHeight="27.0" prefWidth="261.0" text="  log by glasses:">
                      <font>
@@ -47,23 +47,26 @@
                   </Label>
                   <ComboBox fx:id="hoursComboBox" layoutX="64.0" layoutY="70.0" prefHeight="25.0" prefWidth="200.0" />
                   <TextField fx:id="amountTextField" layoutX="6.0" layoutY="236.0" prefHeight="30.0" prefWidth="252.0" promptText="enter how many {bottles, glasses} you had" />
-                  <Label fx:id="qtyDisplayLabel" alignment="CENTER" layoutX="4.0" layoutY="268.0" prefHeight="80.0" prefWidth="269.0" text="errorDisplayLabel" AnchorPane.leftAnchor="4.0" AnchorPane.topAnchor="268.0" />
+                  <Label fx:id="qtyDisplayLabel" alignment="CENTER" layoutX="-2.0" layoutY="266.0" prefHeight="139.0" prefWidth="269.0" text="qtyDisplayeLabel" AnchorPane.leftAnchor="-2.0" AnchorPane.topAnchor="266.0" />
                </children>
             </AnchorPane>
-            <Rectangle fx:id="searchRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutX="337.0" layoutY="9.0" stroke="BLACK" strokeType="INSIDE" width="318.0" />
-            <Button fx:id="createPersonalButton" layoutX="7.0" layoutY="42.0" mnemonicParsing="false" onAction="#onCreatePersonalWineButtonClicked" prefHeight="40.0" prefWidth="318.0" text="Create a personal wine instead" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="344.0">
+            <Rectangle fx:id="searchRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="133.0" layoutX="14.0" layoutY="14.0" stroke="BLACK" strokeType="INSIDE" width="318.0" />
+            <Button fx:id="createPersonalButton" layoutX="339.0" layoutY="61.0" mnemonicParsing="false" onAction="#onCreatePersonalWineButtonClicked" prefHeight="40.0" prefWidth="318.0" text="Add a personal wine instead" wrapText="true" AnchorPane.leftAnchor="339.0" AnchorPane.rightAnchor="12.0">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <TextArea fx:id="logNoteTextArea" layoutX="14.0" layoutY="478.0" prefHeight="155.0" prefWidth="647.0" />
-            <Label layoutX="10.0" layoutY="11.0" text="Can't find what you're looking for?">
+            <TextArea fx:id="logNoteTextArea" layoutX="16.0" layoutY="543.0" prefHeight="155.0" prefWidth="647.0" promptText="Optional, add a note to your log:">
                <font>
-                  <Font name="System Italic" size="18.0" />
+                  <Font size="15.0" />
+               </font></TextArea>
+            <Label layoutX="376.0" layoutY="28.0" text="Can't find what you're looking for?" wrapText="true" AnchorPane.topAnchor="28.0">
+               <font>
+                  <Font name="System Italic" size="15.0" />
                </font>
             </Label>
-            <Rectangle fx:id="selectedWineRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="364.0" layoutX="337.0" layoutY="101.0" stroke="BLACK" strokeType="INSIDE" width="318.0" />
-            <VBox fx:id="selectedVBox" alignment="TOP_CENTER" layoutX="359.0" layoutY="110.0" prefHeight="288.0" prefWidth="274.0">
+            <Rectangle fx:id="selectedWineRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="352.0" layoutX="14.0" layoutY="161.0" stroke="BLACK" strokeType="INSIDE" width="318.0" />
+            <VBox fx:id="selectedVBox" alignment="TOP_CENTER" layoutX="36.0" layoutY="167.0" prefHeight="293.0" prefWidth="274.0">
                <children>
                   <Label fx:id="selectedLabel" alignment="TOP_CENTER" prefHeight="33.0" prefWidth="94.0" text="Selected:" textAlignment="CENTER">
                      <font>
@@ -72,15 +75,10 @@
                   </Label>
                </children>
             </VBox>
-            <Button fx:id="addLogButton" layoutX="425.0" layoutY="652.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="236.0" text="Add Log" />
-            <Button fx:id="cancelLogButton" layoutX="14.0" layoutY="652.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="236.0" text="Cancel log" />
-            <Label layoutX="14.0" layoutY="452.0" prefHeight="27.0" prefWidth="332.0" text="Optional, add a note to your log:" wrapText="true">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-            <SearchableComboBox fx:id="searchComboBox" layoutX="351.0" layoutY="23.0" prefHeight="53.0" prefWidth="289.0" promptText="Search for a Wine to log:" />
-            <Label fx:id="selectedButtonLabel" alignment="TOP_CENTER" layoutX="381.0" layoutY="419.0" prefHeight="40.0" prefWidth="229.0" text="click on your wine to see its details" textAlignment="CENTER" wrapText="true">
+            <Button fx:id="addLogButton" layoutX="427.0" layoutY="717.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="236.0" text="Add Log" />
+            <Button fx:id="cancelLogButton" layoutX="16.0" layoutY="717.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="236.0" text="Cancel log" />
+            <SearchableComboBox fx:id="searchComboBox" layoutX="28.0" layoutY="28.0" prefHeight="101.0" prefWidth="289.0" promptText="Search for a Wine to log:" />
+            <Label fx:id="selectedButtonLabel" alignment="TOP_CENTER" layoutX="59.0" layoutY="466.0" prefHeight="40.0" prefWidth="229.0" text="click on your wine to see its details" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="15.0" />
                </font>
