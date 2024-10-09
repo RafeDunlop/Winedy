@@ -1,3 +1,58 @@
+/* Style sheet for the profile tab pane to match the nav bar button */
+.root {
+    -fx-nbb-border-colour: "Black";
+    -fx-nbb-body-colour: #F0F0F0; /* Off-white grey */
+    -fx-nbb-hover-colour: #F7DBE2; /* derive(-fx-hsb-body-colour, -10%); */
+}
+
+/* Styling for each of the tabs */
 .profile-tab-pane .tab {
-    -fx-font-size: 20px;
+    -fx-background-color: #f8f4f4;
+
+    -fx-font-size: 15px;
+
+    -fx-border-color: -fx-nbb-border-colour;
+    -fx-border-radius: 10 10 0 0;
+    -fx-border-width: 3 3 3 3;
+
+    -fx-padding: 10 15;
+    -fx-margin: 0 50 0 50;
+}
+
+/* Styling for the currently selected tab */
+.profile-tab-pane .tab:selected {
+
+    -fx-border-width: 3 3 0 3;
+    -fx-border-color: -fx-nbb-border-colour;
+    -fx-border-radius: 10 10 0 0;
+
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+/* Sets hover colour */
+.profile-tab-pane .tab:hover {
+    -fx-background-color: -fx-nbb-hover-colour;
+}
+
+/* Set focus when you tab over the button */
+.profile-tab-pane .tab:focused {
+    -fx-background-insets: 2;
+    -fx-border-insets: 1;
+}
+
+/* Sets the colour and insets of a tab when pressed */
+.profile-tab-pane .tab:pressed {
+    -fx-background-insets: 5;
+    -fx-border-insets: 4;
+    -fx-background-color: -fx-nbb-hover-colour;
+}
+
+/* Disables the hover colour for the currently selected tab */
+.profile-tab-pane .tab:selected:hover {
+    -fx-background-color: #f8f4f4;
+}
+/*Ensures the default background for the tab pane is not visible */
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
 }

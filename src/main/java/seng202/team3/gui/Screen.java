@@ -75,7 +75,19 @@ public enum Screen {
     CANCELCHANGESPOPUP("cancel_changes_pop_up.fxml", false),
 
     /**
-     * The wine list select popup. Opened on top of and by the individual wine view in the search screen.
+     * The individual wine view popup. Displays the information of a specific wine in detail. Opened on top of and by the individual 
+     * wine view in the search screen.
+     */
+    INDIVIDUALWINEVIEWPOPUP("individual_wine_view_popup.fxml", false),
+
+    /**
+     * The add log popup. Opened on top of and by the tracking consumption screen.
+     */
+    ADDLOGPOPUP("add_log_pop_up.fxml", false),
+
+    /**
+     * The wine list select popup. Opened on top of and by the individual wine view in the search screen when the add to list button
+     * is selected.
      */
     WINELISTSELECTPOPUP("wine_list_select.fxml", false);
 

@@ -102,7 +102,7 @@ public class WineDrinkerManager {
         try {
             if (currentUser != null) {
                 wineDrinkerDAO.add(currentUser);
-                recommendationManager.checkUserPreferenceModelExists(currentUser);
+                recommendationManager.InitialiseUserPreferenceModel(currentUser);
             }
         } catch (WineDrinkerAlreadyExistsException e) {
             log.error(e);
@@ -119,10 +119,10 @@ public class WineDrinkerManager {
 
         WineDrinker wineDrinker = wineDrinkerDAO.getWineDrinkerFromUsername(username);
         if (wineDrinker != null) {
-            String[] saltPass = wineDrinker.getPassword().split(":");
-            if (Password.check(password, saltPass[1]).addSalt(saltPass[0]).withBcrypt()) {
+            String hash = wineDrinker.getPassword();
+            if (Password.check(password, hash).withBcrypt()) {
                 setCurrentUser(wineDrinker);
-                recommendationManager.checkUserPreferenceModelExists(currentUser);
+                recommendationManager.InitialiseUserPreferenceModel(currentUser);
                 WineListManager.getInstance().setupFavourites();
             } else {
                 throw new IllegalWineDrinkerException("Password Incorrect");

@@ -6,8 +6,7 @@ import java.util.List;
 
 /**
  * Interface for Database Access Objects (DAOs) that provides common functionality for database access
- *
- * @param <T> the model type that the DAO accesses and returns
+ * @param <T> object of type T
  * @author Morgan English
  */
 public interface DAOInterface<T> {
@@ -33,7 +32,7 @@ public interface DAOInterface<T> {
      * Deletes and object from database that matches id given
      *
      * @param toDelete Object to be deleted
-     * @return an integer representing the success code of the method
+     * @return integer to indicate successful deletion
      */
     int delete(T toDelete);
 
@@ -41,7 +40,7 @@ public interface DAOInterface<T> {
      * Updates an object in the database
      *
      * @param toUpdate Object that needs to be updated (this object must be able to identify itself and its previous self)
-     * @return an integer representing the success code of the method
+     * @return integer to indicate successful update
      */
     int update(T toUpdate);
 
