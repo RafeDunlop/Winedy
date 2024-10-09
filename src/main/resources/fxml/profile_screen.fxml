@@ -36,14 +36,24 @@
             </AnchorPane>
             <AnchorPane fx:id="recommendStep2Pane" disable="true" layoutX="-1.0" layoutY="33.0" prefHeight="555.0" prefWidth="500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label layoutX="121.0" layoutY="27.0" text="You Might Like :">
+                  <Label alignment="CENTER" layoutX="-4.0" layoutY="27.0" prefHeight="36.0" prefWidth="500.0" text="You Might Like :" textAlignment="CENTER">
                      <font>
                         <Font size="25.0" />
                      </font>
                   </Label>
-                  <Label fx:id="mockRecWineLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="122.0" layoutY="407.0" prefHeight="17.0" prefWidth="257.0" text="This wine matches your preferences __%" textAlignment="CENTER" />
-                  <Button fx:id="swipeRecommendationLeftButton" layoutX="25.0" layoutY="441.0" mnemonicParsing="false" onAction="#onSwipeLeftClicked" prefHeight="75.0" prefWidth="150.0" text="  &lt;---&#10;Not for me" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="25.0" />
-                  <Button fx:id="swipeRecommedationRightButton" layoutX="349.0" layoutY="441.0" mnemonicParsing="false" onAction="#onSwipeRightClicked" prefHeight="75.0" prefWidth="150.0" text=" --&gt; &#10;I'm intereseted" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="25.0" />
+                  <Label fx:id="wineMatchLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="-1.0" layoutY="407.0" prefHeight="27.0" prefWidth="500.0" text="This wine matches your preferences __%" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Label>
+                  <Button fx:id="swipeRecommendationLeftButton" layoutX="25.0" layoutY="441.0" mnemonicParsing="false" onAction="#onSwipeLeftClicked" prefHeight="75.0" prefWidth="200.0" text="Not For Me" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="25.0">
+                     <font>
+                        <Font size="20.0" />
+                     </font></Button>
+                  <Button fx:id="swipeRecommedationRightButton" alignment="CENTER" layoutX="349.0" layoutY="441.0" mnemonicParsing="false" onAction="#onSwipeRightClicked" prefHeight="75.0" prefWidth="200.0" text="I'm Interested" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="25.0">
+                     <font>
+                        <Font size="20.0" />
+                     </font></Button>
+                  <AnchorPane fx:id="wineViewPane" layoutX="46.0" layoutY="72.0" prefHeight="315.0" prefWidth="400.0" />
                </children>
             </AnchorPane>
          </children>
@@ -61,7 +71,10 @@
                   <Font size="25.0" />
                </font>
             </Label>
-            <Button fx:id="savePreferencesButton" alignment="CENTER" contentDisplay="CENTER" layoutX="169.0" layoutY="462.0" mnemonicParsing="false" onAction="#onSavePreferencesButtonClicked" prefHeight="60.0" prefWidth="170.0" text="Save Preferences" textAlignment="CENTER" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="164.0" />
+            <Button fx:id="savePreferencesButton" alignment="CENTER" contentDisplay="CENTER" layoutX="140.0" layoutY="463.0" mnemonicParsing="false" onAction="#onSavePreferencesButtonClicked" prefHeight="60.0" prefWidth="225.0" text="Save Preferences" textAlignment="CENTER" AnchorPane.leftAnchor="140.0" AnchorPane.rightAnchor="135.0">
+               <font>
+                  <Font size="20.0" />
+               </font></Button>
             <ComboBox fx:id="colourPreferenceComboBox" layoutX="36.0" layoutY="223.0" prefHeight="25.0" prefWidth="118.0" />
             <Label layoutX="70.0" layoutY="176.0" text="Colour" />
             <ComboBox fx:id="fullnessPreferenceComboBox" layoutX="190.0" layoutY="224.0" prefHeight="25.0" prefWidth="118.0" />
