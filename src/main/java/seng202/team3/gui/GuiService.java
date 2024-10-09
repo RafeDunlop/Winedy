@@ -6,8 +6,8 @@ import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -111,7 +111,6 @@ public final class GuiService {
         wineButton.setPrefSize(prefWidth,prefHeight);
         wineButton.setWrapText(true);
         addImageGraphicToButton(wineButton, "/images/" + wineToDisplay.getColour() + "_wine_image.png", 100, 100, false);
-
         if (screenAnchorPane != null) {
             wineButton.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineView(screenAnchorPane, wineToDisplay));
         } else {
@@ -142,7 +141,7 @@ public final class GuiService {
         hBox.setPrefWidth(800); // Set preferred width for the HBox
 
         for (Wine wine: wineList) {
-            Button button = generateWineButton(wine, wineDetailsAnchorPane, 240, 240);
+            Button button = generateWineButton(wine, wineDetailsAnchorPane, 230, 230);
             hBox.getChildren().add(button);
         }
 
@@ -212,6 +211,42 @@ public final class GuiService {
     public static void fullDisable(Node component, boolean fullDisable) {
         component.setDisable(fullDisable);
         component.setOpacity((fullDisable) ? 0 : 1);
+    }
+
+    /**
+     * Creates paginated display of wine buttons for search screen and profile screens
+     *
+     * @param winesToDisplay list of wines to display in the pagination
+     * @param rootVBox vbox to insert pagination into
+     * @param rowsPerPage number of rows of wines per page
+     * @param winesPerRow number of wines per row
+     * @param wineDetailsAnchorPane wine details anchor pane if applicable for the onAction of the wine button
+     * @return pagination so it can be styled as needed per screen
+     */
+    public static Pagination createPagination(List<Wine> winesToDisplay, VBox rootVBox, int rowsPerPage, int winesPerRow, AnchorPane wineDetailsAnchorPane) {
+        int winesPerPage = 12;
+        int numberOfPages = winesToDisplay.size() / winesPerPage;
+
+        if (winesToDisplay.size() % rowsPerPage != 0) { //Add an extra page for the lists where required
+            numberOfPages += 1;
+        }
+
+        Pagination pagination = new Pagination(numberOfPages, 0);
+        rootVBox.getChildren().add(pagination);
+        pagination.getStyleClass().add("wine-pagination");
+
+
+        pagination.setPageFactory(pageIndex ->  {
+            VBox pageContent = new VBox();
+            int start = pageIndex * rowsPerPage * winesPerRow;
+            int end = Math.min(start + rowsPerPage * winesPerRow, winesToDisplay.size());
+            GuiService.startButtonGeneration(winesToDisplay.subList(start, end), pageContent, wineDetailsAnchorPane, 3);
+            ScrollPane scrollPane = new ScrollPane(pageContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.getStyleClass().add("red-wine-scroll-pane");
+            return scrollPane;
+        });
+        return pagination;
     }
 
     /**

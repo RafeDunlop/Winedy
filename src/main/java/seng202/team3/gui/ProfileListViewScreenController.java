@@ -1,6 +1,7 @@
 package seng202.team3.gui;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -110,6 +111,10 @@ public class ProfileListViewScreenController {
     private final int descCharLimit = 500;
 
     /**
+     * Pagination to style
+     */
+    private Pagination winePagination;
+    /**
      * Constructor for the profileListView controller
      * @param listToDisplay list to be displayed in the individual list view
      */
@@ -143,11 +148,14 @@ public class ProfileListViewScreenController {
             editDescriptionButton.setVisible(false);
         }
         setUpTextAreaListenersForErrorMessages();
+        setUpListenersForDescValidation();
 
         addStyleSheets();
 
-    }
+        this.winePagination = GuiService.createPagination(listToDisplay.getWineList(), listContentsVBox, 4, 3, null);
+        winePagination.getStyleClass().add("wine-list-pagination");
 
+    }
 
     /**
      * Saves the name of the list when the list is renamed
@@ -311,11 +319,14 @@ public class ProfileListViewScreenController {
         winesRectangle.getStyleClass().add("red-wine-rectangle");
         descriptionRectangle.getStyleClass().add("white-wine-rectangle");
         descriptionScrollPane.getStyleClass().add("white-wine-scroll-pane");
-        listContentsScrollPane.getStyleClass().add("red-wine-scroll-pane");
         descriptionLabel.setStyle("-fx-background-color: transparent");
         listContentsVBox.setStyle("-fx-background-color: transparent");
 
         wineListNameTextField.getStyleClass().add("sign-in-screen-text-field");
         descriptionTextArea.getStyleClass().add("description-text-area");
+
+        errorLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour;");
+        descErrorLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour;");
     }
+
 }
