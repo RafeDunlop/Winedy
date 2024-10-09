@@ -84,6 +84,8 @@ public class SearchWineList extends WineList {
         if (keywords != null) {
             this.keywords = String.join(" ", keywords);
             this.keywords = capitalizeFirstLetter(this.keywords);
+        } else {
+            this.keywords = "";
         }
     }
 

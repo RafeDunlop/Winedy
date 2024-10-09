@@ -132,6 +132,7 @@ public class WineManager {
     /**
      * Gets all the keywords from an input into the search bar.
      * This is based on the input into the search bar searchBarInput
+     *
      * @param searchBarInput String of input from the search bar
      * @return List of words entered into the search bar
      */
