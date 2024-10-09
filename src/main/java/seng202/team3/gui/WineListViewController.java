@@ -13,7 +13,7 @@ import seng202.team3.models.WineList;
 
 import java.util.List;
 
-/**
+/**TODO remove if not used (as well as the fxml file)
  * Controller for the wine_list_view.fxml
  *
  * @author Hannah Botting (hbo51)
@@ -75,7 +75,7 @@ public class WineListViewController {
      */
     public void initialize() {
         log.info("Wine list view loaded");
-        createPagination();
+        //createPagination();
         wineScrollPane.getStyleClass().add("red-wine-scroll-pane");
     }
 
@@ -83,33 +83,6 @@ public class WineListViewController {
      * Creates paginated view to display wines
      */
 
-    public void createPagination() {
-        int winesPerPage = 12;
-        int numberOfPages = winesToDisplay.size() / winesPerPage;
 
-        if (winesToDisplay.size() % 4 != 0) { //Add an extra page for the lists where required
-            numberOfPages += 1;
-        }
-
-        Pagination pagination = new Pagination(numberOfPages, 0);
-        rootVBox.getChildren().add(pagination);
-        pagination.getStyleClass().add("wine-pagination");
-
-
-        pagination.setPageFactory(pageIndex ->  {
-            VBox pageContent = new VBox();
-            int start = pageIndex * rowsPerPage * winesPerRow;
-            int end = Math.min(start + rowsPerPage * winesPerRow, winesToDisplay.size());
-            GuiService.startButtonGeneration(winesToDisplay.subList(start, end), pageContent, wineDetailsAnchorPane, winesPerRow);
-            ScrollPane scrollPane = new ScrollPane(pageContent);
-            scrollPane.setFitToWidth(true);
-            scrollPane.getStyleClass().add("red-wine-scroll-pane");
-            scrollPane.setMinHeight(scrollPaneHeight); //TODO this will probably need to be different for other screens
-            VBox outerVBox = new VBox(scrollPane);
-            outerVBox.setPadding(new Insets(0, 0, 10, 0));
-            return outerVBox;
-        });
-
-    }
 
 }

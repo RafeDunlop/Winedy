@@ -99,7 +99,7 @@ public class SearchScreenController {
     private Label infoTextLabel;
 
     @FXML
-    private AnchorPane searchResultsAnchorPane;
+    private VBox rootVBox;
 
     /**
      * Current wine colour filter selected by the Wine Drinker
@@ -136,6 +136,10 @@ public class SearchScreenController {
      */
     private boolean sortVBoxExpanded = false;
 
+    /**
+     * Search results pagination
+     */
+    private Pagination searchResultsPagination;
     /**
      * Called by JavaFX upon initialisation of the search screen. Sets the values of the price range slider to the low
      * and high values. Adds all the possible attribute values to the combo boxes through searchScreenService. Sets the
@@ -223,7 +227,7 @@ public class SearchScreenController {
 
 
                 Platform.runLater(() -> {
-                    searchResultsAnchorPane.getChildren().clear();
+                    rootVBox.getChildren().clear();
 
                     if (results.getWineList().isEmpty()) {
                         infoTextLabel.setText("Unfortunately there were no results for your search. Try checking your spelling or broadening your filters.");
@@ -232,7 +236,7 @@ public class SearchScreenController {
                     } else {
                         infoTextRectangle.setVisible(false);
                         infoTextLabel.setVisible(false);
-                        FXWrapper.getInstance().loadWineListView(results, searchResultsAnchorPane, wineDetailsAnchorPane, 475);
+                        searchResultsPagination = GuiService.createPagination(results.getWineList(), rootVBox, 4, 3, wineDetailsAnchorPane);
                     }
 
                 });
