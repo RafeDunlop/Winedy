@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.SignInScreenService;
 import seng202.team3.exceptions.IllegalWineDrinkerException;
+import static seng202.team3.gui.GuiService.fullDisable;
 
 /**
  * controller for sign_in_screen.fxml. Handles logging in, registering and setting initial preferences
@@ -208,16 +209,7 @@ public class SignInScreenController {
         registerMode = !registerMode;
     }
 
-    /**
-     * Helper function for toggleMode to disable and make invisible the component in one line.
 
-     * @param component Node object, fx component to disable
-     * @param fullDisable whether to disable or enable the component
-     */
-    private void fullDisable(Node component, boolean fullDisable) {
-        component.setDisable(fullDisable);
-        component.setOpacity((fullDisable) ? 0 : 1);
-    }
 
     /**
      * Tries to acquire a combo box's selected item (currently String, may be changed).
