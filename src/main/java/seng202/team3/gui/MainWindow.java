@@ -64,7 +64,8 @@ public class MainWindow extends Application {
                 "/css/sign_in_screen_background_rectangle.css",  //TODO remove if unused
                 "/css/sign_in_screen_text_field.css",
                 "/css/overlay.css",
-                "/css/wine_pagination.css"
+                "/css/wine_pagination.css",
+                "/css/list_pagination.css"
         };
 
         try {

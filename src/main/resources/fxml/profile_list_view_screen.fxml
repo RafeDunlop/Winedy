@@ -14,7 +14,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileListViewScreenController">
+<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileListViewScreenController">
    <children>
       <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="830.0">
         <columnConstraints>
@@ -41,12 +41,12 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Label fx:id="wineListNameLabel" prefHeight="62.0" prefWidth="459.0" text="wineListName" wrapText="true" GridPane.valignment="TOP">
+            <Label fx:id="wineListNameLabel" alignment="CENTER" prefHeight="76.0" prefWidth="459.0" text="wineListName" wrapText="true" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="125.0" top="25.0" />
+                  <Insets left="125.0" top="17.0" />
                </GridPane.margin>
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font name="System Bold" size="26.0" />
                </font>
             </Label>
             <Button fx:id="renameButton" maxWidth="145.0" minWidth="100.0" mnemonicParsing="false" onAction="#onRenameButtonClicked" prefHeight="33.0" prefWidth="145.0" text="Rename" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
@@ -70,7 +70,7 @@
                   <Insets left="125.0" top="25.0" />
                </GridPane.margin>
                <font>
-                  <Font size="24.0" />
+                  <Font size="26.0" />
                </font>
             </TextField>
             <Button fx:id="cancelListChangesButton" maxWidth="-Infinity" minWidth="100.0" mnemonicParsing="false" onAction="#onCancelListChangesButtonClicked" prefHeight="25.0" prefWidth="185.0" text="Cancel" visible="false" GridPane.halignment="RIGHT" GridPane.valignment="TOP">
@@ -106,14 +106,14 @@
             </Label>
          </content>
       </ScrollPane>
-      <TextArea fx:id="descriptionTextArea" layoutX="841.0" layoutY="159.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="345.0" prefWidth="325.0" visible="false" wrapText="true">
+      <TextArea fx:id="descriptionTextArea" layoutX="841.0" layoutY="159.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="345.0" prefWidth="325.0" style="-fx-background-color: transparent;" visible="false" wrapText="true">
          <font>
             <Font size="18.0" />
          </font>
       </TextArea>
-      <Label layoutX="843.0" layoutY="113.0" prefHeight="39.0" prefWidth="357.0" text="Description ">
+      <Label layoutX="843.0" layoutY="111.0" prefHeight="46.0" prefWidth="357.0" text="Description ">
          <font>
-            <Font name="System Bold" size="24.0" />
+            <Font name="System Bold" size="26.0" />
          </font>
       </Label>
       <Button fx:id="editDescriptionButton" layoutX="830.0" layoutY="536.0" maxWidth="212.0" minWidth="83.0" mnemonicParsing="false" onAction="#onEditDescriptionButtonClicked" prefHeight="39.0" prefWidth="212.0" text="Edit Description">

@@ -3,6 +3,7 @@ package seng202.team3.gui;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -45,6 +46,9 @@ public class ProfileWineListsScreenController {
 
     @FXML
     private Button deleteButton;
+
+    @FXML
+    private Rectangle backgroundRectangle;
 
     /**
      * Pagination to be generated and contain the user's wine lists
@@ -109,7 +113,7 @@ public class ProfileWineListsScreenController {
 
         rootVBox.getChildren().add(pagination);
 
-        styleButtons();
+        setStyleSheets();
 
     }
 
@@ -121,8 +125,6 @@ public class ProfileWineListsScreenController {
 
     private VBox createPage(int pageIndex) {
         VBox wineListVBox = new VBox(10);
-        wineListVBox.setPadding(new Insets(10, 10, 10, 10));
-        wineListVBox.setPrefSize(872, 475);
         int start = pageIndex * listsPerPage;
         int end = Math.min(start + listsPerPage, wineLists.size());
         for (int i = start; i < end; i++) {
@@ -258,7 +260,7 @@ public class ProfileWineListsScreenController {
      */
     private void setUpWineListButton(Button button, int index) {
         button.setOnAction(event -> FXWrapper.getInstance().loadIndividualListView(wineListsAnchorPane, wineLists.get(index)));
-        button.setPrefSize(800, 100);
+        button.setPrefSize(750, 100);
         button.getStyleClass().add("nav-bar-button");
         Image image = new Image("/images/wine_box_image.png");
         ImageView imageView = new ImageView(image);
@@ -285,11 +287,16 @@ public class ProfileWineListsScreenController {
     /**
      * Styles the buttons to be consistent with all other buttons in the UI
      */
-    private void styleButtons() {
+    private void setStyleSheets() {
         createListButton.getStyleClass().add("nav-bar-button");
         deleteListsButton.getStyleClass().add("nav-bar-button");
         cancelButton.getStyleClass().add("nav-bar-button");
         deleteButton.getStyleClass().add("nav-bar-button");
+
+        backgroundRectangle.getStyleClass().add("red-wine-rectangle");
+
+        pagination.getStyleClass().add("wine-pagination");
+        pagination.getStyleClass().add("list-pagination");
     }
 
     /**
@@ -298,10 +305,11 @@ public class ProfileWineListsScreenController {
      * @param nameLabel name label to style
      */
     private void styleListNameLabel(Label nameLabel) {
-        nameLabel.setStyle("-fx-font-size: 25");
-        nameLabel.setMinWidth(430);
-        nameLabel.setMaxWidth(430);
+        nameLabel.setStyle("-fx-font-size: 20");
+        nameLabel.setMinWidth(415);
+        nameLabel.setMaxWidth(415);
         nameLabel.setPadding(new Insets(10, 10, 10, 10));
         nameLabel.setWrapText(true);
+        nameLabel.setAlignment(Pos.CENTER);
     }
 }
