@@ -14,15 +14,14 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileListViewScreenController">
+<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileListViewScreenController">
    <children>
-      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="830.0">
+      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="114.0" prefWidth="830.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="839.0" minWidth="839.0" prefWidth="839.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints maxHeight="150.0" minHeight="103.0" prefHeight="106.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="570.0" minHeight="500.0" prefHeight="512.0" />
         </rowConstraints>
          <children>
             <Button fx:id="backButton" maxWidth="70.0" minWidth="77.0" mnemonicParsing="false" onAction="#onBackButtonClicked" prefHeight="33.0" prefWidth="55.0" text="Back" GridPane.halignment="LEFT" GridPane.valignment="TOP">
@@ -81,19 +80,6 @@
                   <Insets right="20.0" top="60.0" />
                </GridPane.margin>
             </Button>
-            <Rectangle fx:id="winesRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="463.0" stroke="BLACK" strokeType="INSIDE" width="788.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets />
-               </GridPane.margin>
-            </Rectangle>
-            <ScrollPane fx:id="listContentsScrollPane" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="427.0" prefWidth="755.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
-               <content>
-                  <VBox fx:id="listContentsVBox" prefHeight="0.0" prefWidth="780.0" style="-fx-background-color: transparent;" />
-               </content>
-               <GridPane.margin>
-                  <Insets top="17.0" />
-               </GridPane.margin>
-            </ScrollPane>
          </children>
       </GridPane>
       <Rectangle fx:id="descriptionRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="418.0" layoutX="821.0" layoutY="108.0" stroke="BLACK" strokeType="INSIDE" width="365.0" />
@@ -141,5 +127,10 @@
             <Font size="15.0" />
          </font>
       </Label>
+      <VBox fx:id="listContentsVBox" layoutX="21.0" layoutY="78.0" prefHeight="463.0" prefWidth="788.0" style="-fx-background-color: transparent;">
+         <children>
+            <ScrollPane fx:id="listContentsScrollPane" fitToWidth="true" hbarPolicy="NEVER" prefHeight="463.0" prefWidth="788.0" />
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

@@ -1,6 +1,7 @@
 package seng202.team3.gui;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -70,8 +71,8 @@ public class ProfileListViewScreenController {
     @FXML
     private Label descErrorLabel;
 
-    @FXML
-    private Rectangle winesRectangle;
+    //@FXML
+    //private Rectangle winesRectangle;
 
     @FXML
     private Rectangle descriptionRectangle;
@@ -145,6 +146,8 @@ public class ProfileListViewScreenController {
         setUpTextAreaListenersForErrorMessages();
 
         addStyleSheets();
+
+        createPagination();
 
     }
 
@@ -308,7 +311,7 @@ public class ProfileListViewScreenController {
         editDescriptionButton.getStyleClass().add("nav-bar-button");
         saveDescChangesButton.getStyleClass().add("nav-bar-button");
 
-        winesRectangle.getStyleClass().add("red-wine-rectangle");
+        //winesRectangle.getStyleClass().add("red-wine-rectangle");
         descriptionRectangle.getStyleClass().add("white-wine-rectangle");
         descriptionScrollPane.getStyleClass().add("white-wine-scroll-pane");
         listContentsScrollPane.getStyleClass().add("red-wine-scroll-pane");
@@ -317,5 +320,34 @@ public class ProfileListViewScreenController {
 
         wineListNameTextField.getStyleClass().add("sign-in-screen-text-field");
         descriptionTextArea.getStyleClass().add("description-text-area");
+    }
+
+    public void createPagination() {
+        int winesPerPage = 12;
+        int numberOfPages = listToDisplay.getWineList().size() / winesPerPage;
+
+        if (listToDisplay.getWineList().size() % 4 != 0) { //Add an extra page for the lists where required
+            numberOfPages += 1;
+        }
+
+        Pagination pagination = new Pagination(numberOfPages, 0);
+        listContentsVBox.getChildren().add(pagination);
+        pagination.getStyleClass().add("wine-pagination");
+
+
+        pagination.setPageFactory(pageIndex ->  {
+            VBox pageContent = new VBox();
+            int start = pageIndex * 4 * 3;
+            int end = Math.min(start + 4 * 3, listToDisplay.getWineList().size());
+            GuiService.startButtonGeneration(listToDisplay.getWineList().subList(start, end), pageContent, null, 3);
+            ScrollPane scrollPane = new ScrollPane(pageContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.getStyleClass().add("red-wine-scroll-pane");
+            scrollPane.setMinHeight(428);
+            VBox outerVBox = new VBox(scrollPane);
+            outerVBox.setPadding(new Insets(0, 0, 10, 0));
+            return outerVBox;
+        });
+
     }
 }

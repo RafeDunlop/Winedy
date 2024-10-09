@@ -103,7 +103,7 @@ public class WineListViewController {
             ScrollPane scrollPane = new ScrollPane(pageContent);
             scrollPane.setFitToWidth(true);
             scrollPane.getStyleClass().add("red-wine-scroll-pane");
-            scrollPane.setMinHeight(scrollPaneHeight); //TODO this will probably need to be different for other screens
+            scrollPane.setMinHeight(475);
             VBox outerVBox = new VBox(scrollPane);
             outerVBox.setPadding(new Insets(0, 0, 10, 0));
             return outerVBox;
