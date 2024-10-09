@@ -133,7 +133,6 @@ public final class GuiService {
      *
      * @see GuiService#generateWineButton(Wine, AnchorPane, double, double)
      * @see GuiService#startButtonGeneration(List, VBox, AnchorPane, int)
-     * @param wineDetailsAnchorPane the anchor pane of the wine details
      */
     public static HBox GenerateHBox(List<Wine> wineList, AnchorPane wineDetailsAnchorPane) {
 
