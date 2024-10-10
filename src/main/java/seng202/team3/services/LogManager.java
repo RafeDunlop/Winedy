@@ -1,6 +1,8 @@
 package seng202.team3.services;
 
+import javafx.util.Pair;
 import javafx.util.StringConverter;
+import seng202.team3.models.LogDiff;
 import seng202.team3.models.Wine;
 import seng202.team3.models.WineLog;
 import seng202.team3.repository.WineLogDAO;
@@ -130,32 +132,44 @@ public class LogManager {
      * note that a glass is defined as 1.4 standards. This is because a "glass of wine" is slightly ill-defined.
      * A user logging port, for instance, should log a port glass of wine as one glass. The inflexibility of this
      * assumption is negligible in comparison to the human error with the logging itself
-     * @param wine Wine object which contains the foreign key to the wine in wineSuper which the log is about
-     * @param note the note associated with this log
-     * @param date the date of the log as a Java.sql.date object
-     * @param hour the time of day the log was created as an int
-     * @param isBottles whether the following parameter should be interpreted as a number of bottles or glasses
-     * @param amtConsumed the amount of bottles/glasses consumed
-     * @return the added WineLog object
+     * @param logDiff LogDiff object which wraps relevant args (name, Wine, hour, amount, isBottles)
      */
-    public WineLog addLog(Wine wine, String note, Date date, int hour, boolean isBottles, float amtConsumed) {
-        int loggedID = wine.getUniqueWineID();
-        System.out.println(hour);
-        Time time = Time.valueOf(LocalTime.of(hour, 0, 0));
+    public void addLog(LogDiff logDiff) {
+        int loggedID = logDiff.getWine().getUniqueWineID();
+        Time time = Time.valueOf(LocalTime.of(logDiff.getHour(), 0, 0));
+        float standards = getStandards(logDiff.getWine(), logDiff.getAmt(), logDiff.getIsBottles());
+        WineLog toLog = new WineLog(loggedID, logDiff.getNote(), logDiff.getDate(), time, standards, logDiff.getIsBottles());
+        wineLogDAO.add(toLog);
+    }
+
+    public float getStandards(Wine wine, float amtHad, boolean isBottles) {
         float standards;
         if (isBottles) {
-            float mlsWine = (wine.getVolumeInMl() != 0) ? wine.getVolumeInMl() : DEFAULT_WINE_VOLUME;
-            float percentageABV = (wine.getAlcoholByVolume() != 0) ? wine.getAlcoholByVolume() : DEFAULT_WINE_ABV;
-            float mlsAlcohol = (percentageABV * mlsWine) / 100; //convert percentage to decimal
-            float gramsAlcohol = mlsAlcohol * RHO_ALCOHOL;
-            standards = gramsAlcohol / GRAMS_ALCOHOL_PER_NZ_STAN_DRINK;
+            float gramsAlcoholPerBottle = getGramsAlcoholPerBottle(wine);
+            standards = (amtHad * gramsAlcoholPerBottle) / GRAMS_ALCOHOL_PER_NZ_STAN_DRINK;
         } else { //glasses
-            standards = amtConsumed * STANDARDS_PER_GLASS;
+            standards = amtHad * STANDARDS_PER_GLASS;
         }
+        return standards;
+    }
 
-        WineLog toLog = new WineLog(loggedID, note, date, time, standards);
-        wineLogDAO.add(toLog);
-        return toLog;
+    public float getAmt(Wine wine, float standards, boolean isBottles) {
+        float amt;
+        if (isBottles) {
+            float gramsAlcoholPerBottle = getGramsAlcoholPerBottle(wine);
+            float gramsAlcohol = (standards * GRAMS_ALCOHOL_PER_NZ_STAN_DRINK);
+            amt = gramsAlcohol / gramsAlcoholPerBottle;
+        } else { //glasses
+            amt = standards / STANDARDS_PER_GLASS;
+        }
+        return amt;
+    }
+
+    private float getGramsAlcoholPerBottle(Wine wine) {
+        float mlsWine = (wine.getVolumeInMl() != 0) ? wine.getVolumeInMl() : DEFAULT_WINE_VOLUME;
+        float percentageABV = (wine.getAlcoholByVolume() != 0) ? wine.getAlcoholByVolume() : DEFAULT_WINE_ABV;
+        float mlsAlcoholPerBottle = (percentageABV * mlsWine) / 100; //convert percentage to decimal
+        return mlsAlcoholPerBottle * RHO_ALCOHOL;
     }
 
     /**
@@ -170,8 +184,8 @@ public class LogManager {
      * @param newStandards the number of NZ standard drinks the log corresponds to as a float
      * @return the updated WineLog object (different object to parameter)
      */
-    public WineLog update(WineLog toUpdate, int newLoggedID, String newNote, Date newDate, Time newTime, float newStandards) {
-        return wineLogDAO.update(toUpdate, newLoggedID, newNote, newDate, newTime, newStandards);
+    public WineLog update(WineLog toUpdate, int newLoggedID, String newNote, Date newDate, Time newTime, float newStandards, boolean isBottles) {
+        return wineLogDAO.update(toUpdate, newLoggedID, newNote, newDate, newTime, newStandards, isBottles);
     }
 
     /**
@@ -190,6 +204,52 @@ public class LogManager {
                 "/" +
                 date.getYear();
     }
+
+    public String getDateString(Date date) {
+        LocalDate lDate = date.toLocalDate();
+        int dayOM = lDate.getDayOfMonth();
+        String monthString = lDate.getMonth().toString().toLowerCase();
+        return String.format("the %d%s of %s %d",
+                dayOM,
+                getDaySuffix(dayOM),
+                monthString.substring(0, 1).toUpperCase() + monthString.substring(1),
+                lDate.getYear());
+    }
+
+    private String getDaySuffix(int day) {
+        if (day >= 11 && day <= 13) {
+            return "th";
+        }
+
+        return switch (day % 10) {
+            case 1 -> "st";
+            case 2 -> "nd";
+            case 3 -> "rd";
+            default -> "th";
+        };
+    }
+
+    public Pair<Boolean, String> validateAmount(String toValidate) {
+        int maxLength = 21;
+        if (toValidate.isEmpty()) {
+            return new Pair<>(false, "");
+        } else if (toValidate.length() > maxLength) {
+            return new Pair<>(false, "your amount entry is too long");
+        }
+        try {
+            float value = Float.parseFloat(toValidate);
+            if (value < 0) {
+                return new Pair<>(false, "Amount must be positive");
+            } else if (value == 0) {
+                return new Pair<>(false, "Amount cannot be 0");
+            } else {
+                return new Pair<>(true,"errorDisplayLabel");
+            }
+        } catch (NumberFormatException e) {
+            return new Pair<>(false, String.format("%s is not a valid number", toValidate));
+        }
+    }
+
 
     public StringConverter<Integer> getHourConverter() {
         return new StringConverter<Integer>() {

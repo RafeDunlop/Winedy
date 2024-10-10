@@ -11,6 +11,7 @@ import javafx.scene.text.Font;
 import javafx.util.Pair;
 import org.controlsfx.control.SearchableComboBox;
 import org.controlsfx.control.ToggleSwitch;
+import seng202.team3.models.LogDiff;
 import seng202.team3.models.Wine;
 import seng202.team3.models.WineLog;
 import seng202.team3.services.LogManager;
@@ -19,6 +20,7 @@ import seng202.team3.services.WineManager;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.IntStream;
 
 import static javafx.scene.control.ContentDisplay.TOP;
@@ -81,166 +83,155 @@ public class LogPopupController {
 
     private WineLog preExistingLog;
 
-    private Wine selectedWine;
+    private Wine preSelectedWine;
 
     private Button displayed;
 
-    private int hourSelected;
-
-    private Date dateSelected;
-
     private float standards;
-
-    private String logNote;
-
-    private boolean isBottles;
 
     private boolean logValid;
 
     private boolean validAmount;
 
+    private LogDiff oldLog;
+
+    private LogDiff newLog;
+
+    private boolean editMode;
+
     public LogPopupController(WineLog preExistingLog, Wine preSelectedWine) {
         this.preExistingLog = preExistingLog;
-        selectedWine = preSelectedWine;
+        this.preSelectedWine = preSelectedWine;
         this.logManager = LogManager.getInstance();
     }
 
     public void initialize() {
+
+        if (preExistingLog != null) {
+            setLogParams();
+        } else {
+            setDefaultLogParams();
+        }
+        editMode = preExistingLog != null;
+
+        if (preSelectedWine != null) {
+            setSelected();
+        }
+        fullDisable(selectedButtonLabel, preSelectedWine == null);
+
         GuiService.setUpPopUp(overlayPane, popUpAnchorPane);
         setupComboBoxes();
         setupToggleButtons();
         setupInputTextField();
         setupCoreButtons();
+        setupDatePicker();
 
-        logNoteTextArea.textProperty().addListener((observable, oldNote, newNote) -> logNote = newNote);
+        logNoteTextArea.textProperty().addListener((observable, oldNote, newNote) -> newLog.setNote(newNote));
 
-        dateSelected = logManager.getCurrentDate();
-        datePicker.setValue(dateSelected.toLocalDate());
-        datePicker.setOnAction(date -> dateSelected = new Date(datePicker.getValue().toEpochDay()));
-
-        if (preExistingLog != null) {
-            setLogParams();
-        }
-
-        if (selectedWine != null) {
-            setSelected();
-        }
-        fullDisable(selectedButtonLabel, selectedWine == null);
 
         addStyleClasses();
         runValidationSequence();
     }
 
+    private void setupDatePicker() {
+        datePicker.setValue(newLog.getDate().toLocalDate());
+        datePicker.setOnAction(date -> newLog.setDate(new Date(datePicker.getValue().toEpochDay())));
+    }
+
+    private void setLogParams() {
+        addLogButton.setText("Save log");
+        oldLog = new LogDiff().setAmt(
+                        logManager.getAmt(WineManager.getInstance().getWineById(preExistingLog.getUniqueWineId()),
+                                preExistingLog.getStandards(),
+                                preExistingLog.getIsBottles()))
+                .setIsBottles(preExistingLog.getIsBottles())
+                .setDate(preExistingLog.getDate())
+                .setWine(preSelectedWine)
+                .setHour(preExistingLog.getTime().toLocalTime().getHour());
+        newLog = new LogDiff(oldLog);
+    }
+
+    private void setDefaultLogParams() {
+        oldLog = new LogDiff().setAmt(0)
+                .setIsBottles(false)
+                .setDate(logManager.getCurrentDate())
+                .setWine(null)
+                .setHour(logManager.getCurrentTime().toLocalTime().getHour());
+        newLog = new LogDiff(oldLog);
+    }
+
     private void setupCoreButtons() {
         addLogButton.setOnAction(event -> {
             if (logValid) {
-                logManager.addLog(
-                        selectedWine,
-                        logNote,
-                        dateSelected,
-                        hourSelected,
-                        isBottles,
-                        Float.parseFloat(amountTextField.getText()));
-                FXWrapper.getInstance().removePopUp(overlayPane);
-                FXWrapper.getInstance().loadProfileTabPane(2);
-
+                logManager.addLog(newLog);
+                closeThis();
             }
         });
+
+        cancelLogButton.setOnAction(event -> {
+            if (oldLog.equals(newLog)) {
+                closeThis();
+            } else {
+            }
+        });
+    }
+
+    private void closeThis() {
+        FXWrapper.getInstance().removePopUp(overlayPane);
+        FXWrapper.getInstance().loadProfileTabPane(2);
     }
 
     private void setupInputTextField() {
         fullDisable(qtyDisplayLabel, true);
         amountTextField.textProperty().addListener((observable, sOld, sNew) ->
         {
-            Pair<Boolean, String> validityPair = validateAmount(sNew);
-            boolean valid = validityPair.getKey();
-            fullDisable(qtyDisplayLabel, valid);
-            validAmount = valid;
-            if (!valid) {
+            fullDisable(qtyDisplayLabel, false);
+            Pair<Boolean, String> validityPair = logManager.validateAmount(sNew);
+            validAmount = validityPair.getKey();
+            if (!validAmount) {
                 qtyDisplayLabel.setText(validityPair.getValue());
                 qtyDisplayLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour; -fx-font-size: 15");
                 qtyDisplayLabel.setWrapText(true);
+                newLog.setAmt(0);
+                fullDisable(qtyDisplayLabel, true);
+            } else {
+                newLog.setAmt(Float.parseFloat(amountTextField.getText()));
+                qtyDisplayLabel.setStyle("-fx-text-fill: Black; -fx-font-size: 15");
+                qtyDisplayLabel.setWrapText(true);
+
             }
             runValidationSequence();
         });
     }
 
     private void runValidationSequence() {
-        if (selectedWine != null && validAmount) {
-            logValid = true;
+        logValid = newLog.isValid();
+        if (logValid) {
             qtyDisplayLabel.setText(String.format("You are logging %.1f %s of %s at %s on %s.",
                     Float.parseFloat(amountTextField.getText()),
-                    (isBottles) ? "bottles" : "glasses",
-                    selectedWine.getName(),
-                    logManager.getHourConverter().toString(hourSelected),
-                    getDateString(dateSelected))
+                    (newLog.getIsBottles()) ? "bottles" : "glasses",
+                    newLog.getWine().getName(),
+                    logManager.getHourConverter().toString(newLog.getHour()),
+                    logManager.getDateString(newLog.getDate()))
             );
-            qtyDisplayLabel.setStyle("-fx-text-fill: Black; -fx-font-size: 15");
-            qtyDisplayLabel.setWrapText(true);
-            fullDisable(qtyDisplayLabel, false);
         } else {
-            logValid = false;
+            fullDisable(qtyDisplayLabel, true);
         }
-        addLogButton.setDisable(!logValid);
+        addLogButton.setDisable((editMode) ? oldLog.equals(newLog) : !logValid);
     }
-
-    private String getDateString(Date date) {
-        LocalDate lDate = date.toLocalDate();
-        int dayOM = lDate.getDayOfMonth();
-        return String.format("the %d%s of %s %d",
-                dayOM,
-                getDaySuffix(dayOM),
-                lDate.getMonth().toString(),
-                lDate.getYear());
-    }
-
-    private String getDaySuffix(int day) {
-        if (day >= 11 && day <= 13) {
-            return "th";
-        }
-
-        return switch (day % 10) {
-            case 1 -> "st";
-            case 2 -> "nd";
-            case 3 -> "rd";
-            default -> "th";
-        };
-    }
-
-    private Pair<Boolean, String> validateAmount(String toValidate) {
-        int maxLength = 21;
-        if (toValidate.isEmpty()) {
-            return new Pair<>(false, "");
-        } else if (toValidate.length() > maxLength) {
-            return new Pair<>(false, "your amount entry is too long");
-        }
-        try {
-            float value = Float.parseFloat(toValidate);
-            if (value < 0) {
-                return new Pair<>(false, "Amount must be positive");
-            } else if (value == 0) {
-                return new Pair<>(false, "Amount cannot be 0");
-            } else {
-                return new Pair<>(true,"errorDisplayLabel");
-            }
-        } catch (NumberFormatException e) {
-            return new Pair<>(false, String.format("%s is not a valid number", toValidate));
-        }
-    }
-
 
     private void setupToggleButtons() {
         glassesToggle.setSelected(true);
         glassesToggle.selectedProperty().addListener((observable, old, newVal) -> toggle(newVal));
         bottlesToggle.setSelected(false);
         bottlesToggle.selectedProperty().addListener((observable, old, newVal) -> toggle(!newVal));
-
     }
 
     private void toggle(boolean toSet) {
         glassesToggle.setSelected(toSet);
         bottlesToggle.setSelected(!toSet);
-        isBottles = !toSet;
+        newLog.setIsBottles(!toSet);
+        runValidationSequence();
     }
 
     private void setupComboBoxes() {
@@ -249,9 +240,9 @@ public class LogPopupController {
 
         searchComboBox.getItems().addAll(wines);
         searchComboBox.setOnAction(selection -> {
-            selectedWine = searchComboBox.getSelectionModel().getSelectedItem();
-            fullDisable(selectedButtonLabel, selectedWine == null);
-            if (selectedWine != null) {
+            newLog.setWine(searchComboBox.getSelectionModel().getSelectedItem());
+            fullDisable(selectedButtonLabel, newLog.getWine() == null);
+            if (newLog.getWine() != null) {
                 setSelected();
             }
             runValidationSequence();
@@ -271,10 +262,9 @@ public class LogPopupController {
             }
         };
         searchComboBox.setButtonCell(cellFactory);
-        hourSelected = logManager.getCurrentTime().toLocalTime().getHour();
         hoursComboBox.getItems().addAll(IntStream.range(0, 24).boxed().toList());
-        hoursComboBox.setOnAction(select -> hourSelected = hoursComboBox.getSelectionModel().getSelectedItem());
-        hoursComboBox.getSelectionModel().select(hourSelected);
+        hoursComboBox.setOnAction(select -> newLog.setHour(hoursComboBox.getSelectionModel().getSelectedItem()));
+        hoursComboBox.getSelectionModel().select(newLog.getHour());
         hoursComboBox.setConverter(logManager.getHourConverter());
     }
 
@@ -291,16 +281,13 @@ public class LogPopupController {
         addLogButton.getStyleClass().add("nav-bar-button");
     }
 
-    private void setLogParams() {
-
-    }
-
     private void setSelected() {
+        Wine wine = newLog.getWine();
         selectedVBox.getChildren().remove(displayed);
-        displayed = new Button(selectedWine.getName());
+        displayed = new Button(wine.getName());
         displayed.setPrefSize(260,240);
         displayed.setWrapText(true);
-        GuiService.addImageGraphicToButton(displayed, "/images/" + selectedWine.getColour() + "_wine_image.png", 100, 100, false);
+        GuiService.addImageGraphicToButton(displayed, "/images/" + wine.getColour() + "_wine_image.png", 100, 100, false);
         displayed.setOnAction(event -> {/*show details popup */});
         displayed.setContentDisplay(TOP);
         displayed.getStyleClass().add("nav-bar-button");

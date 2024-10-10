@@ -70,6 +70,7 @@ CREATE TABLE logs (
     date DATE,
     time TIME,
     quantity FLOAT,
+    isBottles BOOLEAN,
     PRIMARY KEY (wineDrinker, wineId, date, time),
     FOREIGN KEY (wineDrinker) REFERENCES wineDrinker (username) ON DELETE CASCADE ,
     FOREIGN KEY (wineId) REFERENCES wineSuper (id) ON DELETE CASCADE
