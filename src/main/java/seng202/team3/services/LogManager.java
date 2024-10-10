@@ -1,7 +1,6 @@
 package seng202.team3.services;
 
 import javafx.util.StringConverter;
-import seng202.team3.models.TimeRange;
 import seng202.team3.models.Wine;
 import seng202.team3.models.WineLog;
 import seng202.team3.repository.WineLogDAO;
@@ -9,7 +8,7 @@ import seng202.team3.repository.WineLogDAO;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.util.Calendar;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -122,7 +121,7 @@ public class LogManager {
      * @return the List of WineLogs that were created in the given range
      */
     public List<WineLog> getLogsInRange(Date startDate, Date endDate) {
-        return getLogsInRange(startDate, endDate);
+        return wineLogDAO.getInRange(startDate, endDate);
     }
 
     /**
@@ -141,12 +140,8 @@ public class LogManager {
      */
     public WineLog addLog(Wine wine, String note, Date date, int hour, boolean isBottles, float amtConsumed) {
         int loggedID = wine.getUniqueWineID();
-
-        Calendar cal = TimeRange.getResetCalendar();
-        cal.setTime(date);
-        cal.set(Calendar.HOUR_OF_DAY, hour);
-        Time time = new Time(cal.getTimeInMillis());
-
+        System.out.println(hour);
+        Time time = Time.valueOf(LocalTime.of(hour, 0, 0));
         float standards;
         if (isBottles) {
             float mlsWine = (wine.getVolumeInMl() != 0) ? wine.getVolumeInMl() : DEFAULT_WINE_VOLUME;
@@ -155,7 +150,7 @@ public class LogManager {
             float gramsAlcohol = mlsAlcohol * RHO_ALCOHOL;
             standards = gramsAlcohol / GRAMS_ALCOHOL_PER_NZ_STAN_DRINK;
         } else { //glasses
-            standards = amtConsumed / STANDARDS_PER_GLASS;
+            standards = amtConsumed * STANDARDS_PER_GLASS;
         }
 
         WineLog toLog = new WineLog(loggedID, note, date, time, standards);
@@ -189,7 +184,11 @@ public class LogManager {
 
     public String getLogDateString(WineLog wineLog) {
         LocalDate date = wineLog.getDate().toLocalDate();
-        return date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear();
+        return ((date.getDayOfMonth() < 10) ? date.getDayOfMonth() + "0" : date.getDayOfMonth()) +
+                "/" +
+                ((date.getMonthValue() < 10) ? date.getMonthValue() + "0" : date.getMonthValue()) +
+                "/" +
+                date.getYear();
     }
 
     public StringConverter<Integer> getHourConverter() {
