@@ -108,7 +108,7 @@ public final class GuiService {
         return (graphic instanceof ImageView) ? (ImageView) graphic : new ImageView();
     }
 
-    private static void setUpImageView(ImageView imageView) {
+    public static void setUpImageView(ImageView imageView) {
         imageView.setFitHeight(30);
         imageView.setFitWidth(30);
         imageView.setPreserveRatio(true);
