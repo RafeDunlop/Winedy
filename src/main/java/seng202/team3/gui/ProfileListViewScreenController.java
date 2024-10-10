@@ -417,7 +417,9 @@ public class ProfileListViewScreenController {
         }
 
         editListButton.setVisible(!deleteMode);
-        renameButton.setVisible(!deleteMode);
+        if (!listToDisplay.getWineListName().equals("Favourites")) {
+            renameButton.setVisible(!deleteMode);
+        }
         cancelDeleteButton.setVisible(deleteMode);
         deleteWinesButton.setVisible(deleteMode);
     }
@@ -461,6 +463,6 @@ public class ProfileListViewScreenController {
 
     @FXML
     public void onDeleteWinesButtonClicked() {
-        toggleDeleteMode();
+        FXWrapper.getInstance().loadDeletingWinesPopUp(selectedWines, listToDisplay, rootAnchorPane);
     }
 }
