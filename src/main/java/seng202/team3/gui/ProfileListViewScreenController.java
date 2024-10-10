@@ -343,48 +343,57 @@ public class ProfileListViewScreenController {
     private void toggleCheckBoxes(VBox pageVBox, int pageIndex) {
         for (int i = 0; i < pageVBox.getChildren().size(); i++) {
             HBox hbox = (HBox) pageVBox.getChildren().get(i);
+            int j = 0;
             for (Node child : hbox.getChildren()) {
-                if (child instanceof Button) {
-                    Button button = (Button) child;
-                    StackPane stackPane = (StackPane) button.getGraphic();
-                    HBox buttonHBox = (HBox) stackPane.getChildren().get(0);
-                    ImageView imageView = (ImageView) buttonHBox.getChildren().get(1);
-                    imageView.setVisible(deleteMode);
-                    imageView.setImage(unChecked);
-                    button.getStyleClass().clear();
-                    int finalI = i;
-                    if (deleteMode) {
+                Button button = (Button) child;
+                StackPane stackPane = (StackPane) button.getGraphic();
+                HBox buttonHBox = (HBox) stackPane.getChildren().get(0);
+                ImageView imageView = (ImageView) buttonHBox.getChildren().get(1);
+                imageView.setVisible(deleteMode);
+                imageView.setImage(unChecked);
+                button.getStyleClass().clear();
+                int finalI = i;
+                int finalJ = j;
+                if (deleteMode) {
+                    Wine wine = listToDisplay.getWineList().get(12 * pageIndex + finalI * 3 + finalJ);
+                    button.setOnAction(e -> {
+                        deleteModeButtonAction(imageView, wine);
+                        setDeleteWinesButtonLabel();
+                    });
 
-                        Wine wine = listToDisplay.getWineList().get(finalI * pageIndex);
-                        button.setOnAction(e -> {
-                            deleteModeButtonAction(imageView, wine);
-                            if (selectedWines.contains(wine)) {
-                                imageView.setImage(checked);
-                            } else {
-                                imageView.setImage(unChecked);
-                            }
-                        });
+                    imageView.setOnMouseEntered(e -> {
+                        if (!selectedWines.contains(wine)) {
+                            imageView.setImage(unCheckedHover);
+                        }
+                    });
 
-                        imageView.setOnMouseEntered(e -> {
-                            if (!selectedWines.contains(wine)) {
-                                imageView.setImage(unCheckedHover);
-                            }
-                        });
-
-                        imageView.setOnMouseExited(e -> {
-                            if (selectedWines.contains(wine)) {
-                                imageView.setImage(checked);
-                            } else {
-                                imageView.setImage(unChecked);
-                            }
-                        });
-                        button.getStyleClass().add("wine-button-disabled");
-                    } else {
-                        button.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineViewPopup(listToDisplay.getWineList().get(finalI * pageIndex)));
-                        button.getStyleClass().add("nav-bar-button");
-                    }
+                    imageView.setOnMouseExited(e -> {
+                        if (selectedWines.contains(wine)) {
+                            imageView.setImage(checked);
+                        } else {
+                            imageView.setImage(unChecked);
+                        }
+                    });
+                    button.getStyleClass().add("wine-button-disabled");
+                } else {
+                    button.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineViewPopup(listToDisplay.getWineList().get(12 * pageIndex + finalI * 3 + finalJ)));
+                    button.getStyleClass().add("nav-bar-button");
                 }
+                j++;
             }
+        }
+    }
+
+    private void setDeleteWinesButtonLabel() {
+        if (selectedWines.size() > 1) {
+            deleteWinesButton.setText("Delete " + selectedWines.size() + " wines");
+            deleteWinesButton.setDisable(false);
+        } else if (selectedWines.size() == 1) {
+            deleteWinesButton.setText("Delete " + selectedWines.size() + " wine");
+            deleteWinesButton.setDisable(false);
+        } else {
+            deleteWinesButton.setText("Delete wines");
+            deleteWinesButton.setDisable(true);
         }
     }
 
@@ -452,6 +461,6 @@ public class ProfileListViewScreenController {
 
     @FXML
     public void onDeleteWinesButtonClicked() {
-
+        toggleDeleteMode();
     }
 }
