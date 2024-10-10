@@ -2,14 +2,19 @@ package seng202.team3.gui;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import seng202.team3.models.UserWineList;
 import seng202.team3.services.ProfileScreenService;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.WineListManager;
+
+import java.util.Map;
 
 /**
  * Controller for the profile_list_view_screen.fxml window
@@ -111,9 +116,14 @@ public class ProfileListViewScreenController {
     private final int descCharLimit = 500;
 
     /**
-     * Pagination to style
+     * Map from page index to its child scrollpane for the wine buttons
      */
-    private Pagination winePagination;
+    private Map<Integer, ScrollPane> pageScrollPaneMap;
+
+    /**
+     * Boolean variable to declare whether the screen is in delete mode or not
+     */
+    private boolean deleteMode = false;
     /**
      * Constructor for the profileListView controller
      * @param listToDisplay list to be displayed in the individual list view
@@ -152,8 +162,9 @@ public class ProfileListViewScreenController {
 
         addStyleSheets();
 
-        this.winePagination = GuiService.createPagination(listToDisplay.getWineList(), listContentsVBox, 4, 3, null);
-        winePagination.getStyleClass().add("wine-list-pagination");
+        this.pageScrollPaneMap = GuiService.createPagination(listToDisplay.getWineList(), listContentsVBox, 4, 3, null);
+        Pagination pagination = (Pagination) listContentsVBox.getChildren().get(0);
+        pagination.getStyleClass().add("wine-list-pagination");
 
     }
 
@@ -303,6 +314,44 @@ public class ProfileListViewScreenController {
         });
     }
 
+    private void toggleCheckBoxes(VBox pageVBox, int pageIndex) {
+        for (int i = 0; i < pageVBox.getChildren().size(); i++) {
+            HBox hbox = (HBox) pageVBox.getChildren().get(i);
+            for (Node child : hbox.getChildren()) {
+                if (child instanceof Button) {
+                    Button button = (Button) child;
+                    StackPane stackPane = (StackPane) button.getGraphic();
+                    HBox buttonHBox = (HBox) stackPane.getChildren().get(0);
+                    CheckBox checkBox = (CheckBox) buttonHBox.getChildren().get(1);
+                    checkBox.setVisible(deleteMode);
+                    button.getStyleClass().clear();
+                    if (deleteMode) {
+                        button.setOnAction(null);
+                        button.getStyleClass().add("wine-button-disabled");
+                    } else {
+                        int finalI = i;
+                        button.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineViewPopup(listToDisplay.getWineList().get(finalI * pageIndex)));
+                        button.getStyleClass().add("nav-bar-button");
+                    }
+                }
+            }
+        }
+    }
+
+    private void toggleDeleteMode() {
+        deleteMode = !deleteMode;
+
+        for (int i = 0; i < pageScrollPaneMap.size(); i++) { //index starting at
+            ScrollPane pageScrollPane = pageScrollPaneMap.get(i);
+            VBox pageVBox = (VBox) pageScrollPane.getContent();
+            toggleCheckBoxes(pageVBox, i);
+        }
+    }
+
+    @FXML
+    public void onEditListButtonClicked() {
+        toggleDeleteMode();
+    }
     /**
      * Styles the buttons to be consistent with all other buttons in the UI
      */

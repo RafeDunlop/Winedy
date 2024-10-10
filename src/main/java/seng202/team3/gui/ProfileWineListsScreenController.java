@@ -85,7 +85,11 @@ public class ProfileWineListsScreenController {
      */
     private boolean deleteMode = false;
 
+    /**
+     * Map from page index to its child scrollpane with the wine buttons
+     */
     private final Map<Integer, VBox> pageVBoxMap = new HashMap<>();
+
 
 
     /**

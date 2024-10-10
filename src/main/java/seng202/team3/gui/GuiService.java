@@ -4,11 +4,9 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Pagination;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -24,7 +22,9 @@ import seng202.team3.models.Wine;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static javafx.scene.control.ContentDisplay.TOP;
@@ -69,7 +69,7 @@ public final class GuiService {
      * @param isInvisible The truth value of whether the image should be initially invisible
      * @return The ImageView containing the image added to the button
      */
-    public static ImageView addImageGraphicToButton(Button button, String imagePath, double fitWidth, double fitHeight, boolean isInvisible) {
+    public static ImageView addImageGraphicToButton(Button button, String imagePath, double fitWidth, double fitHeight, boolean isInvisible, boolean needsTickBox) {
         Node graphic = null;
 
         try {
@@ -91,8 +91,22 @@ public final class GuiService {
         if (graphic == null) {
             graphic = new Text("Image not found :(");
         }
-        button.setGraphic(graphic);
+        if (needsTickBox) {
+            CheckBox checkBox = new CheckBox();
+            checkBox.setPadding(new Insets(0, 0, 20, 30));
+            checkBox.setAlignment(Pos.TOP_RIGHT);
+            HBox hbox = new HBox(graphic, checkBox);
+            hbox.setPadding(new Insets(10, 0, 0, 30));
+            StackPane stackPane = new StackPane(hbox);
+            stackPane.setAlignment(Pos.TOP_CENTER);
+            button.setGraphic(stackPane);
+            button.setContentDisplay(ContentDisplay.TOP);
+            button.setAlignment(Pos.TOP_CENTER);
+            checkBox.setVisible(false);
+        } else {
+            button.setGraphic(graphic);
 
+        }
         return (graphic instanceof ImageView) ? (ImageView) graphic : new ImageView();
     }
 
@@ -111,16 +125,16 @@ public final class GuiService {
         Button wineButton = new Button(wineToDisplay.getName());
         wineButton.setPrefSize(prefWidth,prefHeight);
         wineButton.setWrapText(true);
-        addImageGraphicToButton(wineButton, "/images/" + wineToDisplay.getColour() + "_wine_image.png", 100, 100, false);
+        addImageGraphicToButton(wineButton, "/images/" + wineToDisplay.getColour() + "_wine_image.png", 100, 100, false, true);
         if (screenAnchorPane != null) {
             wineButton.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineView(screenAnchorPane, wineToDisplay));
         } else {
-            wineButton.setOnAction(event -> FXWrapper.getInstance().loadCreateListPopUp()); /*TODO this currently loads the incorrect pop up, change so it loads the individual wine view pop up */
+            wineButton.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineViewPopup(wineToDisplay)); /*TODO this currently loads the incorrect pop up, change so it loads the individual wine view pop up */
         }
 
         wineButton.setContentDisplay(TOP);
         wineButton.getStyleClass().add("nav-bar-button");
-        wineButton.setFont(new Font("System", 20));
+        wineButton.setFont(new Font("System", 18));
         return wineButton;
     }
 
@@ -213,9 +227,10 @@ public final class GuiService {
      * @param wineDetailsAnchorPane wine details anchor pane if applicable for the onAction of the wine button
      * @return pagination so it can be styled as needed per screen
      */
-    public static Pagination createPagination(List<Wine> winesToDisplay, VBox rootVBox, int rowsPerPage, int winesPerRow, AnchorPane wineDetailsAnchorPane) {
+    public static Map<Integer, ScrollPane> createPagination(List<Wine> winesToDisplay, VBox rootVBox, int rowsPerPage, int winesPerRow, AnchorPane wineDetailsAnchorPane) {
         int winesPerPage = 12;
         int numberOfPages = winesToDisplay.size() / winesPerPage;
+        Map<Integer, ScrollPane> pageScrollPaneMap = new HashMap<>();
 
         if (winesToDisplay.size() % rowsPerPage != 0) { //Add an extra page for the lists where required
             numberOfPages += 1;
@@ -234,9 +249,10 @@ public final class GuiService {
             ScrollPane scrollPane = new ScrollPane(pageContent);
             scrollPane.setFitToWidth(true);
             scrollPane.getStyleClass().add("red-wine-scroll-pane");
+            pageScrollPaneMap.put(pageIndex, scrollPane);
             return scrollPane;
         });
-        return pagination;
+        return pageScrollPaneMap;
     }
 
     /**

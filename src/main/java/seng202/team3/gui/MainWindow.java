@@ -66,7 +66,8 @@ public class MainWindow extends Application {
                 "/css/overlay.css",
                 "/css/wine_pagination.css",
                 "/css/list_pagination.css",
-                "/css/wine_list_pagination.css"
+                "/css/wine_list_pagination.css",
+                "/css/wine_button_disabled.css"
         };
 
         try {

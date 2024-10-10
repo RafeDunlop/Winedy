@@ -22,6 +22,7 @@ import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -137,9 +138,11 @@ public class SearchScreenController {
     private boolean sortVBoxExpanded = false;
 
     /**
-     * Search results pagination
+     * Map from page index to its child scrollpane for the wine buttons
      */
-    private Pagination searchResultsPagination;
+    private Map<Integer, ScrollPane> pageScrollPaneMap;
+
+
     /**
      * Called by JavaFX upon initialisation of the search screen. Sets the values of the price range slider to the low
      * and high values. Adds all the possible attribute values to the combo boxes through searchScreenService. Sets the
@@ -210,6 +213,7 @@ public class SearchScreenController {
 
     private void getSearchResults() {
         Task<Void> task = new Task<>() {
+
             @Override
             protected Void call() {
                 SearchWineList results = WineManager.getInstance().searchWines(
@@ -236,7 +240,7 @@ public class SearchScreenController {
                     } else {
                         infoTextRectangle.setVisible(false);
                         infoTextLabel.setVisible(false);
-                        searchResultsPagination = GuiService.createPagination(results.getWineList(), rootVBox, 4, 3, wineDetailsAnchorPane);
+                        pageScrollPaneMap = GuiService.createPagination(results.getWineList(), rootVBox, 4, 3, wineDetailsAnchorPane);
                     }
 
                 });
