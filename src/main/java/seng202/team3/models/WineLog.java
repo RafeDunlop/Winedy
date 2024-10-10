@@ -1,5 +1,7 @@
 package seng202.team3.models;
 
+import seng202.team3.services.WineManager;
+
 import java.sql.Time;
 import java.sql.Date;
 
@@ -90,6 +92,12 @@ public class WineLog {
      */
     public float getStandards() {
         return standards;
+    }
+
+    public String toString() {
+        return WineManager.getInstance().getWineById(loggedId).getName() +
+                "\nStandard drinks: " +
+                String.format("%.1f",standards);
     }
 
 
