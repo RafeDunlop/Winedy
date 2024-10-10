@@ -7,11 +7,17 @@ import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 import org.controlsfx.control.RangeSlider;
 import seng202.team3.models.WineAttribute;
@@ -97,6 +103,16 @@ public class SearchScreenController {
     private VBox rootVBox;
 
     /**
+     * Label containing the text of the filterToggleButton inside of it's graphic
+     */
+    private Label filterToggleButtonLabel;
+
+    /**
+     * HBox that contains the label and imageView which is set as the graphic of the filterToggleButton
+     */
+    HBox filterToggleButtonHbox;
+
+    /**
      * Current wine colour filter selected by the Wine Drinker
      */
     private String selectedColour = null;
@@ -135,6 +151,7 @@ public class SearchScreenController {
      * Search results pagination
      */
     private Pagination searchResultsPagination;
+
     /**
      * Called by JavaFX upon initialisation of the search screen. Sets the values of the price range slider to the low
      * and high values. Adds all the possible attribute values to the combo boxes through searchScreenService. Sets the
@@ -150,6 +167,17 @@ public class SearchScreenController {
 
         initialiseAttributeComboBoxes();
         initialiseDateRangeComboBoxes();
+
+        filterToggleButtonHbox = new HBox();
+        ImageView filterToggleButtonArrowImageView = new ImageView(new Image("/images/drop_down_arrow.png"));
+        filterToggleButtonArrowImageView.setFitWidth(30);
+        filterToggleButtonArrowImageView.setFitHeight(15);
+        filterToggleButtonArrowImageView.setPreserveRatio(false);
+        filterToggleButtonLabel = new Label("Filter");
+        filterToggleButtonLabel.setFont(new Font("System", 20));
+        filterToggleButtonHbox.getChildren().addAll(filterToggleButtonLabel, filterToggleButtonArrowImageView);
+        filterToggleButton.setGraphic(filterToggleButtonHbox);
+        filterToggleButton.setText("");
 
         collapseFilterVBox();
         addStyleClasses();
@@ -334,11 +362,12 @@ public class SearchScreenController {
         filterToggleButton.setManaged(true);
         filterToggleButton.setDisable(false);
         filterToggleButton.setVisible(true);
+        filterToggleButton.setPrefWidth(320);
+        filterToggleButtonLabel.setText("Filter");
+        HBox.setMargin(filterToggleButtonLabel, new Insets(0, 200, 0, 0));
 
         rootAnchorPane.getChildren().remove(wineDetailsAnchorPane);
         rootAnchorPane.getChildren().add(wineDetailsAnchorPane);
-
-        filterToggleButton.setText("Filter");
     }
 
     /**
@@ -355,12 +384,14 @@ public class SearchScreenController {
             vBoxChild.setVisible(true);
         }
 
+        filterToggleButton.setPrefWidth(130);
+        filterToggleButtonLabel.setText("Close");
+        HBox.setMargin(filterToggleButtonLabel, new Insets(0, 10, 0, 0));
+
         rootAnchorPane.getChildren().remove(filterRectangle);
         rootAnchorPane.getChildren().add(filterRectangle);
         rootAnchorPane.getChildren().remove(filterVBox);
         rootAnchorPane.getChildren().add(filterVBox);
-
-        filterToggleButton.setText("Close");
     }
 
     /**
