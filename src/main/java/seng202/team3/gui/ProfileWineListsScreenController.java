@@ -90,6 +90,10 @@ public class ProfileWineListsScreenController {
      */
     private final Map<Integer, VBox> pageVBoxMap = new HashMap<>();
 
+    private Image checked;
+    private Image unChecked;
+    private Image unCheckedHover;
+    private Image checkedHover;
 
 
     /**
@@ -116,9 +120,12 @@ public class ProfileWineListsScreenController {
         pagination.setPageFactory(pageIndex -> pageVBoxMap.get(pageIndex));
 
         rootVBox.getChildren().add(pagination);
-
         setStyleSheets();
 
+        checked = new Image("/images/checked.png");
+        unChecked = new Image("/images/unchecked.png");
+        checkedHover = new Image("/images/checked_hover.png");
+        unCheckedHover = new Image("/images/unchecked_hover.png");
     }
 
     /**
@@ -141,13 +148,11 @@ public class ProfileWineListsScreenController {
             setUpWineListButton(button, index);
             hbox.getChildren().add(button);
 
-            CheckBox checkBox = new CheckBox();
-            setUpCheckBox(checkBox, index);
-            hbox.getChildren().add(checkBox);
-
+//            CheckBox checkBox = new CheckBox();
+//            setUpCheckBox(checkBox, index);
+//            hbox.getChildren().add(checkBox);
 
             wineListVBox.getChildren().add(hbox);
-            System.out.println();
         }
 
         return wineListVBox;
@@ -159,12 +164,41 @@ public class ProfileWineListsScreenController {
     private void toggleCheckBoxes(VBox pageVBox) {
         for (int i = 0; i < pageVBox.getChildren().size(); i++) {
             HBox hbox = (HBox) pageVBox.getChildren().get(i);
-            Button button = (Button) hbox.getChildren().get(0);
+            Button button = (Button) hbox.getChildren().getFirst();
             HBox buttonHBox = (HBox) button.getGraphic();
             Label label = (Label) buttonHBox.getChildren().get(1);
             if (!label.getText().equals("Favourites")) {
-                CheckBox checkBox = (CheckBox) hbox.getChildren().get(1);
+                ImageView checkBox = (ImageView) buttonHBox.getChildren().get(4);
                 checkBox.setVisible(deleteMode);
+
+                int finalI = i;
+                UserWineList wineList = wineLists.get(pagination.getCurrentPageIndex() * listsPerPage + finalI);
+                button.setOnAction(e-> {
+                    if (listsToDelete.contains(wineList)) {
+                        listsToDelete.remove(wineList);
+                        checkBox.setImage(unChecked);
+                    } else {
+                        listsToDelete.add(wineList);
+                        checkBox.setImage(checked);
+                    }
+                    updateDeleteButton();
+                });
+
+                button.setOnMouseEntered(e -> {
+                    if (listsToDelete.contains(wineList)) {
+                        checkBox.setImage(checkedHover);
+                    } else {
+                        checkBox.setImage(unCheckedHover);
+                    }
+                });
+
+                button.setOnMouseExited(e -> {
+                    if (listsToDelete.contains(wineList)) {
+                        checkBox.setImage(checked);
+                    } else {
+                        checkBox.setImage(unChecked);
+                    }
+                });
             }
         }
 
@@ -223,18 +257,9 @@ public class ProfileWineListsScreenController {
     }
 
     /**
-     * Sets up the checkboxes that go with each list so that they can be deleted.
-     * Check box is disabled for the favourites list
-     * @param checkBox the check-box to be set up
-     * @param index index of wine list that the checkbox is associated with
+     *
      */
-    public void setUpCheckBox(CheckBox checkBox, int index) {
-        checkBox.setOnAction(event -> {
-            if (checkBox.isSelected()) {
-                listsToDelete.add(wineLists.get(index));
-            } else {
-                listsToDelete.remove(wineLists.get(index));
-            }
+    public void updateDeleteButton() {
 
             if (listsToDelete.isEmpty()) {
                 deleteButton.setText("Delete");
@@ -242,19 +267,12 @@ public class ProfileWineListsScreenController {
                 deleteButton.setOpacity(0.5);
             } else if (listsToDelete.size() == 1){
                 deleteButton.setText("Delete " + listsToDelete.size() + " list");
-                deleteButton.setDisable(false);
-                deleteButton.setOpacity(1);
-            }
-            else {
+            } else {
                 deleteButton.setText("Delete " + listsToDelete.size() + " lists");
-                deleteButton.setDisable(false);
-                deleteButton.setOpacity(1);
             }
-        });
 
-        checkBox.setVisible(false);
-        checkBox.setPadding(new Insets(40, 20, 20,20));
-
+        deleteButton.setDisable(listsToDelete.isEmpty());
+        deleteButton.setOpacity(1);
     }
 
     /**
@@ -282,9 +300,13 @@ public class ProfileWineListsScreenController {
         Label numberLabel = new Label(wineLists.get(index).getWineList().size() + " Wines");
         numberLabel.setStyle("-fx-font-size: 25");
 
-        HBox hbox = new HBox( 30, imageView, nameLabel, line, numberLabel);
+        ImageView checkbox = new ImageView();
+        GuiService.setUpImageView(checkbox);
+
+        HBox hbox = new HBox(30, imageView, nameLabel, line, numberLabel, checkbox);
         nameLabel.setAlignment(Pos.CENTER);
         hbox.setAlignment(Pos.CENTER_LEFT);
+        HBox.setMargin(checkbox, new Insets(0, 0, 0, 25));
         button.setGraphic(hbox);
     }
 
@@ -310,9 +332,9 @@ public class ProfileWineListsScreenController {
      */
     private void styleListNameLabel(Label nameLabel) {
         nameLabel.setStyle("-fx-font-size: 20");
-        nameLabel.setMinWidth(415);
-        nameLabel.setMaxWidth(415);
-        nameLabel.setPadding(new Insets(10, 10, 10, 10));
+        nameLabel.setMinWidth(350);
+        nameLabel.setMaxWidth(350);
+        nameLabel.setPadding(new Insets(10, 10, 10,10));
         nameLabel.setWrapText(true);
         nameLabel.setAlignment(Pos.CENTER);
     }
