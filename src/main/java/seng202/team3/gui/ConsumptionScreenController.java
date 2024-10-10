@@ -3,20 +3,23 @@ package seng202.team3.gui;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Pagination;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.util.Pair;
 import seng202.team3.models.TimeRange;
 import seng202.team3.models.WineLog;
 import seng202.team3.services.LogManager;
 import seng202.team3.services.WineManager;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -67,7 +70,7 @@ public class ConsumptionScreenController {
     private final int logsPerPage = 10;
 
     /**
-     * all the user's WineLogs
+     * all the user's WineLogs corresponding to teh current date
      */
     private List<WineLog> logs;
 
@@ -80,65 +83,110 @@ public class ConsumptionScreenController {
      * initializes the controller, calling function to add style classes, setup variables, setup combo boxes and pagination
      */
     public void initialize() {
-
         addStyleClasses();
         this.logManager = LogManager.getInstance();
-        logs = logManager.getAllLogs();
+
         timeRangeComboBox.getItems().addAll(TimeRange.getAll());
         timeRangeComboBox.setConverter(TimeRange.getStringConverter());
         timeRangeComboBox.setOnAction(event -> {
                     timeRange = timeRangeComboBox.getSelectionModel().getSelectedItem();
+                    Pair<Date, Date> dateRange = TimeRange.getDateRange(timeRange);
+                    logs = logManager.getLogsInRange(dateRange.getKey(), dateRange.getValue());
+                    createPaginationLogs();
                     loadGraph();
         });
         timeRangeComboBox.getSelectionModel().select(0);
 
-        int numberOfPages = (logs.size() % logsPerPage == 0) ? logs.size() / logsPerPage : (logs.size() / logsPerPage) + 1;
-
-        Pagination pagination = new Pagination(numberOfPages, 0);
-        if (numberOfPages < 2) {
-        }
-
-        pageMap = new HashMap<>();
-        for (int i = 0; i < numberOfPages; i++) {
-            pageMap.put(i, createPage(i));
-        }
-        pagination.setPageFactory(i -> pageMap.get(i));
-        logVBox.getChildren().add(pagination);
+        Pair<Date, Date> dateRange = TimeRange.getDateRange(TimeRange.THISWEEK);
+        logs = logManager.getLogsInRange(dateRange.getKey(), dateRange.getValue());
+        createPaginationLogs();
     }
 
-    /**
-     * creates a ScrollPane containing up to 10 WineLog buttons or al that remain
-     * implemented as a ScrollPane with a VBox nested inside
-     * @param pageIndex the index, key of index -> ScrollPane map
-     * @return the fully formed ScrollPane
-     */
-    private ScrollPane createPage(int pageIndex) {
-        VBox vbox = new VBox(10);
-        vbox.setPadding(new Insets(10, 10, 10, 10));
-        vbox.setPrefWidth(570);
-        int start = pageIndex * logsPerPage;
-        int end = Math.min(start + logsPerPage, logs.size());
-        for (int i = start; i < end; i++) {
-            WineLog log = logs.get(i);
+    private void createPaginationLogs() {
+        logVBox.getChildren().clear();
 
-            HBox buttonGraphic = new HBox();
-            String buttonString = WineManager.getInstance().getWineById(log.getUniqueWineId()).getName() +
-                    "\nGlasses: " +
-                    log.getStandards(); //extract
-            buttonGraphic.getChildren().add(new Text(logManager.getLogDateString(log) + "|"));
-            buttonGraphic.getChildren().add(new Text(buttonString));
+        int numberOfPages = (logs.size() % logsPerPage == 0) ? logs.size() / logsPerPage : (logs.size() / logsPerPage) + 1;
+        Pagination pagination = new Pagination(numberOfPages, 0);
+        logVBox.getChildren().add(pagination);
+        pagination.getStyleClass().add("wine-pagination");
+        pagination.setPrefHeight(900);
 
-            Button button = new Button();
+        pagination.setPageFactory(pageIndex -> {
+            VBox scrollContent = new VBox();
+            scrollContent.setSpacing(10);
+            int start = pageIndex * logsPerPage;
+            int end = Math.min(start + logsPerPage, logs.size());
+            logs.subList(start, end).forEach(log -> genButton(log, scrollContent));
+            ScrollPane scrollPane = new ScrollPane(scrollContent);
+            scrollPane.setFitToWidth(true);
+            scrollPane.getStyleClass().add("red-wine-scroll-pane");
+            return scrollPane;
+        });
+    }
 
-            button.setGraphic(buttonGraphic);
-            button.setOnAction(event -> FXWrapper.getInstance().loadLogPopup(log, null));
-            button.setPrefSize(500, 80);
-            vbox.getChildren().add(button);
-        }
-        ScrollPane page = new ScrollPane(vbox);
-        page.setPrefSize(570, 445);
-        page.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        return page;
+    private void genButton(WineLog log, VBox scrollContent) {
+        HBox buttonGraphic = new HBox();
+        buttonGraphic.getChildren().add(genDateButtonText(log));
+        buttonGraphic.getChildren().add(genLogLabel(log));
+        buttonGraphic.setAlignment(Pos.CENTER);
+
+        Button button = new Button();
+
+        button.setGraphic(buttonGraphic);
+        button.setOnAction(event -> FXWrapper.getInstance().loadLogPopup(log, null));
+        button.setPrefSize(560, 80);
+        button.setMaxWidth(540);
+        button.getStyleClass().add("nav-bar-button");
+        scrollContent.getChildren().add(button);
+    }
+
+    private Node genLogLabel(WineLog toGen) {
+        VBox vBox = new VBox();
+        String[] logString = toGen.toString().split("\n");
+
+
+        Text wineText = new Text(logString[0]);
+        wineText.setFont(new Font("System", 20));
+        wineText.setWrappingWidth(350);
+
+        Text stdText = new Text(logString[1]);
+        stdText.setFont(Font.font("System", FontWeight.BOLD, 18));
+
+        vBox.getChildren().add(wineText);
+        vBox.getChildren().add(stdText);
+        vBox.setAlignment(Pos.CENTER_LEFT);
+        vBox.setPrefWidth(350);
+
+        return vBox;
+    }
+
+    private Node genDateButtonText(WineLog toGen) {
+        HBox hBox = new HBox();
+
+        VBox vBox = new VBox();
+
+        Label datelabel = new Label(logManager.getLogDateString(toGen));
+        datelabel.setFont(new Font("System", 24));
+        datelabel.setAlignment(Pos.CENTER_LEFT);
+
+        Label timeLabel = new Label(logManager.getHourConverter().toString(toGen.getTime().toLocalTime().getHour()));
+        timeLabel.setFont(new Font("System", 18));
+
+        Rectangle vBar = new Rectangle(2, 70);
+        vBar.getStyleClass().add("red-wine-rectangle");
+
+        vBox.getChildren().add(datelabel);
+        vBox.getChildren().add(timeLabel);
+        vBox.setSpacing(5);
+        vBox.setAlignment(Pos.CENTER_LEFT);
+
+        hBox.getChildren().add(vBox);
+        hBox.getChildren().add(vBar);
+        hBox.setAlignment(Pos.CENTER);
+        hBox.setSpacing(10);
+        hBox.setPrefWidth(200);
+
+        return hBox;
     }
 
     /**

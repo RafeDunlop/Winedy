@@ -141,7 +141,9 @@ public class LogPopupController {
                         hourSelected,
                         isBottles,
                         Float.parseFloat(amountTextField.getText()));
-                FXWrapper.getInstance().loadProfileTabPane(3);
+                FXWrapper.getInstance().removePopUp(overlayPane);
+                FXWrapper.getInstance().loadProfileTabPane(2);
+
             }
         });
     }
