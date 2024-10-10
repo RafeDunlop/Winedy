@@ -217,10 +217,10 @@ public class SearchScreenController {
                         highYear,
                         (float) priceRangeSlider.getLowValue(),
                         (float) priceRangeSlider.getHighValue(),
-                        !"All".equals(selectedCountry) ? selectedCountry : null,
-                        !"All".equals(selectedColour) ? selectedColour : null,
-                        !"All".equals(selectedFullness) ? selectedFullness : null,
-                        !"All".equals(selectedVariety) ? selectedVariety : null);
+                        (!"All".equals(selectedCountry)) ? selectedCountry : null,
+                        (!"All".equals(selectedColour)) ? selectedColour : null,
+                        (!"All".equals(selectedFullness)) ? selectedFullness : null,
+                        (!"All".equals(selectedVariety)) ? selectedVariety : null);
 
                 FXWrapper.getInstance().setPreviousSearch(results);
 
