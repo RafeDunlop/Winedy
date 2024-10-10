@@ -92,10 +92,13 @@ public final class GuiService {
             graphic = new Text("Image not found :(");
         }
         if (needsTickBox) {
+            ImageView imageView = new ImageView();
+            setUpImageView(imageView);
             CheckBox checkBox = new CheckBox();
             checkBox.setPadding(new Insets(0, 0, 20, 30));
             checkBox.setAlignment(Pos.TOP_RIGHT);
-            HBox hbox = new HBox(graphic, checkBox);
+//            HBox hbox = new HBox(graphic, checkBox);
+            HBox hbox = new HBox(graphic, imageView);
             hbox.setPadding(new Insets(10, 0, 0, 30));
             StackPane stackPane = new StackPane(hbox);
             stackPane.setAlignment(Pos.TOP_CENTER);
@@ -105,10 +108,20 @@ public final class GuiService {
             checkBox.setVisible(false);
         } else {
             button.setGraphic(graphic);
-
         }
         return (graphic instanceof ImageView) ? (ImageView) graphic : new ImageView();
     }
+
+    private static void setUpImageView(ImageView imageView) {
+        imageView.setFitHeight(50);
+        imageView.setFitWidth(50);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        Image image = new Image("/images/unchecked.png");
+        imageView.setImage(image);
+        imageView.setVisible(false);
+    }
+
 
     /**
      * Creates and returns a Button that contains an image graphic relevant to the colour of the given wine and the

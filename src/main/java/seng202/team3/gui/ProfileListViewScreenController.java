@@ -4,16 +4,21 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import seng202.team3.models.UserWineList;
+import seng202.team3.models.Wine;
 import seng202.team3.services.ProfileScreenService;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.WineListManager;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -99,6 +104,10 @@ public class ProfileListViewScreenController {
      * List that is being displayed on the screen
      */
     private UserWineList listToDisplay;
+    /**
+     * List of selected wines in edit list mode
+     */
+    private List<Wine> selectedWines;
 
     /**
      * Profile screen service instance to deal with list name validation
@@ -124,6 +133,12 @@ public class ProfileListViewScreenController {
      * Boolean variable to declare whether the screen is in delete mode or not
      */
     private boolean deleteMode = false;
+    private Image checked;
+    private Image unChecked;
+    private Image unCheckedHover;
+    private Image checkedHover;
+
+
     /**
      * Constructor for the profileListView controller
      * @param listToDisplay list to be displayed in the individual list view
@@ -140,6 +155,7 @@ public class ProfileListViewScreenController {
      * Initialises the list view screen where a user can view one of their lists in detail
      */
     public void initialize() {
+        selectedWines = new ArrayList<>();
         wineListNameTextField.setText(listToDisplay.getWineListName());
         wineListNameLabel.setText(listToDisplay.getWineListName());
         wineListNameTextField.setVisible(false);
@@ -166,6 +182,10 @@ public class ProfileListViewScreenController {
         Pagination pagination = (Pagination) listContentsVBox.getChildren().get(0);
         pagination.getStyleClass().add("wine-list-pagination");
 
+        checked = new Image("/images/checked.png");
+        unChecked = new Image("/images/unchecked.png");
+        checkedHover = new Image("/images/checked_hover.png");
+        unCheckedHover = new Image("/images/unchecked_hover.png");
     }
 
     /**
@@ -322,19 +342,50 @@ public class ProfileListViewScreenController {
                     Button button = (Button) child;
                     StackPane stackPane = (StackPane) button.getGraphic();
                     HBox buttonHBox = (HBox) stackPane.getChildren().get(0);
-                    CheckBox checkBox = (CheckBox) buttonHBox.getChildren().get(1);
-                    checkBox.setVisible(deleteMode);
+//                    CheckBox checkBox = (CheckBox) buttonHBox.getChildren().get(1);
+                    ImageView imageView = (ImageView) buttonHBox.getChildren().get(1);
+                    imageView.setVisible(deleteMode);
                     button.getStyleClass().clear();
+                    int finalI = i;
                     if (deleteMode) {
-                        button.setOnAction(null);
+
+                        Wine wine = listToDisplay.getWineList().get(finalI * pageIndex);
+                        button.setOnAction(e-> {
+                            deleteModeButtonAction(imageView, wine);
+                        });
+
+                        button.setOnMouseEntered(e -> {
+                            if (selectedWines.contains(wine)) {
+                                imageView.setImage(checkedHover);
+                            } else {
+                                imageView.setImage(unCheckedHover);
+                            }
+                        });
+                        button.setOnMouseExited(e -> {
+                            if (selectedWines.contains(wine)) {
+                                imageView.setImage(checked);
+                            } else {
+                                imageView.setImage(unChecked);
+                            }
+                        });
+
                         button.getStyleClass().add("wine-button-disabled");
                     } else {
-                        int finalI = i;
                         button.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineViewPopup(listToDisplay.getWineList().get(finalI * pageIndex)));
                         button.getStyleClass().add("nav-bar-button");
                     }
                 }
             }
+        }
+    }
+
+    private void deleteModeButtonAction(ImageView imageView, Wine wine) {
+        if (selectedWines.contains(wine)) {
+            selectedWines.remove(wine);
+            imageView.setImage(unChecked);
+        } else {
+            selectedWines.add(wine);
+            imageView.setImage(checked);
         }
     }
 
