@@ -63,6 +63,7 @@ public class WineListSelectPopUpController {
         unCheckedHover = new Image("/images/unchecked_hover.png");
 
         exitButton.setOnAction(e -> onExitClicked());
+        exitButton.getStyleClass().add("nav-bar-button");
 
         GuiService.setUpPopUp(overlayPane, popUpAnchorPane);
         FXWrapper.getInstance().addPreviousScreen(() -> FXWrapper.getInstance().loadScreen(Screen.SEARCH));
