@@ -60,7 +60,7 @@ public class WineLogDAO implements DAOInterface<WineLog> {
      */
     @Override
     public List<WineLog> getAll() {
-        String sql = "SELECT wineID, logEntry, date, Time, quantity FROM log WHERE wineDrinker = ? ORDER BY date, time DESC";
+        String sql = "SELECT wineID, logEntry, date, Time, quantity FROM logs WHERE wineDrinker = ? ORDER BY date, time DESC";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, getUsername());
@@ -95,7 +95,7 @@ public class WineLogDAO implements DAOInterface<WineLog> {
      * @return list of logs that fall in the range
      */
     public List<WineLog> getInRange(Date startDate, Date endDate) {
-        String sql = "SELECT wineID, logEntry, date, Time, quantity FROM log WHERE wineDrinker = ? AND date >= ? AND date <= ? ORDER BY date, time DESC";
+        String sql = "SELECT wineID, logEntry, date, Time, quantity FROM logs WHERE wineDrinker = ? AND date >= ? AND date <= ? ORDER BY date, time DESC";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, getUsername());
@@ -115,7 +115,7 @@ public class WineLogDAO implements DAOInterface<WineLog> {
      */
     @Override
     public int add(WineLog toAdd) {
-        String sql = "INSERT INTO log (wineDrinker, wineId, logEntry, date, time, quantity) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO logs (wineDrinker, wineId, logEntry, date, time, quantity) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             setAddLogParams(ps, toAdd);
@@ -135,7 +135,7 @@ public class WineLogDAO implements DAOInterface<WineLog> {
      */
     @Override
     public int delete(WineLog toDelete) {
-        String sql = "DELETE FROM log WHERE wineDrinker = ? AND wineId = ? AND date = ? AND time = ?";
+        String sql = "DELETE FROM logs WHERE wineDrinker = ? AND wineId = ? AND date = ? AND time = ?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             setDeleteParams(ps, toDelete);
@@ -196,6 +196,7 @@ public class WineLogDAO implements DAOInterface<WineLog> {
         ps.setString(3, toAdd.getNote());
         ps.setDate(4, toAdd.getDate());
         ps.setTime(5, toAdd.getTime());
+        ps.setFloat(6, toAdd.getStandards());
     }
 
     /**

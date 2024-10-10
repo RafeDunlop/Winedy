@@ -63,7 +63,7 @@ CREATE TABLE writesNoteAbout (
     FOREIGN KEY (wineId) REFERENCES wineSuper (id) ON DELETE CASCADE
 );
 --Split
-CREATE TABLE log (
+CREATE TABLE logs (
     wineDrinker TEXT,
     wineId INTEGER,
     logEntry TEXT,
