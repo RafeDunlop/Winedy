@@ -70,6 +70,12 @@ public class ProfileListViewScreenController {
     private Button saveDescChangesButton;
 
     @FXML
+    private Button cancelDeleteButton;
+
+    @FXML
+    private Button deleteWinesButton;
+
+    @FXML
     private Label descriptionLabel;
 
     @FXML
@@ -342,26 +348,16 @@ public class ProfileListViewScreenController {
                     Button button = (Button) child;
                     StackPane stackPane = (StackPane) button.getGraphic();
                     HBox buttonHBox = (HBox) stackPane.getChildren().get(0);
-//                    CheckBox checkBox = (CheckBox) buttonHBox.getChildren().get(1);
                     ImageView imageView = (ImageView) buttonHBox.getChildren().get(1);
                     imageView.setVisible(deleteMode);
+                    imageView.setImage(unChecked);
                     button.getStyleClass().clear();
                     int finalI = i;
                     if (deleteMode) {
 
                         Wine wine = listToDisplay.getWineList().get(finalI * pageIndex);
-                        button.setOnAction(e-> {
+                        button.setOnAction(e -> {
                             deleteModeButtonAction(imageView, wine);
-                        });
-
-                        button.setOnMouseEntered(e -> {
-                            if (selectedWines.contains(wine)) {
-                                imageView.setImage(checkedHover);
-                            } else {
-                                imageView.setImage(unCheckedHover);
-                            }
-                        });
-                        button.setOnMouseExited(e -> {
                             if (selectedWines.contains(wine)) {
                                 imageView.setImage(checked);
                             } else {
@@ -369,6 +365,19 @@ public class ProfileListViewScreenController {
                             }
                         });
 
+                        imageView.setOnMouseEntered(e -> {
+                            if (!selectedWines.contains(wine)) {
+                                imageView.setImage(unCheckedHover);
+                            }
+                        });
+
+                        imageView.setOnMouseExited(e -> {
+                            if (selectedWines.contains(wine)) {
+                                imageView.setImage(checked);
+                            } else {
+                                imageView.setImage(unChecked);
+                            }
+                        });
                         button.getStyleClass().add("wine-button-disabled");
                     } else {
                         button.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineViewPopup(listToDisplay.getWineList().get(finalI * pageIndex)));
@@ -391,12 +400,17 @@ public class ProfileListViewScreenController {
 
     private void toggleDeleteMode() {
         deleteMode = !deleteMode;
-
+        selectedWines.clear();
         for (int i = 0; i < pageScrollPaneMap.size(); i++) { //index starting at
             ScrollPane pageScrollPane = pageScrollPaneMap.get(i);
             VBox pageVBox = (VBox) pageScrollPane.getContent();
             toggleCheckBoxes(pageVBox, i);
         }
+
+        editListButton.setVisible(!deleteMode);
+        renameButton.setVisible(!deleteMode);
+        cancelDeleteButton.setVisible(deleteMode);
+        deleteWinesButton.setVisible(deleteMode);
     }
 
     @FXML
@@ -415,6 +429,8 @@ public class ProfileListViewScreenController {
         cancelDescChangesButton.getStyleClass().add("nav-bar-button");
         editDescriptionButton.getStyleClass().add("nav-bar-button");
         saveDescChangesButton.getStyleClass().add("nav-bar-button");
+        deleteWinesButton.getStyleClass().add("nav-bar-button");
+        cancelDeleteButton.getStyleClass().add("nav-bar-button");
 
         winesRectangle.getStyleClass().add("red-wine-rectangle");
         descriptionRectangle.getStyleClass().add("white-wine-rectangle");
@@ -429,4 +445,13 @@ public class ProfileListViewScreenController {
         descErrorLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour;");
     }
 
+    @FXML
+    public void onCancelDeleteButtonClicked() {
+        toggleDeleteMode();
+    }
+
+    @FXML
+    public void onDeleteWinesButtonClicked() {
+
+    }
 }

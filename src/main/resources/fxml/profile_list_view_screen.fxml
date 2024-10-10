@@ -38,12 +38,12 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="saveDescChangesButton" layoutX="1022.0" layoutY="536.0" maxWidth="170.0" minWidth="100.0" mnemonicParsing="false" onAction="#onSaveDescChangesButtonClicked" prefHeight="39.0" prefWidth="168.0" text="Save Changes " visible="false">
+      <Button fx:id="saveDescChangesButton" layoutX="1020.0" layoutY="526.0" maxWidth="170.0" minWidth="100.0" mnemonicParsing="false" onAction="#onSaveDescChangesButtonClicked" prefHeight="39.0" prefWidth="168.0" text="Save Changes " visible="false">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="cancelDescChangesButton" layoutX="826.0" layoutY="536.0" maxWidth="180.0" minWidth="100.0" mnemonicParsing="false" onAction="#onCancelDescChangesButtonClicked" prefHeight="40.0" prefWidth="182.0" text="Cancel Changes" visible="false">
+      <Button fx:id="cancelDescChangesButton" layoutX="821.0" layoutY="526.0" maxWidth="180.0" minWidth="100.0" mnemonicParsing="false" onAction="#onCancelDescChangesButtonClicked" prefHeight="40.0" prefWidth="182.0" text="Cancel Changes" visible="false">
          <font>
             <Font size="18.0" />
          </font>
@@ -74,7 +74,7 @@
             <Font name="System Bold" size="26.0" />
          </font>
       </Label>
-      <Button fx:id="renameButton" layoutX="826.0" layoutY="14.0" maxWidth="145.0" minWidth="100.0" mnemonicParsing="false" onAction="#onRenameButtonClicked" prefHeight="33.0" prefWidth="145.0" text="Rename">
+      <Button fx:id="renameButton" layoutX="826.0" layoutY="14.0" maxWidth="145.0" minWidth="100.0" mnemonicParsing="false" onAction="#onRenameButtonClicked" prefHeight="24.0" prefWidth="145.0" text="Rename">
          <font>
             <Font size="18.0" />
          </font>
@@ -90,6 +90,16 @@
          </font>
       </TextField>
       <Button fx:id="cancelListChangesButton" layoutX="806.0" layoutY="14.0" maxWidth="-Infinity" minWidth="100.0" mnemonicParsing="false" onAction="#onCancelListChangesButtonClicked" prefHeight="25.0" prefWidth="185.0" text="Cancel" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="cancelDeleteButton" layoutX="826.0" layoutY="14.0" maxWidth="168.0" minWidth="100.0" mnemonicParsing="false" onAction="#onCancelDeleteButtonClicked" prefHeight="24.0" prefWidth="168.0" text="Cancel" visible="false">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="deleteWinesButton" disable="true" layoutX="1023.0" layoutY="14.0" maxWidth="168.0" minWidth="100.0" mnemonicParsing="false" onAction="#onDeleteWinesButtonClicked" prefHeight="33.0" prefWidth="168.0" text="Delete Wines" visible="false">
          <font>
             <Font size="18.0" />
          </font>
