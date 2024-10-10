@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="overlayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.WineListSelectPopUpController">
+<StackPane fx:id="overlayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.WineListSelectPopUpController">
    <children>
-      <AnchorPane fx:id="popUpAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="330.0" prefWidth="480.0">
+      <AnchorPane fx:id="popUpAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="445.0" prefWidth="554.0">
          <children>
             <GridPane fx:id="gridPane" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="330.0" prefWidth="480.0" style="-fx-background-color: rgba(255, 255, 255, 1);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <columnConstraints>
@@ -27,17 +27,16 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="210.0" text="Select Wine List" textFill="#f0f0f0" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" fx:id="titleLabel">
+                  <Label fx:id="titleLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="450.0" text="Add to List" textFill="#f0f0f0" wrapText="true" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <font>
-                        <Font size="30.0" />
+                        <Font name="System Bold" size="30.0" />
                      </font>
                   </Label>
-                  <Label fx:id="addWineStatusLabel" alignment="CENTER" prefHeight="82.0" prefWidth="187.0" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                  <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" GridPane.rowSpan="2">
+                  <ScrollPane fx:id="scrollPane" hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
                      <content>
-                        <VBox fx:id="wineListsVBox" alignment="CENTER" prefHeight="70.0" prefWidth="200.0">
+                        <VBox fx:id="wineListsVBox" prefHeight="325.0" prefWidth="527.0">
                            <children>
-                              <Button fx:id="createListButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onCreateListButtonClicked" prefHeight="55.0" prefWidth="215.0" text="Create New Wine List" textAlignment="CENTER" wrapText="true">
+                              <Button fx:id="createListButton" alignment="BASELINE_LEFT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onCreateListButtonClicked" prefHeight="55.0" prefWidth="215.0" text="Create New Wine List" wrapText="true">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>

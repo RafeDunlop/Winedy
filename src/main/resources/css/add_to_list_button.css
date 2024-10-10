@@ -1,13 +1,15 @@
 .add-to-list-button {
-    -fx-shape: "M 160 152 H 600 V 600 H 160 Z M 240 520 m 0 -32 a 32 32 0 1 1 0 64 a 32 32 0 1 1 0 -64 M 240 380 m 0 -32 a 32 32 0 1 1 0 64 a 32 32 0 1 1 0 -64 M 240 240 m 0 -32 a 32 32 0 1 1 0 64 a 32 32 0 1 1 0 -64 M 304 520 H 560 M 304 380 H 560 M 304 240 H 560";
-    -fx-background-color: white;
-    -fx-border-color: black;
-    -fx-border-width: 1;
-    -fx-background-insets: 2;
+    /*-fx-shape: "M 160 152 H 600 V 600 H 160 Z M 240 520 m 0 -32 a 32 32 0 1 1 0 64 a 32 32 0 1 1 0 -64 M 240 380 m 0 -32 a 32 32 0 1 1 0 64 a 32 32 0 1 1 0 -64 M 240 240 m 0 -32 a 32 32 0 1 1 0 64 a 32 32 0 1 1 0 -64 M 304 520 H 560 M 304 380 H 560 M 304 240 H 560";*/
+    -fx-shape: "M 300 550 L 500 550 L 500 400 L 650 400 L 650 200 L 500 200 L 500 50 L 300 50 L 300 200 L 150 200 L 150 400 L 300 400 L 300 550";
+    -fx-background-color: -fx-hsb-body-colour;
+    -fx-border-color: -fx-hsb-border-colour;
+    -fx-border-width: 3;
+    -fx-background-insets: 3;
     -fx-padding: 10;
 }
 
 .add-to-list-button:hover {
-    -fx-background-color: #f2d5d5;
-    -fx-border-width: 2;
+    /*-fx-background-color: #f2d5d5;*/
+    -fx-background-color: -fx-hsb-border-colour, -fx-hsb-hover-colour;
+    -fx-border-width: 4;
 }

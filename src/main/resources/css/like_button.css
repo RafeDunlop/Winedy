@@ -1,13 +1,13 @@
 .like-button {
     -fx-shape: "M 400 600 C 0 350 150 0 400 200 C 650 0 800 350 400 600";
-    -fx-background-color: white;
-    -fx-border-color: black;
+    -fx-background-color: -fx-hsb-body-colour;
+    -fx-border-color: -fx-hsb-border-colour;
     -fx-border-width: 3;
     -fx-background-insets: 3;
     -fx-padding: 10;
 }
 
 .like-button:hover {
-    -fx-background-color: #f2d5d5;
+    -fx-background-color: -fx-hsb-border-colour, -fx-hsb-hover-colour;
     -fx-border-width: 4;
 }
