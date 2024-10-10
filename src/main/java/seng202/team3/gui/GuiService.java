@@ -94,18 +94,14 @@ public final class GuiService {
         if (needsTickBox) {
             ImageView imageView = new ImageView();
             setUpImageView(imageView);
-            CheckBox checkBox = new CheckBox();
-            checkBox.setPadding(new Insets(0, 0, 20, 30));
-            checkBox.setAlignment(Pos.TOP_RIGHT);
-//            HBox hbox = new HBox(graphic, checkBox);
             HBox hbox = new HBox(graphic, imageView);
+            HBox.setMargin(imageView, new Insets(0, 0, 20, 30));
             hbox.setPadding(new Insets(10, 0, 0, 30));
             StackPane stackPane = new StackPane(hbox);
             stackPane.setAlignment(Pos.TOP_CENTER);
             button.setGraphic(stackPane);
             button.setContentDisplay(ContentDisplay.TOP);
             button.setAlignment(Pos.TOP_CENTER);
-            checkBox.setVisible(false);
         } else {
             button.setGraphic(graphic);
         }
@@ -113,8 +109,8 @@ public final class GuiService {
     }
 
     private static void setUpImageView(ImageView imageView) {
-        imageView.setFitHeight(50);
-        imageView.setFitWidth(50);
+        imageView.setFitHeight(30);
+        imageView.setFitWidth(30);
         imageView.setPreserveRatio(true);
         imageView.setSmooth(true);
         Image image = new Image("/images/unchecked.png");
