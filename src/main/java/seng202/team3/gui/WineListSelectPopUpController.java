@@ -62,10 +62,22 @@ public class WineListSelectPopUpController {
         checkedHover = new Image("/images/checked_hover.png");
         unCheckedHover = new Image("/images/unchecked_hover.png");
 
+        exitButton.setOnAction(e -> onExitClicked());
+
         GuiService.setUpPopUp(overlayPane, popUpAnchorPane);
+        FXWrapper.getInstance().addPreviousScreen(() -> FXWrapper.getInstance().loadScreen(Screen.SEARCH));
         setUpVBox(wineListsVBox);
         setUpButtons();
         setStyleClasses();
+    }
+
+    /**
+     * sets action for the exit button
+     */
+    @FXML
+    public void onExitClicked() {
+        FXWrapper.getInstance().removePopUp(overlayPane);
+        FXWrapper.getInstance().loadPreviousScreen();
     }
 
     /**
@@ -96,7 +108,6 @@ public class WineListSelectPopUpController {
 
     private void setStyleClasses() {
         titleLabel.getStyleClass().add("status-label");
-        //popUpAnchorPane.getStyleClass().add("red-wine-pane");
         gridPane.setStyle("-fx-background-color: transparent");
         scrollPane.getStyleClass().add("wine-list-scroll-pane");
         createListButton.getStyleClass().add("wine-list-button");
