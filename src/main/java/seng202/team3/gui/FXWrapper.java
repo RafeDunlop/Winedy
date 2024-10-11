@@ -35,11 +35,6 @@ public class FXWrapper {
     private static final Logger log = LogManager.getLogger(FXWrapper.class);
 
     /**
-     * The previous search the Wine Drinker made. Stored to be loaded upon the initialisation of the Search Screen.
-     */
-    private static SearchWineList previousSearch;
-
-    /**
      * higher level container for all GUI in the application
      */
     private Pane superPane;
@@ -63,7 +58,6 @@ public class FXWrapper {
         screenPane = null;
         superPane = null;
         previousScreens = new ArrayList<>();
-        previousSearch = null;
     }
 
     /**
@@ -339,22 +333,6 @@ public class FXWrapper {
         if (previousScreens.getLast() != null) {
             previousScreens.removeLast().run();
         }
-    }
-
-    /**
-     * Returns the previous search
-     * @return the previous search as a SearchWineList object
-     */
-    public SearchWineList getPreviousSearch() {
-        return previousSearch;
-    }
-
-    /**
-     * Sets the previous search to be the given SearchWineList
-     * @param wineList SearchWineList object to save as the previous search
-     */
-    public void setPreviousSearch(SearchWineList wineList) {
-        previousSearch = wineList;
     }
 
     /**

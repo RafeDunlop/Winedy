@@ -11,13 +11,9 @@ import java.util.Collections;
  * Service class for search screen
  * @author Yuvraj (yfa50)
  */
-public class SearchScreenService {
+public final class SearchScreenService {
 
-    private final SearchDAO searchDAO;
-
-    public SearchScreenService() {
-        searchDAO = new SearchDAO();
-    }
+    private static final SearchDAO searchDAO = new SearchDAO();
 
     /**
      * Gets all distinct values that occur in the given attribute (column) in the database
@@ -26,7 +22,7 @@ public class SearchScreenService {
      * @param table the name of the table whose attribute values are being selected
      * @return a list of strings of all distinct values in the given column in the wineSuper table
      */
-    public ArrayList<String> getAttributeValues(WineAttribute attribute, Table table) {
+    public static ArrayList<String> getAttributeValues(WineAttribute attribute, Table table) {
 
         ArrayList<String> values = new ArrayList<>();
         if (searchDAO.isValidAttribute(attribute.attributeName, table.tableName)) {
