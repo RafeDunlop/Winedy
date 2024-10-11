@@ -17,7 +17,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.util.StringConverter;
 import org.controlsfx.control.RangeSlider;
 import seng202.team3.models.WineAttribute;
 import seng202.team3.repository.Table;
@@ -166,11 +165,7 @@ public class SearchScreenController {
 
         searchBarTextField.setOnAction(this::onSearchButtonClicked);
 
-        priceRangeSlider.setMin(SearchScreenService.getBoundaryAttributeValue(WineAttribute.PRICE, Table.WINESUPER, "min"));
-        priceRangeSlider.setMax(SearchScreenService.getBoundaryAttributeValue(WineAttribute.PRICE, Table.WINESUPER, "max"));
-        priceRangeSlider.setLowValue(priceRangeSlider.minProperty().get());
-        priceRangeSlider.setHighValue(priceRangeSlider.maxProperty().get());
-
+        initialisePriceRangeSlider();
         initialiseAttributeComboBoxes();
         initialiseDateRangeComboBoxes();
 
@@ -187,27 +182,6 @@ public class SearchScreenController {
 
         expandFilterVBox();
         addStyleClasses();
-
-        StringConverter<Number> converter = new StringConverter<>() {
-            @Override
-            public String toString(Number number) {
-                return String.valueOf(number.intValue());
-            }
-            @Override
-            public Number fromString(String s) {
-                try {
-                    return Integer.parseInt(s);
-                }
-                catch (NumberFormatException e) {
-                    return null;
-                }
-            }
-        };
-
-        lowPriceTextField.textProperty().bindBidirectional(priceRangeSlider.lowValueProperty(), converter);
-        highPriceTextField.textProperty().bindBidirectional(priceRangeSlider.highValueProperty(), converter);
-        lowPriceTextField.setTextFormatter(new TextFormatter<>(change -> change.getControlNewText().matches("\\d*") ? change : null));
-        highPriceTextField.setTextFormatter(new TextFormatter<>(change -> change.getControlNewText().matches("\\d*") ? change : null));
 
         searchButton.setDisable(true);
         getSearchResults(true); //Loads all wines into results box
@@ -458,6 +432,11 @@ public class SearchScreenController {
         varietyComboBox.setOnAction(select -> selectedVariety = (varietyComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : varietyComboBox.getSelectionModel().getSelectedItem());
     }
 
+    /**
+     * Sets up the values in the filter widgets to represent the values used in the previous search for the search bar,
+     * colour, variety, country, fullness, dates, and prices. Sets the relevant selected values to be these as well in
+     * case a search is made again without the on action of the combo boxes being triggered.
+     */
     private void setUpPreviousSearchValues() {
         SearchWineList previousSearch = WineListManager.getInstance().getLastSearched();
 
@@ -477,5 +456,27 @@ public class SearchScreenController {
         selectedFullness = previousSearch.getFullness();
         lowYear = previousSearch.getMinYear();
         highYear = previousSearch.getMaxYear();
+    }
+
+    /**
+     * Initializes the price range slider by getting the minimum and maximum price values from the database. The minimum
+     * price is rounded down to the nearest ten and the maximum price is rounded up to the nearest ten. These values are
+     * set as the min and max values, and the high and low values of the price range slider.
+     */
+    private void initialisePriceRangeSlider() {
+        int minValue = (int) SearchScreenService.getBoundaryAttributeValue(WineAttribute.PRICE, Table.WINESUPER, "min");
+        minValue = minValue / 10 * 10;
+        int maxValue = (int) SearchScreenService.getBoundaryAttributeValue(WineAttribute.PRICE, Table.WINESUPER, "max");
+        maxValue = ((maxValue + 9) / 10) * 10;
+
+        priceRangeSlider.setMin(minValue);
+        priceRangeSlider.setMax(maxValue);
+        priceRangeSlider.setLowValue(priceRangeSlider.minProperty().get());
+        priceRangeSlider.setHighValue(priceRangeSlider.maxProperty().get());
+
+        lowPriceTextField.textProperty().bindBidirectional(priceRangeSlider.lowValueProperty(), SearchScreenService.converter);
+        highPriceTextField.textProperty().bindBidirectional(priceRangeSlider.highValueProperty(), SearchScreenService.converter);
+        lowPriceTextField.setTextFormatter(SearchScreenService.getMinMaxPriceTextFormatter(minValue, maxValue));
+        highPriceTextField.setTextFormatter(SearchScreenService.getMinMaxPriceTextFormatter(minValue, maxValue));
     }
 }
