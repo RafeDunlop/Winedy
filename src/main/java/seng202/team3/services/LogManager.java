@@ -3,6 +3,7 @@ package seng202.team3.services;
 import javafx.util.Pair;
 import javafx.util.StringConverter;
 import seng202.team3.models.LogDiff;
+import seng202.team3.models.TimeRange;
 import seng202.team3.models.Wine;
 import seng202.team3.models.WineLog;
 import seng202.team3.repository.WineLogDAO;
@@ -40,19 +41,23 @@ public class LogManager {
 
     public final static float STANDARDS_PER_GLASS = 1.4f;
 
+    private TimeRange prevRange = TimeRange.THISWEEK;
+
     /**
      * private constructor with specified database path
      * @param url database path
      */
     private LogManager(String url) {
         wineLogDAO = new WineLogDAO(url);
+
     }
 
     /**
      * private constructor with default database path
      */
     private LogManager() {
-        wineLogDAO = new WineLogDAO();    }
+        wineLogDAO = new WineLogDAO();
+    }
 
     /**
      * gets the singleton instance of WineLogManager
@@ -85,6 +90,10 @@ public class LogManager {
      */
     public static void REMOVE_INSTANCE() {
         instance = null;
+    }
+
+    public TimeRange getPrevRange() {
+        return prevRange;
     }
 
     /**
@@ -177,15 +186,18 @@ public class LogManager {
      * all parameters are optional except the Log to be updated (toUpdate)
      * this method is NOT in place, the returned value should be used
      * @param toUpdate the WineLog object to be updated
-     * @param newLoggedID foreign key to the wine in wineSuper which teh log is about
-     * @param newNote the note associated with this log
-     * @param newDate the date of the log as a Java.sql.date object
-     * @param newTime the time of day teh log was created as a Java.sql.Time object
-     * @param newStandards the number of NZ standard drinks the log corresponds to as a float
+     * @param changes LogDiff object which holds the relevant updates
      * @return the updated WineLog object (different object to parameter)
      */
-    public WineLog update(WineLog toUpdate, int newLoggedID, String newNote, Date newDate, Time newTime, float newStandards, boolean isBottles) {
-        return wineLogDAO.update(toUpdate, newLoggedID, newNote, newDate, newTime, newStandards, isBottles);
+    public WineLog update(WineLog toUpdate, LogDiff changes) {
+        return wineLogDAO.update(
+                toUpdate,
+                changes.getWine().getUniqueWineID(),
+                changes.getNote(),
+                changes.getDate(),
+                Time.valueOf(LocalTime.of(changes.getHour(), 0, 0)),
+                getStandards(changes.getWine(), changes.getAmt(), changes.getIsBottles()),
+                changes.getIsBottles());
     }
 
     /**
@@ -278,4 +290,7 @@ public class LogManager {
         };
     }
 
+    public void setTimeRange(TimeRange toSet) {
+        prevRange = toSet;
+    }
 }
