@@ -5,9 +5,15 @@ import javafx.util.StringConverter;
 import seng202.team3.services.LogManager;
 
 import java.sql.Date;
+import java.time.DayOfWeek;
+import java.time.Month;
+import java.time.format.TextStyle;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
+
+import static seng202.team3.models.TimePeriod.*;
 
 /**
  * An Enum to represent time ranges and their string representations. Provides userful methods for getting the relevant
@@ -20,42 +26,37 @@ public enum TimeRange {
     /**
      * Represents the current week, from Monday till the current day
      */
-    THISWEEK("This week"),
+    THISWEEK("This week", DAYS),
 
     /**
      * Represents the previous week, from Monday to Sunday
      */
-    LASTWEEK("Last week"),
-
-    /**
-     * Represents the past two weeks, from Monday to the second Sunday after
-     */
-    PASTTWOWEEKS("Past two weeks"),
+    LASTWEEK("Last week", DAYS),
 
     /**
      * Represents the current month, from the first of the month to the current day
      */
-    THISMONTH("This month"),
+    THISMONTH("This month", WEEKS),
 
     /**
      * Represents the entire previous month
      */
-    LASTMONTH("Last month"),
+    LASTMONTH("Last month", WEEKS),
 
     /**
      * Represents the current year, from the first of January to the current day
      */
-    THISYEAR("This year"),
+    THISYEAR("This year", MONTHS),
 
     /**
      * Represents the entire last year
      */
-    LASTYEAR("Last year"),
+    LASTYEAR("Last year", MONTHS),
 
     /**
      * Represents all time up until the current date
      */
-    ALLTIME("All time");
+    ALLTIME("All time", YEARS);
 
     /**
      * The String representation of the TimeRange value
@@ -63,12 +64,19 @@ public enum TimeRange {
     public final String strRep;
 
     /**
+     * the time portions into which this range should be split
+     */
+    public final TimePeriod timePeriod;
+
+    /**
      * Constructor for the TimeEnum values, sets the string representation of the value to be the given String
      *
      * @param strRep the textual representation of the time value, as a string
+     * @param timePeriod the timePeriod which subdivides the specified range for graphical representation
      */
-    TimeRange(String strRep) {
+    TimeRange(String strRep, TimePeriod timePeriod) {
         this.strRep = strRep;
+        this.timePeriod = timePeriod;
     }
 
     /**
@@ -89,12 +97,20 @@ public enum TimeRange {
             case THISWEEK -> new Pair<>(soWeek, now);
             case LASTWEEK ->
                     new Pair<>(new Date(soWeek.getTime() - 8 * dayMillis), new Date(soWeek.getTime() - dayMillis));
-            case PASTTWOWEEKS -> new Pair<>(new Date(soWeek.getTime() - 8 * dayMillis), now);
             case THISMONTH -> new Pair<>(soThisMonth, now);
             case LASTMONTH -> new Pair<>(soLastMonth, soThisMonth);
             case THISYEAR -> new Pair<>(soThisYear, now);
             case LASTYEAR -> new Pair<>(soLastYear, soThisYear);
             case ALLTIME -> new Pair<>(new Date(0), now);
+        };
+    }
+
+    public static String getLabel(TimeRange timeRange) {
+        return switch (timeRange) {
+            case THISWEEK, LASTWEEK -> "Days";
+            case THISMONTH, LASTMONTH -> "Weeks";
+            case THISYEAR, LASTYEAR -> "Months";
+            case ALLTIME -> "Years";
         };
     }
 
@@ -132,7 +148,7 @@ public enum TimeRange {
      * @return a list of all TimeRange values
      */
     public static List<TimeRange> getAll() {
-        return List.of(THISWEEK, LASTWEEK, PASTTWOWEEKS, THISMONTH, LASTMONTH, THISYEAR, LASTYEAR, ALLTIME);
+        return List.of(THISWEEK, LASTWEEK, THISMONTH, LASTMONTH, THISYEAR, LASTYEAR, ALLTIME);
     }
 
     /**
@@ -189,5 +205,14 @@ public enum TimeRange {
         cal.set(Calendar.DAY_OF_YEAR, 1);
         cal.add(Calendar.DAY_OF_YEAR, displacement);
         return new Date(cal.getTimeInMillis());
+    }
+
+    public static String getStringRep(int index, TimeRange timeRange) {
+        return switch (timeRange.timePeriod) {
+            case DAYS -> DayOfWeek.of(index).getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+            case WEEKS -> "Week" + (index + 1);
+            case MONTHS -> Month.of(index + 1).getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+            case YEARS -> Integer.toString(index);
+        };
     }
 }
