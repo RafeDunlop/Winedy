@@ -159,7 +159,7 @@ public class IndividualWineViewPopupController {
             log.warn("Image file did not load correctly", e);
         }
 
-        GuiService.setUpPopUp(overlayPane, popupAnchorPane);
+        GuiService.setUpPopUp(overlayPane, popupAnchorPane, null);
 
         awardsScrollPane.getStyleClass().add("white-wine-scroll-pane");
         descriptionScrollPane.getStyleClass().add("white-wine-scroll-pane");
