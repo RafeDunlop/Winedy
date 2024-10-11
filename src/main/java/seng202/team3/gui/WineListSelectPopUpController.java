@@ -5,6 +5,8 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import seng202.team3.models.FavouritesWineList;
 import seng202.team3.models.UserWineList;
@@ -24,8 +26,6 @@ public class WineListSelectPopUpController {
     @FXML
     private Label titleLabel;
     @FXML
-    private Label addWineStatusLabel;
-    @FXML
     private Button exitButton;
     @FXML
     private Button createListButton;
@@ -37,6 +37,10 @@ public class WineListSelectPopUpController {
     private GridPane gridPane;
     @FXML
     private ScrollPane scrollPane;
+    private Image checked;
+    private Image unChecked;
+    private Image unCheckedHover;
+    private Image checkedHover;
 
     /**
      * Constructs controller and sets the wine that this controller will handle
@@ -53,19 +57,28 @@ public class WineListSelectPopUpController {
 
         wineListSelectService = new WineListSelectService();
 
+        checked = new Image("/images/checked.png");
+        unChecked = new Image("/images/unchecked.png");
+        checkedHover = new Image("/images/checked_hover.png");
+        unCheckedHover = new Image("/images/unchecked_hover.png");
+
+        exitButton.setOnAction(e -> onExitClicked());
+        exitButton.getStyleClass().add("nav-bar-button");
+
         GuiService.setUpPopUp(overlayPane, popUpAnchorPane);
+        FXWrapper.getInstance().addPreviousScreen(() -> FXWrapper.getInstance().loadScreen(Screen.SEARCH));
         setUpVBox(wineListsVBox);
-
-        for (UserWineList wineList: wineListSelectService.getWineLists()) {
-            if (!wineList.getWineListName().equals(FavouritesWineList.getFavouritesName())) {
-                Button wineListButton = new Button(wineList.getWineListName());
-                wineListButton.setOnAction(event -> onWineListButtonClicked(wineList));
-                wineListButton.getStyleClass().add("wine-list-button");
-                wineListsVBox.getChildren().add(wineListButton);
-            }
-        }
-
+        setUpButtons();
         setStyleClasses();
+    }
+
+    /**
+     * sets action for the exit button
+     */
+    @FXML
+    public void onExitClicked() {
+        FXWrapper.getInstance().removePopUp(overlayPane);
+        FXWrapper.getInstance().loadPreviousScreen();
     }
 
     /**
@@ -88,11 +101,6 @@ public class WineListSelectPopUpController {
     @FXML
     public void onWineListButtonClicked(UserWineList wineList) {
         wineListSelectService.updateWineList(wineToAdd, wineList);
-        if (wineListSelectService.wineInList(wineToAdd, wineList)) {
-            addWineStatusLabel.setText("Wine was added to " + wineList.getWineListName());
-        } else {
-            addWineStatusLabel.setText("Wine was removed from " + wineList.getWineListName());
-        }
     }
 
     private void setUpVBox(VBox vBox) {
@@ -103,11 +111,65 @@ public class WineListSelectPopUpController {
 
     private void setStyleClasses() {
         titleLabel.getStyleClass().add("status-label");
-        addWineStatusLabel.getStyleClass().add("status-label");
-        //popUpAnchorPane.getStyleClass().add("red-wine-pane");
         gridPane.setStyle("-fx-background-color: transparent");
         scrollPane.getStyleClass().add("wine-list-scroll-pane");
         createListButton.getStyleClass().add("wine-list-button");
+    }
+
+    private void setUpButtons() {
+
+        for (UserWineList wineList: wineListSelectService.getWineLists()) {
+            if (!wineList.getWineListName().equals(FavouritesWineList.getFavouritesName())) {
+                Button wineListButton = new Button();
+                HBox graphic = new HBox();
+                graphic.setStyle("-fx-alignment: center");
+
+                Label listName = new Label(wineList.getWineListName());
+                listName.setStyle("-fx-pref-width: infinity; -fx-max-width: 470");
+
+                ImageView imageView = new ImageView();
+                setUpImageView(imageView);
+                updateImageView(imageView, wineList);
+
+                graphic.getChildren().addAll(listName, imageView);
+                wineListButton.setGraphic(graphic);
+
+                wineListButton.setOnAction(e -> {
+                    onWineListButtonClicked(wineList);
+                    if (wineList.getWineList().contains(wineToAdd)) {
+                        imageView.setImage(checkedHover);
+                    } else {
+                        imageView.setImage(unCheckedHover);
+                    }
+                });
+
+                wineListButton.setOnMouseEntered(e -> {
+                    if (wineList.getWineList().contains(wineToAdd)) {
+                        imageView.setImage(checkedHover);
+                    } else {
+                        imageView.setImage(unCheckedHover);
+                    }
+                });
+                wineListButton.setOnMouseExited(e -> updateImageView(imageView, wineList));
+                wineListButton.getStyleClass().add("wine-list-button");
+                wineListsVBox.getChildren().add(wineListButton);
+            }
+        }
+    }
+
+    private void setUpImageView(ImageView imageView) {
+        imageView.setFitHeight(50);
+        imageView.setFitWidth(50);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+    }
+
+    private void updateImageView(ImageView imageView, UserWineList wineList) {
+        if (wineList.getWineList().contains(wineToAdd)) {
+            imageView.setImage(checked);
+        } else {
+            imageView.setImage(unChecked);
+        }
     }
 
 }
