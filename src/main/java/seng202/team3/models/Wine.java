@@ -1,5 +1,8 @@
 package seng202.team3.models;
 
+import javafx.util.StringConverter;
+import org.apache.commons.lang3.NotImplementedException;
+
 import java.util.Objects;
 
 /**
@@ -273,6 +276,7 @@ public class Wine {
     public void setColour(String colour) {
         this.colour = colour;
     }
+
     /**
      * Sets the personal wine entry for a wine drinker
      * @param personalWineEntry Wine note taken by the user
@@ -349,6 +353,14 @@ public class Wine {
      */
     public void setVolumeInMl(float volumeInMl) {
         this.volumeInMl = volumeInMl;
+    }
+
+    /**
+     * Ensures that implicit casts to String of a Wine object return readable values
+     * @return the Wine's name
+     */
+    public String toString() {
+        return name;
     }
 }
 

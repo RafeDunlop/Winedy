@@ -60,7 +60,7 @@ public class WineLogDAO implements DAOInterface<WineLog> {
      */
     @Override
     public List<WineLog> getAll() {
-        String sql = "SELECT wineID, logEntry, date, Time, quantity FROM log WHERE wineDrinker = ? ORDER BY date, time DESC";
+        String sql = "SELECT wineID, logEntry, date, Time, quantity, isBottles FROM logs WHERE wineDrinker = ? ORDER BY date, time DESC";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, getUsername());
@@ -95,7 +95,7 @@ public class WineLogDAO implements DAOInterface<WineLog> {
      * @return list of logs that fall in the range
      */
     public List<WineLog> getInRange(Date startDate, Date endDate) {
-        String sql = "SELECT wineID, logEntry, date, Time, quantity FROM log WHERE wineDrinker = ? AND date >= ? AND date <= ? ORDER BY date, time DESC";
+        String sql = "SELECT wineID, logEntry, date, Time, quantity, isBottles FROM logs WHERE wineDrinker = ? AND date >= ? AND date <= ? ORDER BY date, time DESC";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, getUsername());
@@ -115,7 +115,7 @@ public class WineLogDAO implements DAOInterface<WineLog> {
      */
     @Override
     public int add(WineLog toAdd) {
-        String sql = "INSERT INTO log (wineDrinker, wineId, logEntry, date, time, quantity) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO logs (wineDrinker, wineId, logEntry, date, time, quantity, isBottles) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             setAddLogParams(ps, toAdd);
@@ -135,7 +135,7 @@ public class WineLogDAO implements DAOInterface<WineLog> {
      */
     @Override
     public int delete(WineLog toDelete) {
-        String sql = "DELETE FROM log WHERE wineDrinker = ? AND wineId = ? AND date = ? AND time = ?";
+        String sql = "DELETE FROM logs WHERE wineDrinker = ? AND wineId = ? AND date = ? AND time = ?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             setDeleteParams(ps, toDelete);
@@ -172,14 +172,15 @@ public class WineLogDAO implements DAOInterface<WineLog> {
      * @param newStandards the new number of standards (as a float) or null to use previous
      * @return the new, updated, in-database WineLog object
      */
-    public WineLog update(WineLog toUpdate, Integer newLoggedID, String newNote, Date newDate, Time newTime, Float newStandards) {
+    public WineLog update(WineLog toUpdate, Integer newLoggedID, String newNote, Date newDate, Time newTime, Float newStandards, boolean isBottles) {
         delete(toUpdate);
         WineLog updated = new WineLog(
                 (newLoggedID == null) ? toUpdate.getUniqueWineId() : newLoggedID,
                 (newNote == null) ? toUpdate.getNote() : newNote,
                 (newDate == null) ? toUpdate.getDate() : newDate,
                 (newTime == null) ? toUpdate.getTime() : newTime,
-                (newStandards == null) ? toUpdate.getStandards() : newStandards);
+                (newStandards == null) ? toUpdate.getStandards() : newStandards,
+                isBottles);
         add(updated);
         return updated;
     }
@@ -196,6 +197,8 @@ public class WineLogDAO implements DAOInterface<WineLog> {
         ps.setString(3, toAdd.getNote());
         ps.setDate(4, toAdd.getDate());
         ps.setTime(5, toAdd.getTime());
+        ps.setFloat(6, toAdd.getStandards());
+        ps.setBoolean(7, toAdd.getIsBottles());
     }
 
     /**
@@ -210,7 +213,8 @@ public class WineLogDAO implements DAOInterface<WineLog> {
         Date date = resultSet.getDate(3);
         Time time = resultSet.getTime(4);
         float quantity = resultSet.getFloat(5);
-        return new WineLog(wineId, note, date, time, quantity);
+        boolean isBottles = resultSet.getBoolean(6);
+        return new WineLog(wineId, note, date, time, quantity, isBottles);
     }
 
     /**

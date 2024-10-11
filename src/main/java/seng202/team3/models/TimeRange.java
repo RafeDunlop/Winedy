@@ -50,7 +50,12 @@ public enum TimeRange {
     /**
      * Represents the entire last year
      */
-    LASTYEAR("Last year");
+    LASTYEAR("Last year"),
+
+    /**
+     * Represents all time up until the current date
+     */
+    ALLTIME("All time");
 
     /**
      * The String representation of the TimeRange value
@@ -89,6 +94,7 @@ public enum TimeRange {
             case LASTMONTH -> new Pair<>(soLastMonth, soThisMonth);
             case THISYEAR -> new Pair<>(soThisYear, now);
             case LASTYEAR -> new Pair<>(soLastYear, soThisYear);
+            case ALLTIME -> new Pair<>(new Date(0), now);
         };
     }
 
@@ -126,7 +132,7 @@ public enum TimeRange {
      * @return a list of all TimeRange values
      */
     public static List<TimeRange> getAll() {
-        return List.of(THISWEEK, LASTWEEK, PASTTWOWEEKS, THISMONTH, LASTMONTH, THISYEAR, LASTYEAR);
+        return List.of(THISWEEK, LASTWEEK, PASTTWOWEEKS, THISMONTH, LASTMONTH, THISYEAR, LASTYEAR, ALLTIME);
     }
 
     /**
@@ -134,7 +140,7 @@ public enum TimeRange {
      *
      * @return the calendar instance that has been reset
      */
-    private static Calendar getResetCalendar() {
+    public static Calendar getResetCalendar() {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("NZDT"));
         cal.set(Calendar.HOUR_OF_DAY, 0);
         cal.clear(Calendar.MINUTE);
