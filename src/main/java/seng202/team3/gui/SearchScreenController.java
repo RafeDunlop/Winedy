@@ -108,9 +108,9 @@ public class SearchScreenController {
     private Label filterToggleButtonLabel;
 
     /**
-     * HBox that contains the label and imageView which is set as the graphic of the filterToggleButton
+     * ImageView that contains the drop-down triangle;
      */
-    HBox filterToggleButtonHbox;
+    private ImageView filterToggleButtonArrowImageView;
 
     /**
      * Current wine colour filter selected by the Wine Drinker
@@ -168,8 +168,8 @@ public class SearchScreenController {
         initialiseAttributeComboBoxes();
         initialiseDateRangeComboBoxes();
 
-        filterToggleButtonHbox = new HBox();
-        ImageView filterToggleButtonArrowImageView = new ImageView(new Image("/images/drop_down_arrow.png"));
+        HBox filterToggleButtonHbox = new HBox();
+        filterToggleButtonArrowImageView = new ImageView(new Image("/images/drop_down_arrow.png"));
         filterToggleButtonArrowImageView.setFitWidth(30);
         filterToggleButtonArrowImageView.setFitHeight(15);
         filterToggleButtonArrowImageView.setPreserveRatio(false);
@@ -364,6 +364,7 @@ public class SearchScreenController {
         filterToggleButton.setVisible(true);
         filterToggleButton.setPrefWidth(320);
         filterToggleButtonLabel.setText("Filter");
+        filterToggleButtonArrowImageView.setImage(new Image("/images/drop_down_arrow.png"));
         HBox.setMargin(filterToggleButtonLabel, new Insets(0, 200, 0, 0));
 
         rootAnchorPane.getChildren().remove(wineDetailsAnchorPane);
@@ -386,6 +387,7 @@ public class SearchScreenController {
 
         filterToggleButton.setPrefWidth(130);
         filterToggleButtonLabel.setText("Close");
+        filterToggleButtonArrowImageView.setImage(new Image("/images/jump_up_arrow.png"));
         HBox.setMargin(filterToggleButtonLabel, new Insets(0, 10, 0, 0));
 
         rootAnchorPane.getChildren().remove(filterRectangle);
