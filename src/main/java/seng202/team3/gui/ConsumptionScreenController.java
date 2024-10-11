@@ -1,11 +1,10 @@
 package seng202.team3.gui;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -17,11 +16,13 @@ import javafx.util.Pair;
 import seng202.team3.models.TimeRange;
 import seng202.team3.models.WineLog;
 import seng202.team3.services.LogManager;
-import seng202.team3.services.WineManager;
 
 import java.sql.Date;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static seng202.team3.gui.GuiService.fullDisable;
+import static seng202.team3.models.TimeRange.getStringRep;
 
 /**
  * controller for tracking_consumption_screen.fxml
@@ -31,7 +32,7 @@ import java.util.List;
 public class ConsumptionScreenController {
 
     @FXML
-    private BarChart<?, ?> consumptionChart;
+    private BarChart<String, Float> consumptionChart;
 
     @FXML
     private ComboBox<TimeRange> timeRangeComboBox;
@@ -54,15 +55,22 @@ public class ConsumptionScreenController {
     @FXML
     private Button logButton;
 
+    @FXML
+    private Label noDataLabel;
+
+    @FXML
+    private Label noLogsLabel;
+
+    @FXML
+    private Rectangle noLogsRectangle;
+
+    @FXML
+    private Rectangle noDataRectangle;
+
     /**
      * WineLog manager for services
      */
     private LogManager logManager;
-
-    /**
-     * selected TimeRange
-     */
-    private TimeRange timeRange;
 
     /**
      * the number of logs to display on each page of the ScrollPane
@@ -74,10 +82,8 @@ public class ConsumptionScreenController {
      */
     private List<WineLog> logs;
 
-    /**
-     * maps an index to a load for the pagination of the logs display
-     */
-    private HashMap<Integer, ScrollPane> pageMap;
+    private TimeRange selectedTimeRange;
+
 
     /**
      * initializes the controller, calling function to add style classes, setup variables, setup combo boxes and pagination
@@ -88,18 +94,26 @@ public class ConsumptionScreenController {
 
         timeRangeComboBox.getItems().addAll(TimeRange.getAll());
         timeRangeComboBox.setConverter(TimeRange.getStringConverter());
-        timeRangeComboBox.setOnAction(event -> {
-                    timeRange = timeRangeComboBox.getSelectionModel().getSelectedItem();
-                    Pair<Date, Date> dateRange = TimeRange.getDateRange(timeRange);
-                    logs = logManager.getLogsInRange(dateRange.getKey(), dateRange.getValue());
-                    createPaginationLogs();
-                    loadGraph();
-        });
-        timeRangeComboBox.getSelectionModel().select(0);
+        timeRangeComboBox.setOnAction(event -> loadLogData(timeRangeComboBox.getValue()));
+        timeRangeComboBox.getSelectionModel().select(logManager.getPrevRange());
+        loadLogData(logManager.getPrevRange());
+    }
 
-        Pair<Date, Date> dateRange = TimeRange.getDateRange(TimeRange.THISWEEK);
+    private void loadLogData(TimeRange timeRange) {
+        selectedTimeRange = timeRange;
+        logManager.setTimeRange(timeRange);
+        Pair<Date, Date> dateRange = TimeRange.getDateRange(timeRange);
         logs = logManager.getLogsInRange(dateRange.getKey(), dateRange.getValue());
-        createPaginationLogs();
+        boolean empty = logs.isEmpty();
+        fullDisable(noDataLabel, !empty);
+        fullDisable(noDataRectangle, !empty);
+        fullDisable(noLogsLabel, !empty);
+        fullDisable(noLogsRectangle, !empty);
+        fullDisable(consumptionChart, empty);
+        if (!empty) {
+            createPaginationLogs();
+            loadGraph();
+        }
     }
 
     private void createPaginationLogs() {
@@ -133,7 +147,7 @@ public class ConsumptionScreenController {
         Button button = new Button();
 
         button.setGraphic(buttonGraphic);
-        button.setOnAction(event -> FXWrapper.getInstance().loadLogPopup(log, null));
+        button.setOnAction(event -> FXWrapper.getInstance().loadLogPopup(log, null, Screen.TRACKINGCONSUMPTIONSCREEN));
         button.setPrefSize(560, 80);
         button.setMaxWidth(540);
         button.getStyleClass().add("nav-bar-button");
@@ -193,7 +207,28 @@ public class ConsumptionScreenController {
      * loads the graph for the specified time range
      */
     private void loadGraph() {
+        consumptionChart.getData().clear();
 
+        consumptionChart.getXAxis().setLabel(TimeRange.getLabel(selectedTimeRange));
+        consumptionChart.getXAxis().setTickLabelFont(new Font("System", 20));
+        consumptionChart.getYAxis().setTickLabelFont(new Font("System", 20));
+        consumptionChart.getYAxis().setTickMarkVisible(false);
+        consumptionChart.getYAxis().setTickLength(10);
+        consumptionChart.setStyle("-fx-background-color: #EEEDC4;");
+        consumptionChart.getYAxis().setLabel("Standard drinks");
+        consumptionChart.setLegendVisible(false);
+
+
+        XYChart.Series<String, Float> dataSeries = new XYChart.Series<>();
+        for (Map.Entry<Integer, List<WineLog>> entry : selectedTimeRange.timePeriod.splitIntoPeriods(logs).entrySet()) {
+            float standards = 0;
+            for (WineLog log : entry.getValue()) {
+                standards += log.getStandards();
+            }
+            dataSeries.getData().add(new XYChart.Data<>(getStringRep(entry.getKey(), selectedTimeRange), standards));
+        }
+
+        consumptionChart.getData().add(dataSeries);
     }
 
     /**
@@ -215,7 +250,7 @@ public class ConsumptionScreenController {
     void onLogClicked() {
         FXWrapper fxWrapper = FXWrapper.getInstance();
         fxWrapper.addPreviousScreen(() -> fxWrapper.loadProfileTabPane(2));
-        FXWrapper.getInstance().loadLogPopup(null, null);
+        FXWrapper.getInstance().loadLogPopup(null, null, Screen.TRACKINGCONSUMPTIONSCREEN);
     }
 
 }
