@@ -20,10 +20,9 @@ import seng202.team3.services.SearchScreenService;
 import seng202.team3.services.WineListManager;
 import seng202.team3.services.WineManager;
 import seng202.team3.models.SearchWineList;
-import seng202.team3.models.Wine;
+
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**

@@ -59,10 +59,10 @@ public class WineDAO implements DAOInterface<Wine> {
     @Override
     public List<Wine> getAll() {
         List<Wine> wines = new ArrayList<>();
-        String sqlWine = "SELECT * FROM wineSuper";
+        String sqlWine = "SELECT * FROM wineSuper JOIN wine on wineSuper.id = wine.id ORDER BY name DESC";
         try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(sqlWine)) {
-            try (ResultSet resultSet = ps.executeQuery()) {
+             PreparedStatement psWine = conn.prepareStatement(sqlWine);) {
+            ResultSet resultSet = psWine.executeQuery();
                 Wine newWine;
                 int id;
                 while (resultSet.next()) {
@@ -72,8 +72,15 @@ public class WineDAO implements DAOInterface<Wine> {
                     newWine = getWineFromResultSet(resultSet, grapeList, awardList);
                     wines.add(newWine);
                 }
+
+                try {
+                    PersonalWineDAO personalWineDAO = new PersonalWineDAO();
+                    wines.addAll(personalWineDAO.getAll());
+                } catch (NullPointerException e)  {
+                    log.info("no logged in user");
+                }
+
                 return wines;
-            }
         } catch (SQLException sqlException) {
             log.error(sqlException);
             return new ArrayList<>();

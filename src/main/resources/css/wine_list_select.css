@@ -5,23 +5,23 @@
 
 .red-wine-pane {
     -fx-background-color: -fx-red-wine-colour;
-    -fx-background-radius: 20px;
-    -fx-border-radius: 10px;
+    -fx-background-radius: 20;
+    -fx-border-radius: 10;
     -fx-border-color: -fx-dark-red-wine-colour;
-    -fx-border-width: 5px;
+    -fx-border-width: 5;
 }
 
 .white-wine-pane {
     -fx-background-color: -fx-white-wine-colour;
-    -fx-background-radius: 20px;
-    -fx-border-radius: 10px;
+    -fx-background-radius: 20;
+    -fx-border-radius: 10;
     -fx-border-color: -fx-dark-white-wine-colour;
-    -fx-border-width: 5px;
+    -fx-border-width: 5;
 }
 
 .wine-list-vbox {
-    -fx-pref-width: 200;
-    -fx-pref-height: 70;
+    -fx-pref-width: 510;
+    -fx-pref-height: 320;
     -fx-background-color: transparent;
 }
 
@@ -46,21 +46,23 @@
 }
 
 .wine-list-scroll-pane .scroll-bar:vertical .thumb {
-    -fx-pref-height: 3px;
+    -fx-pref-height: 3;
     -fx-background-color: -fx-hsb-body-colour;
     -fx-background-insets: 1;
     -fx-border-color: -fx-hsb-border-colour;
-    -fx-border-radius: 4px;
-    -fx-border-width: 4px;
+    -fx-border-radius: 4;
+    -fx-border-width: 4;
 }
 
 .wine-list-button {
-    -fx-pref-width: 150;
-    -fx-pref-height: 50;
+    -fx-pref-width: infinity;
+    -fx-pref-height: 1000;
     -fx-background-color: -fx-hsb-body-colour;
     -fx-background-insets: 1;
     -fx-border-color: -fx-hsb-border-colour;
-    -fx-border-radius: 5px;
-    -fx-border-width: 4px;
-
+    -fx-border-radius: 5;
+    -fx-border-width: 4;
+    -fx-font-size: 20;
+    -fx-alignment: BASELINE_LEFT;
 }
+

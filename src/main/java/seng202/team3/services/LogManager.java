@@ -1,12 +1,16 @@
 package seng202.team3.services;
 
+import javafx.util.Pair;
+import javafx.util.StringConverter;
+import seng202.team3.models.LogDiff;
+import seng202.team3.models.Wine;
 import seng202.team3.models.WineLog;
 import seng202.team3.repository.WineLogDAO;
 
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -25,6 +29,16 @@ public class LogManager {
      * Singleton instance of WineLogManager
      */
     private static LogManager instance;
+
+    public final static float RHO_ALCOHOL = 0.8f;
+
+    public final static float DEFAULT_WINE_VOLUME = 750.0f;
+
+    public final static float DEFAULT_WINE_ABV = 14.0f; //typically 12-14 but assume high for safety
+
+    public final static float GRAMS_ALCOHOL_PER_NZ_STAN_DRINK = 10.0f;
+
+    public final static float STANDARDS_PER_GLASS = 1.4f;
 
     /**
      * private constructor with specified database path
@@ -109,23 +123,53 @@ public class LogManager {
      * @return the List of WineLogs that were created in the given range
      */
     public List<WineLog> getLogsInRange(Date startDate, Date endDate) {
-        return getLogsInRange(startDate, endDate);
+        return wineLogDAO.getInRange(startDate, endDate);
     }
 
     /**
      * adds a log with the specified parameters to the database
      * all parameters except note are mandatory
-     * @param loggedID foreign key to the wine in wineSuper which teh log is about
-     * @param note the note associated with this log
-     * @param date the date of the log as a Java.sql.date object
-     * @param time the time of day teh log was created as a Java.sql.Time object
-     * @param standards the number of NZ standard drinks the log corresponds to as a float
-     * @return the added WineLog object
+     * note that a glass is defined as 1.4 standards. This is because a "glass of wine" is slightly ill-defined.
+     * A user logging port, for instance, should log a port glass of wine as one glass. The inflexibility of this
+     * assumption is negligible in comparison to the human error with the logging itself
+     * @param logDiff LogDiff object which wraps relevant args (name, Wine, hour, amount, isBottles)
      */
-    public WineLog addLog(int loggedID, String note, Date date, Time time, float standards) {
-        WineLog toLog = new WineLog(loggedID, note, date, time, standards);
+    public void addLog(LogDiff logDiff) {
+        int loggedID = logDiff.getWine().getUniqueWineID();
+        Time time = Time.valueOf(LocalTime.of(logDiff.getHour(), 0, 0));
+        float standards = getStandards(logDiff.getWine(), logDiff.getAmt(), logDiff.getIsBottles());
+        WineLog toLog = new WineLog(loggedID, logDiff.getNote(), logDiff.getDate(), time, standards, logDiff.getIsBottles());
         wineLogDAO.add(toLog);
-        return toLog;
+    }
+
+    public float getStandards(Wine wine, float amtHad, boolean isBottles) {
+        float standards;
+        if (isBottles) {
+            float gramsAlcoholPerBottle = getGramsAlcoholPerBottle(wine);
+            standards = (amtHad * gramsAlcoholPerBottle) / GRAMS_ALCOHOL_PER_NZ_STAN_DRINK;
+        } else { //glasses
+            standards = amtHad * STANDARDS_PER_GLASS;
+        }
+        return standards;
+    }
+
+    public float getAmt(Wine wine, float standards, boolean isBottles) {
+        float amt;
+        if (isBottles) {
+            float gramsAlcoholPerBottle = getGramsAlcoholPerBottle(wine);
+            float gramsAlcohol = (standards * GRAMS_ALCOHOL_PER_NZ_STAN_DRINK);
+            amt = gramsAlcohol / gramsAlcoholPerBottle;
+        } else { //glasses
+            amt = standards / STANDARDS_PER_GLASS;
+        }
+        return amt;
+    }
+
+    private float getGramsAlcoholPerBottle(Wine wine) {
+        float mlsWine = (wine.getVolumeInMl() != 0) ? wine.getVolumeInMl() : DEFAULT_WINE_VOLUME;
+        float percentageABV = (wine.getAlcoholByVolume() != 0) ? wine.getAlcoholByVolume() : DEFAULT_WINE_ABV;
+        float mlsAlcoholPerBottle = (percentageABV * mlsWine) / 100; //convert percentage to decimal
+        return mlsAlcoholPerBottle * RHO_ALCOHOL;
     }
 
     /**
@@ -140,8 +184,8 @@ public class LogManager {
      * @param newStandards the number of NZ standard drinks the log corresponds to as a float
      * @return the updated WineLog object (different object to parameter)
      */
-    public WineLog update(WineLog toUpdate, int newLoggedID, String newNote, Date newDate, Time newTime, float newStandards) {
-        return wineLogDAO.update(toUpdate, newLoggedID, newNote, newDate, newTime, newStandards);
+    public WineLog update(WineLog toUpdate, int newLoggedID, String newNote, Date newDate, Time newTime, float newStandards, boolean isBottles) {
+        return wineLogDAO.update(toUpdate, newLoggedID, newNote, newDate, newTime, newStandards, isBottles);
     }
 
     /**
@@ -154,7 +198,84 @@ public class LogManager {
 
     public String getLogDateString(WineLog wineLog) {
         LocalDate date = wineLog.getDate().toLocalDate();
-        return date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear();
+        return ((date.getDayOfMonth() < 10) ? date.getDayOfMonth() + "0" : date.getDayOfMonth()) +
+                "/" +
+                ((date.getMonthValue() < 10) ? date.getMonthValue() + "0" : date.getMonthValue()) +
+                "/" +
+                date.getYear();
+    }
+
+    public String getDateString(Date date) {
+        LocalDate lDate = date.toLocalDate();
+        int dayOM = lDate.getDayOfMonth();
+        String monthString = lDate.getMonth().toString().toLowerCase();
+        return String.format("the %d%s of %s %d",
+                dayOM,
+                getDaySuffix(dayOM),
+                monthString.substring(0, 1).toUpperCase() + monthString.substring(1),
+                lDate.getYear());
+    }
+
+    private String getDaySuffix(int day) {
+        if (day >= 11 && day <= 13) {
+            return "th";
+        }
+
+        return switch (day % 10) {
+            case 1 -> "st";
+            case 2 -> "nd";
+            case 3 -> "rd";
+            default -> "th";
+        };
+    }
+
+    public Pair<Boolean, String> validateAmount(String toValidate) {
+        int maxLength = 21;
+        if (toValidate.isEmpty()) {
+            return new Pair<>(false, "");
+        } else if (toValidate.length() > maxLength) {
+            return new Pair<>(false, "your amount entry is too long");
+        }
+        try {
+            float value = Float.parseFloat(toValidate);
+            if (value < 0) {
+                return new Pair<>(false, "Amount must be positive");
+            } else if (value == 0) {
+                return new Pair<>(false, "Amount cannot be 0");
+            } else {
+                return new Pair<>(true,"errorDisplayLabel");
+            }
+        } catch (NumberFormatException e) {
+            return new Pair<>(false, String.format("%s is not a valid number", toValidate));
+        }
+    }
+
+
+    public StringConverter<Integer> getHourConverter() {
+        return new StringConverter<Integer>() {
+            @Override
+            public String toString(Integer integer) {
+                if (integer == 0) {
+                    return "12AM";
+                }
+
+                if (integer / 12 == 1) {
+                    return (integer != 12) ? integer % 12 + "PM" : "12PM";
+                }
+
+                return integer + "AM";
+            }
+
+            @Override
+            public Integer fromString(String s) {
+                if (s.endsWith("PM")) {
+                    s = s.replace("PM", "");
+                    return (!s.equals("12")) ? Integer.parseInt(s) + 12 : 12;
+                }
+
+                return Integer.parseInt(s.replace("AM", ""));
+            }
+        };
     }
 
 }
