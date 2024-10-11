@@ -238,12 +238,8 @@ public final class GuiService {
      */
     public static Map<Integer, ScrollPane> createPagination(List<Wine> winesToDisplay, VBox rootVBox, int rowsPerPage, int winesPerRow, AnchorPane wineDetailsAnchorPane) {
         int winesPerPage = 12;
-        int numberOfPages = winesToDisplay.size() / winesPerPage;
+        int numberOfPages = (int) Math.ceil((double) winesToDisplay.size() / winesPerPage);
         Map<Integer, ScrollPane> pageScrollPaneMap = new HashMap<>();
-
-        if (winesToDisplay.size() % rowsPerPage != 0) { //Add an extra page for the lists where required
-            numberOfPages += 1;
-        }
 
         Pagination pagination = new Pagination(numberOfPages, 0);
         rootVBox.getChildren().add(pagination);
@@ -259,6 +255,7 @@ public final class GuiService {
             scrollPane.setFitToWidth(true);
             scrollPane.getStyleClass().add("red-wine-scroll-pane");
             pageScrollPaneMap.put(pageIndex, scrollPane);
+            scrollPane.setPrefHeight(1000);
             return scrollPane;
         });
         return pageScrollPaneMap;
