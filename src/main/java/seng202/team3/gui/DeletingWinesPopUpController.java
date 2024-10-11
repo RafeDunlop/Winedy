@@ -121,10 +121,19 @@ public class DeletingWinesPopUpController {
      */
     @FXML
     public void onYesButtonClicked() {
-        for (Wine wine : winesToDelete) {
-            listToDeleteFrom.getWineList().remove(wine);
+        if (listToDeleteFrom.getWineListName().equals("Favourites")) {
+            for (Wine wine  : winesToDelete) {
+                wineListManager.getFavourites().removeWineFromList(wine);
+                listToDeleteFrom.removeWineFromList(wine);
+            }
+            wineListManager.update(wineListManager.getFavourites());
+        } else {
+            for (Wine wine : winesToDelete) {
+                listToDeleteFrom.removeWineFromList(wine);
+            }
         }
         wineListManager.update(listToDeleteFrom);
+
         FXWrapper.getInstance().removePopUp(overlayPane);
         FXWrapper.getInstance().loadIndividualListView(toNest, listToDeleteFrom);
     }
