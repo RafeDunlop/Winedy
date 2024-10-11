@@ -148,7 +148,7 @@ public class IndividualWineViewPopupController {
             awardsContentsLabel.setText("This wine has no awards");
         }
 
-        GuiService.setUpPopUp(overlayPane, popupAnchorPane);
+        GuiService.setUpPopUp(overlayPane, popupAnchorPane, null);
 
         awardsScrollPane.getStyleClass().add("white-wine-scroll-pane");
         descriptionScrollPane.getStyleClass().add("white-wine-scroll-pane");

@@ -53,7 +53,7 @@ public class WineListSelectPopUpController {
 
         wineListSelectService = new WineListSelectService();
 
-        GuiService.setUpPopUp(overlayPane, popUpAnchorPane);
+        GuiService.setUpPopUp(overlayPane, popUpAnchorPane, null);
         setUpVBox(wineListsVBox);
 
         for (UserWineList wineList: wineListSelectService.getWineLists()) {

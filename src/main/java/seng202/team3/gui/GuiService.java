@@ -215,13 +215,17 @@ public final class GuiService {
      * @param overlayPane the overlay pane for the pop-up
      * @param popUpAnchorPane the anchor pane for the pop-up
      */
-    public static void setUpPopUp(StackPane overlayPane, AnchorPane popUpAnchorPane) {
+    public static void setUpPopUp(StackPane overlayPane, AnchorPane popUpAnchorPane, Runnable onOutBoundsClicked) {
         overlayPane.getStyleClass().add("overlay-stackpane");
         popUpAnchorPane.getStyleClass().add("white-wine-pane");
         overlayPane.setOnMouseClicked(event -> {
             Bounds popUpBounds = popUpAnchorPane.localToScene(popUpAnchorPane.getLayoutBounds());
             if (!popUpBounds.contains(event.getSceneX(), event.getSceneY())) {
-                FXWrapper.getInstance().removePopUp(overlayPane);
+                if (onOutBoundsClicked == null) {
+                    FXWrapper.getInstance().removePopUp(overlayPane);
+                } else {
+                    onOutBoundsClicked.run();
+                }
             }
         });
     }
