@@ -21,7 +21,13 @@ public class DrinkerPreferenceModel {
      */
     private HashMap<String, Float> preferencesHashMap = new HashMap<>();
 
-    public DrinkerPreferenceModel() {}
+    /**
+     * Empty default constructor
+     * ToDo remove if unused
+     */
+    public DrinkerPreferenceModel() {
+
+    }
 
     /**
      * sets the arraylist of the

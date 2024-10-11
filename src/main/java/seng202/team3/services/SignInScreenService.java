@@ -128,7 +128,6 @@ public final class SignInScreenService {
         validateLoginDetails(username, password);
         wineDrinkerManager.loginCurrentUser(username, password);
         WineListManager.getInstance().setupFavourites();
-
     }
 
     /**

@@ -7,7 +7,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team3.models.SearchWineList;
 import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
 import seng202.team3.models.WineLog;
@@ -153,7 +152,7 @@ public class FXWrapper {
      */
     public void loadMiniIndividualWineView(Pane toNest, Wine wineToDisplay) {
         try {
-            FXMLLoader miniIndividualWineViewLoader = new FXMLLoader(getClass().getResource("/fxml/individual_wine_view_mini.fxml"));
+            FXMLLoader miniIndividualWineViewLoader = new FXMLLoader(getClass().getResource("/fxml/mini_individual_wine_view.fxml"));
             miniIndividualWineViewLoader.setControllerFactory(param -> new MiniIndividualWineViewController(wineToDisplay));
             Parent leaf = miniIndividualWineViewLoader.load();
             clearPane(toNest);
