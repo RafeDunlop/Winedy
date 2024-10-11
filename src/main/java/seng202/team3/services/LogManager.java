@@ -147,7 +147,8 @@ public class LogManager {
         int loggedID = logDiff.getWine().getUniqueWineID();
         Time time = Time.valueOf(LocalTime.of(logDiff.getHour(), 0, 0));
         float standards = getStandards(logDiff.getWine(), logDiff.getAmt(), logDiff.getIsBottles());
-        WineLog toLog = new WineLog(loggedID, logDiff.getNote(), logDiff.getDate(), time, standards, logDiff.getIsBottles());
+        String note = (logDiff.getNote().isEmpty()) ? null : logDiff.getNote();
+        WineLog toLog = new WineLog(loggedID, note, logDiff.getDate(), time, standards, logDiff.getIsBottles());
         wineLogDAO.add(toLog);
     }
 
@@ -264,7 +265,7 @@ public class LogManager {
 
 
     public StringConverter<Integer> getHourConverter() {
-        return new StringConverter<Integer>() {
+        return new StringConverter<>() {
             @Override
             public String toString(Integer integer) {
                 if (integer == 0) {

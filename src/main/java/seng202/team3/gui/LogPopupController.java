@@ -18,6 +18,7 @@ import seng202.team3.services.LogManager;
 import seng202.team3.services.WineManager;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -152,7 +153,13 @@ public class LogPopupController {
 
     private void setupDatePicker() {
         datePicker.setValue(newLog.getDate().toLocalDate());
-        datePicker.setOnAction(date -> newLog.setDate(new Date(datePicker.getValue().toEpochDay())));
+        datePicker.setOnAction(date -> {
+            LocalDate selected = datePicker.getValue();
+            System.out.println(selected);
+            if (selected != null) {
+                newLog.setDate(Date.valueOf(selected));
+            }
+        });
     }
 
     private void setLogParams() {
@@ -199,8 +206,6 @@ public class LogPopupController {
         cancelLogButton.setOnAction(event -> {
             if (oldLog.equals(newLog)) {
                 closeThis();
-            } else {
-
             }
         });
     }
@@ -333,7 +338,7 @@ public class LogPopupController {
     }
 
     @FXML
-    void onCreatePersonalWineButtonClicked(ActionEvent event) {
+    void onCreatePersonalWineButtonClicked() {
 
     }
 }
