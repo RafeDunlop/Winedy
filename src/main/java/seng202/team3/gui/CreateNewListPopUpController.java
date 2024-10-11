@@ -70,7 +70,7 @@ public class CreateNewListPopUpController {
     public void initialize() {
         this.profileScreenService = new ProfileScreenService();
         this.wineListManager = WineListManager.getInstance();
-        GuiService.setUpPopUp(overlayPane,popUpAnchorPane);
+        GuiService.setUpPopUp(overlayPane,popUpAnchorPane, null);
 
         setUpTextAreaListenersForNameValidation();
         setUpListenersForDescValidation();
