@@ -31,6 +31,9 @@ public class RecommendationDAO {
     public RecommendationDAO() {
         databaseManager = DatabaseManager.getInstance();
     }
+    public RecommendationDAO(String url) {
+        databaseManager = DatabaseManager.getInstance(url);
+    }
 
     /**
      * Retrieves the set of preferences from the database
@@ -138,7 +141,7 @@ public class RecommendationDAO {
                 log.error(e);
             }
         } else {
-            log.warn("Preference value already at max/min value - ignored");
+            log.info("Preference value already at max/min value - ignored");
         }
     }
 }

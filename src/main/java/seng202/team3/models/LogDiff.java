@@ -17,7 +17,9 @@ public class LogDiff {
 
     private String note;
 
-    public LogDiff() {}
+    public LogDiff() {
+        note = "";
+    }
 
     public LogDiff(LogDiff other) {
         date = other.getDate();

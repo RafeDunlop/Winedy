@@ -10,7 +10,6 @@ import java.util.HashMap;
  */
 public class DrinkerPreferenceModel {
     private String username;
-    private double abvLimit;
     private HashMap<String, Float> preferencesHashMap = new HashMap<>();
 
     public DrinkerPreferenceModel(){}
@@ -59,9 +58,6 @@ public class DrinkerPreferenceModel {
      * @return String of username
      */
     public String getUsername() {
-        for (String key : preferencesHashMap.keySet()){
-        }
-
         return this.username;
     }
 
@@ -72,5 +68,13 @@ public class DrinkerPreferenceModel {
      */
     public float getABV(){
         return preferencesHashMap.get("abv");
+    }
+
+    public int getNumColumns(){
+        int i = 0;
+        for(String key : preferencesHashMap.keySet()){
+            i++;
+        }
+        return i;
     }
 }
