@@ -210,10 +210,22 @@ public class FXWrapper {
      * @param wineLog the wine log being displayed on the screen
      * @param wine the logged wine contained in the wine log
      */
-    public void loadLogPopup(WineLog wineLog, Wine wine) {
+    public void loadLogPopup(WineLog wineLog, Wine wine, Screen toReturnTo) {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.ADDLOGPOPUP.file));
-            popupLoader.setControllerFactory(param -> new LogPopupController(wineLog, wine));
+            popupLoader.setControllerFactory(param -> new LogPopupController(wineLog, wine, toReturnTo));
+            StackPane popup = popupLoader.load();
+            superPane.getChildren().add(popup);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    public void loadLogChangesPopup(Runnable onDiscard) {
+        System.out.println("called");
+        try {
+            FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.LOGCHANGESPOPUP.file));
+            popupLoader.setControllerFactory(param -> new LogChangesPopupController(onDiscard));
             StackPane popup = popupLoader.load();
             superPane.getChildren().add(popup);
         } catch (IOException e) {
