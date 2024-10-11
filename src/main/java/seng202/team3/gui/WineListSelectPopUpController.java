@@ -93,8 +93,8 @@ public class WineListSelectPopUpController {
     }
 
     /**
-     *
-     * @param wineList
+     * Updates the given wine list in the database to add or remove wine when the wine list button is pressed
+     * @param wineList the wine list to be updated
      */
     @FXML
     public void onWineListButtonClicked(UserWineList wineList) {
@@ -120,6 +120,7 @@ public class WineListSelectPopUpController {
             if (!wineList.getWineListName().equals(FavouritesWineList.getFavouritesName())) {
                 Button wineListButton = new Button();
                 HBox graphic = new HBox();
+                graphic.setStyle("-fx-alignment: center");
 
                 Label listName = new Label(wineList.getWineListName());
                 listName.setStyle("-fx-pref-width: infinity; -fx-max-width: 470");
