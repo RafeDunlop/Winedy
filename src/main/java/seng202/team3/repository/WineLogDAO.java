@@ -60,7 +60,7 @@ public class WineLogDAO implements DAOInterface<WineLog> {
      */
     @Override
     public List<WineLog> getAll() {
-        String sql = "SELECT wineID, logEntry, date, Time, quantity, isBottles FROM logs WHERE wineDrinker = ? ORDER BY date, time DESC";
+        String sql = "SELECT wineID, logEntry, date, Time, quantity, isBottles FROM logs WHERE wineDrinker = ? ORDER BY date DESC, time DESC";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, getUsername());
@@ -95,7 +95,7 @@ public class WineLogDAO implements DAOInterface<WineLog> {
      * @return list of logs that fall in the range
      */
     public List<WineLog> getInRange(Date startDate, Date endDate) {
-        String sql = "SELECT wineID, logEntry, date, Time, quantity, isBottles FROM logs WHERE wineDrinker = ? AND date >= ? AND date <= ? ORDER BY date, time DESC";
+        String sql = "SELECT wineID, logEntry, date, Time, quantity, isBottles FROM logs WHERE wineDrinker = ? AND date >= ? AND date <= ? ORDER BY date DESC, time DESC";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, getUsername());
