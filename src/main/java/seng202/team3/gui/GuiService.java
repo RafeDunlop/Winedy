@@ -245,19 +245,7 @@ public final class GuiService {
         rootVBox.getChildren().add(pagination);
         pagination.getStyleClass().add("wine-pagination");
 
-
-        pagination.setPageFactory(pageIndex ->  {
-            VBox pageContent = new VBox();
-            int start = pageIndex * rowsPerPage * winesPerRow;
-            int end = Math.min(start + rowsPerPage * winesPerRow, winesToDisplay.size());
-            GuiService.startButtonGeneration(winesToDisplay.subList(start, end), pageContent, wineDetailsAnchorPane, 3);
-            ScrollPane scrollPane = new ScrollPane(pageContent);
-            scrollPane.setFitToWidth(true);
-            scrollPane.getStyleClass().add("red-wine-scroll-pane");
-            pageScrollPaneMap.put(pageIndex, scrollPane);
-            scrollPane.setPrefHeight(1000);
-            return scrollPane;
-        });
+        pagination.setPageFactory(pageIndex ->  createPageContentsScrollPane(pageScrollPaneMap, pageIndex, rowsPerPage, winesPerRow, winesToDisplay, wineDetailsAnchorPane));
         return pageScrollPaneMap;
     }
 
@@ -276,5 +264,18 @@ public final class GuiService {
     public static void turnOnPane(AnchorPane toTurnOn){
         toTurnOn.setVisible(true);
         toTurnOn.setDisable(false);
+    }
+
+    public static ScrollPane createPageContentsScrollPane(Map<Integer, ScrollPane> pageScrollPaneMap, int pageIndex, int rowsPerPage, int winesPerRow, List<Wine> winesToDisplay, AnchorPane wineDetailsAnchorPane) {
+        VBox pageContent = new VBox();
+        int start = pageIndex * rowsPerPage * winesPerRow;
+        int end = Math.min(start + rowsPerPage * winesPerRow, winesToDisplay.size());
+        GuiService.startButtonGeneration(winesToDisplay.subList(start, end), pageContent, wineDetailsAnchorPane, 3);
+        ScrollPane scrollPane = new ScrollPane(pageContent);
+        scrollPane.setFitToWidth(true);
+        scrollPane.getStyleClass().add("red-wine-scroll-pane");
+        pageScrollPaneMap.put(pageIndex, scrollPane);
+        scrollPane.setPrefHeight(1000);
+        return scrollPane;
     }
 }

@@ -18,6 +18,7 @@ import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.WineListManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -184,7 +185,7 @@ public class ProfileListViewScreenController {
 
         addStyleSheets();
 
-        this.pageScrollPaneMap = GuiService.createPagination(listToDisplay.getWineList(), listContentsVBox, 4, 3, null);
+        this.pageScrollPaneMap = createPagination(listToDisplay.getWineList(), listContentsVBox, 4, 3, null);
         Pagination pagination = (Pagination) listContentsVBox.getChildren().get(0);
         pagination.getStyleClass().add("wine-list-pagination");
 
@@ -464,5 +465,32 @@ public class ProfileListViewScreenController {
     @FXML
     public void onDeleteWinesButtonClicked() {
         FXWrapper.getInstance().loadDeletingWinesPopUp(selectedWines, listToDisplay, rootAnchorPane);
+    }
+
+    /**
+     * Creates paginated display of wine buttons for search screen and profile screens
+     *
+     * @param winesToDisplay list of wines to display in the pagination
+     * @param rootVBox vbox to insert pagination into
+     * @param rowsPerPage number of rows of wines per page
+     * @param winesPerRow number of wines per row
+     * @param wineDetailsAnchorPane wine details anchor pane if applicable for the onAction of the wine button
+     * @return pagination so it can be styled as needed per screen
+     */
+    public Map<Integer, ScrollPane> createPagination(List<Wine> winesToDisplay, VBox rootVBox, int rowsPerPage, int winesPerRow, AnchorPane wineDetailsAnchorPane) {
+        int winesPerPage = 12;
+        int numberOfPages = (int) Math.ceil((double) winesToDisplay.size() / winesPerPage);
+        Map<Integer, ScrollPane> pageScrollPaneMap = new HashMap<>();
+
+        Pagination pagination = new Pagination(numberOfPages, 0);
+        rootVBox.getChildren().add(pagination);
+        pagination.getStyleClass().add("wine-pagination");
+
+        for (int pageIndex = 0; pageIndex < numberOfPages; pageIndex++) {
+            GuiService.createPageContentsScrollPane(pageScrollPaneMap, pageIndex, rowsPerPage, winesPerRow, winesToDisplay, wineDetailsAnchorPane);
+        }
+
+        pagination.setPageFactory(pageScrollPaneMap::get);
+        return pageScrollPaneMap;
     }
 }
