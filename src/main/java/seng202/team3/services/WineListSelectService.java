@@ -3,6 +3,7 @@ package seng202.team3.services;
 import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
 
+import java.util.Collections;
 import java.util.List;
 
 public class WineListSelectService {
@@ -21,6 +22,7 @@ public class WineListSelectService {
      * @return a list of the current WineDrinker's UserWineLists
      */
     public List<UserWineList> getWineLists() {
+        List<UserWineList> wineList = wineListManager.getAllUserWineLists();
         return wineListManager.getAllUserWineLists();
     }
 
@@ -40,7 +42,4 @@ public class WineListSelectService {
         wineListManager.update(wineList);
     }
 
-    public boolean wineInList(Wine wine, UserWineList wineList) {
-        return wineList.getWineList().contains(wine);
-    }
 }
