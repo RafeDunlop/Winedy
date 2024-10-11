@@ -35,6 +35,10 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
      */
     private final DatabaseManager databaseManager;
 
+    /**
+     * The url that the database is located at.
+     * Used for testing with the test database.
+     */
     private final String url;
 
     /**
@@ -48,6 +52,8 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
     /**
      * Creates a new UserWineListDAO object and gets a reference to the database singleton for a database at the specified url.
      * Used for testing.
+     *
+     * @param url the relative url that the test database is located at
      */
     public UserWineListDAO(String url) {
         databaseManager = DatabaseManager.getInstance(url);
@@ -188,6 +194,7 @@ public class UserWineListDAO implements DAOInterface<UserWineList> {
 
     /**
      * gets the minimum sort key in the database associated with the logged-in user and not their favourites list
+     *
      * @return the minimum sort key
      */
     public int getMinSortKey() {

@@ -44,6 +44,8 @@ public class WineLogDAO implements DAOInterface<WineLog> {
     /**
      * Creates a new WineLogDAO object and gets a reference to the database singleton for a database at the specified url.
      * Used for testing.
+     *
+     * @param url the relative url where the test database is located
      */
     public WineLogDAO(String url) {
         databaseManager = DatabaseManager.getInstance(url);

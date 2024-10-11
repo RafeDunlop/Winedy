@@ -164,7 +164,7 @@ public class IndividualWineViewController {
      */
     @FXML
     public void onViewInDetailButtonClicked() {
-
+        FXWrapper.getInstance().loadIndividualWineViewPopup(wineToDisplay);
     }
 
 }

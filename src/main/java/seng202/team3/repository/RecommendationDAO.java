@@ -80,6 +80,7 @@ public class RecommendationDAO {
      * with default value 5
      *
      * @param nameOfColumn string column to retrieve values from
+     * @param table the table to retrieve the column values from
      */
     public void addColumnsToPrefModelFromPopulatedTables(String nameOfColumn, String table) {
         String sql = "select distinct " + nameOfColumn + " from " + table;

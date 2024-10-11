@@ -51,7 +51,7 @@ public class DeletingListsPopUpController {
 
     /**
      * Deleting lists pop up controller
-     * @param listsToDelete
+     * @param listsToDelete selected lists to delete
      */
     public DeletingListsPopUpController(List<UserWineList> listsToDelete) {
         this.listsToDelete = listsToDelete;
@@ -79,12 +79,14 @@ public class DeletingListsPopUpController {
             Label bullet1 = new Label("- " + listsToDelete.get(2 * i).getWineListName() + " (" + listsToDelete.get(2*i).getWineList().size() +" wines)");
             bullet1.setPrefWidth(210);
             bullet1.setStyle("-fx-font-size: 16");
+            bullet1.setWrapText(true);
             TextFlow bulletFlow = new TextFlow();
             bulletFlow.getChildren().add(bullet1);
             if (2 * i + 1 < listsToDelete.size()) {
                 Label bullet2 = new Label("- " + listsToDelete.get(2 * i + 1).getWineListName() + " (" + listsToDelete.get(2 * i + 1).getWineList().size() + " wines)");
                 bullet2.setPrefWidth(210);
                 bullet2.setStyle("-fx-font-size: 16");
+                bullet2.setWrapText(true);
                 bulletFlow.getChildren().add(bullet2);
             }
             listNamesVBox.getChildren().add(bulletFlow);

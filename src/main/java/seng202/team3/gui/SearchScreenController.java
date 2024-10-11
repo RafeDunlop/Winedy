@@ -1,5 +1,6 @@
 package seng202.team3.gui;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -11,10 +12,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.util.StringConverter;
 import org.controlsfx.control.RangeSlider;
 import seng202.team3.models.WineAttribute;
 import seng202.team3.repository.Table;
 import seng202.team3.services.SearchScreenService;
+import seng202.team3.services.WineListManager;
 import seng202.team3.services.WineManager;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
@@ -43,10 +46,13 @@ public class SearchScreenController {
     private RangeSlider priceRangeSlider;
 
     @FXML
-    private TextField searchBarTextField;
+    private TextField lowPriceTextField;
 
     @FXML
-    private VBox searchResultsVBox;
+    private TextField highPriceTextField;
+
+    @FXML
+    private TextField searchBarTextField;
 
     @FXML
     private ComboBox<Integer> startDateComboBox;
@@ -62,9 +68,6 @@ public class SearchScreenController {
 
     @FXML
     private AnchorPane rootAnchorPane;
-
-    @FXML
-    private ScrollPane wineScrollPane;
 
     @FXML
     private Rectangle searchWinesRectangle;
@@ -89,6 +92,9 @@ public class SearchScreenController {
 
     @FXML
     private Label infoTextLabel;
+
+    @FXML
+    private VBox rootVBox;
 
     /**
      * Current wine colour filter selected by the Wine Drinker
@@ -126,34 +132,51 @@ public class SearchScreenController {
     private boolean sortVBoxExpanded = false;
 
     /**
+     * Search results pagination
+     */
+    private Pagination searchResultsPagination;
+    /**
      * Called by JavaFX upon initialisation of the search screen. Sets the values of the price range slider to the low
      * and high values. Adds all the possible attribute values to the combo boxes through searchScreenService. Sets the
      * on actions of the combo boxes to change the selected filters. Collapses the filter VBox, adds the style classes
-     * to the widgets, and initialises the date range combo boxes.
+     * to the widgets, and initialises the date range combo boxes. Loads the previous search into the VBox, if there is
+     * no previous search, this is set to all the wines in the database.
      */
     public void initialize() {
-
-        SearchScreenService searchScreenService = new SearchScreenService();
 
         searchBarTextField.setOnAction(this::onSearchButtonClicked);
         priceRangeSlider.setLowValue(0);
         priceRangeSlider.setHighValue(220);
 
-        // this style class is unfinished so the line of code has been commented out for GUI consistency
-        // startDateComboBox.getStyleClass().add("date-combo-box"); //Initialising combo boxes. In deliverable 3, the combo boxes will get the options from the recorded values in the database
-        colourComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER));
-        fullnessComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.FULLNESS, Table.WINESUPER));
-        countryComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.COUNTRY, Table.WINESUPER));
-        varietyComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE));
-
-        colourComboBox.setOnAction(select -> selectedColour = (colourComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : colourComboBox.getSelectionModel().getSelectedItem());
-        fullnessComboBox.setOnAction(select -> selectedFullness = (fullnessComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : fullnessComboBox.getSelectionModel().getSelectedItem());
-        countryComboBox.setOnAction(select -> selectedCountry = (countryComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : countryComboBox.getSelectionModel().getSelectedItem());
-        varietyComboBox.setOnAction(select -> selectedVariety = (varietyComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : varietyComboBox.getSelectionModel().getSelectedItem());
+        initialiseAttributeComboBoxes();
+        initialiseDateRangeComboBoxes();
 
         collapseFilterVBox();
         addStyleClasses();
-        initialiseDateRangeComboBoxes();
+
+        StringConverter<Number> converter = new StringConverter<>() {
+            @Override
+            public String toString(Number number) {
+                return String.valueOf(number.intValue());
+            }
+            @Override
+            public Number fromString(String s) {
+                try {
+                    return Integer.parseInt(s);
+                }
+                catch (NumberFormatException e) {
+                    return null;
+                }
+            }
+        };
+
+        lowPriceTextField.textProperty().bindBidirectional(priceRangeSlider.lowValueProperty(), converter);
+        highPriceTextField.textProperty().bindBidirectional(priceRangeSlider.highValueProperty(), converter);
+        lowPriceTextField.setTextFormatter(new TextFormatter<>(change -> change.getControlNewText().matches("\\d*") ? change : null));
+        highPriceTextField.setTextFormatter(new TextFormatter<>(change -> change.getControlNewText().matches("\\d*") ? change : null));
+
+        searchButton.setDisable(true);
+        getSearchResults(true); //Loads all wines into results box
     }
 
     /**
@@ -164,34 +187,65 @@ public class SearchScreenController {
      */
     @FXML
     void onSearchButtonClicked(ActionEvent event) {
-        searchResultsVBox.getChildren().clear();
+        searchButton.setDisable(true);
         FXWrapper.getInstance().clearPane(wineDetailsAnchorPane);
-        WineManager wineManager = WineManager.getInstance();
+        getSearchResults(false);
+    }
 
-        SearchWineList results = wineManager.searchWines(
-                searchBarTextField.getText(),
-                lowYear,
-                highYear,
-                (float) priceRangeSlider.getLowValue(),
-                (float) priceRangeSlider.getHighValue(),
-                !"All".equals(selectedCountry) ? selectedCountry : null,
-                !"All".equals(selectedColour) ? selectedColour : null,
-                !"All".equals(selectedFullness) ? selectedFullness : null,
-                !"All".equals(selectedVariety) ? selectedVariety : null);
-        List<Wine> resultsList = results.getWineList();
-        Wine[] resultsArray = new Wine[resultsList.size()];
-        resultsArray = resultsList.toArray(resultsArray);
+    /**
+     * If usePreviousSearch is false, gets the results of the search from the database. Otherwise, uses the previous
+     * search stored in FXWrapper. Loads the wine list view with the search results. This is set up to run on a separate
+     * thread to keep the JavaFX application responsive while it runs in the background
+     *
+     * @param usePreviousSearch the truth value of whether the previous search should be used
+     */
+    private void getSearchResults(boolean usePreviousSearch) {
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+                SearchWineList results;
 
-        GuiService.fillVboxGrid(resultsArray, searchResultsVBox, wineDetailsAnchorPane);
+                if (WineListManager.getInstance().getLastSearched() == null | !usePreviousSearch) {
+                    results = WineManager.getInstance().searchWines(
+                            searchBarTextField.getText(),
+                            lowYear,
+                            highYear,
+                            (float) priceRangeSlider.getLowValue(),
+                            (float) priceRangeSlider.getHighValue(),
+                            !"All".equals(selectedCountry) ? selectedCountry : null,
+                            !"All".equals(selectedColour) ? selectedColour : null,
+                            !"All".equals(selectedFullness) ? selectedFullness : null,
+                            !"All".equals(selectedVariety) ? selectedVariety : null);
+                } else {
+                    results = WineListManager.getInstance().getLastSearched();
+                    setUpPreviousSearchValues();
+                }
 
-        if (results.getWineList().isEmpty()) {
-            infoTextLabel.setText("Unfortunately there were no results for your search. Try checking your spelling or broadening your filters.");
-            infoTextRectangle.setOpacity(1);
-            infoTextLabel.setOpacity(1);
-        } else {
-            infoTextRectangle.setOpacity(0);
-            infoTextLabel.setOpacity(0);
-        }
+                WineListManager.getInstance().setLastSearched(results);
+
+                Platform.runLater(() -> {
+                    rootVBox.getChildren().clear();
+
+                    if (results.getWineList().isEmpty()) {
+                        infoTextLabel.setText("Unfortunately there were no results for your search. Try checking your spelling or broadening your filters.");
+                        infoTextRectangle.setVisible(true);
+                        infoTextLabel.setVisible(true);
+                    } else {
+                        infoTextRectangle.setVisible(false);
+                        infoTextLabel.setVisible(false);
+                        searchResultsPagination = GuiService.createPagination(results.getWineList(), rootVBox, 4, 3, wineDetailsAnchorPane);
+                    }
+
+                });
+                return null;
+            }
+        };
+
+        task.setOnSucceeded(e -> searchButton.setDisable(false));
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     /**
@@ -217,7 +271,7 @@ public class SearchScreenController {
 
         List<Integer> years = IntStream.rangeClosed(2007, 2019)
                 .boxed()
-                .collect(Collectors.toList());
+                .toList();
         ObservableList<Integer> yearList = FXCollections.observableArrayList();
         yearList.add(null);
         yearList.addAll(years);
@@ -247,7 +301,6 @@ public class SearchScreenController {
      * Adds the appropriate style classes to the widgets
      */
     private void addStyleClasses() {
-        wineScrollPane.getStyleClass().add("red-wine-scroll-pane");
         searchWinesRectangle.getStyleClass().add("red-wine-rectangle");
         filterRectangle.getStyleClass().add("white-wine-rectangle");
         searchRectangle.getStyleClass().add("white-wine-rectangle");
@@ -261,6 +314,8 @@ public class SearchScreenController {
         varietyComboBox.getStyleClass().add("fifteen-combo-box");
         fullnessComboBox.getStyleClass().add("fifteen-combo-box");
         searchBarTextField.getStyleClass().add("sign-in-screen-text-field");
+        lowPriceTextField.getStyleClass().add("sign-in-screen-text-field");
+        highPriceTextField.getStyleClass().add("sign-in-screen-text-field");
     }
 
     /**
@@ -306,5 +361,47 @@ public class SearchScreenController {
         rootAnchorPane.getChildren().add(filterVBox);
 
         filterToggleButton.setText("Close");
+    }
+
+    /**
+     * Adds all the attribute values from the database to the attribute combo boxes. Sets the on action of the
+     * attribute combo boxes to update the value of the selected attribute to the selected item
+     */
+    private void initialiseAttributeComboBoxes() {
+        colourComboBox.setPromptText("All");
+        fullnessComboBox.setPromptText("All");
+        countryComboBox.setPromptText("All");
+        varietyComboBox.setPromptText("All");
+
+        colourComboBox.getItems().addAll(SearchScreenService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER));
+        fullnessComboBox.getItems().addAll(SearchScreenService.getAttributeValues(WineAttribute.FULLNESS, Table.WINESUPER));
+        countryComboBox.getItems().addAll(SearchScreenService.getAttributeValues(WineAttribute.COUNTRY, Table.WINESUPER));
+        varietyComboBox.getItems().addAll(SearchScreenService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE));
+
+        colourComboBox.setOnAction(select -> selectedColour = (colourComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : colourComboBox.getSelectionModel().getSelectedItem());
+        fullnessComboBox.setOnAction(select -> selectedFullness = (fullnessComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : fullnessComboBox.getSelectionModel().getSelectedItem());
+        countryComboBox.setOnAction(select -> selectedCountry = (countryComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : countryComboBox.getSelectionModel().getSelectedItem());
+        varietyComboBox.setOnAction(select -> selectedVariety = (varietyComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : varietyComboBox.getSelectionModel().getSelectedItem());
+    }
+
+    private void setUpPreviousSearchValues() {
+        SearchWineList previousSearch = WineListManager.getInstance().getLastSearched();
+
+        searchBarTextField.setText(previousSearch.getKeywords());
+        colourComboBox.setValue(previousSearch.getColour());
+        varietyComboBox.setValue(previousSearch.getGrapeName());
+        countryComboBox.setValue(previousSearch.getCountry());
+        fullnessComboBox.setValue(previousSearch.getFullness());
+        startDateComboBox.setValue(previousSearch.getMinYear());
+        endDateComboBox.setValue(previousSearch.getMaxYear());
+        priceRangeSlider.setHighValue(previousSearch.getMaxPrice());
+        priceRangeSlider.setLowValue(previousSearch.getMinPrice());
+
+        selectedColour = previousSearch.getColour();
+        selectedVariety = previousSearch.getGrapeName();
+        selectedCountry = previousSearch.getCountry();
+        selectedFullness = previousSearch.getFullness();
+        lowYear = previousSearch.getMinYear();
+        highYear = previousSearch.getMaxYear();
     }
 }

@@ -59,6 +59,7 @@ public class ProfileTabPaneController {
      */
     public void initialize() {
         profileTabPane.getStyleClass().add("profile-tab-pane");
+        logoutButton.getStyleClass().add("nav-bar-button");
         helloUserLabel.setText("Welcome, " + WineDrinkerManager.getInstance().getCurrentUser().getUsername() + "!");
         FXWrapper.getInstance().loadProfileActionScreen(winedyProfileAnchorPane, Screen.PROFILESCREEN);
         FXWrapper.getInstance().loadProfileActionScreen(wineListAnchorPane, Screen.WINELISTSSCREEN);

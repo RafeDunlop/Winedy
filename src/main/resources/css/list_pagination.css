@@ -1,0 +1,4 @@
+/* Moves Pagination controls to the left to align with the list buttons */
+.list-pagination .pagination-control {
+    -fx-padding: 0 100 0 0; /* Add 100px padding on the right */
+}

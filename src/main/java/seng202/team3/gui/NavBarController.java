@@ -105,7 +105,7 @@ public class NavBarController {
         buttonHBox.setMaxWidth(66);
         buttonHBox.setSpacing(0);
 
-        expansionHoverPause = new PauseTransition(Duration.seconds(0.5));
+        expansionHoverPause = new PauseTransition(Duration.seconds(0.3));
         expansionHoverPause.setOnFinished(event -> {
             if (!expanded) {
                 expandNavBar();

@@ -152,17 +152,17 @@
                   </Tooltip>
                </tooltip>
             </Button>
-            <Label fx:id="notLoggedInLabel" alignment="CENTER" contentDisplay="CENTER" prefWidth="150.0" text="Log in to create and access personal lists!" textAlignment="CENTER" textFill="RED" visible="false" wrapText="true" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+            <Label fx:id="notLoggedInLabel" alignment="CENTER" contentDisplay="CENTER" prefWidth="340.0" text="Log in to create and access personal lists!" textAlignment="CENTER" textFill="RED" visible="false" wrapText="true" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets bottom="20.0" left="20.0" />
+                  <Insets top="20.0" />
                </GridPane.margin>
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <Button fx:id="viewInDetailButton" mnemonicParsing="false" onAction="#onViewInDetailButtonClicked" prefWidth="130.0" text="View In Detail" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+            <Button fx:id="viewInDetailButton" mnemonicParsing="false" onAction="#onViewInDetailButtonClicked" prefWidth="190.0" text="View In Detail" textAlignment="CENTER" wrapText="true" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <GridPane.margin>
-                  <Insets right="20.0" top="20.0" />
+                  <Insets bottom="20.0" left="20.0" />
                </GridPane.margin>
                <font>
                   <Font size="20.0" />

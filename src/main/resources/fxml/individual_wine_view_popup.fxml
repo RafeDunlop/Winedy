@@ -2,27 +2,123 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IndividualWineViewPopupController">
+<StackPane fx:id="overlayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.IndividualWineViewPopupController">
    <children>
-      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+      <AnchorPane fx:id="popupAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="700.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="500.0" stroke="BLACK" strokeType="INSIDE" width="750.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <Button layoutX="485.0" layoutY="59.0" mnemonicParsing="false" text="Exit" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+            <Button fx:id="exitButton" layoutX="485.0" layoutY="59.0" mnemonicParsing="false" onAction="#onExitButtonClicked" text="Exit" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
                <font>
                   <Font size="20.0" />
                </font>
             </Button>
-            <Label prefWidth="550.0" text="Label" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+            <Label fx:id="nameTitleLabel" prefWidth="550.0" text="Label" wrapText="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
                <font>
                   <Font name="System Bold" size="30.0" />
                </font>
             </Label>
+            <Label fx:id="priceTitleLabel" layoutX="111.0" layoutY="99.0" text="Price:" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="100.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="abvTitlelabel" layoutX="118.0" layoutY="179.0" text="ABV:" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="140.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="fullnessTitleLabel" layoutX="111.0" layoutY="250.0" text="Fullness:" AnchorPane.leftAnchor="270.0" AnchorPane.topAnchor="100.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="volumeTitleLabel" layoutX="100.0" layoutY="321.0" text="Volume:" AnchorPane.leftAnchor="270.0" AnchorPane.topAnchor="140.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="countryTitleLabel" layoutX="111.0" layoutY="396.0" text="Country:" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="180.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="styleTitleLabel" layoutX="100.0" layoutY="453.0" text="Style:" AnchorPane.leftAnchor="270.0" AnchorPane.topAnchor="180.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="priceContentsLabel" layoutX="221.0" layoutY="99.0" text="Price Label" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="100.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="abvContentsLabel" layoutX="233.0" layoutY="179.0" text="ABV Label" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="140.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="fullnessContentsLabel" layoutX="227.0" layoutY="250.0" text="Fullness Label" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="100.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="volumeContentsLabel" layoutX="221.0" layoutY="321.0" text="Volume Label" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="140.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="countryContentsLabel" layoutX="209.0" layoutY="396.0" text="Country Label" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="180.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="styleContentsLabel" layoutX="221.0" layoutY="461.0" text="Style Label" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="180.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="yearTitleLabel" layoutX="23.0" layoutY="341.0" text="Year:" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="220.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="yearContentsLabel" layoutX="150.0" layoutY="345.0" text="Year Label" AnchorPane.leftAnchor="130.0" AnchorPane.topAnchor="220.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="descriptionTitleLabel" layoutX="62.0" layoutY="293.0" text="Description:" AnchorPane.leftAnchor="250.0" AnchorPane.topAnchor="260.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <ScrollPane fx:id="descriptionScrollPane" hbarPolicy="NEVER" layoutX="20.0" layoutY="334.0" prefHeight="180.0" prefWidth="430.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0">
+               <content>
+                  <Label fx:id="descriptionContentsLabel" prefWidth="410.0" text="Label" wrapText="true">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+               </content>
+            </ScrollPane>
+            <Label fx:id="awardsTitleLabel" layoutX="400.0" layoutY="242.0" text="Awards:" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="300.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <ScrollPane fx:id="awardsScrollPane" hbarPolicy="NEVER" layoutX="30.0" layoutY="332.0" prefHeight="140.0" prefWidth="200.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
+               <content>
+                  <Label fx:id="awardsContentsLabel" prefWidth="180.0" wrapText="true">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+               </content>
+            </ScrollPane>
          </children>
       </AnchorPane>
    </children>
