@@ -9,7 +9,7 @@ import java.util.Collections;
 
 /**
  * Service class for search screen
- * @author Yuvraj (yfa50)
+ * @author Yuvraj Fagotra (yfa50)
  */
 public final class SearchScreenService {
 
@@ -34,4 +34,14 @@ public final class SearchScreenService {
         return values;
     }
 
+    /**
+     * Gets the value of the aggregate function applied on the win attribute from the given table
+     *
+     * @param attribute the wine attribute to get the minimum value from
+     * @param table the table the given wine attribute is a column of
+     * @return the minimum value of the attribute in the table
+     */
+    public static float getBoundaryAttributeValue(WineAttribute attribute, Table table, String aggregateBoundary) {
+        return searchDAO.getAggregateFunctionValue(attribute.attributeName, table.tableName, aggregateBoundary);
+    }
 }

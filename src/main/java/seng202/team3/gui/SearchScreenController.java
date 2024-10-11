@@ -17,7 +17,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.util.StringConverter;
 import org.controlsfx.control.RangeSlider;
 import seng202.team3.models.WineAttribute;
@@ -26,10 +25,8 @@ import seng202.team3.services.SearchScreenService;
 import seng202.team3.services.WineListManager;
 import seng202.team3.services.WineManager;
 import seng202.team3.models.SearchWineList;
-import seng202.team3.models.Wine;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -91,6 +88,12 @@ public class SearchScreenController {
     private Button searchButton;
 
     @FXML
+    private Button clearFiltersButton;
+
+    @FXML
+    private Button applyFiltersButton;
+
+    @FXML
     private Button filterToggleButton;
 
     @FXML
@@ -145,12 +148,12 @@ public class SearchScreenController {
     /**
      * Boolean to store the state of the sort VBox
      */
-    private boolean sortVBoxExpanded = false;
+    private boolean sortVBoxExpanded = true;
 
     /**
      * Search results pagination
      */
-    private Pagination searchResultsPagination;
+    private Pagination searchResultsPagination; //ToDO I dont think the return value of create pagination is needed
 
     /**
      * Called by JavaFX upon initialisation of the search screen. Sets the values of the price range slider to the low
@@ -162,8 +165,11 @@ public class SearchScreenController {
     public void initialize() {
 
         searchBarTextField.setOnAction(this::onSearchButtonClicked);
-        priceRangeSlider.setLowValue(0);
-        priceRangeSlider.setHighValue(220);
+
+        priceRangeSlider.setMin(SearchScreenService.getBoundaryAttributeValue(WineAttribute.PRICE, Table.WINESUPER, "min"));
+        priceRangeSlider.setMax(SearchScreenService.getBoundaryAttributeValue(WineAttribute.PRICE, Table.WINESUPER, "max"));
+        priceRangeSlider.setLowValue(priceRangeSlider.minProperty().get());
+        priceRangeSlider.setHighValue(priceRangeSlider.maxProperty().get());
 
         initialiseAttributeComboBoxes();
         initialiseDateRangeComboBoxes();
@@ -179,7 +185,7 @@ public class SearchScreenController {
         filterToggleButton.setGraphic(filterToggleButtonHbox);
         filterToggleButton.setText("");
 
-        collapseFilterVBox();
+        expandFilterVBox();
         addStyleClasses();
 
         StringConverter<Number> converter = new StringConverter<>() {
@@ -216,6 +222,8 @@ public class SearchScreenController {
     @FXML
     void onSearchButtonClicked(ActionEvent event) {
         searchButton.setDisable(true);
+        applyFiltersButton.setDisable(true);
+        clearFiltersButton.setDisable(true);
         FXWrapper.getInstance().clearPane(wineDetailsAnchorPane);
         getSearchResults(false);
     }
@@ -269,7 +277,11 @@ public class SearchScreenController {
             }
         };
 
-        task.setOnSucceeded(e -> searchButton.setDisable(false));
+        task.setOnSucceeded(e -> {
+            searchButton.setDisable(false);
+            applyFiltersButton.setDisable(false);
+            clearFiltersButton.setDisable(false);
+        });
 
         Thread thread = new Thread(task);
         thread.setDaemon(true);
@@ -291,13 +303,40 @@ public class SearchScreenController {
     }
 
     /**
+     * Used by JavaFX as the onAction of the clear filters button. Sets all the filters to their default values and
+     * performs a search using only the keywords entered into the search bar
+     */
+    @FXML
+    public void onClearFiltersButtonClicked() {
+        colourComboBox.setValue("All");
+        varietyComboBox.setValue("All");
+        countryComboBox.setValue("All");
+        fullnessComboBox.setValue("All");
+        startDateComboBox.setValue(null);
+        endDateComboBox.setValue(null);
+        priceRangeSlider.setLowValue(priceRangeSlider.minProperty().get());
+        priceRangeSlider.setHighValue(priceRangeSlider.maxProperty().get());
+
+        onSearchButtonClicked(new ActionEvent());
+    }
+
+    /**
+     * Used by JavaFX as the onAction of the apply filters button. Applies any changed filters to the current search
+     */
+    @FXML
+    public void onApplyFiltersButtonClicked() {
+        onSearchButtonClicked(new ActionEvent());
+    }
+
+    /**
      * Method to initialise the date range combination box.
      * Initialises the boxes so that the displayed options for the end date combo box are all later than the currently selected
      * and vice versa and allows the WineDrinker unselect the date filters.
      */
     private void initialiseDateRangeComboBoxes() {
 
-        List<Integer> years = IntStream.rangeClosed(2007, 2019)
+        List<Integer> years = IntStream.rangeClosed((int) SearchScreenService.getBoundaryAttributeValue(WineAttribute.YEAR, Table.WINESUPER, "min"),
+                                                    (int) SearchScreenService.getBoundaryAttributeValue(WineAttribute.YEAR, Table.WINESUPER, "max"))
                 .boxed()
                 .toList();
         ObservableList<Integer> yearList = FXCollections.observableArrayList();
@@ -335,6 +374,8 @@ public class SearchScreenController {
         infoTextRectangle.getStyleClass().add("white-red-wine-rectangle");
         searchButton.getStyleClass().add("nav-bar-button");
         filterToggleButton.getStyleClass().add("nav-bar-button");
+        clearFiltersButton.getStyleClass().add("nav-bar-button");
+        applyFiltersButton.getStyleClass().add("nav-bar-button");
         colourComboBox.getStyleClass().add("fifteen-combo-box");
         countryComboBox.getStyleClass().add("fifteen-combo-box");
         endDateComboBox.getStyleClass().add("fifteen-combo-box");
