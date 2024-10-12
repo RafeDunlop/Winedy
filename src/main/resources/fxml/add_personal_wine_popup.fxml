@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="overlayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(0,0,0, 0.5);" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.LogPopupController">
+    <children>
+        <AnchorPane fx:id="popUpAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="615.0" prefWidth="642.0" StackPane.alignment="CENTER">
+            <StackPane.margin>
+                <Insets />
+            </StackPane.margin>
+         <children>
+            <AnchorPane layoutX="38.0" layoutY="88.0" prefHeight="422.0" prefWidth="567.0" AnchorPane.leftAnchor="38.0">
+               <children>
+                  <Label layoutX="48.0" layoutY="30.0" text="Name:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="48.0" layoutY="70.0" text="Country:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="48.0" layoutY="150.0" text="Style:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="48.0" layoutY="190.0" text="Fullness:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="48.0" layoutY="230.0" text="Description:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="48.0" layoutY="300.0" text="Price per bottle:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="48.0" layoutY="340.0" text="Alcohol by volume:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="48.0" layoutY="380.0" text="Volume (mL):">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="48.0" layoutY="110.0" text="Colour:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField layoutX="276.0" layoutY="30.0" prefHeight="24.0" prefWidth="266.0" />
+                  <TextField layoutX="276.0" layoutY="70.0" prefHeight="24.0" prefWidth="266.0" />
+                  <TextField layoutX="276.0" layoutY="110.0" prefHeight="24.0" prefWidth="266.0" />
+                  <TextField layoutX="276.0" layoutY="150.0" prefHeight="24.0" prefWidth="266.0" />
+                  <TextField layoutX="276.0" layoutY="190.0" prefHeight="24.0" prefWidth="266.0" />
+                  <TextField layoutX="276.0" layoutY="300.0" prefHeight="24.0" prefWidth="78.0" />
+                  <TextField layoutX="276.0" layoutY="340.0" prefHeight="24.0" prefWidth="78.0" />
+                  <TextArea layoutX="276.0" layoutY="230.0" prefHeight="54.0" prefWidth="266.0" />
+                  <TextField layoutX="276.0" layoutY="380.0" prefHeight="24.0" prefWidth="78.0" />
+               </children>
+            </AnchorPane>
+            <Button fx:id="finishLogButton" layoutX="368.0" layoutY="546.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="236.0" text="Add Personal Wine" />
+            <Button fx:id="cancelLogButton" layoutX="35.0" layoutY="546.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="236.0" text="Cancel" />
+            <Label layoutX="35.0" layoutY="51.0" text="Add a personal wine">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+         </children>
+        </AnchorPane>
+    </children>
+</StackPane>
