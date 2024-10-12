@@ -40,16 +40,18 @@ public enum TimePeriod {
     public final static long dayMillis = 24 * 60 * 60 * 1000;
 
     /**
-     * Splits the given list of Timed objects T into its smaller groups (e.g. Month gets split into Weeks, Weeks into Days)
-     * Returns a hash map that maps an integer to a list of Timed objects T where each list is a smaller group of T
+     * Splits the given list of Timed objects T into its smaller TimeRange value (e.g. Month gets split into Weeks, Weeks
+     * into Days) Returns a hash map that maps an integer to a list of Timed objects T where each list is a smaller group of T.
+     * Assumes that the given list of Timed object are sorted by their date (descending). In the usage cases, this is
+     * done in the SQL query.
      *
-     * @param toSplit the list of Timed objects T to be split into its smaller groups
+     * @param toSplit the list of Timed objects T to be split into its smaller groups. This list of T all fall within
+     *                the same TimeRange
      * @return a hash map mapping an integer index to the smaller groups (lists) of T
      * @param <T> an object that extends the Timed class
      */
     public <T extends Timed> HashMap<Integer, List<T>> splitIntoPeriods(List<T> toSplit) {
         HashMap<Integer, List<T>> hashMap = new HashMap<>();
-        toSplit.sort(Comparator.comparing(T::getDate));
         switch (this) {
             case DAYS:
                 splitIntoDays(hashMap, toSplit);
