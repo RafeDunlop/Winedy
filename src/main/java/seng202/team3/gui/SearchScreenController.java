@@ -147,7 +147,7 @@ public class SearchScreenController {
     /**
      * Boolean to store the state of the sort VBox
      */
-    private boolean sortVBoxExpanded = true;
+    private boolean filterVBoxExpanded = true;
 
     /**
      * Search results pagination
@@ -267,12 +267,12 @@ public class SearchScreenController {
      */
     @FXML
     void onFilterToggleButtonClicked() {
-        if (sortVBoxExpanded) {
+        if (filterVBoxExpanded) {
             collapseFilterVBox();
-            sortVBoxExpanded = false;
+            filterVBoxExpanded = false;
         } else {
             expandFilterVBox();
-            sortVBoxExpanded = true;
+            filterVBoxExpanded = true;
         }
     }
 
@@ -299,6 +299,8 @@ public class SearchScreenController {
      */
     @FXML
     public void onApplyFiltersButtonClicked() {
+        collapseFilterVBox();
+        filterVBoxExpanded = false;
         onSearchButtonClicked(new ActionEvent());
     }
 
