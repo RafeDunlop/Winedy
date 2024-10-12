@@ -191,7 +191,7 @@ public class TimeRangeTest {
     @Test
     public void getStringRepDaysTuesdayTest() {
         String tuesday = TimeRange.getStringRep(2, TimeRange.THISWEEK);
-        assertEquals("Tuesday", tuesday);
+        assertEquals("Tue", tuesday);
     }
 
     @Test
