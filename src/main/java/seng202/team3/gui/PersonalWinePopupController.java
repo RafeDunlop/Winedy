@@ -164,8 +164,9 @@ public class PersonalWinePopupController {
 
     private Wine createPersonalWine() {
         int uniqueWineID = WineManager.getInstance().getAllWines().getLast().getUniqueWineID() + 1;
+        String[] grape = {grapeComboBox.getSelectionModel().getSelectedItem()};
         return new Wine(uniqueWineID, nameTextField.getText(), countryTextField.getText(), colourComboBox != null ? colourComboBox.getSelectionModel().getSelectedItem() : null,
-                styleComboBox != null ? styleComboBox.getSelectionModel().getSelectedItem() : null, grapeComboBox != null ? grapeComboBox.getSelectionModel().getSelectedItem().split("") : null,
+                styleComboBox != null ? styleComboBox.getSelectionModel().getSelectedItem() : null, grapeComboBox != null ? grape : null,
                 fullnessComboBox != null ? fullnessComboBox.getSelectionModel().getSelectedItem() : null, descriptionTextArea.getText(),
                 pricePerBottleTextField.getText().isEmpty() ? DEFAULTPRICE : parseFloat(pricePerBottleTextField.getText()), null,
                 abvTextField.getText().isEmpty() ? DEFAULTABV : parseFloat(abvTextField.getText()),

@@ -64,7 +64,8 @@ public class PersonalWinePopupService {
      * @return true if year is a reasonable value
      */
     public boolean validatePersonalWineYear() {
-        return LocalDate.now().getYear()-MAXYEARSINPAST <= this.personalWine.getYear() && this.personalWine.getYear() <= LocalDate.now().getYear();
+        return this.personalWine.getYear() == 0 ||
+                (LocalDate.now().getYear()-MAXYEARSINPAST <= this.personalWine.getYear() && this.personalWine.getYear() <= LocalDate.now().getYear());
     }
 
     /**
