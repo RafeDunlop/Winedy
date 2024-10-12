@@ -11,30 +11,30 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ConsumptionScreenController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="612.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ConsumptionScreenController">
    <children>
-      <Rectangle fx:id="logRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="481.0" layoutX="605.0" layoutY="103.0" stroke="BLACK" strokeType="INSIDE" width="590.0" />
-      <VBox fx:id="logVBox" layoutX="622.0" layoutY="120.0" prefHeight="449.0" prefWidth="561.0" />
-      <Rectangle fx:id="logBannerRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="77.0" layoutX="605.0" layoutY="8.0" stroke="BLACK" strokeType="INSIDE" width="589.0" />
-      <Label layoutX="622.0" layoutY="29.0" prefHeight="16.0" prefWidth="277.0" text="Your Wine Logs">
+      <Rectangle fx:id="logRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="472.0" layoutX="605.0" layoutY="103.0" stroke="BLACK" strokeType="INSIDE" width="570.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+      <VBox fx:id="logVBox" layoutX="622.0" layoutY="120.0" prefHeight="452.0" prefWidth="550.0" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0" />
+      <Rectangle fx:id="logBannerRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutX="605.0" layoutY="8.0" stroke="BLACK" strokeType="INSIDE" width="570.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
+      <Label layoutX="631.0" layoutY="41.0" prefHeight="16.0" prefWidth="277.0" text="Your Wine Logs">
          <font>
             <Font name="System Bold" size="30.0" />
          </font>
       </Label>
-      <Button fx:id="logButton" layoutX="997.0" layoutY="25.0" mnemonicParsing="false" onAction="#onLogClicked" prefHeight="31.0" prefWidth="170.0" text="Log a wine">
+      <Button fx:id="logButton" layoutX="997.0" layoutY="39.0" mnemonicParsing="false" onAction="#onLogClicked" prefHeight="31.0" prefWidth="170.0" text="Log a wine" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="40.0">
          <font>
             <Font size="20.0" />
          </font>
       </Button>
-      <Rectangle fx:id="graphBannerRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="77.0" layoutX="16.0" layoutY="8.0" stroke="BLACK" strokeType="INSIDE" width="573.0" />
-      <Label layoutX="167.0" layoutY="36.0" prefHeight="21.0" prefWidth="95.0" text="Selected:">
+      <Rectangle fx:id="graphBannerRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutX="16.0" layoutY="8.0" stroke="BLACK" strokeType="INSIDE" width="570.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0" />
+      <Label layoutX="167.0" layoutY="48.0" prefHeight="21.0" prefWidth="95.0" text="Selected:">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <ComboBox fx:id="timeRangeComboBox" layoutX="278.0" layoutY="27.0" prefHeight="36.0" prefWidth="170.0" />
-      <Rectangle fx:id="graphRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="481.0" layoutX="16.0" layoutY="103.0" stroke="BLACK" strokeType="INSIDE" width="573.0" />
-      <BarChart fx:id="consumptionChart" layoutX="14.0" layoutY="108.0" prefHeight="481.0" prefWidth="561.0">
+      <ComboBox fx:id="timeRangeComboBox" layoutX="275.0" layoutY="41.0" prefHeight="36.0" prefWidth="170.0" AnchorPane.leftAnchor="280.0" />
+      <Rectangle fx:id="graphRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="472.0" layoutX="16.0" layoutY="103.0" stroke="BLACK" strokeType="INSIDE" width="570.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" />
+      <BarChart fx:id="consumptionChart" layoutX="27.0" layoutY="121.0" prefHeight="432.0" prefWidth="530.0" stylesheets="@../css/bar_chart.css" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="40.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
         </xAxis>
@@ -42,14 +42,14 @@
           <NumberAxis side="LEFT" />
         </yAxis>
       </BarChart>
-      <Rectangle fx:id="noLogsRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="172.0" layoutX="511.0" layoutY="244.0" stroke="BLACK" strokeType="INSIDE" width="340.0" AnchorPane.leftAnchor="730.0" AnchorPane.topAnchor="244.0" />
-      <Label fx:id="noLogsLabel" layoutX="745.0" layoutY="251.0" prefHeight="160.0" prefWidth="325.0" text="You have not logged any wines in this time range" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="745.0" AnchorPane.topAnchor="251.0">
+      <Rectangle fx:id="noLogsRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="172.0" layoutX="738.0" layoutY="262.0" stroke="BLACK" strokeType="INSIDE" width="340.0" AnchorPane.leftAnchor="738.0" AnchorPane.topAnchor="262.0" />
+      <Label fx:id="noLogsLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="746.0" layoutY="268.0" prefHeight="160.0" prefWidth="325.0" text="You have not logged any wines in this time range" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="746.0" AnchorPane.topAnchor="268.0">
          <font>
             <Font size="30.0" />
          </font>
       </Label>
-      <Rectangle fx:id="noDataRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="128.0" layoutX="192.0" layoutY="266.0" stroke="BLACK" strokeType="INSIDE" width="205.0" />
-      <Label fx:id="noDataLabel" layoutX="230.0" layoutY="313.0" text="No data!">
+      <Rectangle fx:id="noDataRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="128.0" layoutX="203.0" layoutY="284.0" stroke="BLACK" strokeType="INSIDE" width="205.0" />
+      <Label fx:id="noDataLabel" layoutX="240.0" layoutY="330.0" text="No data!">
          <font>
             <Font size="30.0" />
          </font>

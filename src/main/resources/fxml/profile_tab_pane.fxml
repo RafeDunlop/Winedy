@@ -7,23 +7,23 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileTabPaneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="724.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileTabPaneController">
    <children>
-      <TabPane fx:id="profileTabPane" layoutX="-1.0" layoutY="57.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="643.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="19.0" tabMaxWidth="355.0" tabMinHeight="19.0" tabMinWidth="355.0">
+      <TabPane fx:id="profileTabPane" layoutX="-1.0" layoutY="57.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="667.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="19.0" tabMaxWidth="355.0" tabMinHeight="19.0" tabMinWidth="355.0">
          <tabs>
             <Tab fx:id="winedyProfileTab" text="Winedy Profile ">
                <content>
-                  <AnchorPane fx:id="winedyProfileAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="608.0" prefWidth="1200.0" />
+                  <AnchorPane fx:id="winedyProfileAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="641.0" prefWidth="1200.0" />
                </content>
             </Tab>
             <Tab fx:id="wineListTab" text="My Wine Lists ">
                <content>
-                  <AnchorPane fx:id="wineListAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="603.0" prefWidth="1200.0" />
+                  <AnchorPane fx:id="wineListAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="641.0" prefWidth="1200.0" />
                </content>
             </Tab>
             <Tab fx:id="consumptionTrackingTab" text="Consumption Tracking">
                <content>
-                  <AnchorPane fx:id="consumptionTrackingAnchorPane" maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="605.0" prefWidth="1200.0" />
+                  <AnchorPane fx:id="consumptionTrackingAnchorPane" maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="641.0" prefWidth="1200.0" />
                </content>
             </Tab>
          </tabs>

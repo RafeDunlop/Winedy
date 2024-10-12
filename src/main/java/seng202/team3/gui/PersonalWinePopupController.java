@@ -18,6 +18,7 @@ import seng202.team3.services.SearchService;
 import seng202.team3.services.WineManager;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
@@ -83,16 +84,16 @@ public class PersonalWinePopupController {
 
     @FXML
     private TextField yearTextField;
-
-    Screen toReturnTo;
+    
+    private Consumer<Wine> onWineCreated;
 
     final float DEFAULTPRICE = 0f;
     final int DEFAULTABV = 0;
     final int DEFAULTVOLUME = 750;
     final int DEFAULTYEAR = 0;
 
-    public PersonalWinePopupController(Screen toReturnTo) {
-        this.toReturnTo = toReturnTo;
+    public PersonalWinePopupController(Consumer<Wine> onWineCreated) {
+        this.onWineCreated = onWineCreated;
     }
 
     public void initialize() {
@@ -128,12 +129,10 @@ public class PersonalWinePopupController {
         yearTextField.setTextFormatter(PersonalWinePopupService.getIntegerFormatter());
     }
 
-    private void closethis() {
+    private void closethis(Wine personalWine) {
         FXWrapper.getInstance().removePopUp(overlayPane);
-        if (toReturnTo == Screen.ADDLOGPOPUP) {
-            FXWrapper.getInstance().loadLogPopup(null, null, Screen.TRACKINGCONSUMPTIONSCREEN);
-        } else {
-            FXWrapper.getInstance().loadScreen(toReturnTo);
+        if (personalWine != null) {
+            onWineCreated.accept(personalWine);
         }
     }
 
@@ -158,7 +157,7 @@ public class PersonalWinePopupController {
             service.validatePersonalWineColour();
             PersonalWineDAO personalWineDAO = new PersonalWineDAO();
             personalWineDAO.add(personalWine);
-            closethis();
+            closethis(personalWine);
         }
     }
 
@@ -176,7 +175,7 @@ public class PersonalWinePopupController {
 
     @FXML
     void cancelPersonalWine() {
-        closethis();
+        closethis(null);
     }
 
     private void addStyleClasses() {
