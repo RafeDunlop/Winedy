@@ -1,6 +1,5 @@
 package seng202.team3.unittests.models;
 
-import com.password4j.Hash;
 import org.junit.jupiter.api.Test;
 import seng202.team3.models.TimePeriod;
 import seng202.team3.models.WineLog;
