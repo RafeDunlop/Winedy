@@ -343,6 +343,7 @@ public class ProfileWineListsScreenController {
     /**
      * Styles the label for the name of the list which will go on to the button
      * that takes you to that list
+     *
      * @param nameLabel name label to style
      */
     private void styleListNameLabel(Label nameLabel) {
