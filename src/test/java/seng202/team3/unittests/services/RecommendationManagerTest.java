@@ -67,7 +67,6 @@ public class RecommendationManagerTest {
         RecommendationManager.REMOVE_INSTANCE();
         recommendationManager = RecommendationManager.getInstance(DATABASE_PATH);
         recommendationDAO = new RecommendationDAO(DATABASE_PATH);
-        recommendationManager.setDAOs(recommendationDAO, new WineDAO(DATABASE_PATH));
     }
     @AfterEach
     public void cleanup(){
@@ -149,7 +148,7 @@ public class RecommendationManagerTest {
         recommendationDAO.updateIndividualPreferenceVal(wineDrinker.getUsername(), "FULL", 0);
         recommendationDAO.updateIndividualPreferenceVal(wineDrinker.getUsername(), "Red", 0);
         recommendationDAO.updateIndividualPreferenceVal(wineDrinker.getUsername(), "ABV", 0);
-        recommendationManager.selectWinesWithIndex(selectedWines, selectedWinePercents, 4);
+        recommendationManager.selectWinesWithIndex(selectedWines, selectedWinePercents, 121);
         assert(selectedWines.isEmpty());
     }
 

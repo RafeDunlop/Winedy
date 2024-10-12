@@ -9,10 +9,14 @@ import java.util.Collections;
 
 /**
  * Service class for search screen
+ *
  * @author Yuvraj (yfa50)
  */
 public final class SearchScreenService {
 
+    /**
+     * Instance of a search DAO for database related actions
+     */
     private static final SearchDAO searchDAO = new SearchDAO();
 
     /**

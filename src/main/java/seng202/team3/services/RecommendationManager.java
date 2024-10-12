@@ -58,14 +58,20 @@ public class RecommendationManager {
     }
 
     /**
-     * Initialising function, initiliases the recommendationDAO
+     * Default constructor for the RecommendationManager. sets the DAO's to use the standard database.
      */
-    private RecommendationManager () {
+    private RecommendationManager() {
         recommendationDAO = new RecommendationDAO();
         wineDAO = new WineDAO();
     }
 
-    private RecommendationManager (String url) {
+    /**
+     * Constructor for the RecommendationManager. sets the DAO's to use the database at the given url.
+     * Used for testing using the test database rather than the standard database
+     *
+     * @param url the url that th test database is located at
+     */
+    private RecommendationManager(String url) {
         recommendationDAO = new RecommendationDAO(url);
         wineDAO = new WineDAO(url);
     }
@@ -107,7 +113,8 @@ public class RecommendationManager {
 
     /**
      * Retrieves Wine Drinkers preferences as a DrinkerPreferenceModel object from the database
-     * 
+     *
+     * @param username the username of the Wine Drinker whose preference model to retrieve
      * @return the users builtin preferences through the database
      */
     public DrinkerPreferenceModel getUserPreferenceModel(String username) {
@@ -115,6 +122,12 @@ public class RecommendationManager {
         return curDrinkerPrefModel;
     }
 
+    /**
+     * Updates the preference model of the current Wine Drinker preferences (colour, grape, and fullness) to have the
+     * default preference value
+     *
+     * @param curUser the currently logged in WineDrinker
+     */
     public void updatePreferenceModelWithUserSelectedPreferences(WineDrinker curUser) {
 
         String colPref = curUser.getColourPreference();
@@ -148,8 +161,9 @@ public class RecommendationManager {
     }
 
     /**
-     * Retrieve wine from database with given index and add it to selectedWines
-     * list if it meets s score threshold
+     * Retrieves the wine from database with given index and adds it to the selectedWines list if it meets the score
+     * threshold
+     *
      * @param selectedWines List of wines to input passing wines into
      * @param selectedWinePercents list of scores corresponding to selectedWines
      * @param indexToSearch the index of the wine to search
@@ -266,17 +280,8 @@ public class RecommendationManager {
     }
 
     /**
-     * Sets recommendationDAO for testing purposes
-     * @param recommendationDAO recommendation DAO to set
-     * @param wineDAO WineDAO object to set
-     */
-    public void setDAOs(RecommendationDAO recommendationDAO, WineDAO wineDAO) {
-        this.recommendationDAO = recommendationDAO;
-        this.wineDAO = wineDAO;
-    }
-
-    /**
      * Returns list of database wine unique ids
+     *
      * @return this.wineIndexes
      */
     public List<Integer> getWineIndexes(){
