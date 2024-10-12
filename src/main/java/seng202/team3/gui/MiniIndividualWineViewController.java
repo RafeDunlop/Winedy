@@ -63,7 +63,6 @@ public class MiniIndividualWineViewController {
      */
     @FXML
     public void initialize() {
-        rectangle.getStyleClass().add("white-wine-rectangle");
         viewInDetailButton.getStyleClass().add("nav-bar-button");
         wineNameLabel.setText(wineToDisplay.getName());
         wineFullnessLabel.setText("Fullness: " + wineToDisplay.getFullness());
