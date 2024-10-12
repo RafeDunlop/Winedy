@@ -121,15 +121,12 @@ public class PersonalWinePopupController {
     void addPersonalWine() throws WineDrinkerAlreadyExistsException {
         Wine personalWine = createPersonalWine();
         PersonalWinePopupService service = new PersonalWinePopupService(personalWine);
-        addStyleClasses();
+        resetStyleErrors();
         if (!service.validatePersonalWineName()) {
             styleError(nameLabel, nameTextField, "Please enter the wine name");
         }
         else if (!service.validatePersonalWineABV()) {
-            abvLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour;");
-            abvTextField.setText("");
-            abvTextField.setStyle("-fx-background-color: -fx-dark-red-wine-colour; -fx-text-fill: white; -fx-prompt-text-fill: white");
-            abvTextField.promptTextProperty().set("Please enter a valid ABV");
+            styleError(abvLabel, abvTextField, "Please enter a valid ABV");
         }
         else if (!service.validatePersonalWineVolume()) {
             styleError(volumeLabel, volumeTextField, "Please enter a valid volume");
@@ -164,6 +161,17 @@ public class PersonalWinePopupController {
         popUpAnchorPane.getStyleClass().add("titled-pane");
         cancelPersonalWineButton.getStyleClass().add("nav-bar-button");
         addPersonalWineButton.getStyleClass().add("nav-bar-button");
+    }
+
+    private void resetStyleErrors() {
+        nameLabel.setStyle("");
+        nameTextField.setStyle("");
+        abvLabel.setStyle("");
+        abvTextField.setStyle("");
+        volumeLabel.setStyle("");
+        volumeTextField.setStyle("");
+        yearLabel.setStyle("");
+        yearTextField.setStyle("");
     }
 
     private void styleError(Label label, TextField textField, String message) {

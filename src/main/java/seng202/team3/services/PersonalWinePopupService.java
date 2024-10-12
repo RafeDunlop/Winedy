@@ -36,11 +36,11 @@ public class PersonalWinePopupService {
     }
 
     public boolean validatePersonalWineVolume() {
-        return 0 <= this.personalWine.getYear() && this.personalWine.getYear() <= MAXVOLUME;
+        return 0 <= this.personalWine.getVolumeInMl() && this.personalWine.getVolumeInMl() <= MAXVOLUME;
     }
 
     public boolean validatePersonalWineYear() {
-        return LocalDate.now().getYear()-MAXYEARSINPAST <= this.personalWine.getYear() || this.personalWine.getYear() <= LocalDate.now().getYear();
+        return LocalDate.now().getYear()-MAXYEARSINPAST <= this.personalWine.getYear() && this.personalWine.getYear() <= LocalDate.now().getYear();
     }
 
     /**
