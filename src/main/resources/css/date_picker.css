@@ -1,0 +1,48 @@
+.root {
+    -fx-dpb-border-colour: "Black";
+    -fx-fcb-body-colour: #F0F0F0; /* Off-white grey */
+    -fx-fcb-hover-colour: #F7DBE2;
+}
+
+.date-picker {
+    -fx-background-color: -fx-fcb-body-colour;
+    -fx-border-color: -fx-fcb-border-colour;
+    -fx-background-insets: 0, 1;
+    -fx-border-insets: 0, 1;
+    -fx-background-radius: 5;
+    -fx-padding: 2 8 2 2;
+    -fx-text-fill: black;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+    -fx-font-size: 15;
+}
+
+.date-picker:focused {
+    -fx-background-radius: 3, 2;
+    -fx-border-insets: 2;
+    -fx-background-insets: 2;
+}
+
+.date-picker:hover {
+    -fx-background-color: -fx-fcb-hover-colour;
+}
+
+.date-picker > .text-field {
+    -fx-background-color: -fx-fcb-body-colour;
+    -fx-fill: black;
+    -fx-font-size: 15;
+}
+
+.date-picker:hover > .text-field {
+    -fx-background-color: fx-fcb-hover-colour;
+}
+
+.date-picker > .arrow-button > .arrow {
+    -fx-background-color: -fx-fcb-body-colour;
+}
+
+.date-picker:hover > .arrow-button > .arrow {
+    -fx-background-color: -fx-fcb-hover-colour;
+}
+
+

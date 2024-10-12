@@ -147,7 +147,10 @@ public class ConsumptionScreenController {
         Button button = new Button();
 
         button.setGraphic(buttonGraphic);
-        button.setOnAction(event -> FXWrapper.getInstance().loadLogPopup(log, null, Screen.TRACKINGCONSUMPTIONSCREEN));
+        button.setOnAction(event -> {
+            System.out.println(log);
+            FXWrapper.getInstance().loadLogPopup(log, null, Screen.TRACKINGCONSUMPTIONSCREEN);
+        });
         button.setPrefSize(560, 80);
         button.setMaxWidth(540);
         button.getStyleClass().add("nav-bar-button");
@@ -241,6 +244,9 @@ public class ConsumptionScreenController {
         graphRectangle.getStyleClass().add("white-wine-rectangle");
         graphBannerRectangle.getStyleClass().add("white-wine-rectangle");
         logButton.getStyleClass().add("nav-bar-button");
+        noDataRectangle.getStyleClass().add("white-red-wine-rectangle");
+        noLogsRectangle.getStyleClass().add("white-wine-rectangle");
+        consumptionChart.getStyleClass().add("bar-chart");
     }
 
     /**
