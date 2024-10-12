@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import static javafx.scene.control.ContentDisplay.TOP;
 
@@ -129,22 +130,17 @@ public final class GuiService {
      * anchor pane of the given wine.
      *
      * @param wineToDisplay The wine to be displayed on the button
-     * @param screenAnchorPane The anchor pane that the individual wine view should be loaded on to
+     * @param onAction Consumer method that defines the onAction of the button and can take a wine as parameter
      * @param prefWidth preferred width of wineButton
      * @param prefHeight preferred height of wineButton
      * @return a Button that displays the wine image and loads an individual wine view when clicked.
      */
-    public static Button generateWineButton(Wine wineToDisplay, AnchorPane screenAnchorPane, double prefWidth, double prefHeight) {
+    public static Button generateWineButton(Wine wineToDisplay, Consumer<Wine> onAction, double prefWidth, double prefHeight) {
         Button wineButton = new Button(wineToDisplay.getName());
         wineButton.setPrefSize(prefWidth,prefHeight);
         wineButton.setWrapText(true);
         addImageGraphicToButton(wineButton, "/images/" + wineToDisplay.getColour() + "_wine_image.png", 100, 100, false, true);
-        if (screenAnchorPane != null) {
-            wineButton.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineView(screenAnchorPane, wineToDisplay));
-        } else {
-            wineButton.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineViewPopup(wineToDisplay)); /*TODO this currently loads the incorrect pop up, change so it loads the individual wine view pop up */
-        }
-
+        wineButton.setOnAction(e -> onAction.accept(wineToDisplay));
         wineButton.setContentDisplay(TOP);
         wineButton.getStyleClass().add("nav-bar-button");
         wineButton.setFont(new Font("System", 18));
@@ -155,13 +151,13 @@ public final class GuiService {
      * Generates an HBox that contains buttons for each wine in the given list. This could be search results or contents of a wine list.
      *
      * @param wineList Contains the wines to generate buttons for
-     * @param wineDetailsAnchorPane The anchor pane needed for the onAction() method of the buttons
+     * @param wineConsumer Consumer method that defines the onAction of the button and can take a wine as parameter
      * @return An HBox containing wine buttons
      *
-     * @see GuiService#generateWineButton(Wine, AnchorPane, double, double)
-     * @see GuiService#startButtonGeneration(List, VBox, AnchorPane, int)
+     * @see GuiService#generateWineButton(Wine, Consumer, double, double)
+     * @see GuiService#startButtonGeneration(List, VBox, Consumer, int)
      */
-    public static HBox GenerateHBox(List<Wine> wineList, AnchorPane wineDetailsAnchorPane) {
+    public static HBox GenerateHBox(List<Wine> wineList, Consumer<Wine> wineConsumer) {
 
         HBox hBox = new HBox(10); // 10px
         hBox.setSpacing(20);
@@ -169,7 +165,7 @@ public final class GuiService {
         hBox.setPrefWidth(800); // Set preferred width for the HBox
 
         for (Wine wine: wineList) {
-            Button button = generateWineButton(wine, wineDetailsAnchorPane, 230, 230);
+            Button button = generateWineButton(wine, wineConsumer, 230, 230);
             hBox.getChildren().add(button);
         }
 
@@ -182,12 +178,12 @@ public final class GuiService {
      *
      * @param wineList Contains wines to generate buttons for
      * @param vBox  The VBox that will contain the generated buttons
-     * @param wineDetailsAnchorPane The anchor pane which the contains the VBox
+     * @param wineConsumer Consumer method that defines the onAction of the button and can take a wine as parameter
      * @param buttonsPerRow The number of buttons to be generated per row/HBox
      *
-     * @see GuiService#GenerateHBox(List, AnchorPane)
+     * @see GuiService#GenerateHBox(List, Consumer)
      */
-    public static void startButtonGeneration(List<Wine> wineList, VBox vBox, AnchorPane wineDetailsAnchorPane, int buttonsPerRow) {
+    public static void startButtonGeneration(List<Wine> wineList, VBox vBox, Consumer<Wine> wineConsumer, int buttonsPerRow) {
 
         Task<Void> task = new Task<>() {
             @Override
@@ -197,9 +193,9 @@ public final class GuiService {
 
                     HBox hBox;
                     if (i+buttonsPerRow >= wineList.size()) {
-                        hBox = GenerateHBox(wineList.subList(i,wineList.size()), wineDetailsAnchorPane);
+                        hBox = GenerateHBox(wineList.subList(i,wineList.size()), wineConsumer);
                     } else {
-                        hBox = GenerateHBox(wineList.subList(i,i+buttonsPerRow), wineDetailsAnchorPane);
+                        hBox = GenerateHBox(wineList.subList(i,i+buttonsPerRow), wineConsumer);
                     }
 
                     Platform.runLater(() -> vBox.getChildren().add(hBox));
@@ -300,7 +296,10 @@ public final class GuiService {
         VBox pageContent = new VBox();
         int start = pageIndex * rowsPerPage * winesPerRow;
         int end = Math.min(start + rowsPerPage * winesPerRow, winesToDisplay.size());
-        GuiService.startButtonGeneration(winesToDisplay.subList(start, end), pageContent, wineDetailsAnchorPane, 3);
+
+        Consumer<Wine> wineConsumer = wine -> FXWrapper.getInstance().loadIndividualWineView(wineDetailsAnchorPane, wine);
+        GuiService.startButtonGeneration(winesToDisplay.subList(start, end), pageContent, wineConsumer, 3);
+
         ScrollPane scrollPane = new ScrollPane(pageContent);
         scrollPane.setFitToWidth(true);
         scrollPane.getStyleClass().add("red-wine-scroll-pane");
