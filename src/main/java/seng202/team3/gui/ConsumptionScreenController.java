@@ -110,6 +110,7 @@ public class ConsumptionScreenController {
         fullDisable(noLogsLabel, !empty);
         fullDisable(noLogsRectangle, !empty);
         fullDisable(consumptionChart, empty);
+        fullDisable(logVBox, empty);
         if (!empty) {
             createPaginationLogs();
             loadGraph();
