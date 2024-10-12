@@ -1,6 +1,5 @@
 package seng202.team3.unittests.models;
 
-import io.cucumber.java.ca.Cal;
 import javafx.util.Pair;
 import javafx.util.StringConverter;
 import org.junit.jupiter.api.AfterEach;
