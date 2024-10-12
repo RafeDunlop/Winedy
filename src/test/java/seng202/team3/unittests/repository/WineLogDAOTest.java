@@ -15,6 +15,11 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Unit tests for WineLogDAO
+ *
+ * @author Sophia Copley (sco207)
+ */
 public class WineLogDAOTest {
     final String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
     private WineLogDAO wineLogDAO;
