@@ -28,7 +28,7 @@
          <children>
             <Rectangle fx:id="contentsRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="620.0" stroke="BLACK" strokeType="INSIDE" width="300.0" GridPane.halignment="CENTER" GridPane.rowSpan="3" />
             <Rectangle fx:id="informationRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="620.0" stroke="BLACK" strokeType="INSIDE" width="700.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowSpan="3" />
-            <ScrollPane fx:id="contentsScrollPane" hbarPolicy="NEVER" maxHeight="580.0" maxWidth="260.0" prefHeight="200.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.rowSpan="3">
+            <ScrollPane fx:id="contentsScrollPane" hbarPolicy="NEVER" maxHeight="440.0" maxWidth="260.0" prefHeight="200.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.rowSpan="3" GridPane.valignment="TOP">
                <content>
                   <VBox maxWidth="245.0">
                      <children>
@@ -36,81 +36,87 @@
                            <font>
                               <Font name="System Bold" size="30.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
                         </Label>
-                        <Button fx:id="aboutWinedyButton" mnemonicParsing="false" text="About Winedy">
+                        <Button fx:id="aboutWinedyButton" mnemonicParsing="false" text="About Winedy" underline="true">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="usefulWineInformationButton" mnemonicParsing="false" text="Useful wine information" underline="true" wrapText="true">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="colourButton" mnemonicParsing="false" text="Colour" underline="true">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Button>
-                        <Button fx:id="usefulWineInformationButton" mnemonicParsing="false" text="Useful wine information" wrapText="true">
+                        <Button fx:id="varietyButton" mnemonicParsing="false" text="Variety" underline="true">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Button fx:id="fullnessButton" mnemonicParsing="false" text="Fullness" underline="true">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Button>
-                        <Button fx:id="colourButton" mnemonicParsing="false" text="Colour">
-                           <VBox.margin>
-                              <Insets left="20.0" />
-                           </VBox.margin>
+                        <Button fx:id="abvButton" mnemonicParsing="false" text="ABV" underline="true">
                            <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="varietyButton" mnemonicParsing="false" text="Variety">
-                           <font>
-                              <Font size="15.0" />
+                              <Font size="20.0" />
                            </font>
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
                         </Button>
-                        <Button fx:id="fullnessButton" mnemonicParsing="false" text="Fullness">
+                        <Button fx:id="howToUseWinedyButton" mnemonicParsing="false" text="How to use Winedy" underline="true" wrapText="true">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="searchingButton" mnemonicParsing="false" text="Searching" underline="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="abvButton" mnemonicParsing="false" text="ABV">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets left="20.0" />
-                           </VBox.margin>
-                        </Button>
-                        <Button fx:id="howToUseWinedyButton" mnemonicParsing="false" text="How to use Winedy">
                            <font>
                               <Font size="20.0" />
                            </font>
                         </Button>
-                        <Button fx:id="searchingButton" mnemonicParsing="false" text="Searching">
+                        <Button fx:id="createAnAccountButton" mnemonicParsing="false" text="Create an account" underline="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
                            <font>
-                              <Font size="15.0" />
+                              <Font size="20.0" />
                            </font>
                         </Button>
-                        <Button fx:id="createAnAccountButton" mnemonicParsing="false" text="Create an account">
+                        <Button fx:id="signinButton" mnemonicParsing="false" text="Sign-in" underline="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
                            <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="signinButton" mnemonicParsing="false" text="Sign-in">
-                           <VBox.margin>
-                              <Insets left="20.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font size="15.0" />
+                              <Font size="20.0" />
                            </font>
                         </Button>
                      </children>
                   </VBox>
                </content>
+               <GridPane.margin>
+                  <Insets top="70.0" />
+               </GridPane.margin>
             </ScrollPane>
             <ScrollPane fx:id="informationScrollPane" hbarPolicy="NEVER" maxHeight="580.0" maxWidth="660.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowSpan="3">
                <content>
@@ -128,6 +134,9 @@
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
                         </Label>
                         <Label fx:id="usefulWineInformationTitleLabel" text="Useful wine information:">
                            <font>
@@ -138,77 +147,104 @@
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
                         </Label>
                         <Label fx:id="colourTitleLabel" text="- Colour">
                            <font>
-                              <Font size="15.0" />
+                              <Font size="25.0" />
                            </font>
                         </Label>
                         <Label fx:id="colourContentLabel" text="Colour content" wrapText="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
                         </Label>
                         <Label fx:id="varietyTitleLabel" text="- Variety">
                            <font>
-                              <Font size="15.0" />
+                              <Font size="25.0" />
                            </font>
                         </Label>
                         <Label fx:id="varietyContentLabel" text="Variety content" wrapText="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
                         </Label>
                         <Label fx:id="fullnessTitleLabel" text="- Fullness">
                            <font>
-                              <Font size="15.0" />
+                              <Font size="25.0" />
                            </font>
                         </Label>
                         <Label fx:id="fullnessContentLabel" text="Fullness content" wrapText="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
                         </Label>
                         <Label fx:id="abvTitleLabel" text="- ABV">
                            <font>
-                              <Font size="15.0" />
+                              <Font size="25.0" />
                            </font>
                         </Label>
                         <Label fx:id="abvContentLabel" text="ABV Content" wrapText="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
                         </Label>
                         <Label fx:id="howToUseWinedyTitleLabel" text="How to use Winedy:">
                            <font>
                               <Font name="System Bold" size="30.0" />
                            </font>
                         </Label>
-                        <Label fx:id="searchingTitleLabel" text="- Searching" />
+                        <Label fx:id="searchingTitleLabel" text="- Searching">
+                           <font>
+                              <Font size="25.0" />
+                           </font></Label>
                         <Label fx:id="searchingContentLabel" text="Searching content" wrapText="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
                         </Label>
                         <Label fx:id="createAnAccountTitleLabel" text="- Create an account">
                            <font>
-                              <Font size="15.0" />
+                              <Font size="25.0" />
                            </font>
                         </Label>
                         <Label fx:id="createAnAccountContentLabel" text="Create an account content" wrapText="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
                         </Label>
                         <Label fx:id="signinTitleLabel" text="- Sign-in">
                            <font>
-                              <Font size="15.0" />
+                              <Font size="25.0" />
                            </font>
                         </Label>
                         <Label fx:id="signinContentLabel" text="Sign-in content" wrapText="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
                         </Label>
                      </children>
                      <padding>
@@ -217,6 +253,14 @@
                   </VBox>
                </content>
             </ScrollPane>
+            <Label prefWidth="260.0" text="Click one of the titles above to be directed to that section" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="70.0" left="70.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
          </children>
       </GridPane>
    </children>
