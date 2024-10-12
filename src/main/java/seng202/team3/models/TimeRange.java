@@ -218,7 +218,7 @@ public enum TimeRange {
      */
     public static String getStringRep(int index, TimeRange timeRange) {
         return switch (timeRange.timePeriod) {
-            case DAYS -> DayOfWeek.of(index).getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+            case DAYS -> DayOfWeek.of(index).getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
             case WEEKS -> "Week " + (index + 1);
             case MONTHS -> Month.of(index + 1).getDisplayName(TextStyle.FULL, Locale.ENGLISH);
             case YEARS -> Integer.toString(index);
