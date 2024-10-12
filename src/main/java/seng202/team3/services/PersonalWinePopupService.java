@@ -36,10 +36,17 @@ public class PersonalWinePopupService {
 
     /**
      * Default wine colour to red if colour is not set
+     * Default style and fullness to empty strings if not set
      */
-    public void validatePersonalWineColour() {
-        if (this.personalWine.getColour() != null) {
+    public void validatePersonalWineColourStyleFullness() {
+        if (this.personalWine.getColour() == null) {
             personalWine.setColour(DEFAULTCOLOUR);
+        }
+        if (this.personalWine.getStyle() == null) {
+            personalWine.setStyle("");
+        }
+        if (this.personalWine.getFullness() == null) {
+            personalWine.setFullness("");
         }
     }
 
@@ -66,6 +73,14 @@ public class PersonalWinePopupService {
     public boolean validatePersonalWineYear() {
         return this.personalWine.getYear() == 0 ||
                 (LocalDate.now().getYear()-MAXYEARSINPAST <= this.personalWine.getYear() && this.personalWine.getYear() <= LocalDate.now().getYear());
+    }
+
+    /**
+     * Return the final personal wine after validation
+     * @return the personal wine
+     */
+    public Wine getPersonalWine() {
+        return this.personalWine;
     }
 
     /**

@@ -13,6 +13,7 @@ import seng202.team3.models.Wine;
 import seng202.team3.models.WineAttribute;
 import seng202.team3.repository.PersonalWineDAO;
 import seng202.team3.repository.Table;
+import seng202.team3.repository.WineDAO;
 import seng202.team3.services.PersonalWinePopupService;
 import seng202.team3.services.SearchService;
 import seng202.team3.services.WineManager;
@@ -154,15 +155,16 @@ public class PersonalWinePopupController {
             styleError(yearLabel, yearTextField, "Please enter a valid year");
         }
         else {
-            service.validatePersonalWineColour();
+            service.validatePersonalWineColourStyleFullness();
             PersonalWineDAO personalWineDAO = new PersonalWineDAO();
-            personalWineDAO.add(personalWine);
+            personalWineDAO.add(service.getPersonalWine());
             closethis(personalWine);
         }
     }
 
     private Wine createPersonalWine() {
-        int uniqueWineID = WineManager.getInstance().getAllWines().getLast().getUniqueWineID() + 1;
+        WineDAO wineDAO = new WineDAO();
+        int uniqueWineID = wineDAO.getLastID() + 1;
         String[] grape = {grapeComboBox.getSelectionModel().getSelectedItem()};
         return new Wine(uniqueWineID, nameTextField.getText(), countryTextField.getText(), colourComboBox != null ? colourComboBox.getSelectionModel().getSelectedItem() : null,
                 styleComboBox != null ? styleComboBox.getSelectionModel().getSelectedItem() : null, grapeComboBox != null ? grape : null,

@@ -88,6 +88,32 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     /**
+     * Returns the highest wine id in the database
+     *
+     * @return the id of the last wine
+     */
+    public int getLastID() {
+        int lastID = 0;
+        String sqlWine = "SELECT * FROM wineSuper JOIN wine on wineSuper.id = wine.id ORDER BY id";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement psWine = conn.prepareStatement(sqlWine);) {
+            ResultSet resultSet = psWine.executeQuery();
+            int id;
+            while (resultSet.next()) {
+                id = resultSet.getInt("id");
+                if (lastID < id) {
+                    lastID = id;
+                }
+            }
+
+            return lastID;
+        } catch (SQLException sqlException) {
+            log.error(sqlException);
+            return 0;
+        }
+    }
+
+    /**
      * Gets a list of Strings representing grapes associated with a wine ID
      *
      * @param wineId ID of the wine to get the grapes from
