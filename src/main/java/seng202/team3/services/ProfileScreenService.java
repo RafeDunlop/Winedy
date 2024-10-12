@@ -82,7 +82,7 @@ public class ProfileScreenService {
     public String getCreateListErrorMessage(String listName) {
         List<String> currentListNames = getCurrentListNames();
         if (currentListNames.contains(listName)) {
-            return "A list with this name already exists. Please enter a new name";
+            return "A list with this name already exists!";
         } else if (listName.trim().isEmpty()) {
             return "List name is required to create a list";
         }
@@ -119,4 +119,5 @@ public class ProfileScreenService {
     public boolean unsavedChanges(String oldString, String newString) {
         return !oldString.equals(newString);
     }
+
 }

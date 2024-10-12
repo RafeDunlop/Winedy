@@ -1,13 +1,15 @@
 package seng202.team3.gui;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Pagination;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -16,6 +18,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.models.Wine;
@@ -23,7 +26,9 @@ import seng202.team3.models.Wine;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static javafx.scene.control.ContentDisplay.TOP;
@@ -68,7 +73,7 @@ public final class GuiService {
      * @param isInvisible The truth value of whether the image should be initially invisible
      * @return The ImageView containing the image added to the button
      */
-    public static ImageView addImageGraphicToButton(Button button, String imagePath, double fitWidth, double fitHeight, boolean isInvisible) {
+    public static ImageView addImageGraphicToButton(Button button, String imagePath, double fitWidth, double fitHeight, boolean isInvisible, boolean needsTickBox) {
         Node graphic = null;
 
         try {
@@ -90,10 +95,33 @@ public final class GuiService {
         if (graphic == null) {
             graphic = new Text("Image not found :(");
         }
-        button.setGraphic(graphic);
-
+        if (needsTickBox) {
+            ImageView imageView = new ImageView();
+            setUpImageView(imageView);
+            HBox hbox = new HBox(graphic, imageView);
+            HBox.setMargin(imageView, new Insets(0, 0, 20, 30));
+            hbox.setPadding(new Insets(10, 0, 0, 30));
+            StackPane stackPane = new StackPane(hbox);
+            stackPane.setAlignment(Pos.TOP_CENTER);
+            button.setGraphic(stackPane);
+            button.setContentDisplay(ContentDisplay.TOP);
+            button.setAlignment(Pos.TOP_CENTER);
+        } else {
+            button.setGraphic(graphic);
+        }
         return (graphic instanceof ImageView) ? (ImageView) graphic : new ImageView();
     }
+
+    public static void setUpImageView(ImageView imageView) {
+        imageView.setFitHeight(30);
+        imageView.setFitWidth(30);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        Image image = new Image("/images/unchecked.png");
+        imageView.setImage(image);
+        imageView.setVisible(false);
+    }
+
 
     /**
      * Creates and returns a Button that contains an image graphic relevant to the colour of the given wine and the
@@ -110,16 +138,16 @@ public final class GuiService {
         Button wineButton = new Button(wineToDisplay.getName());
         wineButton.setPrefSize(prefWidth,prefHeight);
         wineButton.setWrapText(true);
-        addImageGraphicToButton(wineButton, "/images/" + wineToDisplay.getColour() + "_wine_image.png", 100, 100, false);
+        addImageGraphicToButton(wineButton, "/images/" + wineToDisplay.getColour() + "_wine_image.png", 100, 100, false, true);
         if (screenAnchorPane != null) {
             wineButton.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineView(screenAnchorPane, wineToDisplay));
         } else {
-            wineButton.setOnAction(event -> FXWrapper.getInstance().loadCreateListPopUp()); /*TODO this currently loads the incorrect pop up, change so it loads the individual wine view pop up */
+            wineButton.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineViewPopup(wineToDisplay)); /*TODO this currently loads the incorrect pop up, change so it loads the individual wine view pop up */
         }
 
         wineButton.setContentDisplay(TOP);
         wineButton.getStyleClass().add("nav-bar-button");
-        wineButton.setFont(new Font("System", 20));
+        wineButton.setFont(new Font("System", 18));
         return wineButton;
     }
 
@@ -227,30 +255,17 @@ public final class GuiService {
      * @param wineDetailsAnchorPane wine details anchor pane if applicable for the onAction of the wine button
      * @return pagination so it can be styled as needed per screen
      */
-    public static Pagination createPagination(List<Wine> winesToDisplay, VBox rootVBox, int rowsPerPage, int winesPerRow, AnchorPane wineDetailsAnchorPane) {
+    public static Map<Integer, ScrollPane> createPagination(List<Wine> winesToDisplay, VBox rootVBox, int rowsPerPage, int winesPerRow, AnchorPane wineDetailsAnchorPane) {
         int winesPerPage = 12;
-        int numberOfPages = winesToDisplay.size() / winesPerPage;
-
-        if (winesToDisplay.size() % rowsPerPage != 0) { //Add an extra page for the lists where required
-            numberOfPages += 1;
-        }
+        int numberOfPages = (int) Math.ceil((double) winesToDisplay.size() / winesPerPage);
+        Map<Integer, ScrollPane> pageScrollPaneMap = new HashMap<>();
 
         Pagination pagination = new Pagination(numberOfPages, 0);
         rootVBox.getChildren().add(pagination);
         pagination.getStyleClass().add("wine-pagination");
 
-
-        pagination.setPageFactory(pageIndex ->  {
-            VBox pageContent = new VBox();
-            int start = pageIndex * rowsPerPage * winesPerRow;
-            int end = Math.min(start + rowsPerPage * winesPerRow, winesToDisplay.size());
-            GuiService.startButtonGeneration(winesToDisplay.subList(start, end), pageContent, wineDetailsAnchorPane, 3);
-            ScrollPane scrollPane = new ScrollPane(pageContent);
-            scrollPane.setFitToWidth(true);
-            scrollPane.getStyleClass().add("red-wine-scroll-pane");
-            return scrollPane;
-        });
-        return pagination;
+        pagination.setPageFactory(pageIndex ->  createPageContentsScrollPane(pageScrollPaneMap, pageIndex, rowsPerPage, winesPerRow, winesToDisplay, wineDetailsAnchorPane));
+        return pageScrollPaneMap;
     }
 
     /**
@@ -268,5 +283,47 @@ public final class GuiService {
     public static void turnOnPane(AnchorPane toTurnOn){
         toTurnOn.setVisible(true);
         toTurnOn.setDisable(false);
+    }
+
+    /**
+     * Method used in the page factories of creating pagination to create the scroll panes for each page
+     *
+     * @param pageScrollPaneMap maps the scroll pane to the corresponding page index
+     * @param pageIndex page index to create
+     * @param rowsPerPage rows per page
+     * @param winesPerRow wines per row
+     * @param winesToDisplay list of wines to display
+     * @param wineDetailsAnchorPane wineDetailsAnchorPane, null if being called from the list screen
+     * @return the scroll pane to be put into the page at pageIndex
+     */
+    public static ScrollPane createPageContentsScrollPane(Map<Integer, ScrollPane> pageScrollPaneMap, int pageIndex, int rowsPerPage, int winesPerRow, List<Wine> winesToDisplay, AnchorPane wineDetailsAnchorPane) {
+        VBox pageContent = new VBox();
+        int start = pageIndex * rowsPerPage * winesPerRow;
+        int end = Math.min(start + rowsPerPage * winesPerRow, winesToDisplay.size());
+        GuiService.startButtonGeneration(winesToDisplay.subList(start, end), pageContent, wineDetailsAnchorPane, 3);
+        ScrollPane scrollPane = new ScrollPane(pageContent);
+        scrollPane.setFitToWidth(true);
+        scrollPane.getStyleClass().add("red-wine-scroll-pane");
+        pageScrollPaneMap.put(pageIndex, scrollPane);
+        scrollPane.setPrefHeight(1000);
+        return scrollPane;
+    }
+
+    /**
+     * Shakes a node to engage the user (mostly used for error messages)
+     *
+     * @param node node to be shaken
+     */
+    public static void shakeNode(Label node) {
+        // Define a Timeline for shaking effect
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.millis(0), new KeyValue(node.translateXProperty(), 0)),
+                new KeyFrame(Duration.millis(100), new KeyValue(node.translateXProperty(), -10)),
+                new KeyFrame(Duration.millis(200), new KeyValue(node.translateXProperty(), 10)),
+                new KeyFrame(Duration.millis(300), new KeyValue(node.translateXProperty(), -10)),
+                new KeyFrame(Duration.millis(400), new KeyValue(node.translateXProperty(), 10)),
+                new KeyFrame(Duration.millis(500), new KeyValue(node.translateXProperty(), 0))
+        );
+        timeline.play();
     }
 }
