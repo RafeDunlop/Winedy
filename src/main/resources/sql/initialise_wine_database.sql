@@ -89,7 +89,7 @@ CREATE TABLE award (
     PRIMARY KEY (wineId, name),
     Foreign KEY (wineId) REFERENCES wineSuper (id) ON DELETE CASCADE
 );
---Split
+
 CREATE TABLE drinkerPreferenceModel (
     username text not null primary key,
     abv double default 4,
