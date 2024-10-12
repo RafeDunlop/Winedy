@@ -41,13 +41,14 @@ public class WineListSelectPopUpController {
     private Image unChecked;
     private Image unCheckedHover;
     private Image checkedHover;
-
+    private boolean refreshPrev;
     /**
      * Constructs controller and sets the wine that this controller will handle
      * @param wineToAdd The wine to be added to the wine lists
      */
-    public  WineListSelectPopUpController(Wine wineToAdd) {
+    public  WineListSelectPopUpController(Wine wineToAdd, boolean refreshPrev) {
         this.wineToAdd = wineToAdd;
+        this.refreshPrev = refreshPrev;
     }
 
     /**
@@ -62,7 +63,7 @@ public class WineListSelectPopUpController {
         checkedHover = new Image("/images/checked_hover.png");
         unCheckedHover = new Image("/images/unchecked_hover.png");
 
-        exitButton.setOnAction(e -> onExitClicked());
+        exitButton.setOnAction(e -> GuiService.onExitClicked(refreshPrev, overlayPane));
         exitButton.getStyleClass().add("nav-bar-button");
 
         GuiService.setUpPopUp(overlayPane, popUpAnchorPane, null);
@@ -72,14 +73,7 @@ public class WineListSelectPopUpController {
         setStyleClasses();
     }
 
-    /**
-     * sets action for the exit button
-     */
-    @FXML
-    public void onExitClicked() {
-        FXWrapper.getInstance().removePopUp(overlayPane);
-//        FXWrapper.getInstance().loadPreviousScreen();
-    }
+
 
     /**
      * Loads the createList pop up when the create list button is clicked. Removes the wine list select pop up and adds
@@ -88,7 +82,7 @@ public class WineListSelectPopUpController {
     @FXML
     public void onCreateListButtonClicked() {
         FXWrapper.getInstance().removePopUp(overlayPane);
-        FXWrapper.getInstance().addPreviousScreen(() -> FXWrapper.getInstance().loadAddWineToListPopUp(wineToAdd));
+        FXWrapper.getInstance().addPreviousScreen(() -> FXWrapper.getInstance().loadAddWineToListPopUp(wineToAdd, false));
         FXWrapper.getInstance().loadCreateListPopUp();
     }
 

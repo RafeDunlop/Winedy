@@ -225,7 +225,7 @@ public class IndividualWineViewPopupButtonsController {
      */
     @FXML
     public void onAddButtonClicked() {
-        FXWrapper.getInstance().loadAddWineToListPopUp(wineToDisplay);
+        FXWrapper.getInstance().loadAddWineToListPopUp(wineToDisplay, false);
     }
 
 }

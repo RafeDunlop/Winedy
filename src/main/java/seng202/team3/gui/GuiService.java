@@ -12,10 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -329,5 +326,15 @@ public final class GuiService {
                 new KeyFrame(Duration.millis(500), new KeyValue(node.translateXProperty(), 0))
         );
         timeline.play();
+    }
+
+    /**
+     * sets action for the exit button
+     */
+    public static void onExitClicked(boolean refreshPrev, StackPane overlayPane) {
+        FXWrapper.getInstance().removePopUp(overlayPane);
+        if(refreshPrev) {
+            FXWrapper.getInstance().loadPreviousScreen();
+        }
     }
 }

@@ -308,10 +308,10 @@ public class FXWrapper {
     /** Loads a pop-up that allows user to select a wineList. The wine is added to the selected list
      * @param wine The wine to be added to the list
      */
-    public void loadAddWineToListPopUp(Wine wine) {
+    public void loadAddWineToListPopUp(Wine wine, boolean refreshPrev) {
         try {
             FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.WINELISTSELECTPOPUP.file));
-            popUpLoader.setControllerFactory(param -> new WineListSelectPopUpController(wine));
+            popUpLoader.setControllerFactory(param -> new WineListSelectPopUpController(wine, refreshPrev));
             StackPane popUpRoot = popUpLoader.load();
             superPane.getChildren().add(popUpRoot);
         } catch (IOException e) {
@@ -337,14 +337,14 @@ public class FXWrapper {
         previousScreens.add(screen);
     }
 
-//    /**
-//     * Loads the screen at the top of the previousScreens stack and removes it from the stack
-//     */
-//    public void loadPreviousScreen() {
-//        if (previousScreens.getLast() != null) {
-//            previousScreens.removeLast().run();
-//        }
-//    }
+    /**
+     * Loads the screen at the top of the previousScreens stack and removes it from the stack
+     */
+    public void loadPreviousScreen() {
+        if (previousScreens.getLast() != null) {
+            previousScreens.removeLast().run();
+        }
+    }
 
     /**
      * Loads the individual wine view popup to show the given wine

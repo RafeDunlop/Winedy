@@ -85,7 +85,7 @@ public class CreateNewListPopUpController {
     public void onCreateListButtonClicked() {
             wineListManager.newList(listNameTextField.getText(), descriptionTextArea.getText());
             FXWrapper.getInstance().removePopUp(overlayPane);
-//            FXWrapper.getInstance().loadPreviousScreen();
+            FXWrapper.getInstance().loadPreviousScreen();
     }
 
     /**
@@ -94,7 +94,7 @@ public class CreateNewListPopUpController {
     @FXML
     public void onExitClicked() {
         FXWrapper.getInstance().removePopUp(overlayPane);
-//        FXWrapper.getInstance().loadPreviousScreen();
+        FXWrapper.getInstance().loadPreviousScreen();
     }
 
     /**
