@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileScreenController">
+<AnchorPane maxHeight="618.0" maxWidth="1200.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileScreenController">
    <children>
       <AnchorPane layoutX="47.0" layoutY="32.0">
          <children>
@@ -23,18 +23,7 @@
                   </Button>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="recommendStep3Pane" disable="true" layoutY="-1.0" prefHeight="550.0" prefWidth="500.0" visible="false">
-               <children>
-                  <Label layoutX="132.0" text="You Selected:" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="30.0">
-                     <font>
-                        <Font size="25.0" />
-                     </font>
-                  </Label>
-                  <VBox fx:id="recommendedWinesVBox" layoutY="71.0" prefHeight="401.0" prefWidth="500.0" />
-                  <Button fx:id="beginNewRecommendationButton" layoutX="147.0" layoutY="489.0" mnemonicParsing="false" onAction="#onBeginRecommendationClicked" prefHeight="47.0" prefWidth="207.0" text="Begin New Recommendation" />
-               </children>
-            </AnchorPane>
-            <AnchorPane fx:id="recommendStep2Pane" disable="true" layoutX="-1.0" layoutY="33.0" prefHeight="555.0" prefWidth="500.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="recommendStep2Pane" disable="true" maxHeight="550.0" maxWidth="500.0" prefHeight="550.0" prefWidth="500.0" visible="false">
                <children>
                   <Label alignment="CENTER" layoutX="-4.0" layoutY="27.0" prefHeight="36.0" prefWidth="500.0" text="You Might Like :" textAlignment="CENTER">
                      <font>
@@ -53,7 +42,18 @@
                      <font>
                         <Font size="20.0" />
                      </font></Button>
-                  <AnchorPane fx:id="wineViewPane" layoutX="46.0" layoutY="72.0" prefHeight="315.0" prefWidth="400.0" />
+                  <AnchorPane fx:id="wineViewPane" layoutX="50.0" layoutY="74.0" maxHeight="333.0" maxWidth="500.0" prefHeight="333.0" prefWidth="400.0" AnchorPane.bottomAnchor="143.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="74.0" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="recommendStep3Pane" disable="true" layoutY="-1.0" prefHeight="550.0" prefWidth="500.0" visible="false">
+               <children>
+                  <Label layoutX="132.0" text="You Selected:" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="30.0">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Label>
+                  <VBox fx:id="recommendedWinesVBox" layoutY="71.0" maxHeight="401.0" maxWidth="500.0" prefHeight="401.0" prefWidth="500.0" />
+                  <Button fx:id="beginNewRecommendationButton" layoutX="147.0" layoutY="489.0" mnemonicParsing="false" onAction="#onBeginRecommendationClicked" prefHeight="47.0" prefWidth="207.0" text="Begin New Recommendation" />
                </children>
             </AnchorPane>
          </children>
