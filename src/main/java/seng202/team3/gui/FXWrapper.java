@@ -214,6 +214,22 @@ public class FXWrapper {
         }
     }
 
+    /**
+     * Loads the add personal wine popup onto the screen.
+     *
+     * @param toReturnTo the screen to return to once popup is exited
+     */
+    public void loadPersonalWinePopup(Screen toReturnTo) {
+        try {
+            FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.ADDPERSONALWINEPOPUP.file));
+            popupLoader.setControllerFactory(param -> new PersonalWinePopupController(toReturnTo));
+            StackPane popup = popupLoader.load();
+            superPane.getChildren().add(popup);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
     public void loadLogChangesPopup(Runnable onDiscard) {
         System.out.println("called");
         try {

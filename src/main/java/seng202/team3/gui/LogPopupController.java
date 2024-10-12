@@ -310,7 +310,7 @@ public class LogPopupController {
         searchComboBox.getStyleClass().add("fifteen-combo-box");
         hoursComboBox.getStyleClass().add("fifteen-combo-box");
         createPersonalButton.getStyleClass().add("nav-bar-button");
-        glassesToggle.getStyleClass().add("nav-bar-button");
+        glassesToggle.getStyleClass().add("nav-bar-addStyleClassesbutton");
         bottlesToggle.getStyleClass().add("nav-bar-button");
         cancelLogButton.getStyleClass().add("nav-bar-button");
         finishLogButton.getStyleClass().add("nav-bar-button");
@@ -333,7 +333,9 @@ public class LogPopupController {
     }
 
     @FXML
-    void onCreatePersonalWineButtonClicked(ActionEvent event) {
-
+    void onCreatePersonalWineButtonClicked() {
+        FXWrapper fxWrapper = FXWrapper.getInstance();
+        fxWrapper.addPreviousScreen(() -> fxWrapper.loadLogPopup(null, null, Screen.TRACKINGCONSUMPTIONSCREEN));
+        FXWrapper.getInstance().loadPersonalWinePopup(Screen.ADDLOGPOPUP);
     }
 }

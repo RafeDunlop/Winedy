@@ -80,6 +80,11 @@ public enum Screen {
     ADDLOGPOPUP("add_log_popup.fxml", false),
 
     /**
+     * The add personal wine popup. Opened on top of and by the add log popup.
+     */
+    ADDPERSONALWINEPOPUP("add_personal_wine_popup.fxml", false),
+
+    /**
      * The individual wine view popup. Displays the information of a specific wine in detail. Opened on top of and by
      * the individual wine view in the search screen.
      */
