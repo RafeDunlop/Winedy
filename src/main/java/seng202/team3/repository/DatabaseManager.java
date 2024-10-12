@@ -59,7 +59,7 @@ public class DatabaseManager {
     }
 
     /**
-     * initialise the preferencemodel table by dynamically setting column names
+     * initialise the preference model table by dynamically setting column names
      * by attributes read from populated tables
      */
     private static void initialisePreferenceModelTable(){
@@ -124,6 +124,19 @@ public class DatabaseManager {
             executeSQLScript(in);
         } catch (NullPointerException e) {
             log.error("Error loading database initialisation file", e);
+        }
+    }
+
+    /**
+     * Resets the wine tables in the database when logging out
+     */
+    public void resetWineTable() throws FileNotFoundException, URISyntaxException {
+        try {
+            //InputStream in = getClass().getResourceAsStream("/sql/reset_wine_database.sql");
+            //executeSQLScript(in);
+            populateWineTables("/csv/majestic_df_preprocessed.csv");
+        } catch (NullPointerException e) {
+            log.error("Error loading database reset file", e);
         }
     }
 
@@ -205,6 +218,12 @@ public class DatabaseManager {
         }
         InputStream inputStream = getClass().getResourceAsStream(filePath);
         List<Wine> wines = WineCSVImporter.readFromFile(inputStream);
+        try {
+            PersonalWineDAO personalWineDAO = new PersonalWineDAO();
+            wines.addAll(personalWineDAO.getAll());
+        } catch (NullPointerException e)  {
+            log.info("no logged in user");
+        }
         WineDAO wineDAO = new WineDAO(url);
         int i = 0;
         while (i < wines.size()) {

@@ -89,7 +89,7 @@ public class PersonalWinePopupController {
     private Consumer<Wine> onWineCreated;
 
     final float DEFAULTPRICE = 0f;
-    final int DEFAULTABV = 0;
+    final int DEFAULTABV = 14;
     final int DEFAULTVOLUME = 750;
     final int DEFAULTYEAR = 0;
 

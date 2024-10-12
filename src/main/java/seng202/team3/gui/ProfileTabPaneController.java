@@ -6,7 +6,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
+import seng202.team3.repository.DatabaseManager;
 import seng202.team3.services.WineDrinkerManager;
+
+import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 
 /**
  * Controller for profile_tab_pane.fxml file
@@ -71,10 +75,9 @@ public class ProfileTabPaneController {
      * Removes the current logged-in user and launches the sign-in screen
      */
     @FXML
-    public void onLogoutButtonClicked(){
+    public void onLogoutButtonClicked() throws FileNotFoundException, URISyntaxException {
         WineDrinkerManager.getInstance().setCurrentUser(null);
         FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
+        DatabaseManager.getInstance().resetWineTable();
     }
-
-
 }

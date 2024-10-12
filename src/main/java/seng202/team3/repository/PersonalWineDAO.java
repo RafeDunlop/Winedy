@@ -61,7 +61,7 @@ public class PersonalWineDAO implements DAOInterface<Wine> {
     @Override
     public List<Wine> getAll() {
         List<Wine> wines = new ArrayList<>();
-        String sqlWine = "SELECT * FROM personalWine WHERE wineDrinker=?";
+        String sqlWine = "SELECT * FROM personalWine WHERE personalWine.wineDrinker=?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sqlWine)) {
             ps.setString(1, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
