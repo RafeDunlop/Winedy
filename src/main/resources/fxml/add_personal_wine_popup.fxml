@@ -19,7 +19,7 @@
          <children>
             <AnchorPane layoutX="38.0" layoutY="88.0" prefHeight="523.0" prefWidth="567.0" AnchorPane.leftAnchor="38.0">
                <children>
-                  <Label layoutX="48.0" layoutY="30.0" text="* Name:">
+                  <Label layoutX="33.0" layoutY="30.0" text="* Name:">
                      <font>
                         <Font size="18.0" />
                      </font>

@@ -13,6 +13,8 @@ import seng202.team3.models.Wine;
 import seng202.team3.models.WineLog;
 import seng202.team3.services.LogManager;
 import seng202.team3.services.PersonalWinePopupService;
+import seng202.team3.services.SearchScreenService;
+import seng202.team3.services.WineManager;
 
 import java.util.List;
 
@@ -72,6 +74,11 @@ public class PersonalWinePopupController {
 
     Screen toReturnTo;
 
+    final float DEFAULTPRICE = 0f;
+    final int DEFAULTABV = 0;
+    final int DEFAULTVOLUME = 750;
+    final int DEFAULTYEAR = 0;
+
     public PersonalWinePopupController(Screen toReturnTo) {
         this.toReturnTo = toReturnTo;
     }
@@ -81,31 +88,43 @@ public class PersonalWinePopupController {
             FXWrapper.getInstance().loadLogChangesPopup(() -> FXWrapper.getInstance().removePopUp(overlayPane));
         });
         addStyleClasses();
+        setFormatters();
     }
 
-    private void closeThis() {
-        FXWrapper.getInstance().removePopUp(overlayPane);
-        if (toReturnTo == Screen.ADDLOGPOPUP) {
-            FXWrapper.getInstance().loadLogPopup(null, null, Screen.TRACKINGCONSUMPTIONSCREEN);
-        } else {
-            FXWrapper.getInstance().loadScreen(toReturnTo);
-        }
+    private void setFormatters() {
+        countryTextField.setTextFormatter(PersonalWinePopupService.getAlphabeticalFormatter());
+        colourTextField.setTextFormatter(PersonalWinePopupService.getAlphabeticalFormatter());
+        styleTextField.setTextFormatter(PersonalWinePopupService.getAlphabeticalFormatter());
+        fullnessTextField.setTextFormatter(PersonalWinePopupService.getAlphabeticalFormatter());
+        pricePerBottleTextField.setTextFormatter(PersonalWinePopupService.getDoubleFormatter());
+        abvTextField.setTextFormatter(PersonalWinePopupService.getDoubleFormatter());
+        volumeTextField.setTextFormatter(PersonalWinePopupService.getIntegerFormatter());
+        yearTextField.setTextFormatter(PersonalWinePopupService.getIntegerFormatter());
     }
 
     @FXML
     void addPersonalWine() {
-        Wine personalWine = new Wine(0, nameTextField.getText(), countryTextField.getText(), colourTextField.getText(), styleTextField.getText(),
-                (String[]) grapeComboBox.getItems().toArray(), fullnessTextField.getText(), descriptionTextArea.getText(), parseFloat(pricePerBottleTextField.getText()),
-                null, parseInt(abvTextField.getText()), parseInt(volumeTextField.getText()), parseInt(yearTextField.getText()));
-        PersonalWinePopupService service = new PersonalWinePopupService();
-        if (!service.validatePersonalWineName(personalWine)) {
+        int uniqueWineID = WineManager.getInstance().getAllWines().size();
+        Wine personalWine = new Wine(uniqueWineID, nameTextField.getText(), countryTextField.getText(), colourTextField.getText(), styleTextField.getText(),
+                grapeComboBox != null ? (String[]) grapeComboBox.getItems().toArray() : null, fullnessTextField.getText(), descriptionTextArea.getText(),
+                pricePerBottleTextField.getText().isEmpty() ? DEFAULTPRICE : parseFloat(pricePerBottleTextField.getText()), null,
+                abvTextField.getText().isEmpty() ? DEFAULTABV : parseInt(abvTextField.getText()),
+                volumeTextField.getText().isEmpty() ? DEFAULTVOLUME : parseInt(volumeTextField.getText()),
+                yearTextField.getText().isEmpty() ? DEFAULTYEAR : parseInt(yearTextField.getText()));
+        PersonalWinePopupService service = new PersonalWinePopupService(personalWine);
+        if (!service.validatePersonalWine()) {
 
         }
     }
 
     @FXML
     void cancelPersonalWine() {
-        closeThis();
+        FXWrapper.getInstance().removePopUp(overlayPane);
+        if (toReturnTo == Screen.ADDLOGPOPUP) {
+            FXWrapper.getInstance().loadLogPopup(null, null, Screen.TRACKINGCONSUMPTIONSCREEN);
+        } else {
+            FXWrapper.getInstance().loadScreen(toReturnTo);
+        }
     }
 
     private void addStyleClasses() {
