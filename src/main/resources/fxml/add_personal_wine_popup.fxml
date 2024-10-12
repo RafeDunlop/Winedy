@@ -19,7 +19,7 @@
          <children>
             <AnchorPane layoutX="38.0" layoutY="88.0" prefHeight="523.0" prefWidth="567.0" AnchorPane.leftAnchor="38.0">
                <children>
-                  <Label layoutX="33.0" layoutY="30.0" text="* Name:">
+                  <Label fx:id="nameLabel" layoutX="33.0" layoutY="30.0" text="* Name:">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -49,12 +49,12 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label layoutX="48.0" layoutY="378.0" text="Alcohol by volume:">
+                  <Label fx:id="abvLabel" layoutX="48.0" layoutY="378.0" text="Alcohol by volume:">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Label layoutX="48.0" layoutY="418.0" text="Volume (mL):">
+                  <Label fx:id="volumeLabel" layoutX="48.0" layoutY="418.0" text="Volume (mL):">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -69,16 +69,16 @@
                   <TextField fx:id="colourTextField" layoutX="276.0" layoutY="110.0" prefHeight="24.0" prefWidth="266.0" />
                   <TextField fx:id="styleTextField" layoutX="276.0" layoutY="150.0" prefHeight="24.0" prefWidth="266.0" />
                   <TextField fx:id="fullnessTextField" layoutX="276.0" layoutY="228.0" prefHeight="24.0" prefWidth="266.0" />
-                  <TextField fx:id="pricePerBottleTextField" layoutX="276.0" layoutY="338.0" prefHeight="24.0" prefWidth="78.0" />
-                  <TextField fx:id="abvTextField" layoutX="276.0" layoutY="378.0" prefHeight="24.0" prefWidth="78.0" />
+                  <TextField fx:id="pricePerBottleTextField" layoutX="276.0" layoutY="338.0" prefHeight="24.0" prefWidth="266.0" />
+                  <TextField fx:id="abvTextField" layoutX="276.0" layoutY="378.0" prefHeight="24.0" prefWidth="266.0" />
                   <TextArea fx:id="descriptionTextArea" layoutX="276.0" layoutY="268.0" prefHeight="54.0" prefWidth="266.0" />
-                  <TextField fx:id="volumeTextField" layoutX="276.0" layoutY="418.0" prefHeight="24.0" prefWidth="78.0" />
-                  <Label layoutX="48.0" layoutY="458.0" text="Year:">
+                  <TextField fx:id="volumeTextField" layoutX="276.0" layoutY="418.0" prefHeight="24.0" prefWidth="266.0" />
+                  <Label fx:id="yearLabel" layoutX="48.0" layoutY="458.0" text="Year:">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="yearTextField" layoutX="276.0" layoutY="458.0" prefHeight="24.0" prefWidth="78.0" />
+                  <TextField fx:id="yearTextField" layoutX="276.0" layoutY="458.0" prefHeight="24.0" prefWidth="266.0" />
                   <Label layoutX="48.0" layoutY="190.0" text="Grape:">
                      <font>
                         <Font size="18.0" />

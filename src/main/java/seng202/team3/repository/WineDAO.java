@@ -181,11 +181,15 @@ public class WineDAO implements DAOInterface<Wine> {
              PreparedStatement psAward = conn.prepareStatement(sqlAward);
              PreparedStatement psWine = conn.prepareStatement(sqlWine)) {
             setWineSuperParams(psWineSuper, toAdd);
-            for (String grape : toAdd.getGrapes()) {
-                setGrapeParams(psGrape, toAdd.getUniqueWineID(), grape);
+            if (toAdd.getGrapes() != null) {
+                for (String grape : toAdd.getGrapes()) {
+                    setGrapeParams(psGrape, toAdd.getUniqueWineID(), grape);
+                }
             }
-            for (String award : toAdd.getAwards()) {
-                setAwardParams(psAward, toAdd.getUniqueWineID(), award);
+            if (toAdd.getAwards() != null) {
+                for (String award : toAdd.getAwards()) {
+                    setAwardParams(psAward, toAdd.getUniqueWineID(), award);
+                }
             }
             psWine.setInt(1, toAdd.getUniqueWineID());
             psWine.executeUpdate();

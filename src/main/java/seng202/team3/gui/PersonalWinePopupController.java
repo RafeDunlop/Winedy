@@ -1,32 +1,38 @@
 package seng202.team3.gui;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import org.controlsfx.control.SearchableComboBox;
-import org.w3c.dom.Text;
+import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
 import seng202.team3.models.Wine;
-import seng202.team3.models.WineLog;
-import seng202.team3.services.LogManager;
+import seng202.team3.repository.PersonalWineDAO;
 import seng202.team3.services.PersonalWinePopupService;
-import seng202.team3.services.SearchScreenService;
 import seng202.team3.services.WineManager;
-
-import java.util.List;
-
 import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
-import static java.util.stream.Collectors.toList;
 
 /**
  * Controller class for the add_personal_wine_popup.fxml
  * @author Krishna Sridhar (nsr36)
  */
 public class PersonalWinePopupController {
+    @FXML
+    private Label nameLabel;
+
+    @FXML
+    private Label abvLabel;
+
+    @FXML
+    private Label volumeLabel;
+
+    @FXML
+    private Label yearLabel;
+
     @FXML
     private TextField abvTextField;
 
@@ -96,29 +102,13 @@ public class PersonalWinePopupController {
         colourTextField.setTextFormatter(PersonalWinePopupService.getAlphabeticalFormatter());
         styleTextField.setTextFormatter(PersonalWinePopupService.getAlphabeticalFormatter());
         fullnessTextField.setTextFormatter(PersonalWinePopupService.getAlphabeticalFormatter());
-        pricePerBottleTextField.setTextFormatter(PersonalWinePopupService.getDoubleFormatter());
-        abvTextField.setTextFormatter(PersonalWinePopupService.getDoubleFormatter());
-        volumeTextField.setTextFormatter(PersonalWinePopupService.getIntegerFormatter());
+        pricePerBottleTextField.setTextFormatter(PersonalWinePopupService.getFloatFormatter());
+        abvTextField.setTextFormatter(PersonalWinePopupService.getFloatFormatter());
+        volumeTextField.setTextFormatter(PersonalWinePopupService.getFloatFormatter());
         yearTextField.setTextFormatter(PersonalWinePopupService.getIntegerFormatter());
     }
 
-    @FXML
-    void addPersonalWine() {
-        int uniqueWineID = WineManager.getInstance().getAllWines().size();
-        Wine personalWine = new Wine(uniqueWineID, nameTextField.getText(), countryTextField.getText(), colourTextField.getText(), styleTextField.getText(),
-                grapeComboBox != null ? (String[]) grapeComboBox.getItems().toArray() : null, fullnessTextField.getText(), descriptionTextArea.getText(),
-                pricePerBottleTextField.getText().isEmpty() ? DEFAULTPRICE : parseFloat(pricePerBottleTextField.getText()), null,
-                abvTextField.getText().isEmpty() ? DEFAULTABV : parseInt(abvTextField.getText()),
-                volumeTextField.getText().isEmpty() ? DEFAULTVOLUME : parseInt(volumeTextField.getText()),
-                yearTextField.getText().isEmpty() ? DEFAULTYEAR : parseInt(yearTextField.getText()));
-        PersonalWinePopupService service = new PersonalWinePopupService(personalWine);
-        if (!service.validatePersonalWine()) {
-
-        }
-    }
-
-    @FXML
-    void cancelPersonalWine() {
+    private void closethis() {
         FXWrapper.getInstance().removePopUp(overlayPane);
         if (toReturnTo == Screen.ADDLOGPOPUP) {
             FXWrapper.getInstance().loadLogPopup(null, null, Screen.TRACKINGCONSUMPTIONSCREEN);
@@ -127,9 +117,59 @@ public class PersonalWinePopupController {
         }
     }
 
+    @FXML
+    void addPersonalWine() throws WineDrinkerAlreadyExistsException {
+        Wine personalWine = createPersonalWine();
+        PersonalWinePopupService service = new PersonalWinePopupService(personalWine);
+        addStyleClasses();
+        if (!service.validatePersonalWineName()) {
+            styleError(nameLabel, nameTextField, "Please enter the wine name");
+        }
+        else if (!service.validatePersonalWineABV()) {
+            abvLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour;");
+            abvTextField.setText("");
+            abvTextField.setStyle("-fx-background-color: -fx-dark-red-wine-colour; -fx-text-fill: white; -fx-prompt-text-fill: white");
+            abvTextField.promptTextProperty().set("Please enter a valid ABV");
+        }
+        else if (!service.validatePersonalWineVolume()) {
+            styleError(volumeLabel, volumeTextField, "Please enter a valid volume");
+        }
+        else if (!service.validatePersonalWineYear()) {
+            styleError(yearLabel, yearTextField, "Please enter a valid year");
+        }
+        else {
+            service.validatePersonalWineColour();
+            PersonalWineDAO personalWineDAO = new PersonalWineDAO();
+            personalWineDAO.add(personalWine);
+            closethis();
+        }
+    }
+
+    private Wine createPersonalWine() {
+        int uniqueWineID = WineManager.getInstance().getAllWines().getLast().getUniqueWineID() + 1;
+        return new Wine(uniqueWineID, nameTextField.getText(), countryTextField.getText(), colourTextField.getText(), styleTextField.getText(),
+                grapeComboBox != null ? (String[]) grapeComboBox.getItems().toArray() : null, fullnessTextField.getText(), descriptionTextArea.getText(),
+                pricePerBottleTextField.getText().isEmpty() ? DEFAULTPRICE : parseFloat(pricePerBottleTextField.getText()), null,
+                abvTextField.getText().isEmpty() ? DEFAULTABV : parseFloat(abvTextField.getText()),
+                volumeTextField.getText().isEmpty() ? DEFAULTVOLUME : parseFloat(volumeTextField.getText()),
+                yearTextField.getText().isEmpty() ? DEFAULTYEAR : parseInt(yearTextField.getText()));
+    }
+
+    @FXML
+    void cancelPersonalWine() {
+        closethis();
+    }
+
     private void addStyleClasses() {
         popUpAnchorPane.getStyleClass().add("titled-pane");
         cancelPersonalWineButton.getStyleClass().add("nav-bar-button");
         addPersonalWineButton.getStyleClass().add("nav-bar-button");
+    }
+
+    private void styleError(Label label, TextField textField, String message) {
+        label.setStyle("-fx-text-fill: -fx-dark-red-wine-colour;");
+        textField.setText("");
+        textField.setStyle("-fx-background-color: -fx-dark-red-wine-colour; -fx-text-fill: white; -fx-prompt-text-fill: white");
+        textField.promptTextProperty().set(message);
     }
 }

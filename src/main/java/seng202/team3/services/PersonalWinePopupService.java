@@ -11,6 +11,8 @@ import java.time.LocalDate;
  */
 public class PersonalWinePopupService {
 
+    final int MAXABV = 25;
+    final int MAXVOLUME = 1000;
     final int MAXYEARSINPAST = 200;
 
     Wine personalWine;
@@ -19,27 +21,26 @@ public class PersonalWinePopupService {
         this.personalWine = personalWine;
     }
 
-    public boolean validatePersonalWine() {
-        return validatePersonalWineName() && validatePersonalWineColour();
-    }
-
     public boolean validatePersonalWineName() {
-        return this.personalWine.getName() != null;
+        return !this.personalWine.getName().isEmpty();
     }
 
-    public boolean validatePersonalWineColour() {
+    public void validatePersonalWineColour() {
         if (this.personalWine.getColour() != null) {
             personalWine.setColour("Red");
         }
-        return true;
+    }
+
+    public boolean validatePersonalWineABV() {
+        return 0 <= this.personalWine.getAlcoholByVolume() && this.personalWine.getAlcoholByVolume() <= MAXABV;
+    }
+
+    public boolean validatePersonalWineVolume() {
+        return 0 <= this.personalWine.getYear() && this.personalWine.getYear() <= MAXVOLUME;
     }
 
     public boolean validatePersonalWineYear() {
-        System.out.println(this.personalWine.getYear());
-        if (this.personalWine.getYear() < LocalDate.now().getYear()-MAXYEARSINPAST || this.personalWine.getYear() > LocalDate.now().getYear()) {
-            return false;
-        }
-        return true;
+        return LocalDate.now().getYear()-MAXYEARSINPAST <= this.personalWine.getYear() || this.personalWine.getYear() <= LocalDate.now().getYear();
     }
 
     /**
@@ -63,13 +64,13 @@ public class PersonalWinePopupService {
     }
 
     /**
-     * This text formatter makes sure the input is either an integer or double
-     * Used for TextFields representing double attributes
+     * This text formatter makes sure the input is a float
+     * Used for TextFields representing float attributes
      *
      * @return a String text formatter for validating the input
      */
-    public static TextFormatter<String> getDoubleFormatter() {
-        return getFormatter("\\d*\\.?\\d+");
+    public static TextFormatter<String> getFloatFormatter() {
+        return getFormatter("\\d*(\\.)?\\d*");
     }
 
     /**
@@ -81,7 +82,7 @@ public class PersonalWinePopupService {
     public static TextFormatter<String> getFormatter(String regex) {
         return new TextFormatter<>(change -> {
             String newText = change.getControlNewText();
-            if (!newText.matches(regex)) return null;
+            if (!newText.matches(regex) && !newText.isEmpty()) return null;
             return change;
         });
     }
