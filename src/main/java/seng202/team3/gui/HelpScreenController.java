@@ -211,8 +211,8 @@ public class HelpScreenController {
         contentsButton.setOnAction(event -> {
             double labelPosition = contentsTitleLabel.getBoundsInParent().getMinY();
             double height = informationVBox.getBoundsInParent().getHeight();
-            double viewportHeight = contentsScrollPane.getViewportBounds().getHeight();
-            double scrollPosition = labelPosition / (height - viewportHeight);
+            double viewportHeight = informationScrollPane.getViewportBounds().getHeight();
+            double scrollPosition = (labelPosition - informationVBox.spacingProperty().get())/ (height - viewportHeight);
             informationScrollPane.setVvalue(scrollPosition);
         });
     }
