@@ -15,9 +15,6 @@
  */
 .help-screen-contents-button:hover {
     -fx-text-fill: derive(#EEEDC4, -30%);
-
-    -fx-border-color: derive(#EEEDC4, -30%);
-    -fx-border-radius: 30px;
 }
 
 /*
