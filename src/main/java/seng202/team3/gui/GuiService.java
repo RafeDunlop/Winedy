@@ -1,5 +1,8 @@
 package seng202.team3.gui;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.geometry.Bounds;
@@ -15,6 +18,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.models.Wine;
@@ -277,5 +281,18 @@ public final class GuiService {
         pageScrollPaneMap.put(pageIndex, scrollPane);
         scrollPane.setPrefHeight(1000);
         return scrollPane;
+    }
+
+    public static void shakeNode(Label node) {
+        // Define a Timeline for shaking effect
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.millis(0), new KeyValue(node.translateXProperty(), 0)),
+                new KeyFrame(Duration.millis(100), new KeyValue(node.translateXProperty(), -10)),
+                new KeyFrame(Duration.millis(200), new KeyValue(node.translateXProperty(), 10)),
+                new KeyFrame(Duration.millis(300), new KeyValue(node.translateXProperty(), -10)),
+                new KeyFrame(Duration.millis(400), new KeyValue(node.translateXProperty(), 10)),
+                new KeyFrame(Duration.millis(500), new KeyValue(node.translateXProperty(), 0))
+        );
+        timeline.play();
     }
 }
