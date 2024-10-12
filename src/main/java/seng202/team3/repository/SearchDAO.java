@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Search DAO class that handles all wine related actions to the database
@@ -78,6 +79,7 @@ public class SearchDAO {
      *
      * @param attribute the attribute to be validated
      * @param tableName the table to check that attribute is in
+     *
      * @return the truth value of the attribute being a valid column in the table
      */
     public boolean isValidAttribute(String attribute, String tableName) {
@@ -95,5 +97,33 @@ public class SearchDAO {
         }
 
         return false;
+    }
+
+    /**
+     * Returns an aggregated value using the given aggregate function on an attribute from a table in the database
+     *
+     * @param attribute the attribute to be aggregated
+     * @param tableName the name of the table this value is from
+     * @param aggregateFunction the aggregate function to apply to the attribute values
+     * @return the value of the aggregate function being applied on the attribute
+     */
+    public float getAggregateFunctionValue(String attribute, String tableName, String aggregateFunction) {
+        String sql = String.format("SELECT %s(%s) as value FROM %s", aggregateFunction, attribute, tableName);
+
+        if (Objects.equals(attribute, "year")) {
+            sql += " WHERE year > 0";
+        }
+
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            log.info(ps);
+            ResultSet resultSet = ps.executeQuery();
+            log.info(resultSet.getFloat("value"));
+            return resultSet.getFloat("value");
+        } catch (SQLException sqlException) {
+            log.error("Error retrieving value from the database", sqlException);
+        }
+
+        return 1;
     }
 }
