@@ -66,9 +66,10 @@
                   </Label>
                   <TextField fx:id="nameTextField" layoutX="276.0" layoutY="30.0" prefHeight="24.0" prefWidth="266.0" />
                   <TextField fx:id="countryTextField" layoutX="276.0" layoutY="70.0" prefHeight="24.0" prefWidth="266.0" />
-                  <TextField fx:id="colourTextField" layoutX="276.0" layoutY="110.0" prefHeight="24.0" prefWidth="266.0" />
-                  <TextField fx:id="styleTextField" layoutX="276.0" layoutY="150.0" prefHeight="24.0" prefWidth="266.0" />
-                  <TextField fx:id="fullnessTextField" layoutX="276.0" layoutY="228.0" prefHeight="24.0" prefWidth="266.0" />
+                  <SearchableComboBox fx:id="colourComboBox" layoutX="276.0" layoutY="110.0" prefHeight="24.0" prefWidth="266.0" />
+                  <SearchableComboBox fx:id="styleComboBox" layoutX="276.0" layoutY="150.0" prefHeight="24.0" prefWidth="266.0" />
+                  <SearchableComboBox fx:id="grapeComboBox" layoutX="276.0" layoutY="189.0" prefHeight="24.0" prefWidth="266.0" />
+                  <SearchableComboBox fx:id="fullnessComboBox" layoutX="276.0" layoutY="228.0" prefHeight="24.0" prefWidth="266.0" />
                   <TextField fx:id="pricePerBottleTextField" layoutX="276.0" layoutY="338.0" prefHeight="24.0" prefWidth="266.0" />
                   <TextField fx:id="abvTextField" layoutX="276.0" layoutY="378.0" prefHeight="24.0" prefWidth="266.0" />
                   <TextArea fx:id="descriptionTextArea" layoutX="276.0" layoutY="268.0" prefHeight="54.0" prefWidth="266.0" />
@@ -84,7 +85,6 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <SearchableComboBox layoutX="276.0" layoutY="189.0" prefHeight="24.0" prefWidth="266.0" />
                </children>
             </AnchorPane>
             <Button fx:id="addPersonalWineButton" layoutX="370.0" layoutY="624.0" mnemonicParsing="false" onAction="#addPersonalWine" prefHeight="40.0" prefWidth="236.0" text="Add Personal Wine" />

@@ -328,7 +328,6 @@ public class LogPopupController {
         displayed.getStyleClass().add("nav-bar-button");
         displayed.setFont(new Font("System", 20));
         selectedVBox.getChildren().add(displayed);
-
         fullDisable(selectedButtonLabel, newLog.getWine() == null);
     }
 

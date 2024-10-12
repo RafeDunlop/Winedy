@@ -11,34 +11,58 @@ import java.time.LocalDate;
  */
 public class PersonalWinePopupService {
 
-    final int MAXABV = 25;
-    final int MAXVOLUME = 1000;
+    final float MAXABV = 25f;
+    final float MAXVOLUME = 1000f;
     final int MAXYEARSINPAST = 200;
+    final String DEFAULTCOLOUR = "Red";
 
-    Wine personalWine;
+    private Wine personalWine;
 
+    /**
+     * Constructor for PersonalWinePopupService
+     * @param personalWine wine object created using the user's inputs
+     */
     public PersonalWinePopupService(Wine personalWine) {
         this.personalWine = personalWine;
     }
 
+    /**
+     * Check if the wine has a name
+     * @return true if wine has a name
+     */
     public boolean validatePersonalWineName() {
         return !this.personalWine.getName().isEmpty();
     }
 
+    /**
+     * Default wine colour to red if colour is not set
+     */
     public void validatePersonalWineColour() {
         if (this.personalWine.getColour() != null) {
-            personalWine.setColour("Red");
+            personalWine.setColour(DEFAULTCOLOUR);
         }
     }
 
+    /**
+     * Check if the ABV is set to a reasonable value
+     * @return true if ABV is a reasonable value
+     */
     public boolean validatePersonalWineABV() {
         return 0 <= this.personalWine.getAlcoholByVolume() && this.personalWine.getAlcoholByVolume() <= MAXABV;
     }
 
+    /**
+     * Check if the volume is set to a reasonable value
+     * @return true if volume is a reasonable value
+     */
     public boolean validatePersonalWineVolume() {
         return 0 <= this.personalWine.getVolumeInMl() && this.personalWine.getVolumeInMl() <= MAXVOLUME;
     }
 
+    /**
+     * Check if the year is set to a reasonable value
+     * @return true if year is a reasonable value
+     */
     public boolean validatePersonalWineYear() {
         return LocalDate.now().getYear()-MAXYEARSINPAST <= this.personalWine.getYear() && this.personalWine.getYear() <= LocalDate.now().getYear();
     }

@@ -16,6 +16,9 @@ import seng202.team3.repository.Table;
 import seng202.team3.services.PersonalWinePopupService;
 import seng202.team3.services.SearchService;
 import seng202.team3.services.WineManager;
+
+import java.util.List;
+
 import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
 
@@ -46,7 +49,7 @@ public class PersonalWinePopupController {
     private Button cancelPersonalWineButton;
 
     @FXML
-    private TextField colourTextField;
+    private SearchableComboBox<String> colourComboBox;
 
     @FXML
     private TextField countryTextField;
@@ -55,7 +58,10 @@ public class PersonalWinePopupController {
     private TextArea descriptionTextArea;
 
     @FXML
-    private TextField fullnessTextField;
+    private SearchableComboBox<String> fullnessComboBox;
+
+    @FXML
+    private SearchableComboBox<String> grapeComboBox;
 
     @FXML
     private TextField nameTextField;
@@ -70,10 +76,7 @@ public class PersonalWinePopupController {
     private TextField pricePerBottleTextField;
 
     @FXML
-    private TextField styleTextField;
-
-    @FXML
-    private SearchableComboBox<String> grapeComboBox;
+    private SearchableComboBox<String> styleComboBox;
 
     @FXML
     private TextField volumeTextField;
@@ -98,14 +101,27 @@ public class PersonalWinePopupController {
         );
         addStyleClasses();
         setFormatters();
-        //grapeComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE));
+        setSearchableComboboxes();
+    }
+
+
+    private void setSearchableComboboxes() {
+        List<String> colours = SearchService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER);
+        colours.removeFirst();
+        colourComboBox.getItems().addAll(colours);
+        List<String> styles = SearchService.getAttributeValues(WineAttribute.STYLE, Table.WINESUPER);
+        styles.removeFirst();
+        styleComboBox.getItems().addAll(styles);
+        List<String> grapes = SearchService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE);
+        grapes.removeFirst();
+        grapeComboBox.getItems().addAll(grapes);
+        List<String> fullness = SearchService.getAttributeValues(WineAttribute.FULLNESS, Table.WINESUPER);
+        fullness.removeFirst();
+        fullnessComboBox.getItems().addAll(fullness);
     }
 
     private void setFormatters() {
         countryTextField.setTextFormatter(PersonalWinePopupService.getAlphabeticalFormatter());
-        colourTextField.setTextFormatter(PersonalWinePopupService.getAlphabeticalFormatter());
-        styleTextField.setTextFormatter(PersonalWinePopupService.getAlphabeticalFormatter());
-        fullnessTextField.setTextFormatter(PersonalWinePopupService.getAlphabeticalFormatter());
         pricePerBottleTextField.setTextFormatter(PersonalWinePopupService.getFloatFormatter());
         abvTextField.setTextFormatter(PersonalWinePopupService.getFloatFormatter());
         volumeTextField.setTextFormatter(PersonalWinePopupService.getFloatFormatter());
@@ -148,8 +164,9 @@ public class PersonalWinePopupController {
 
     private Wine createPersonalWine() {
         int uniqueWineID = WineManager.getInstance().getAllWines().getLast().getUniqueWineID() + 1;
-        return new Wine(uniqueWineID, nameTextField.getText(), countryTextField.getText(), colourTextField.getText(), styleTextField.getText(),
-                grapeComboBox != null ? (String[]) grapeComboBox.getItems().toArray() : null, fullnessTextField.getText(), descriptionTextArea.getText(),
+        return new Wine(uniqueWineID, nameTextField.getText(), countryTextField.getText(), colourComboBox != null ? colourComboBox.getSelectionModel().getSelectedItem() : null,
+                styleComboBox != null ? styleComboBox.getSelectionModel().getSelectedItem() : null, grapeComboBox != null ? grapeComboBox.getSelectionModel().getSelectedItem().split("") : null,
+                fullnessComboBox != null ? fullnessComboBox.getSelectionModel().getSelectedItem() : null, descriptionTextArea.getText(),
                 pricePerBottleTextField.getText().isEmpty() ? DEFAULTPRICE : parseFloat(pricePerBottleTextField.getText()), null,
                 abvTextField.getText().isEmpty() ? DEFAULTABV : parseFloat(abvTextField.getText()),
                 volumeTextField.getText().isEmpty() ? DEFAULTVOLUME : parseFloat(volumeTextField.getText()),
