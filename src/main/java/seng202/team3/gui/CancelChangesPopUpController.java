@@ -96,7 +96,7 @@ public class CancelChangesPopUpController {
     public void initialize() {
         this.wineListManager = WineListManager.getInstance();
 
-        GuiService.setUpPopUp(overlayPane, popUpAnchorPane);
+        GuiService.setUpPopUp(overlayPane, popUpAnchorPane, null);
 
         if (cancelButtonClicked) {
             areYouSureLabel.setText("Are you sure you would like to discard your changes?");

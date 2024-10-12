@@ -59,10 +59,10 @@ public class WineDAO implements DAOInterface<Wine> {
     @Override
     public List<Wine> getAll() {
         List<Wine> wines = new ArrayList<>();
-        String sqlWine = "SELECT * FROM wineSuper";
+        String sqlWine = "SELECT * FROM wineSuper JOIN wine on wineSuper.id = wine.id ORDER BY name";
         try (Connection conn = databaseManager.connect();
-             PreparedStatement ps = conn.prepareStatement(sqlWine)) {
-            try (ResultSet resultSet = ps.executeQuery()) {
+             PreparedStatement psWine = conn.prepareStatement(sqlWine);) {
+            ResultSet resultSet = psWine.executeQuery();
                 Wine newWine;
                 int id;
                 while (resultSet.next()) {
@@ -72,8 +72,15 @@ public class WineDAO implements DAOInterface<Wine> {
                     newWine = getWineFromResultSet(resultSet, grapeList, awardList);
                     wines.add(newWine);
                 }
+
+                try {
+                    PersonalWineDAO personalWineDAO = new PersonalWineDAO();
+                    wines.addAll(personalWineDAO.getAll());
+                } catch (NullPointerException e)  {
+                    log.info("no logged in user");
+                }
+
                 return wines;
-            }
         } catch (SQLException sqlException) {
             log.error(sqlException);
             return new ArrayList<>();
@@ -558,20 +565,19 @@ public class WineDAO implements DAOInterface<Wine> {
      */
     public SearchWineList searchWines(List<String> keywords, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice, String country, String colour, String fullness, String grapeName) {
         String sql = setUpSearchQuery(keywords, minYear, maxYear, minPrice, maxPrice, country, colour, fullness, grapeName);
-        SearchWineList searchResults = new SearchWineList();
+        SearchWineList searchResults = new SearchWineList(keywords, minYear, maxYear, minPrice, maxPrice, country, colour, fullness, grapeName);
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             setUpSearchPreparedStatement(ps, keywords, minYear, maxYear, minPrice, maxPrice, country, colour, fullness, grapeName);
-            try (ResultSet resultSet = ps.executeQuery()) {
-                Wine searchedWine;
-                while (resultSet.next()) {
-                    String[] grapeList = getGrapesByID(resultSet.getInt("id"));
-                    String[] awardList = getAwardsByID(resultSet.getInt("id"));
-                    searchedWine = getWineFromResultSet(resultSet, grapeList, awardList);
-                    searchResults.addWineToList(searchedWine);
-                }
-                return searchResults;
+            ResultSet resultSet = ps.executeQuery();
+            Wine searchedWine;
+            while (resultSet.next()) {
+                String[] grapeList = getGrapesByID(resultSet.getInt("id"));
+                String[] awardList = getAwardsByID(resultSet.getInt("id"));
+                searchedWine = getWineFromResultSet(resultSet, grapeList, awardList);
+                searchResults.addWineToList(searchedWine);
             }
+            return searchResults;
         } catch (SQLException sqlException) {
             log.error(sqlException);
             return null;

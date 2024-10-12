@@ -91,6 +91,7 @@ public final class SignInScreenService {
         wineDrinkerManager.setCurrentUser(curUser);
         //register throws exception which needs passing to 1 level up for prompt to user
         wineDrinkerManager.registerWineDrinker();
+        WineListManager.getInstance().setupFavourites();
     }
 
     /**
@@ -126,6 +127,7 @@ public final class SignInScreenService {
     public static void validateAndLoginUser(String username, String password) throws IllegalWineDrinkerException{
         validateLoginDetails(username, password);
         wineDrinkerManager.loginCurrentUser(username, password);
+        WineListManager.getInstance().setupFavourites();
     }
 
     /**
