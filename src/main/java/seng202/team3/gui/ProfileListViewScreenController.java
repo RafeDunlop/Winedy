@@ -153,7 +153,6 @@ public class ProfileListViewScreenController {
     private Image checked;
     private Image unChecked;
     private Image unCheckedHover;
-    private Image checkedHover;
 
 
     /**
@@ -191,7 +190,6 @@ public class ProfileListViewScreenController {
 
         checked = new Image("/images/checked.png");
         unChecked = new Image("/images/unchecked.png");
-        checkedHover = new Image("/images/checked_hover.png");
         unCheckedHover = new Image("/images/unchecked_hover.png");
 
         if (listToDisplay.getWineList().isEmpty()) {
@@ -417,7 +415,12 @@ public class ProfileListViewScreenController {
         });
     }
 
-
+    /**
+     * Toggles the checkboxes associated with the wines for deletion
+     *
+     * @param pageVBox the page content so that the individual wine buttons can be accessed
+     * @param pageIndex index of the page to toggle the checkboxes
+     */
     private void toggleCheckBoxes(VBox pageVBox, int pageIndex) {
         for (int i = 0; i < pageVBox.getChildren().size(); i++) {
             HBox hbox = (HBox) pageVBox.getChildren().get(i);
@@ -462,6 +465,9 @@ public class ProfileListViewScreenController {
         }
     }
 
+    /**
+     * Updates the remove wine button labels to show how many wines are selected for removal
+     */
     private void setRemoveWinesButtonLabel() {
         if (selectedWines.size() > 1) {
             removeWinesButton.setText("Remove " + selectedWines.size() + " wines");
@@ -475,6 +481,12 @@ public class ProfileListViewScreenController {
         }
     }
 
+    /**
+     * Action of the wine buttons when delete mode is on
+     *
+     * @param imageView the check boxes to be set to visible in delete move
+     * @param wine the wine corresponding to the button
+     */
     private void deleteModeButtonAction(ImageView imageView, Wine wine) {
         if (selectedWines.contains(wine)) {
             selectedWines.remove(wine);
@@ -485,6 +497,9 @@ public class ProfileListViewScreenController {
         }
     }
 
+    /**
+     * Toggles delete mode on and off
+     */
     private void toggleDeleteMode() {
         deleteMode = !deleteMode;
         selectedWines.clear();
@@ -504,10 +519,14 @@ public class ProfileListViewScreenController {
         editDescriptionButton.setDisable(deleteMode);
     }
 
+    /**
+     * Toggles delete mode to be on when the edit button is clicked
+     */
     @FXML
     public void onEditListButtonClicked() {
         toggleDeleteMode();
     }
+
     /**
      * Styles the buttons to be consistent with all other buttons in the UI
      */
@@ -546,6 +565,9 @@ public class ProfileListViewScreenController {
         toggleDeleteMode();
     }
 
+    /**
+     * Loads the pop up that asks the user to confirm the removal of wines from a list
+     */
     @FXML
     public void onRemoveWinesButtonClicked() {
         FXWrapper.getInstance().loadDeletingWinesPopUp(selectedWines, listToDisplay, rootAnchorPane);

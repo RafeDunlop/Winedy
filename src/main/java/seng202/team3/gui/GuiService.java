@@ -270,6 +270,17 @@ public final class GuiService {
         toTurnOn.setDisable(false);
     }
 
+    /**
+     * Method used in the page factories of creating pagination to create the scroll panes for each page
+     *
+     * @param pageScrollPaneMap maps the scroll pane to the corresponding page index
+     * @param pageIndex page index to create
+     * @param rowsPerPage rows per page
+     * @param winesPerRow wines per row
+     * @param winesToDisplay list of wines to display
+     * @param wineDetailsAnchorPane wineDetailsAnchorPane, null if being called from the list screen
+     * @return the scroll pane to be put into the page at pageIndex
+     */
     public static ScrollPane createPageContentsScrollPane(Map<Integer, ScrollPane> pageScrollPaneMap, int pageIndex, int rowsPerPage, int winesPerRow, List<Wine> winesToDisplay, AnchorPane wineDetailsAnchorPane) {
         VBox pageContent = new VBox();
         int start = pageIndex * rowsPerPage * winesPerRow;
@@ -283,6 +294,11 @@ public final class GuiService {
         return scrollPane;
     }
 
+    /**
+     * Shakes a node to engage the user (mostly used for error messages)
+     *
+     * @param node node to be shaken
+     */
     public static void shakeNode(Label node) {
         // Define a Timeline for shaking effect
         Timeline timeline = new Timeline(
