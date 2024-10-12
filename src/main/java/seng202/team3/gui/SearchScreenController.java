@@ -26,11 +26,8 @@ import seng202.team3.services.WineManager;
 import seng202.team3.models.SearchWineList;
 
 import java.util.List;
-<<<<<<< src/main/java/seng202/team3/gui/SearchScreenController.java
 import java.util.Map;
 import java.util.stream.Collectors;
-=======
->>>>>>> src/main/java/seng202/team3/gui/SearchScreenController.java
 import java.util.stream.IntStream;
 
 /**
