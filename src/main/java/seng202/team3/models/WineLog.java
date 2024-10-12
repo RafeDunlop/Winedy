@@ -10,7 +10,7 @@ import java.sql.Date;
  *
  * @author Rafe Dunlop (rdu46)
  */
-public class WineLog {
+public class WineLog implements Timed {
 
     /**
      * Date of consumption

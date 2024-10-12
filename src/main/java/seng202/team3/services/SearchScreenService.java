@@ -11,11 +11,14 @@ import java.util.Collections;
 
 /**
  * Service class for search screen
- * @author Yuvraj Fagotra (yfa50)
+ *
+ * @author Yuvraj (yfa50)
  */
 public final class SearchScreenService {
 
-    //ToDo put this as variable in wine manager
+    /**
+     * Instance of a search DAO for database related actions
+     */
     private static final SearchDAO searchDAO = new SearchDAO();
 
     /**

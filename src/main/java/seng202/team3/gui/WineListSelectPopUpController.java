@@ -65,7 +65,7 @@ public class WineListSelectPopUpController {
         exitButton.setOnAction(e -> onExitClicked());
         exitButton.getStyleClass().add("nav-bar-button");
 
-        GuiService.setUpPopUp(overlayPane, popUpAnchorPane);
+        GuiService.setUpPopUp(overlayPane, popUpAnchorPane, null);
         FXWrapper.getInstance().addPreviousScreen(() -> FXWrapper.getInstance().loadScreen(Screen.SEARCH));
         setUpVBox(wineListsVBox);
         setUpButtons();

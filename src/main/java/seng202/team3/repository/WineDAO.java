@@ -59,7 +59,7 @@ public class WineDAO implements DAOInterface<Wine> {
     @Override
     public List<Wine> getAll() {
         List<Wine> wines = new ArrayList<>();
-        String sqlWine = "SELECT * FROM wineSuper JOIN wine on wineSuper.id = wine.id ORDER BY name DESC";
+        String sqlWine = "SELECT * FROM wineSuper JOIN wine on wineSuper.id = wine.id ORDER BY name";
         try (Connection conn = databaseManager.connect();
              PreparedStatement psWine = conn.prepareStatement(sqlWine);) {
             ResultSet resultSet = psWine.executeQuery();

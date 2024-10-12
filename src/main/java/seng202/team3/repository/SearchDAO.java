@@ -17,7 +17,6 @@ import java.util.Objects;
  */
 public class SearchDAO {
 
-
     /**
      * Logger for robust error logging
      */
@@ -44,7 +43,6 @@ public class SearchDAO {
     public SearchDAO(String url) {
         databaseManager = DatabaseManager.getInstance(url);
     }
-
 
     /**
      * Gets all distinct values that occur in a given attribute (column) in the database
@@ -77,10 +75,11 @@ public class SearchDAO {
     }
 
     /**
-     * Returns true if the attribute is a valid column in the given table, false otherwise
+     * Returns true if the attribute is a valid column in the given table, false if not.
      *
      * @param attribute the attribute to be validated
-     * @param tableName the table to check the attribute is in
+     * @param tableName the table to check that attribute is in
+     *
      * @return the truth value of the attribute being a valid column in the table
      */
     public boolean isValidAttribute(String attribute, String tableName) {

@@ -62,7 +62,6 @@ public enum WineAttribute {
      */
     YEAR("year"),
 
-    //This refers to the column name in the grape table
     /**
      * The name of a grape used to produce the wine
      */

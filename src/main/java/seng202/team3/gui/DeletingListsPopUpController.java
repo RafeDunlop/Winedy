@@ -64,7 +64,7 @@ public class DeletingListsPopUpController {
     public void initialize() {
         this.wineListManager = WineListManager.getInstance();
 
-        GuiService.setUpPopUp(overlayPane,popUpAnchorPane);
+        GuiService.setUpPopUp(overlayPane,popUpAnchorPane, null);
 
         if (listsToDelete.size() > 1) {
             areYouSureLabel.setText("Are you sure you would like to delete " + listsToDelete.size() + " lists?");

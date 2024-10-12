@@ -7,7 +7,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team3.models.SearchWineList;
 import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
 import seng202.team3.models.WineLog;
@@ -153,7 +152,7 @@ public class FXWrapper {
      */
     public void loadMiniIndividualWineView(Pane toNest, Wine wineToDisplay) {
         try {
-            FXMLLoader miniIndividualWineViewLoader = new FXMLLoader(getClass().getResource("/fxml/individual_wine_view_mini.fxml"));
+            FXMLLoader miniIndividualWineViewLoader = new FXMLLoader(getClass().getResource("/fxml/mini_individual_wine_view.fxml"));
             miniIndividualWineViewLoader.setControllerFactory(param -> new MiniIndividualWineViewController(wineToDisplay));
             Parent leaf = miniIndividualWineViewLoader.load();
             clearPane(toNest);
@@ -204,10 +203,22 @@ public class FXWrapper {
      * @param wineLog the wine log being displayed on the screen
      * @param wine the logged wine contained in the wine log
      */
-    public void loadLogPopup(WineLog wineLog, Wine wine) {
+    public void loadLogPopup(WineLog wineLog, Wine wine, Screen toReturnTo) {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.ADDLOGPOPUP.file));
-            popupLoader.setControllerFactory(param -> new LogPopupController(wineLog, wine));
+            popupLoader.setControllerFactory(param -> new LogPopupController(wineLog, wine, toReturnTo));
+            StackPane popup = popupLoader.load();
+            superPane.getChildren().add(popup);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    public void loadLogChangesPopup(Runnable onDiscard) {
+        System.out.println("called");
+        try {
+            FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.LOGCHANGESPOPUP.file));
+            popupLoader.setControllerFactory(param -> new LogChangesPopupController(onDiscard));
             StackPane popup = popupLoader.load();
             superPane.getChildren().add(popup);
         } catch (IOException e) {
