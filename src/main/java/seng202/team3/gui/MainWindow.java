@@ -69,7 +69,8 @@ public class MainWindow extends Application {
                 "/css/wine_list_pagination.css",
                 "/css/date_picker.css",
                 "/css/bar_chart.css",
-                "/css/toggle_switch.css"
+                "/css/toggle_switch.css",
+                "/css/white_white_wine_rectangle.css"
         };
 
         try {

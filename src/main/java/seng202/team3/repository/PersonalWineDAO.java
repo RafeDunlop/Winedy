@@ -16,7 +16,8 @@ import java.util.List;
 /**
  * PersonalWine DAO Class that handles all personal wine related actions to the database
  *
- * @author Hannah Botting (hbo51), Krishna Sridhar (nsr36)
+ * @author Hannah Botting (hbo51)
+ * @author Krishna Sridhar (nsr36)
  */
 public class PersonalWineDAO implements DAOInterface<Wine> {
 

@@ -26,10 +26,21 @@ public class RecommendationDAO {
      */
     private final DatabaseManager databaseManager;
 
-
-
+    /**
+     * Default constructor for the RecommendationDAO. gets the instance of DatabaseManager that uses the normal database
+     */
     public RecommendationDAO() {
         databaseManager = DatabaseManager.getInstance();
+    }
+
+    /**
+     * Constructor for the RecommendationDAO. gets the instance of DatabaseManager that uses the database at the given
+     * url. Used for testing with the test database
+     *
+     * @param url the url that the test database is located at
+     */
+    public RecommendationDAO(String url) {
+        databaseManager = DatabaseManager.getInstance(url);
     }
 
     /**
@@ -138,7 +149,7 @@ public class RecommendationDAO {
                 log.error(e);
             }
         } else {
-            log.warn("Preference value already at max/min value - ignored");
+            log.info("Preference value already at max/min value - ignored");
         }
     }
 }

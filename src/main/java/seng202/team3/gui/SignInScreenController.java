@@ -17,14 +17,15 @@ import seng202.team3.models.WineAttribute;
 import seng202.team3.repository.Table;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.SignInScreenService;
-import seng202.team3.services.SearchScreenService;
+import seng202.team3.services.SearchService;
 import seng202.team3.exceptions.IllegalWineDrinkerException;
 import static seng202.team3.gui.GuiService.fullDisable;
 
 /**
  * controller for sign_in_screen.fxml. Handles logging in, registering and setting initial preferences
  *
- * @author Rafe Dunlop (rdu46), Steven Leishman (sle159)
+ * @author Rafe Dunlop (rdu46)
+ * @author Steven Leishman (sle159)
  */
 public class SignInScreenController {
 
@@ -123,12 +124,11 @@ public class SignInScreenController {
      * method to set up all the styles. Adds the gif into the image view.
      */
     public void initialize() {
-        SearchScreenService searchScreenService = new SearchScreenService();
         toggleSignInButton.setOnAction(x -> toggleMode());
         toggleMode();
-        colourPreferenceComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER));
-        fullnessPreferenceComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.FULLNESS, Table.WINESUPER));
-        varietyPreferenceComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE));
+        colourPreferenceComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER));
+        fullnessPreferenceComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.FULLNESS, Table.WINESUPER));
+        varietyPreferenceComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE));
 
         addStyleClasses();
 

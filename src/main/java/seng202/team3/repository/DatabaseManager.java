@@ -14,7 +14,8 @@ import java.util.List;
 /**
  * Singleton class responsible for interaction with SQLite database
  *
- * @author Yuvraj Singh Fagotra (Yfa50), Steven Leishman(sle159)
+ * @author Yuvraj Singh Fagotra (Yfa50)
+ * @author Steven Leishman (sle159)
  */
 public class DatabaseManager {
 

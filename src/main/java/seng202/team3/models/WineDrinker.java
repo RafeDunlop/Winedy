@@ -55,7 +55,8 @@ public class WineDrinker {
     private double abvLimit;
 
     /**
-     *
+     * The total number of changes that has been made to a list. Used as the sorting key for wine lists on the profile
+     * screen
      */
     private int totalListChanges;
 
@@ -80,15 +81,21 @@ public class WineDrinker {
         this.abvLimit = abvLimit;
     }
 
+    /**
+     *
+     */
     public void setupMinSortKey() {
         totalListChanges = WineListManager.getInstance().getMinSortKey();
     }
 
+    /**
+     * Return the current totalListChanges as the min key. Increments totalListChanges after returning
+     *
+     * @return the value of totalListChanges before incrementation.
+     */
     public int getAndIncrementMinKey() {
         return totalListChanges++;
-
     }
-
 
     /**
      * Creates new userWineList and adds it to drinkersWineList
@@ -98,7 +105,6 @@ public class WineDrinker {
         UserWineList userWineList = new UserWineList(null, name, null);
         drinkersWineLists.add(userWineList);
     }
-
 
     /**
      * Returns the username of current instance of WineDrinker

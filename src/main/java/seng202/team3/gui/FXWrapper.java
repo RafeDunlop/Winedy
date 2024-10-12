@@ -7,7 +7,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team3.models.SearchWineList;
 import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
 import seng202.team3.models.WineLog;
@@ -16,6 +15,7 @@ import seng202.team3.models.WineList;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Contains all methods for loading JavaFX classes
@@ -153,7 +153,7 @@ public class FXWrapper {
      */
     public void loadMiniIndividualWineView(Pane toNest, Wine wineToDisplay) {
         try {
-            FXMLLoader miniIndividualWineViewLoader = new FXMLLoader(getClass().getResource("/fxml/individual_wine_view_mini.fxml"));
+            FXMLLoader miniIndividualWineViewLoader = new FXMLLoader(getClass().getResource("/fxml/mini_individual_wine_view.fxml"));
             miniIndividualWineViewLoader.setControllerFactory(param -> new MiniIndividualWineViewController(wineToDisplay));
             Parent leaf = miniIndividualWineViewLoader.load();
             clearPane(toNest);
@@ -208,6 +208,22 @@ public class FXWrapper {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.ADDLOGPOPUP.file));
             popupLoader.setControllerFactory(param -> new LogPopupController(wineLog, wine, toReturnTo));
+            StackPane popup = popupLoader.load();
+            superPane.getChildren().add(popup);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    /**
+     * Loads the add personal wine popup onto the screen.
+     *
+     * @param onPWineCreated Consumer to be called when the personal wine is created
+     */
+    public void loadPersonalWinePopup(Consumer<Wine> onPWineCreated) {
+        try {
+            FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.ADDPERSONALWINEPOPUP.file));
+            popupLoader.setControllerFactory(param -> new PersonalWinePopupController(onPWineCreated));
             StackPane popup = popupLoader.load();
             superPane.getChildren().add(popup);
         } catch (IOException e) {
