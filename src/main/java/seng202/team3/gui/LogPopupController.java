@@ -310,7 +310,7 @@ public class LogPopupController {
         searchComboBox.getStyleClass().add("fifteen-combo-box");
         hoursComboBox.getStyleClass().add("fifteen-combo-box");
         createPersonalButton.getStyleClass().add("nav-bar-button");
-        glassesToggle.getStyleClass().add("nav-bar-addStyleClassesbutton");
+        glassesToggle.getStyleClass().add("nav-bar-button");
         bottlesToggle.getStyleClass().add("nav-bar-button");
         cancelLogButton.getStyleClass().add("nav-bar-button");
         finishLogButton.getStyleClass().add("nav-bar-button");

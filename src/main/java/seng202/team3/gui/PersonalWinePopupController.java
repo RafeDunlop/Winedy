@@ -10,8 +10,11 @@ import javafx.scene.layout.StackPane;
 import org.controlsfx.control.SearchableComboBox;
 import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
 import seng202.team3.models.Wine;
+import seng202.team3.models.WineAttribute;
 import seng202.team3.repository.PersonalWineDAO;
+import seng202.team3.repository.Table;
 import seng202.team3.services.PersonalWinePopupService;
+import seng202.team3.services.SearchService;
 import seng202.team3.services.WineManager;
 import static java.lang.Float.parseFloat;
 import static java.lang.Integer.parseInt;
@@ -70,7 +73,7 @@ public class PersonalWinePopupController {
     private TextField styleTextField;
 
     @FXML
-    private SearchableComboBox<Wine> grapeComboBox;
+    private SearchableComboBox<String> grapeComboBox;
 
     @FXML
     private TextField volumeTextField;
@@ -90,11 +93,12 @@ public class PersonalWinePopupController {
     }
 
     public void initialize() {
-        GuiService.setUpPopUp(overlayPane, popUpAnchorPane, () -> {
-            FXWrapper.getInstance().loadLogChangesPopup(() -> FXWrapper.getInstance().removePopUp(overlayPane));
-        });
+        GuiService.setUpPopUp(overlayPane, popUpAnchorPane, () ->
+            FXWrapper.getInstance().loadLogChangesPopup(() -> FXWrapper.getInstance().removePopUp(overlayPane))
+        );
         addStyleClasses();
         setFormatters();
+        //grapeComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE));
     }
 
     private void setFormatters() {

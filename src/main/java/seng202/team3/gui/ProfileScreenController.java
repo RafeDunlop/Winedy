@@ -95,15 +95,14 @@ public class ProfileScreenController {
      */
     public void initialize() {
         WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
-        SearchService searchService = new SearchService();
         profileScreenService = new ProfileScreenService();
-        colourPreferenceComboBox.getItems().addAll(searchService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER));
+        colourPreferenceComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER));
         colourPreferenceComboBox.getItems().removeFirst();
         colourPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getColourPreference());
-        fullnessPreferenceComboBox.getItems().addAll(searchService.getAttributeValues(WineAttribute.FULLNESS, Table.WINESUPER));
+        fullnessPreferenceComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.FULLNESS, Table.WINESUPER));
         fullnessPreferenceComboBox.getItems().removeFirst();
         fullnessPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getFullnessPreference());
-        varietyPreferenceComboBox.getItems().addAll(searchService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE));
+        varietyPreferenceComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE));
         varietyPreferenceComboBox.getItems().removeFirst();
         varietyPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getGrapePreference());
         abvLimitSlider.setValue(wineDrinkerManager.getCurrentUser().getAbvLimit());

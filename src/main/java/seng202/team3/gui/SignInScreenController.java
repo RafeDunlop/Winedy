@@ -124,12 +124,11 @@ public class SignInScreenController {
      * method to set up all the styles. Adds the gif into the image view.
      */
     public void initialize() {
-        SearchService searchService = new SearchService();
         toggleSignInButton.setOnAction(x -> toggleMode());
         toggleMode();
-        colourPreferenceComboBox.getItems().addAll(searchService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER));
-        fullnessPreferenceComboBox.getItems().addAll(searchService.getAttributeValues(WineAttribute.FULLNESS, Table.WINESUPER));
-        varietyPreferenceComboBox.getItems().addAll(searchService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE));
+        colourPreferenceComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER));
+        fullnessPreferenceComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.FULLNESS, Table.WINESUPER));
+        varietyPreferenceComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE));
 
         addStyleClasses();
 
