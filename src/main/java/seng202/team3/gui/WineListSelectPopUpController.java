@@ -78,7 +78,7 @@ public class WineListSelectPopUpController {
     @FXML
     public void onExitClicked() {
         FXWrapper.getInstance().removePopUp(overlayPane);
-        FXWrapper.getInstance().loadPreviousScreen();
+//        FXWrapper.getInstance().loadPreviousScreen();
     }
 
     /**

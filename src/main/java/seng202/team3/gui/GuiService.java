@@ -296,8 +296,13 @@ public final class GuiService {
         VBox pageContent = new VBox();
         int start = pageIndex * rowsPerPage * winesPerRow;
         int end = Math.min(start + rowsPerPage * winesPerRow, winesToDisplay.size());
+        Consumer<Wine> wineConsumer;
+        if (wineDetailsAnchorPane!=null){
+           wineConsumer = wine -> FXWrapper.getInstance().loadIndividualWineView(wineDetailsAnchorPane, wine);
+        } else {
+            wineConsumer = wine -> FXWrapper.getInstance().loadIndividualWineViewPopup(wine);
+        }
 
-        Consumer<Wine> wineConsumer = wine -> FXWrapper.getInstance().loadIndividualWineView(wineDetailsAnchorPane, wine);
         GuiService.startButtonGeneration(winesToDisplay.subList(start, end), pageContent, wineConsumer, 3);
 
         ScrollPane scrollPane = new ScrollPane(pageContent);

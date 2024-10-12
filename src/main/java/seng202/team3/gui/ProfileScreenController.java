@@ -178,7 +178,7 @@ public class ProfileScreenController {
         GuiService.turnOnPane(recommendStep3Pane);
         GuiService.turnOffPane(recommendStep2Pane);
         recommendedWinesVBox.getChildren().clear();
-        Consumer<Wine> onAction = wine -> FXWrapper.getInstance().loadIndividualWineViewPopup(wine);
+        Consumer<Wine> onAction = wine -> FXWrapper.getInstance().loadIndividualWineViewPopupWithButtons(wine);
         GuiService.startButtonGeneration(userSelectedRecommendWines, recommendedWinesVBox,
                 onAction, 2);
     }

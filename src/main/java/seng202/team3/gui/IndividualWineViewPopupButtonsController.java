@@ -12,18 +12,19 @@ import javafx.scene.shape.Rectangle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.models.Wine;
+import seng202.team3.services.IndividualWineViewService;
 
 /**
  * Controller for individual_wine_view_popup.fxml
  *
  * @author Hannah Botting (hbo51)
  */
-public class ButtonFilledIndividualWineViewPopupController {
+public class IndividualWineViewPopupButtonsController {
 
     /**
      * Logger for robust error and information logging
      */
-    private static final Logger log = LogManager.getLogger(ButtonFilledIndividualWineViewPopupController.class);
+    private static final Logger log = LogManager.getLogger(IndividualWineViewPopupButtonsController.class);
 
     @FXML
     private StackPane overlayPane;
@@ -85,6 +86,11 @@ public class ButtonFilledIndividualWineViewPopupController {
     @FXML
     private ImageView wineViewImageView;
 
+    @FXML
+    private Button likeButton;
+    @FXML
+    private Button addToListButton;
+
     /**
      * The wine whose details are to be displayed in the popup
      */
@@ -95,9 +101,14 @@ public class ButtonFilledIndividualWineViewPopupController {
      *
      * @param wineToDisplay the wine to be set to the wine to be displayed
      */
-    public ButtonFilledIndividualWineViewPopupController(Wine wineToDisplay) {
+    public IndividualWineViewPopupButtonsController(Wine wineToDisplay) {
         this.wineToDisplay = wineToDisplay;
     }
+
+    /**
+     * Initialises the individual wine view popup. Sets all the label attributes to display the wine attributes.
+     * Adds style classes to the exit button, and scroll panes.
+     */
 
     /**
      * Initialises the individual wine view popup. Sets all the label attributes to display the wine attributes.
@@ -109,7 +120,27 @@ public class ButtonFilledIndividualWineViewPopupController {
         abvContentsLabel.setText(String.format("%.1f%%", wineToDisplay.getAlcoholByVolume()));
         fullnessContentsLabel.setText(wineToDisplay.getFullness());
         volumeContentsLabel.setText(String.format("%.0fmL", wineToDisplay.getVolumeInMl()));
+        initialiseCountry();
+        initialiseStyle();
+        initialiseYear();
+        initialiseLongDescription();
+        initialiseAwards();
+        initialiseImages();
 
+        GuiService.setUpPopUp(overlayPane, popupAnchorPane, null);
+
+        likeButton.getStyleClass().add("like-button");
+        addToListButton.getStyleClass().add("add-to-list-button");
+        awardsScrollPane.getStyleClass().add("white-wine-scroll-pane");
+        descriptionScrollPane.getStyleClass().add("white-wine-scroll-pane");
+        exitButton.getStyleClass().add("nav-bar-button");
+        wineViewRectangle.getStyleClass().add("white-white-wine-rectangle");
+    }
+
+    /**
+     * used by JavaFX as the onAction for the exit button. calls the remove popup method in FXWrapper to close this popup
+     */
+    public void initialiseCountry(){
         if (!wineToDisplay.getCountry().isEmpty()) {
             countryContentsLabel.setText(wineToDisplay.getCountry());
         } else {
@@ -118,7 +149,9 @@ public class ButtonFilledIndividualWineViewPopupController {
             countryContentsLabel.setManaged(false);
             countryTitleLabel.setManaged(false);
         }
+    }
 
+    public void initialiseStyle(){
         if (!wineToDisplay.getStyle().isEmpty() ) {
             styleContentsLabel.setText(wineToDisplay.getStyle());
         } else {
@@ -128,6 +161,9 @@ public class ButtonFilledIndividualWineViewPopupController {
             styleTitleLabel.setManaged(false);
         }
 
+    }
+
+    public void initialiseYear(){
         if (wineToDisplay.getYear() != 0) {
             yearContentsLabel.setText(String.format("%d", wineToDisplay.getYear()));
         } else {
@@ -136,13 +172,17 @@ public class ButtonFilledIndividualWineViewPopupController {
             yearContentsLabel.setManaged(false);
             yearTitleLabel.setManaged(false);
         }
+    }
 
+    public void initialiseLongDescription(){
         if (!wineToDisplay.getLongDescription().isEmpty()) {
             descriptionContentsLabel.setText(wineToDisplay.getLongDescription());
         } else {
             descriptionContentsLabel.setText("This wine has no description");
         }
+    }
 
+    public void initialiseAwards(){
         for (String award : wineToDisplay.getAwards()) {
             if (award != null && !award.isEmpty()) {
                 awardsContentsLabel.setText(awardsContentsLabel.getText() + award + '\n');
@@ -153,25 +193,39 @@ public class ButtonFilledIndividualWineViewPopupController {
             awardsContentsLabel.setText("This wine has no awards");
         }
 
+    }
+    public void initialiseImages(){
         try {
             wineViewImageView.setImage(new Image("/images/" + wineToDisplay.getColour() + "_wine_image.png"));
         } catch (Exception e) {
             log.warn("Image file did not load correctly", e);
         }
 
-        GuiService.setUpPopUp(overlayPane, popupAnchorPane, null);
-
-        awardsScrollPane.getStyleClass().add("white-wine-scroll-pane");
-        descriptionScrollPane.getStyleClass().add("white-wine-scroll-pane");
-        exitButton.getStyleClass().add("nav-bar-button");
-        wineViewRectangle.getStyleClass().add("white-white-wine-rectangle");
     }
 
-    /**
-     * used by JavaFX as the onAction for the exit button. calls the remove popup method in FXWrapper to close this popup
-     */
     @FXML
     public void onExitButtonClicked() {
         FXWrapper.getInstance().removePopUp(overlayPane);
     }
+
+    /**
+     * Used by JavaFX as the OnAction of the Like Button.
+     * Updates whether the wine is the Wine Drinker's favourites list.
+     * Sets the style of the button to reflect whether the Wine has been added or removed from the favourites list
+     */
+    @FXML
+    public void onLikeButtonClicked() {
+        IndividualWineViewService individualWineViewService = new IndividualWineViewService();
+        individualWineViewService.updateFavourites(wineToDisplay);
+        likeButton.setStyle(individualWineViewService.inFavourites(wineToDisplay)? "-fx-background-color: -fx-dark-red-wine-colour" : "");
+    }
+
+    /**
+     * Used by JavaFX as OnAction of the Add Button.
+     */
+    @FXML
+    public void onAddButtonClicked() {
+        FXWrapper.getInstance().loadAddWineToListPopUp(wineToDisplay);
+    }
+
 }

@@ -337,14 +337,14 @@ public class FXWrapper {
         previousScreens.add(screen);
     }
 
-    /**
-     * Loads the screen at the top of the previousScreens stack and removes it from the stack
-     */
-    public void loadPreviousScreen() {
-        if (previousScreens.getLast() != null) {
-            previousScreens.removeLast().run();
-        }
-    }
+//    /**
+//     * Loads the screen at the top of the previousScreens stack and removes it from the stack
+//     */
+//    public void loadPreviousScreen() {
+//        if (previousScreens.getLast() != null) {
+//            previousScreens.removeLast().run();
+//        }
+//    }
 
     /**
      * Loads the individual wine view popup to show the given wine
@@ -355,6 +355,22 @@ public class FXWrapper {
         try {
             FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.INDIVIDUALWINEVIEWPOPUP.file));
             popUpLoader.setControllerFactory(param -> new IndividualWineViewPopupController(wineToDisplay));
+            StackPane popUpRoot = popUpLoader.load();
+            superPane.getChildren().add(popUpRoot);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    /**
+     * Loads the individual wine view popup to show the given wine
+     *
+     * @param wineToDisplay the wine to be displayed in the popup
+     */
+    public void loadIndividualWineViewPopupWithButtons(Wine wineToDisplay) {
+        try {
+            FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.INDIVIDUALWINEVIEWPOPUPBUTTONS.file));
+            popUpLoader.setControllerFactory(param -> new IndividualWineViewPopupButtonsController(wineToDisplay));
             StackPane popUpRoot = popUpLoader.load();
             superPane.getChildren().add(popUpRoot);
         } catch (IOException e) {

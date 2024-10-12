@@ -109,55 +109,12 @@ public class IndividualWineViewPopupController {
         abvContentsLabel.setText(String.format("%.1f%%", wineToDisplay.getAlcoholByVolume()));
         fullnessContentsLabel.setText(wineToDisplay.getFullness());
         volumeContentsLabel.setText(String.format("%.0fmL", wineToDisplay.getVolumeInMl()));
-
-        if (!wineToDisplay.getCountry().isEmpty()) {
-            countryContentsLabel.setText(wineToDisplay.getCountry());
-        } else {
-            countryContentsLabel.setVisible(false);
-            countryTitleLabel.setVisible(false);
-            countryContentsLabel.setManaged(false);
-            countryTitleLabel.setManaged(false);
-        }
-
-        if (!wineToDisplay.getStyle().isEmpty() ) {
-            styleContentsLabel.setText(wineToDisplay.getStyle());
-        } else {
-            styleContentsLabel.setVisible(false);
-            styleTitleLabel.setVisible(false);
-            styleContentsLabel.setManaged(false);
-            styleTitleLabel.setManaged(false);
-        }
-
-        if (wineToDisplay.getYear() != 0) {
-            yearContentsLabel.setText(String.format("%d", wineToDisplay.getYear()));
-        } else {
-            yearContentsLabel.setVisible(false);
-            yearTitleLabel.setVisible(false);
-            yearContentsLabel.setManaged(false);
-            yearTitleLabel.setManaged(false);
-        }
-
-        if (!wineToDisplay.getLongDescription().isEmpty()) {
-            descriptionContentsLabel.setText(wineToDisplay.getLongDescription());
-        } else {
-            descriptionContentsLabel.setText("This wine has no description");
-        }
-
-        for (String award : wineToDisplay.getAwards()) {
-            if (award != null && !award.isEmpty()) {
-                awardsContentsLabel.setText(awardsContentsLabel.getText() + award + '\n');
-            }
-        }
-
-        if (awardsContentsLabel.getText().isEmpty()) {
-            awardsContentsLabel.setText("This wine has no awards");
-        }
-
-        try {
-            wineViewImageView.setImage(new Image("/images/" + wineToDisplay.getColour() + "_wine_image.png"));
-        } catch (Exception e) {
-            log.warn("Image file did not load correctly", e);
-        }
+        initialiseCountry();
+        initialiseStyle();
+        initialiseYear();
+        initialiseLongDescription();
+        initialiseAwards();
+        initialiseImages();
 
         GuiService.setUpPopUp(overlayPane, popupAnchorPane, null);
 
@@ -170,6 +127,69 @@ public class IndividualWineViewPopupController {
     /**
      * used by JavaFX as the onAction for the exit button. calls the remove popup method in FXWrapper to close this popup
      */
+    public void initialiseCountry(){
+        if (!wineToDisplay.getCountry().isEmpty()) {
+            countryContentsLabel.setText(wineToDisplay.getCountry());
+        } else {
+            countryContentsLabel.setVisible(false);
+            countryTitleLabel.setVisible(false);
+            countryContentsLabel.setManaged(false);
+            countryTitleLabel.setManaged(false);
+        }
+    }
+
+    public void initialiseStyle(){
+        if (!wineToDisplay.getStyle().isEmpty() ) {
+            styleContentsLabel.setText(wineToDisplay.getStyle());
+        } else {
+            styleContentsLabel.setVisible(false);
+            styleTitleLabel.setVisible(false);
+            styleContentsLabel.setManaged(false);
+            styleTitleLabel.setManaged(false);
+        }
+
+    }
+
+    public void initialiseYear(){
+        if (wineToDisplay.getYear() != 0) {
+            yearContentsLabel.setText(String.format("%d", wineToDisplay.getYear()));
+        } else {
+            yearContentsLabel.setVisible(false);
+            yearTitleLabel.setVisible(false);
+            yearContentsLabel.setManaged(false);
+            yearTitleLabel.setManaged(false);
+        }
+    }
+
+    public void initialiseLongDescription(){
+        if (!wineToDisplay.getLongDescription().isEmpty()) {
+            descriptionContentsLabel.setText(wineToDisplay.getLongDescription());
+        } else {
+            descriptionContentsLabel.setText("This wine has no description");
+        }
+    }
+
+    public void initialiseAwards(){
+        for (String award : wineToDisplay.getAwards()) {
+            if (award != null && !award.isEmpty()) {
+                awardsContentsLabel.setText(awardsContentsLabel.getText() + award + '\n');
+            }
+        }
+
+        if (awardsContentsLabel.getText().isEmpty()) {
+            awardsContentsLabel.setText("This wine has no awards");
+        }
+
+    }
+    public void initialiseImages(){
+        try {
+            wineViewImageView.setImage(new Image("/images/" + wineToDisplay.getColour() + "_wine_image.png"));
+        } catch (Exception e) {
+            log.warn("Image file did not load correctly", e);
+        }
+
+    }
+
     @FXML
     public void onExitButtonClicked() {
         FXWrapper.getInstance().removePopUp(overlayPane);
