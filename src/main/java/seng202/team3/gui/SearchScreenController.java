@@ -20,7 +20,7 @@ import javafx.scene.text.Font;
 import org.controlsfx.control.RangeSlider;
 import seng202.team3.models.WineAttribute;
 import seng202.team3.repository.Table;
-import seng202.team3.services.SearchScreenService;
+import seng202.team3.services.SearchService;
 import seng202.team3.services.WineListManager;
 import seng202.team3.services.WineManager;
 import seng202.team3.models.SearchWineList;
@@ -311,8 +311,8 @@ public class SearchScreenController {
      */
     private void initialiseDateRangeComboBoxes() {
 
-        List<Integer> years = IntStream.rangeClosed((int) SearchScreenService.getBoundaryAttributeValue(WineAttribute.YEAR, Table.WINESUPER, "min"),
-                                                    (int) SearchScreenService.getBoundaryAttributeValue(WineAttribute.YEAR, Table.WINESUPER, "max"))
+        List<Integer> years = IntStream.rangeClosed((int) SearchService.getBoundaryAttributeValue(WineAttribute.YEAR, Table.WINESUPER, "min"),
+                                                    (int) SearchService.getBoundaryAttributeValue(WineAttribute.YEAR, Table.WINESUPER, "max"))
                 .boxed()
                 .toList();
         ObservableList<Integer> yearList = FXCollections.observableArrayList();
@@ -423,10 +423,10 @@ public class SearchScreenController {
         countryComboBox.setPromptText("All");
         varietyComboBox.setPromptText("All");
 
-        colourComboBox.getItems().addAll(SearchScreenService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER));
-        fullnessComboBox.getItems().addAll(SearchScreenService.getAttributeValues(WineAttribute.FULLNESS, Table.WINESUPER));
-        countryComboBox.getItems().addAll(SearchScreenService.getAttributeValues(WineAttribute.COUNTRY, Table.WINESUPER));
-        varietyComboBox.getItems().addAll(SearchScreenService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE));
+        colourComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER));
+        fullnessComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.FULLNESS, Table.WINESUPER));
+        countryComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.COUNTRY, Table.WINESUPER));
+        varietyComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE));
 
         colourComboBox.setOnAction(select -> selectedColour = (colourComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : colourComboBox.getSelectionModel().getSelectedItem());
         fullnessComboBox.setOnAction(select -> selectedFullness = (fullnessComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : fullnessComboBox.getSelectionModel().getSelectedItem());
@@ -466,9 +466,9 @@ public class SearchScreenController {
      * set as the min and max values, and the high and low values of the price range slider.
      */
     private void initialisePriceRangeSlider() {
-        int minValue = (int) SearchScreenService.getBoundaryAttributeValue(WineAttribute.PRICE, Table.WINESUPER, "min");
+        int minValue = (int) SearchService.getBoundaryAttributeValue(WineAttribute.PRICE, Table.WINESUPER, "min");
         minValue = minValue / 10 * 10;
-        int maxValue = (int) SearchScreenService.getBoundaryAttributeValue(WineAttribute.PRICE, Table.WINESUPER, "max");
+        int maxValue = (int) SearchService.getBoundaryAttributeValue(WineAttribute.PRICE, Table.WINESUPER, "max");
         maxValue = ((maxValue + 9) / 10) * 10;
 
         priceRangeSlider.setMin(minValue);
@@ -476,9 +476,9 @@ public class SearchScreenController {
         priceRangeSlider.setLowValue(priceRangeSlider.minProperty().get());
         priceRangeSlider.setHighValue(priceRangeSlider.maxProperty().get());
 
-        lowPriceTextField.textProperty().bindBidirectional(priceRangeSlider.lowValueProperty(), SearchScreenService.converter);
-        highPriceTextField.textProperty().bindBidirectional(priceRangeSlider.highValueProperty(), SearchScreenService.converter);
-        lowPriceTextField.setTextFormatter(SearchScreenService.getMinMaxPriceTextFormatter(minValue, maxValue));
-        highPriceTextField.setTextFormatter(SearchScreenService.getMinMaxPriceTextFormatter(minValue, maxValue));
+        lowPriceTextField.textProperty().bindBidirectional(priceRangeSlider.lowValueProperty(), SearchService.converter);
+        highPriceTextField.textProperty().bindBidirectional(priceRangeSlider.highValueProperty(), SearchService.converter);
+        lowPriceTextField.setTextFormatter(SearchService.getMinMaxPriceTextFormatter(minValue, maxValue));
+        highPriceTextField.setTextFormatter(SearchService.getMinMaxPriceTextFormatter(minValue, maxValue));
     }
 }

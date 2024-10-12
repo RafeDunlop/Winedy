@@ -3,7 +3,8 @@ package seng202.team3.gui;
 /**
  * enum detailing necessary fields for LoadScreen method in FXWrapper
  *
- * @author Rafe Dunlop (rdu46), Krishna Sridhar (nsr36)
+ * @author Rafe Dunlop (rdu46)
+ * @author Krishna Sridhar (nsr36)
  */
 public enum Screen {
     /**
