@@ -1,6 +1,6 @@
 package seng202.team3.gui;
 
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -145,6 +145,7 @@ public class LogPopupController {
     }
 
     private void setupLogNoteTextArea() {
+        logNoteTextArea.setWrapText(true);
         logNoteTextArea.textProperty().addListener((observable, oldNote, newNote) -> {
             newLog.setNote(newNote);
             runValidationSequence();
@@ -152,6 +153,9 @@ public class LogPopupController {
     }
 
     private void setupDatePicker() {
+        LocalDate currentDate = logManager.getCurrentDate().toLocalDate();
+        datePicker.setEditable(false);
+        datePicker.getEditor().setOnMouseClicked(event -> datePicker.show());
         datePicker.setValue(newLog.getDate().toLocalDate());
         datePicker.setOnAction(date -> {
             LocalDate selected = datePicker.getValue();
@@ -160,6 +164,21 @@ public class LogPopupController {
                 newLog.setDate(Date.valueOf(selected));
             }
         });
+
+        datePicker.setDayCellFactory(factory ->
+            new DateCell() {
+
+                @Override
+                public void updateItem(LocalDate date, boolean empty) {
+                    super.updateItem(date, empty);
+
+                    if (date != null && !empty) {
+                        if(date.isAfter(currentDate)) {
+                            setDisable(true);
+                        }
+                    }
+                }
+            });
     }
 
     private void setLogParams() {
@@ -172,7 +191,7 @@ public class LogPopupController {
                 .setDate(preExistingLog.getDate())
                 .setWine(WineManager.getInstance().getWineById(preExistingLog.getUniqueWineId()))
                 .setHour(preExistingLog.getTime().toLocalTime().getHour())
-                .setNote(preExistingLog.getNote());
+                .setNote((preExistingLog.getNote() == null) ? "" : preExistingLog.getNote());
 
         newLog = new LogDiff(oldLog);
 
@@ -206,6 +225,9 @@ public class LogPopupController {
         cancelLogButton.setOnAction(event -> {
             if (oldLog.equals(newLog)) {
                 closeThis();
+            } else {
+                FXWrapper.getInstance().loadLogChangesPopup(
+                        () -> FXWrapper.getInstance().removePopUp(overlayPane));
             }
         });
     }
@@ -253,9 +275,8 @@ public class LogPopupController {
                     logManager.getHourConverter().toString(newLog.getHour()),
                     logManager.getDateString(newLog.getDate()))
             );
-        } else {
-            fullDisable(qtyDisplayLabel, true);
         }
+        fullDisable(qtyDisplayLabel, !logValid);
         System.out.println(editMode);
         finishLogButton.setDisable((editMode) ? oldLog.equals(newLog) : !logValid);
     }
@@ -272,6 +293,7 @@ public class LogPopupController {
         glassesToggle.setSelected(toSet);
         bottlesToggle.setSelected(!toSet);
         newLog.setIsBottles(!toSet);
+        amountTextField.setPromptText(logManager.getAmtPromptText(!toSet));
         runValidationSequence();
     }
 
@@ -285,7 +307,6 @@ public class LogPopupController {
             if (newLog.getWine() != null) {
                 setSelected();
             }
-            runValidationSequence();
         });
         ListCell<Wine> cellFactory = new ListCell<>() {
             @Override
@@ -308,19 +329,6 @@ public class LogPopupController {
         hoursComboBox.setConverter(logManager.getHourConverter());
     }
 
-    private void addStyleClasses() {
-        popUpAnchorPane.getStyleClass().add("titled-pane");
-        searchRectangle.getStyleClass().add("red-wine-rectangle");
-        selectedWineRectangle.getStyleClass().add("red-wine-rectangle");
-        searchComboBox.getStyleClass().add("fifteen-combo-box");
-        hoursComboBox.getStyleClass().add("fifteen-combo-box");
-        createPersonalButton.getStyleClass().add("nav-bar-button");
-        glassesToggle.getStyleClass().add("nav-bar-button");
-        bottlesToggle.getStyleClass().add("nav-bar-button");
-        cancelLogButton.getStyleClass().add("nav-bar-button");
-        finishLogButton.getStyleClass().add("nav-bar-button");
-    }
-
     private void setSelected() {
         Wine wine = newLog.getWine();
         selectedVBox.getChildren().remove(displayed);
@@ -328,13 +336,31 @@ public class LogPopupController {
         displayed.setPrefSize(260,240);
         displayed.setWrapText(true);
         GuiService.addImageGraphicToButton(displayed, "/images/" + wine.getColour() + "_wine_image.png", 100, 100, false);
-        displayed.setOnAction(event -> {/*show details popup */});
+        displayed.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineViewPopup(wine));
         displayed.setContentDisplay(TOP);
         displayed.getStyleClass().add("nav-bar-button");
         displayed.setFont(new Font("System", 20));
         selectedVBox.getChildren().add(displayed);
 
         fullDisable(selectedButtonLabel, newLog.getWine() == null);
+
+        runValidationSequence();
+    }
+
+    private void addStyleClasses() {
+        popUpAnchorPane.getStyleClass().add("titled-pane");
+        searchRectangle.getStyleClass().add("red-wine-rectangle");
+        selectedWineRectangle.getStyleClass().add("red-wine-rectangle");
+        searchComboBox.getStyleClass().add("fifteen-combo-box");
+        hoursComboBox.getStyleClass().add("fifteen-combo-box");
+        createPersonalButton.getStyleClass().add("nav-bar-button");
+        glassesToggle.getStyleClass().add("toggle-switch");
+        bottlesToggle.getStyleClass().add("toggle-switch");
+        cancelLogButton.getStyleClass().add("nav-bar-button");
+        finishLogButton.getStyleClass().add("nav-bar-button");
+        datePicker.getStyleClass().add("date-picker");
+        amountTextField.getStyleClass().add("sign-in-screen-text-field");
+        logNoteTextArea.getStyleClass().add("sign-in-screen-text-field");
     }
 
     @FXML
