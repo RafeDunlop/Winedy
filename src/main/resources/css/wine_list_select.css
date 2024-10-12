@@ -56,7 +56,8 @@
 
 .wine-list-button {
     -fx-pref-width: infinity;
-    -fx-pref-height: 1000;
+    -fx-min-height: 100;
+    -fx-max-height: 100;
     -fx-background-color: -fx-hsb-body-colour;
     -fx-background-insets: 1;
     -fx-border-color: -fx-hsb-border-colour;
