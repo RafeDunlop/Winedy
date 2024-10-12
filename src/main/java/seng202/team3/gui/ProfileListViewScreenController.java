@@ -1,7 +1,9 @@
 package seng202.team3.gui;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -11,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
 import seng202.team3.services.ProfileScreenService;
@@ -18,6 +21,7 @@ import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.WineListManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -73,7 +77,7 @@ public class ProfileListViewScreenController {
     private Button cancelDeleteButton;
 
     @FXML
-    private Button deleteWinesButton;
+    private Button removeWinesButton;
 
     @FXML
     private Label descriptionLabel;
@@ -95,6 +99,12 @@ public class ProfileListViewScreenController {
 
     @FXML
     private ScrollPane descriptionScrollPane;
+
+    @FXML
+    private Rectangle infoRectangle;
+
+    @FXML
+    private Label infoLabel;
 
     /**
      * Wine drinker manager to handle wine drinker related actions
@@ -139,10 +149,10 @@ public class ProfileListViewScreenController {
      * Boolean variable to declare whether the screen is in delete mode or not
      */
     private boolean deleteMode = false;
+
     private Image checked;
     private Image unChecked;
     private Image unCheckedHover;
-    private Image checkedHover;
 
 
     /**
@@ -167,12 +177,6 @@ public class ProfileListViewScreenController {
         wineListNameTextField.setVisible(false);
 
         descriptionTextArea.setText(listToDisplay.getDescription());
-        if (listToDisplay.getDescription().isEmpty()) {
-            descriptionLabel.setText("You currently do not have a description for your wine list" + listToDisplay.getDescription() +
-                    ". Click the edit description button to create a description!");
-        } else {
-            descriptionLabel.setText(listToDisplay.getDescription());
-        }
         descriptionTextArea.setVisible(false);
 
         if (listToDisplay.getWineListName().equals("Favourites")) {
@@ -184,14 +188,28 @@ public class ProfileListViewScreenController {
 
         addStyleSheets();
 
-        this.pageScrollPaneMap = GuiService.createPagination(listToDisplay.getWineList(), listContentsVBox, 4, 3, null);
-        Pagination pagination = (Pagination) listContentsVBox.getChildren().get(0);
-        pagination.getStyleClass().add("wine-list-pagination");
-
         checked = new Image("/images/checked.png");
         unChecked = new Image("/images/unchecked.png");
-        checkedHover = new Image("/images/checked_hover.png");
         unCheckedHover = new Image("/images/unchecked_hover.png");
+
+        if (listToDisplay.getWineList().isEmpty()) {
+            infoLabel.setVisible(true);
+            infoLabel.setText(listToDisplay.getWineListName() + " currently contains 0 wines. Go to the search screen to browse wines to add to your list.");
+            infoRectangle.setVisible(true);
+        } else {
+            infoLabel.setVisible(false);
+            infoLabel.setVisible(false);
+            this.pageScrollPaneMap = createPagination(listToDisplay.getWineList(), listContentsVBox, 4, 3, null);
+            Pagination pagination = (Pagination) listContentsVBox.getChildren().get(0);
+            pagination.getStyleClass().add("wine-list-pagination");
+        }
+
+        if (listToDisplay.getDescription().isEmpty()) {
+            descriptionLabel.setText("You currently do not have a description for your wine list " + listToDisplay.getDescription() +
+                    ". Click the edit description button to create a description!");
+        } else {
+            descriptionLabel.setText(listToDisplay.getDescription());
+        }
     }
 
     /**
@@ -213,6 +231,8 @@ public class ProfileListViewScreenController {
         errorLabel.setVisible(false);
         descErrorLabel.setVisible(false);
 
+        editDescriptionButton.setDisable(false);
+
     }
 
     /**
@@ -221,15 +241,18 @@ public class ProfileListViewScreenController {
      */
     @FXML
     public void onRenameButtonClicked() {
-        wineListNameLabel.setVisible(false);
-        wineListNameTextField.setVisible(true);
-        wineListNameTextField.setEditable(true);
 
-        saveListChangesButton.setVisible(true);
-        renameButton.setVisible(false);
-        editListButton.setVisible(false);
-        cancelListChangesButton.setVisible(true);
+            wineListNameLabel.setVisible(false);
+            wineListNameTextField.setVisible(true);
+            wineListNameTextField.setEditable(true);
 
+            saveListChangesButton.setVisible(true);
+            saveListChangesButton.setDisable(true);
+            renameButton.setVisible(false);
+            editListButton.setVisible(false);
+            cancelListChangesButton.setVisible(true);
+
+            editDescriptionButton.setDisable(true);
     }
 
     /**
@@ -245,6 +268,8 @@ public class ProfileListViewScreenController {
             } else {
                 FXWrapper.getInstance().loadProfileActionScreen(rootAnchorPane, Screen.WINELISTSSCREEN);
             }
+        } else {
+            GuiService.shakeNode(errorLabel);
         }
     }
 
@@ -253,7 +278,25 @@ public class ProfileListViewScreenController {
      */
     @FXML
     public void onCancelListChangesButtonClicked() {
-        FXWrapper.getInstance().loadCancelChangesPopUp(listToDisplay, true, wineListNameTextField.getText(), descriptionTextArea.getText(), rootAnchorPane);
+        if (profileScreenService.isValidRenamedListName(listToDisplay.getWineListName(), wineListNameTextField.getText()) &&
+        profileScreenService.unsavedChanges(listToDisplay.getWineListName(), wineListNameTextField.getText())) {
+            FXWrapper.getInstance().loadCancelChangesPopUp(listToDisplay, true, wineListNameTextField.getText(), descriptionTextArea.getText(), rootAnchorPane);
+        } else {
+            wineListNameTextField.setVisible(false);
+            wineListNameLabel.setVisible(true);
+
+            saveListChangesButton.setVisible(false);
+            renameButton.setVisible(true);
+            editListButton.setVisible(true);
+            cancelListChangesButton.setVisible(false);
+
+            errorLabel.setVisible(false);
+            descErrorLabel.setVisible(false);
+
+            editDescriptionButton.setDisable(false);
+
+
+        }
     }
 
     /**
@@ -261,6 +304,7 @@ public class ProfileListViewScreenController {
      */
     @FXML
     public void onEditDescriptionButtonClicked() {
+
         descriptionScrollPane.setVisible(false);
         descriptionTextArea.setVisible(true);
         descriptionTextArea.setEditable(true);
@@ -268,6 +312,11 @@ public class ProfileListViewScreenController {
         saveDescChangesButton.setVisible(true);
         editDescriptionButton.setVisible(false);
         cancelDescChangesButton.setVisible(true);
+
+        renameButton.setDisable(true);
+        editListButton.setDisable(true);
+
+        saveDescChangesButton.setDisable(true);
     }
 
     /**
@@ -280,7 +329,6 @@ public class ProfileListViewScreenController {
 
         descriptionTextArea.setVisible(false);
         descriptionScrollPane.setVisible(true);
-        descriptionLabel.setText(descriptionTextArea.getText());
 
         saveDescChangesButton.setVisible(false);
         editDescriptionButton.setVisible(true);
@@ -288,6 +336,9 @@ public class ProfileListViewScreenController {
 
         errorLabel.setVisible(false);
         errorLabel.setVisible(false);
+
+        renameButton.setDisable(false);
+        editListButton.setDisable(false);
     }
 
     /**
@@ -295,7 +346,22 @@ public class ProfileListViewScreenController {
      */
     @FXML
     public void onCancelDescChangesButtonClicked() {
-        FXWrapper.getInstance().loadCancelChangesPopUp(listToDisplay, true, wineListNameTextField.getText(), descriptionTextArea.getText(), rootAnchorPane);
+        if (profileScreenService.unsavedChanges(listToDisplay.getDescription(), descriptionTextArea.getText())) {
+            FXWrapper.getInstance().loadCancelChangesPopUp(listToDisplay, true, wineListNameTextField.getText(), descriptionTextArea.getText(), rootAnchorPane);
+        } else  {
+            descriptionTextArea.setVisible(false);
+            descriptionScrollPane.setVisible(true);
+
+            saveDescChangesButton.setVisible(false);
+            editDescriptionButton.setVisible(true);
+            cancelDescChangesButton.setVisible(false);
+
+            errorLabel.setVisible(false);
+            errorLabel.setVisible(false);
+
+            renameButton.setDisable(false);
+            editListButton.setDisable(false);
+        }
     }
 
     /**
@@ -304,16 +370,16 @@ public class ProfileListViewScreenController {
     private void setUpTextAreaListenersForErrorMessages() {
         wineListNameTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!profileScreenService.isValidRenamedListName(listToDisplay.getWineListName(), newValue)) {
-                descErrorLabel.setVisible(false);
                 errorLabel.setVisible(true);
                 errorLabel.setText(profileScreenService.getCreateListErrorMessage(newValue));
+                GuiService.shakeNode(errorLabel);
                 saveListChangesButton.setDisable(true);
                 saveListChangesButton.setOpacity(0.5);
             } else if (profileScreenService.reachedCharLimit(newValue, listNameCharLimit)) {
                 wineListNameTextField.setText(oldValue);
-                descErrorLabel.setVisible(false);
                 errorLabel.setVisible(true);
-                errorLabel.setText("You have reached the character limit for a list name (" + listNameCharLimit + " characters)");
+                errorLabel.setText("Character limit reached ("+ listNameCharLimit + " characters)");
+                GuiService.shakeNode(errorLabel);
                 saveListChangesButton.setDisable(false);
                 saveListChangesButton.setOpacity(1);
             } else {
@@ -329,17 +395,32 @@ public class ProfileListViewScreenController {
      */
     private void setUpListenersForDescValidation() {
         descriptionTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (profileScreenService.unsavedChanges(listToDisplay.getDescription(), descriptionTextArea.getText())) {
+                saveDescChangesButton.setDisable(false);
+            }
             if (profileScreenService.reachedCharLimit(descriptionTextArea.getText(), descCharLimit)) {
                 descriptionTextArea.setText(oldValue);
-                errorLabel.setVisible(false);
                 descErrorLabel.setVisible(true);
-                descErrorLabel.setText("You have reached the character limit for a list description (" + descCharLimit + " characters)");
+                descErrorLabel.setText("Character limit reached ("+ descCharLimit + " characters)");
+                GuiService.shakeNode(descErrorLabel);
             } else {
                 descErrorLabel.setVisible(false);
+            }
+            if (descriptionTextArea.getText().isEmpty()) {
+                descriptionLabel.setText("You currently do not have a description for your wine list " + listToDisplay.getDescription() +
+                        ". Click the edit description button to create a description!");
+            } else {
+                descriptionLabel.setText(descriptionTextArea.getText());
             }
         });
     }
 
+    /**
+     * Toggles the checkboxes associated with the wines for deletion
+     *
+     * @param pageVBox the page content so that the individual wine buttons can be accessed
+     * @param pageIndex index of the page to toggle the checkboxes
+     */
     private void toggleCheckBoxes(VBox pageVBox, int pageIndex) {
         for (int i = 0; i < pageVBox.getChildren().size(); i++) {
             HBox hbox = (HBox) pageVBox.getChildren().get(i);
@@ -358,7 +439,7 @@ public class ProfileListViewScreenController {
                     Wine wine = listToDisplay.getWineList().get(12 * pageIndex + finalI * 3 + finalJ);
                     button.setOnAction(e -> {
                         deleteModeButtonAction(imageView, wine);
-                        setDeleteWinesButtonLabel();
+                        setRemoveWinesButtonLabel();
                     });
 
                     imageView.setOnMouseEntered(e -> {
@@ -384,19 +465,28 @@ public class ProfileListViewScreenController {
         }
     }
 
-    private void setDeleteWinesButtonLabel() {
+    /**
+     * Updates the remove wine button labels to show how many wines are selected for removal
+     */
+    private void setRemoveWinesButtonLabel() {
         if (selectedWines.size() > 1) {
-            deleteWinesButton.setText("Delete " + selectedWines.size() + " wines");
-            deleteWinesButton.setDisable(false);
+            removeWinesButton.setText("Remove " + selectedWines.size() + " wines");
+            removeWinesButton.setDisable(false);
         } else if (selectedWines.size() == 1) {
-            deleteWinesButton.setText("Delete " + selectedWines.size() + " wine");
-            deleteWinesButton.setDisable(false);
+            removeWinesButton.setText("Remove" + selectedWines.size() + " wine");
+            removeWinesButton.setDisable(false);
         } else {
-            deleteWinesButton.setText("Delete wines");
-            deleteWinesButton.setDisable(true);
+            removeWinesButton.setText("Remove wines");
+            removeWinesButton.setDisable(true);
         }
     }
 
+    /**
+     * Action of the wine buttons when delete mode is on
+     *
+     * @param imageView the check boxes to be set to visible in delete move
+     * @param wine the wine corresponding to the button
+     */
     private void deleteModeButtonAction(ImageView imageView, Wine wine) {
         if (selectedWines.contains(wine)) {
             selectedWines.remove(wine);
@@ -407,6 +497,9 @@ public class ProfileListViewScreenController {
         }
     }
 
+    /**
+     * Toggles delete mode on and off
+     */
     private void toggleDeleteMode() {
         deleteMode = !deleteMode;
         selectedWines.clear();
@@ -421,13 +514,19 @@ public class ProfileListViewScreenController {
             renameButton.setVisible(!deleteMode);
         }
         cancelDeleteButton.setVisible(deleteMode);
-        deleteWinesButton.setVisible(deleteMode);
+        removeWinesButton.setVisible(deleteMode);
+
+        editDescriptionButton.setDisable(deleteMode);
     }
 
+    /**
+     * Toggles delete mode to be on when the edit button is clicked
+     */
     @FXML
     public void onEditListButtonClicked() {
         toggleDeleteMode();
     }
+
     /**
      * Styles the buttons to be consistent with all other buttons in the UI
      */
@@ -440,7 +539,7 @@ public class ProfileListViewScreenController {
         cancelDescChangesButton.getStyleClass().add("nav-bar-button");
         editDescriptionButton.getStyleClass().add("nav-bar-button");
         saveDescChangesButton.getStyleClass().add("nav-bar-button");
-        deleteWinesButton.getStyleClass().add("nav-bar-button");
+        removeWinesButton.getStyleClass().add("nav-bar-button");
         cancelDeleteButton.getStyleClass().add("nav-bar-button");
 
         winesRectangle.getStyleClass().add("red-wine-rectangle");
@@ -454,15 +553,51 @@ public class ProfileListViewScreenController {
 
         errorLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour;");
         descErrorLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour;");
+
+        infoRectangle.getStyleClass().add("white-red-wine-rectangle");
     }
 
+    /**
+     * Goes back to the regular state of the app when the user clicks cancel delete
+     */
     @FXML
     public void onCancelDeleteButtonClicked() {
         toggleDeleteMode();
     }
 
+    /**
+     * Loads the pop up that asks the user to confirm the removal of wines from a list
+     */
     @FXML
-    public void onDeleteWinesButtonClicked() {
+    public void onRemoveWinesButtonClicked() {
         FXWrapper.getInstance().loadDeletingWinesPopUp(selectedWines, listToDisplay, rootAnchorPane);
     }
+
+    /**
+     * Creates paginated display of wine buttons for search screen and profile screens
+     *
+     * @param winesToDisplay list of wines to display in the pagination
+     * @param rootVBox vbox to insert pagination into
+     * @param rowsPerPage number of rows of wines per page
+     * @param winesPerRow number of wines per row
+     * @param wineDetailsAnchorPane wine details anchor pane if applicable for the onAction of the wine button
+     * @return pagination so it can be styled as needed per screen
+     */
+    public Map<Integer, ScrollPane> createPagination(List<Wine> winesToDisplay, VBox rootVBox, int rowsPerPage, int winesPerRow, AnchorPane wineDetailsAnchorPane) {
+        int winesPerPage = 12;
+        int numberOfPages = (int) Math.ceil((double) winesToDisplay.size() / winesPerPage);
+        Map<Integer, ScrollPane> pageScrollPaneMap = new HashMap<>();
+
+        Pagination pagination = new Pagination(numberOfPages, 0);
+        rootVBox.getChildren().add(pagination);
+        pagination.getStyleClass().add("wine-pagination");
+
+        for (int pageIndex = 0; pageIndex < numberOfPages; pageIndex++) {
+            GuiService.createPageContentsScrollPane(pageScrollPaneMap, pageIndex, rowsPerPage, winesPerRow, winesToDisplay, wineDetailsAnchorPane);
+        }
+
+        pagination.setPageFactory(pageScrollPaneMap::get);
+        return pageScrollPaneMap;
+    }
+
 }

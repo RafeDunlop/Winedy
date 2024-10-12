@@ -8,6 +8,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.models.Wine;
 
+/**
+ * Controller for the individual_wine_view.fxml
+ * Embedded into the recommendation screen to display a wines details to the Wine Drinker
+ *
+ * @author Steven Leishman (sle159)
+ */
 public class MiniIndividualWineViewController {
 
     /**
@@ -24,7 +30,6 @@ public class MiniIndividualWineViewController {
     @FXML
     private Label winePriceLabel;
 
-
     @FXML
     private Rectangle rectangle;
 
@@ -33,6 +38,7 @@ public class MiniIndividualWineViewController {
 
     @FXML
     private Label wineStyleLabel;
+
     @FXML
     private Label wineColourLabel;
 
@@ -69,6 +75,8 @@ public class MiniIndividualWineViewController {
 
     /**
      * Used by JavaFX as the OnAction of the View In Detail Button.
+     * Calls the loadIndividualWineViewPopup method from the FXWrapper instance to show the details of the wine to
+     * display.
      */
     @FXML
     public void onViewInDetailButtonClicked() {

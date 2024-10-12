@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
 
+import java.util.Collections;
+
 public class SearchWineListTest {
     SearchWineList testSearchWineList;
 
@@ -13,7 +15,8 @@ public class SearchWineListTest {
 
     @BeforeEach
     public void setup() {
-        testSearchWineList = new SearchWineList();
+        testSearchWineList = new SearchWineList(Collections.emptyList(), 0, 0, 0f, 0f,
+                null, null, null, null);
 
         testWine =  new Wine(
                 0,

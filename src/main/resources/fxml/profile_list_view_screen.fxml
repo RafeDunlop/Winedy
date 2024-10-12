@@ -10,11 +10,11 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileListViewScreenController">
+<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.ProfileListViewScreenController">
    <children>
       <Rectangle fx:id="winesRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="485.0" layoutX="21.0" layoutY="90.0" stroke="BLACK" strokeType="INSIDE" width="788.0" />
-      <Rectangle fx:id="descriptionRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="418.0" layoutX="821.0" layoutY="90.0" stroke="BLACK" strokeType="INSIDE" width="365.0" />
-      <ScrollPane fx:id="descriptionScrollPane" fitToWidth="true" hbarPolicy="NEVER" layoutX="844.0" layoutY="146.0" maxWidth="-Infinity" prefHeight="345.0" prefWidth="325.0" style="-fx-background-color: transparent;">
+      <Rectangle fx:id="descriptionRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="417.0" layoutX="821.0" layoutY="90.0" stroke="BLACK" strokeType="INSIDE" width="365.0" />
+      <ScrollPane fx:id="descriptionScrollPane" fitToWidth="true" hbarPolicy="NEVER" layoutX="844.0" layoutY="146.0" maxWidth="-Infinity" prefHeight="292.0" prefWidth="325.0" style="-fx-background-color: transparent;">
          <content>
             <Label fx:id="descriptionLabel" alignment="TOP_LEFT" maxWidth="-Infinity" prefWidth="323.0" style="-fx-background-color: transparent;" text="label" wrapText="true">
                <font>
@@ -23,7 +23,7 @@
             </Label>
          </content>
       </ScrollPane>
-      <TextArea fx:id="descriptionTextArea" layoutX="841.0" layoutY="145.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="345.0" prefWidth="325.0" visible="false" wrapText="true">
+      <TextArea fx:id="descriptionTextArea" layoutX="841.0" layoutY="145.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="292.0" prefWidth="325.0" visible="false" wrapText="true">
          <font>
             <Font size="18.0" />
          </font>
@@ -33,29 +33,29 @@
             <Font name="System Bold" size="26.0" />
          </font>
       </Label>
-      <Button fx:id="editDescriptionButton" layoutX="826.0" layoutY="526.0" maxWidth="212.0" minWidth="83.0" mnemonicParsing="false" onAction="#onEditDescriptionButtonClicked" prefHeight="39.0" prefWidth="212.0" text="Edit Description">
+      <Button fx:id="editDescriptionButton" layoutX="835.0" layoutY="451.0" maxWidth="212.0" minWidth="83.0" mnemonicParsing="false" onAction="#onEditDescriptionButtonClicked" prefHeight="39.0" prefWidth="212.0" text="Edit Description">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="saveDescChangesButton" layoutX="1020.0" layoutY="526.0" maxWidth="170.0" minWidth="100.0" mnemonicParsing="false" onAction="#onSaveDescChangesButtonClicked" prefHeight="39.0" prefWidth="168.0" text="Save Changes " visible="false">
+      <Button fx:id="saveDescChangesButton" disable="true" layoutX="1012.0" layoutY="451.0" maxWidth="170.0" minWidth="100.0" mnemonicParsing="false" onAction="#onSaveDescChangesButtonClicked" prefHeight="39.0" prefWidth="168.0" text="Save Changes " visible="false">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="cancelDescChangesButton" layoutX="821.0" layoutY="526.0" maxWidth="180.0" minWidth="100.0" mnemonicParsing="false" onAction="#onCancelDescChangesButtonClicked" prefHeight="40.0" prefWidth="182.0" text="Cancel Changes" visible="false">
+      <Button fx:id="cancelDescChangesButton" layoutX="826.0" layoutY="451.0" maxWidth="180.0" minWidth="100.0" mnemonicParsing="false" onAction="#onCancelDescChangesButtonClicked" prefHeight="40.0" prefWidth="182.0" text="Cancel Changes" visible="false">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Label fx:id="descErrorLabel" alignment="CENTER" layoutX="696.0" layoutY="59.0" prefHeight="24.0" prefWidth="490.0" text="Description error label" textFill="RED" visible="false" wrapText="true">
+      <Label fx:id="descErrorLabel" alignment="CENTER" layoutX="821.0" layoutY="520.0" prefHeight="56.0" prefWidth="365.0" text="Description error label" textAlignment="CENTER" textFill="RED" visible="false" wrapText="true">
          <font>
-            <Font size="15.0" />
+            <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="errorLabel" alignment="CENTER" layoutX="688.0" layoutY="62.0" prefHeight="24.0" prefWidth="501.0" text="Error label" textFill="RED" visible="false" wrapText="true">
+      <Label fx:id="errorLabel" alignment="CENTER" layoutX="817.0" layoutY="59.0" prefHeight="25.0" prefWidth="375.0" text="Error label" textAlignment="CENTER" textFill="RED" visible="false" wrapText="true">
          <font>
-            <Font size="15.0" />
+            <Font size="20.0" />
          </font>
       </Label>
       <VBox fx:id="listContentsVBox" layoutX="32.0" layoutY="100.0" maxHeight="-Infinity" prefHeight="475.0" prefWidth="768.0" style="-fx-background-color: transparent;" />
@@ -79,7 +79,7 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="saveListChangesButton" layoutX="1004.0" layoutY="14.0" maxWidth="183.0" minWidth="100.0" mnemonicParsing="false" onAction="#onSaveListChangesButtonClicked" prefHeight="33.0" prefWidth="185.0" text="Save Changes" visible="false">
+      <Button fx:id="saveListChangesButton" disable="true" layoutX="1004.0" layoutY="14.0" maxWidth="183.0" minWidth="100.0" mnemonicParsing="false" onAction="#onSaveListChangesButtonClicked" prefHeight="33.0" prefWidth="185.0" text="Save Changes" visible="false">
          <font>
             <Font size="18.0" />
          </font>
@@ -99,10 +99,16 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="deleteWinesButton" disable="true" layoutX="1023.0" layoutY="14.0" maxWidth="168.0" minWidth="100.0" mnemonicParsing="false" onAction="#onDeleteWinesButtonClicked" prefHeight="33.0" prefWidth="168.0" text="Delete Wines" visible="false">
+      <Button fx:id="removeWinesButton" disable="true" layoutX="1023.0" layoutY="14.0" maxWidth="168.0" minWidth="100.0" mnemonicParsing="false" onAction="#onRemoveWinesButtonClicked" prefHeight="33.0" prefWidth="168.0" text="Remove Wines" visible="false">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
+      <Rectangle fx:id="infoRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="200.0" stroke="BLACK" strokeType="INSIDE" visible="false" width="400.0" AnchorPane.bottomAnchor="210.0" AnchorPane.leftAnchor="220.0" />
+      <Label fx:id="infoLabel" alignment="CENTER" layoutX="249.0" layoutY="203.0" prefHeight="172.0" prefWidth="340.0" text="This list is currently empty! Go to the search screen to add wines to your list!" textAlignment="CENTER" visible="false" wrapText="true">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

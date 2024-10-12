@@ -21,9 +21,14 @@ public class RecommendationManager {
     private  RecommendationDAO recommendationDAO;
     private WineDAO wineDAO;
     private List<Integer> wineIndexes;
-    private  WineDrinkerManager wineDrinkerManager;
     private  DrinkerPreferenceModel curDrinkerPrefModel;
+    private WineDrinker curUser;
 
+    /**
+     * Get the singleton instance of RecommendationManager
+     *
+     * @return instance of RecommendationManager
+     */
     public static RecommendationManager getInstance() {
         if (instance == null) {
             instance = new RecommendationManager();
@@ -32,11 +37,43 @@ public class RecommendationManager {
     }
 
     /**
-     * Initialising function, initiliases the recommendationDAO
+     * Get the singleton instance of RecommendationManager
+     * used for Junit testing
+     *
+     * @param url the relative url that the test database is located at
+     * @return instance of RecommendationManager
      */
-    private RecommendationManager () {
+    public static RecommendationManager getInstance(String url) {
+        if (instance == null) {
+            instance = new RecommendationManager(url);
+        }
+        return instance;
+    }
+
+    /**
+     *  WARNING Sets the current singleton instance to null
+     */
+    public static void REMOVE_INSTANCE() {
+        instance = null;
+    }
+
+    /**
+     * Default constructor for the RecommendationManager. sets the DAO's to use the standard database.
+     */
+    private RecommendationManager() {
         recommendationDAO = new RecommendationDAO();
         wineDAO = new WineDAO();
+    }
+
+    /**
+     * Constructor for the RecommendationManager. sets the DAO's to use the database at the given url.
+     * Used for testing using the test database rather than the standard database
+     *
+     * @param url the url that th test database is located at
+     */
+    private RecommendationManager(String url) {
+        recommendationDAO = new RecommendationDAO(url);
+        wineDAO = new WineDAO(url);
     }
 
     /**
@@ -62,7 +99,7 @@ public class RecommendationManager {
         float calculatedScore = curDrinkerPrefModel.getPrefValByAttr(colour) +curDrinkerPrefModel.getPrefValByAttr(fullness)
         + curDrinkerPrefModel.getPrefValByAttr(grapes);
         double wineABV = wineToJudge.getAlcoholByVolume();
-        double userABV = WineDrinkerManager.getInstance().getCurrentUser().getAbvLimit();
+        double userABV = curUser.getAbvLimit();
 
         if (wineABV >= (userABV - 2) && wineABV <= (userABV + 2)) {
             calculatedScore += curDrinkerPrefModel.getABV();
@@ -76,17 +113,23 @@ public class RecommendationManager {
 
     /**
      * Retrieves Wine Drinkers preferences as a DrinkerPreferenceModel object from the database
-     * 
+     *
+     * @param username the username of the Wine Drinker whose preference model to retrieve
      * @return the users builtin preferences through the database
      */
-    public DrinkerPreferenceModel getUserPreferenceModel() {
-        String curUsername = wineDrinkerManager.getCurrentUser().getUsername();
-        curDrinkerPrefModel = recommendationDAO.getPreferenceModelByUsername(curUsername);
+    public DrinkerPreferenceModel getUserPreferenceModel(String username) {
+        curDrinkerPrefModel = recommendationDAO.getPreferenceModelByUsername(username);
         return curDrinkerPrefModel;
     }
 
-    public void updatePreferenceModelWithUserSelectedPreferences() {
-        WineDrinker curUser = wineDrinkerManager.getCurrentUser();
+    /**
+     * Updates the preference model of the current Wine Drinker preferences (colour, grape, and fullness) to have the
+     * default preference value
+     *
+     * @param curUser the currently logged in WineDrinker
+     */
+    public void updatePreferenceModelWithUserSelectedPreferences(WineDrinker curUser) {
+
         String colPref = curUser.getColourPreference();
         String grapePref = curUser.getGrapePreference();
         String fullnessPref = curUser.getFullnessPreference();
@@ -117,6 +160,14 @@ public class RecommendationManager {
 
     }
 
+    /**
+     * Retrieves the wine from database with given index and adds it to the selectedWines list if it meets the score
+     * threshold
+     *
+     * @param selectedWines List of wines to input passing wines into
+     * @param selectedWinePercents list of scores corresponding to selectedWines
+     * @param indexToSearch the index of the wine to search
+     */
     public void selectWinesWithIndex(List<Wine> selectedWines, List<Float> selectedWinePercents, int indexToSearch) {
         float score_threshold = findMaxPreferences() / 5;
         Wine wineToCheck = wineDAO.getWineByID(wineIndexes.get(indexToSearch));
@@ -156,7 +207,7 @@ public class RecommendationManager {
             valueChange*=-1;
         }
         double wineABV = pickedWine.getAlcoholByVolume();
-        double userABV = WineDrinkerManager.getInstance().getCurrentUser().getAbvLimit();
+        double userABV = curUser.getAbvLimit();
         //ABV treated differently as stored as one value
         //If user likes a wine close to their preference, the abv score increases
         //Score only decreases if they like a wine out of range
@@ -182,13 +233,14 @@ public class RecommendationManager {
      *
      * @param currentUser the WineDrinker Object to retrieve preference of
      */
-    public void InitialiseUserPreferenceModel(WineDrinker currentUser) {
-        wineDrinkerManager = WineDrinkerManager.getInstance();
-        curDrinkerPrefModel = getUserPreferenceModel();
+    public void initialiseUserPreferenceModel(WineDrinker currentUser) {
+        curUser = currentUser;
+        String username = currentUser.getUsername();
+        curDrinkerPrefModel = getUserPreferenceModel(username);
         if (curDrinkerPrefModel == null) {
-            recommendationDAO.createNewPreferenceModel(currentUser.getUsername());
-            updatePreferenceModelWithUserSelectedPreferences();
-            curDrinkerPrefModel = getUserPreferenceModel();
+            recommendationDAO.createNewPreferenceModel(username);
+            updatePreferenceModelWithUserSelectedPreferences(currentUser);
+            curDrinkerPrefModel = getUserPreferenceModel(username);
         }
     }
 
@@ -227,4 +279,12 @@ public class RecommendationManager {
         return maxScoreVal;
     }
 
+    /**
+     * Returns list of database wine unique ids
+     *
+     * @return this.wineIndexes
+     */
+    public List<Integer> getWineIndexes(){
+        return this.wineIndexes;
+    }
 }

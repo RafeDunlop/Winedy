@@ -1,5 +1,8 @@
 package seng202.team3.gui;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.geometry.Bounds;
@@ -15,6 +18,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.models.Wine;
@@ -231,6 +235,17 @@ public final class GuiService {
     }
 
     /**
+     * Helper function for toggleMode to disable and make invisible the component in one line.
+
+     * @param component Node object, fx component to disable
+     * @param fullDisable whether to disable or enable the component
+     */
+    public static void fullDisable(Node component, boolean fullDisable) {
+        component.setDisable(fullDisable);
+        component.setOpacity((fullDisable) ? 0 : 1);
+    }
+
+    /**
      * Creates paginated display of wine buttons for search screen and profile screens
      *
      * @param winesToDisplay list of wines to display in the pagination
@@ -249,19 +264,7 @@ public final class GuiService {
         rootVBox.getChildren().add(pagination);
         pagination.getStyleClass().add("wine-pagination");
 
-
-        pagination.setPageFactory(pageIndex ->  {
-            VBox pageContent = new VBox();
-            int start = pageIndex * rowsPerPage * winesPerRow;
-            int end = Math.min(start + rowsPerPage * winesPerRow, winesToDisplay.size());
-            GuiService.startButtonGeneration(winesToDisplay.subList(start, end), pageContent, wineDetailsAnchorPane, 3);
-            ScrollPane scrollPane = new ScrollPane(pageContent);
-            scrollPane.setFitToWidth(true);
-            scrollPane.getStyleClass().add("red-wine-scroll-pane");
-            pageScrollPaneMap.put(pageIndex, scrollPane);
-            scrollPane.setPrefHeight(1000);
-            return scrollPane;
-        });
+        pagination.setPageFactory(pageIndex ->  createPageContentsScrollPane(pageScrollPaneMap, pageIndex, rowsPerPage, winesPerRow, winesToDisplay, wineDetailsAnchorPane));
         return pageScrollPaneMap;
     }
 
@@ -280,5 +283,47 @@ public final class GuiService {
     public static void turnOnPane(AnchorPane toTurnOn){
         toTurnOn.setVisible(true);
         toTurnOn.setDisable(false);
+    }
+
+    /**
+     * Method used in the page factories of creating pagination to create the scroll panes for each page
+     *
+     * @param pageScrollPaneMap maps the scroll pane to the corresponding page index
+     * @param pageIndex page index to create
+     * @param rowsPerPage rows per page
+     * @param winesPerRow wines per row
+     * @param winesToDisplay list of wines to display
+     * @param wineDetailsAnchorPane wineDetailsAnchorPane, null if being called from the list screen
+     * @return the scroll pane to be put into the page at pageIndex
+     */
+    public static ScrollPane createPageContentsScrollPane(Map<Integer, ScrollPane> pageScrollPaneMap, int pageIndex, int rowsPerPage, int winesPerRow, List<Wine> winesToDisplay, AnchorPane wineDetailsAnchorPane) {
+        VBox pageContent = new VBox();
+        int start = pageIndex * rowsPerPage * winesPerRow;
+        int end = Math.min(start + rowsPerPage * winesPerRow, winesToDisplay.size());
+        GuiService.startButtonGeneration(winesToDisplay.subList(start, end), pageContent, wineDetailsAnchorPane, 3);
+        ScrollPane scrollPane = new ScrollPane(pageContent);
+        scrollPane.setFitToWidth(true);
+        scrollPane.getStyleClass().add("red-wine-scroll-pane");
+        pageScrollPaneMap.put(pageIndex, scrollPane);
+        scrollPane.setPrefHeight(1000);
+        return scrollPane;
+    }
+
+    /**
+     * Shakes a node to engage the user (mostly used for error messages)
+     *
+     * @param node node to be shaken
+     */
+    public static void shakeNode(Label node) {
+        // Define a Timeline for shaking effect
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.millis(0), new KeyValue(node.translateXProperty(), 0)),
+                new KeyFrame(Duration.millis(100), new KeyValue(node.translateXProperty(), -10)),
+                new KeyFrame(Duration.millis(200), new KeyValue(node.translateXProperty(), 10)),
+                new KeyFrame(Duration.millis(300), new KeyValue(node.translateXProperty(), -10)),
+                new KeyFrame(Duration.millis(400), new KeyValue(node.translateXProperty(), 10)),
+                new KeyFrame(Duration.millis(500), new KeyValue(node.translateXProperty(), 0))
+        );
+        timeline.play();
     }
 }

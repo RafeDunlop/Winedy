@@ -63,13 +63,14 @@ CREATE TABLE writesNoteAbout (
     FOREIGN KEY (wineId) REFERENCES wineSuper (id) ON DELETE CASCADE
 );
 --Split
-CREATE TABLE log (
+CREATE TABLE logs (
     wineDrinker TEXT,
     wineId INTEGER,
     logEntry TEXT,
     date DATE,
     time TIME,
     quantity FLOAT,
+    isBottles BOOLEAN,
     PRIMARY KEY (wineDrinker, wineId, date, time),
     FOREIGN KEY (wineDrinker) REFERENCES wineDrinker (username) ON DELETE CASCADE ,
     FOREIGN KEY (wineId) REFERENCES wineSuper (id) ON DELETE CASCADE

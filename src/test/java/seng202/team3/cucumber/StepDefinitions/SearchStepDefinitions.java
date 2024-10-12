@@ -7,6 +7,7 @@ import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
 import seng202.team3.repository.WineDAO;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,7 +18,8 @@ public class SearchStepDefinitions {
     private String fullness;
     private String country;
     private WineDAO wineDAO;
-    private final SearchWineList searchedWines = new SearchWineList();
+    private final SearchWineList searchedWines = new SearchWineList(Collections.emptyList(), 0, 0, 0f,
+            0f, null, null, null, null);
 
     @Given("The Wine Drinker is in the search wine page")
     public void userIsOnSearchScreenWithDatabaseLoaded() {

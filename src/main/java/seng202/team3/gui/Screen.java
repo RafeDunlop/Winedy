@@ -1,9 +1,9 @@
 package seng202.team3.gui;
 
 /**
-enum detailing necessary fields for LoadScreen method in FXWrapper
-
- @author Rafe Dunlop (rdu46), Krishna Sridhar (nsr36)
+ * enum detailing necessary fields for LoadScreen method in FXWrapper
+ *
+ * @author Rafe Dunlop (rdu46), Krishna Sridhar (nsr36)
  */
 public enum Screen {
     /**
@@ -75,15 +75,21 @@ public enum Screen {
     CANCELCHANGESPOPUP("cancel_changes_pop_up.fxml", false),
 
     /**
+     * The add log popup. Opened on top of and by the tracking consumption screen.
+     */
+    ADDLOGPOPUP("add_log_popup.fxml", false),
+
+    /**
      * The individual wine view popup. Displays the information of a specific wine in detail. Opened on top of and by
      * the individual wine view in the search screen.
      */
     INDIVIDUALWINEVIEWPOPUP("individual_wine_view_popup.fxml", false),
 
     /**
-     * The add log popup. Opened on top of and by the tracking consumption screen.
+     * The popup which appears when the user attempts to discard their changes
+     * on any screen within the consumption screen
      */
-    ADDLOGPOPUP("add_log_pop_up.fxml", false),
+    LOGCHANGESPOPUP("log_changes_popup.fxml", false),
 
     /**
      * The wine list select popup. Opened on top of and by the individual wine view in the search screen when the add

@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import seng202.team3.models.Wine;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,7 +29,7 @@ public class WineCSVImporter{
      */
     public static List<Wine> readFromFile(InputStream file) {
         ArrayList<Wine> wines = new ArrayList<>();
-        try (CSVReader reader = new CSVReader(new InputStreamReader(file))) {
+        try (CSVReader reader = new CSVReader(new InputStreamReader(file, StandardCharsets.UTF_8))) {
             reader.skip(1);
             String[] line;
             boolean toRead = true;

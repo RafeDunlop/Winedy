@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
  * @author Yuvraj Fagotra (yfa50)
  */
 public class ProfileScreenService {
+
     /**
      * WineDrinkerManager to handle wine drinker related tasks
      */
@@ -31,6 +32,7 @@ public class ProfileScreenService {
 
     /**
      * Saves the users preferences when they are changed on the profile screen
+     *
      * @param colour wine colour preference
      * @param fullness wine fullness preference
      * @param grapeVariety wine variety preference
@@ -47,7 +49,9 @@ public class ProfileScreenService {
 
     /**
      * Checks if a new list name is valid
-     * Checks if it has the same name as another list, whether it has the right number of characters and whether it is empty
+     * Checks if it has the same name as another list, whether it has the right number of characters and whether it is
+     * empty
+     *
      * @param listName name of the list to be validated
      * @return boolean of whether it is valid name for a new list
      */
@@ -58,6 +62,7 @@ public class ProfileScreenService {
 
     /**
      * Checks if a new name for an already existing list is valid
+     *
      * @param oldListName the old name of the list
      * @param newListName the new name for the list
      * @return whether the list is a valid new name for the list
@@ -70,13 +75,14 @@ public class ProfileScreenService {
 
     /**
      * Creates error messages for errors encountered when creating a list
+     *
      * @param listName name of list to be validated
      * @return the error message for the list name
      */
     public String getCreateListErrorMessage(String listName) {
         List<String> currentListNames = getCurrentListNames();
         if (currentListNames.contains(listName)) {
-            return "A list with this name already exists. Please enter a new name";
+            return "A list with this name already exists!";
         } else if (listName.trim().isEmpty()) {
             return "List name is required to create a list";
         }
@@ -85,6 +91,7 @@ public class ProfileScreenService {
 
     /**
      * Method which indicates is some text has reached a given character limit
+     *
      * @param text the text to be validated
      * @param charLimit the character limit
      * @return boolean of whether the text has reached the character limit
@@ -95,6 +102,7 @@ public class ProfileScreenService {
 
     /**
      * Private method to get all the names of the lists that a user currently has
+     *
      * @return list of the names of a user's lists
      */
     private List<String> getCurrentListNames() {
@@ -103,6 +111,7 @@ public class ProfileScreenService {
 
     /**
      * Checks if there are unsaved changes by comparing the previous string to a new string
+     *
      * @param oldString old string
      * @param newString newly entered string
      * @return true if there are unsaved changes and false if there are no changes.
@@ -110,4 +119,5 @@ public class ProfileScreenService {
     public boolean unsavedChanges(String oldString, String newString) {
         return !oldString.equals(newString);
     }
+
 }

@@ -1,5 +1,7 @@
 package seng202.team3.models;
 
+import seng202.team3.services.WineManager;
+
 import java.sql.Time;
 import java.sql.Date;
 
@@ -8,7 +10,7 @@ import java.sql.Date;
  *
  * @author Rafe Dunlop (rdu46)
  */
-public class WineLog {
+public class WineLog implements Timed {
 
     /**
      * Date of consumption
@@ -35,6 +37,8 @@ public class WineLog {
      */
     private String note;
 
+    private boolean loggedByBottles;
+
     /**
      * standard constructor for WineLog
      * all parameters are mandatory except for note, which may be null
@@ -43,8 +47,9 @@ public class WineLog {
      * @param date date of consumption
      * @param time time (of day) of consumption
      * @param standards float of NZ standards which the log corresponds to
+     * @param loggedByBottles boolean, whether the log was in bottles or not (in glasses)
      */
-    public WineLog( int loggedId, String note, Date date, Time time, float standards ) {
+    public WineLog( int loggedId, String note, Date date, Time time, float standards, boolean loggedByBottles) {
         this.date = date;
         this.time = time;
         this.standards = standards;
@@ -90,6 +95,16 @@ public class WineLog {
      */
     public float getStandards() {
         return standards;
+    }
+
+    public boolean getIsBottles() {
+        return loggedByBottles;
+    }
+
+    public String toString() {
+        return WineManager.getInstance().getWineById(loggedId).getName() +
+                "\nStandard drinks: " +
+                String.format("%.1f",standards);
     }
 
 
