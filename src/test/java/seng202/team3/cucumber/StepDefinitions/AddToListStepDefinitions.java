@@ -17,6 +17,11 @@ import java.io.File;
 
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Step definitions for the cucumber tests related to the add wines to list use case
+ *
+ * @author Sophia Copley (sco207)
+ */
 public class AddToListStepDefinitions {
     private String mockListNameTextField = "";
     private String mockDescriptionTextField = "";

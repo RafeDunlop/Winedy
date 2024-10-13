@@ -35,6 +35,11 @@ public class CreateListStepDefinitions {
 
     private List<UserWineList> currentLists;
 
+    /**
+     * Step definitions for the cucumber tests related to the create wine list use case
+     *
+     * @author Sophia Copley (sco207)
+     */
     @Given("The Wine Drinker is viewing their profile and clicks create new wine list")
     public void theWineDrinkerIsOnTheProfileScreen() {
         mockListNameTextField = "";
