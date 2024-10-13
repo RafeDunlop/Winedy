@@ -1,6 +1,5 @@
 package seng202.team3.gui;
 
-
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -20,7 +19,6 @@ import seng202.team3.services.WineManager;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import static javafx.scene.control.ContentDisplay.TOP;
 import static seng202.team3.gui.GuiService.fullDisable;
@@ -78,6 +76,9 @@ public class LogPopupController {
     @FXML
     private Label selectedButtonLabel;
 
+    @FXML
+    private Button deleteLogButton;
+
     private final LogManager logManager;
 
     private final WineLog preExistingLog;
@@ -111,9 +112,9 @@ public class LogPopupController {
             System.out.println("log exists");
             setLogParams();
             System.out.println("params set");
-
         } else {
             setDefaultLogParams();
+            fullDisable(deleteLogButton, true);
         }
         editMode = preExistingLog != null;
 
@@ -162,6 +163,7 @@ public class LogPopupController {
             System.out.println(selected);
             if (selected != null) {
                 newLog.setDate(Date.valueOf(selected));
+                resetHoursComboBox();
             }
         });
 
@@ -194,9 +196,8 @@ public class LogPopupController {
                 .setNote((preExistingLog.getNote() == null) ? "" : preExistingLog.getNote());
 
         newLog = new LogDiff(oldLog);
-
         amountTextField.setText(String.format("%.1f", newLog.getAmt()));
-        logNoteTextArea.setText(newLog.getNote());
+
         setSelected();
     }
 
@@ -230,6 +231,13 @@ public class LogPopupController {
                         () -> FXWrapper.getInstance().removePopUp(overlayPane));
             }
         });
+
+        deleteLogButton.setOnAction(event -> FXWrapper.getInstance().loadLogDeletePopup(
+                () -> {
+                    logManager.deleteLog(preExistingLog);
+                    FXWrapper.getInstance().removePopUp(overlayPane);
+                    FXWrapper.getInstance().loadProfileTabPane(2);
+                }));
     }
 
     private void closeThis() {
@@ -245,7 +253,7 @@ public class LogPopupController {
         fullDisable(qtyDisplayLabel, true);
         amountTextField.textProperty().addListener((observable, sOld, sNew) ->
         {
-            fullDisable(qtyDisplayLabel, false);
+            fullDisable(qtyDisplayLabel, true);
             Pair<Boolean, String> validityPair = logManager.validateAmount(sNew);
             validAmount = validityPair.getKey();
             if (!validAmount) {
@@ -253,12 +261,9 @@ public class LogPopupController {
                 qtyDisplayLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour; -fx-font-size: 15");
                 qtyDisplayLabel.setWrapText(true);
                 newLog.setAmt(0);
-                fullDisable(qtyDisplayLabel, true);
+                fullDisable(qtyDisplayLabel, false);
             } else {
                 newLog.setAmt(Float.parseFloat(amountTextField.getText()));
-                qtyDisplayLabel.setStyle("-fx-text-fill: Black; -fx-font-size: 15");
-                qtyDisplayLabel.setWrapText(true);
-
             }
             runValidationSequence();
         });
@@ -268,16 +273,11 @@ public class LogPopupController {
         logValid = newLog.isValid();
         System.out.println("log is valid: " + logValid);
         if (logValid) {
-            qtyDisplayLabel.setText(String.format("You are logging %.1f %s of %s at %s on %s.",
-                    newLog.getAmt(),
-                    (newLog.getIsBottles()) ? "bottles" : "glasses",
-                    newLog.getWine().getName(),
-                    logManager.getHourConverter().toString(newLog.getHour()),
-                    logManager.getDateString(newLog.getDate()))
-            );
+            fullDisable(qtyDisplayLabel, false);
+            qtyDisplayLabel.setStyle("-fx-text-fill: Black; -fx-font-size: 15");
+            qtyDisplayLabel.setWrapText(true);
+            qtyDisplayLabel.setText(newLog.toString());
         }
-        fullDisable(qtyDisplayLabel, !logValid);
-        System.out.println(editMode);
         finishLogButton.setDisable((editMode) ? oldLog.equals(newLog) : !logValid);
     }
 
@@ -298,8 +298,7 @@ public class LogPopupController {
     }
 
     private void setupComboBoxes() {
-        WineManager wineManager = WineManager.getInstance();
-        List<Wine> wines = wineManager.getAllWines();
+        List<Wine> wines = WineManager.getInstance().getAllWines();
 
         searchComboBox.getItems().addAll(wines);
         searchComboBox.setOnAction(selection -> {
@@ -323,10 +322,16 @@ public class LogPopupController {
             }
         };
         searchComboBox.setButtonCell(cellFactory);
-        hoursComboBox.getItems().addAll(IntStream.range(0, 24).boxed().toList());
+
         hoursComboBox.setOnAction(select -> newLog.setHour(hoursComboBox.getSelectionModel().getSelectedItem()));
-        hoursComboBox.getSelectionModel().select(newLog.getHour());
         hoursComboBox.setConverter(logManager.getHourConverter());
+        resetHoursComboBox();
+    }
+
+    private void resetHoursComboBox() {
+        hoursComboBox.getItems().clear();
+        logManager.setValidHours(newLog, hour -> hoursComboBox.getItems().add(hour));
+        hoursComboBox.getSelectionModel().select(newLog.getHour());
     }
 
     private void setSelected() {
@@ -335,12 +340,13 @@ public class LogPopupController {
         displayed = new Button(wine.getName());
         displayed.setPrefSize(260,240);
         displayed.setWrapText(true);
-        GuiService.addImageGraphicToButton(displayed, "/images/" + wine.getColour() + "_wine_image.png", 100, 100, false);
+        GuiService.addImageGraphicToButton(displayed, "/images/" + wine.getColour() + "_wine_image.png", 100, 100, false, false);
         displayed.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineViewPopup(wine));
         displayed.setContentDisplay(TOP);
         displayed.getStyleClass().add("nav-bar-button");
         displayed.setFont(new Font("System", 20));
         selectedVBox.getChildren().add(displayed);
+
         fullDisable(selectedButtonLabel, newLog.getWine() == null);
 
         runValidationSequence();
@@ -360,6 +366,7 @@ public class LogPopupController {
         datePicker.getStyleClass().add("date-picker");
         amountTextField.getStyleClass().add("sign-in-screen-text-field");
         logNoteTextArea.getStyleClass().add("sign-in-screen-text-field");
+        deleteLogButton.getStyleClass().add("nav-bar-button");
     }
 
     @FXML

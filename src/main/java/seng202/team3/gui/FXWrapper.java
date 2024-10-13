@@ -232,10 +232,20 @@ public class FXWrapper {
     }
 
     public void loadLogChangesPopup(Runnable onDiscard) {
-        System.out.println("called");
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.LOGCHANGESPOPUP.file));
             popupLoader.setControllerFactory(param -> new LogChangesPopupController(onDiscard));
+            StackPane popup = popupLoader.load();
+            superPane.getChildren().add(popup);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    public void loadLogDeletePopup(Runnable onDelete) {
+        try {
+            FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.DELETELOGPOPUP.file));
+            popupLoader.setControllerFactory(param -> new DeleteLogPopupController(onDelete));
             StackPane popup = popupLoader.load();
             superPane.getChildren().add(popup);
         } catch (IOException e) {
@@ -372,6 +382,24 @@ public class FXWrapper {
         try {
             FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.INDIVIDUALWINEVIEWPOPUP.file));
             popUpLoader.setControllerFactory(param -> new IndividualWineViewPopupController(wineToDisplay));
+            StackPane popUpRoot = popUpLoader.load();
+            superPane.getChildren().add(popUpRoot);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    /**
+     * Loads the deleting wines pop up from the profile list view screen when a user would like to delete wines
+     * to confirm that they would like to delete the wine
+     *
+     * @param winesToDelete wines to be deleted
+     * @param listToDeleteFrom list to delete the wines from
+     */
+    public void loadDeletingWinesPopUp(List<Wine> winesToDelete, UserWineList listToDeleteFrom, AnchorPane toNest) {
+        try {
+            FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.DELETINGWINESPOPUP.file));
+            popUpLoader.setControllerFactory(param -> new DeletingWinesPopUpController(winesToDelete, listToDeleteFrom, toNest));
             StackPane popUpRoot = popUpLoader.load();
             superPane.getChildren().add(popUpRoot);
         } catch (IOException e) {

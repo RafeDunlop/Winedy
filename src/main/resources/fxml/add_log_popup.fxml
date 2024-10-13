@@ -46,7 +46,7 @@
                      </font>
                   </Label>
                   <ComboBox fx:id="hoursComboBox" layoutX="64.0" layoutY="70.0" prefHeight="25.0" prefWidth="200.0" />
-                  <TextField fx:id="amountTextField" layoutX="6.0" layoutY="236.0" prefHeight="30.0" prefWidth="252.0" promptText="enter how many {bottles, glasses} you had" />
+                  <TextField fx:id="amountTextField" layoutX="6.0" layoutY="236.0" prefHeight="30.0" prefWidth="252.0" promptText="enter how many glasses you had" />
                   <Label fx:id="qtyDisplayLabel" alignment="CENTER" layoutX="-2.0" layoutY="266.0" prefHeight="139.0" prefWidth="269.0" text="qtyDisplayeLabel" AnchorPane.leftAnchor="-2.0" AnchorPane.topAnchor="266.0" />
                </children>
             </AnchorPane>
@@ -56,7 +56,7 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <TextArea fx:id="logNoteTextArea" layoutX="16.0" layoutY="543.0" prefHeight="155.0" prefWidth="647.0" promptText="Optional, add a note to your log:">
+            <TextArea fx:id="logNoteTextArea" layoutX="16.0" layoutY="543.0" prefHeight="139.0" prefWidth="647.0" promptText="Optional, add a note to your log:">
                <font>
                   <Font size="15.0" />
                </font></TextArea>
@@ -76,13 +76,14 @@
                </children>
             </VBox>
             <Button fx:id="finishLogButton" layoutX="427.0" layoutY="717.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="236.0" text="Add Log" />
-            <Button fx:id="cancelLogButton" layoutX="16.0" layoutY="717.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="236.0" text="Cancel log" />
+            <Button fx:id="cancelLogButton" layoutX="16.0" layoutY="717.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="189.0" text="Cancel" />
             <SearchableComboBox fx:id="searchComboBox" layoutX="28.0" layoutY="28.0" prefHeight="101.0" prefWidth="289.0" promptText="Search for a Wine to log:" />
             <Label fx:id="selectedButtonLabel" alignment="TOP_CENTER" layoutX="59.0" layoutY="466.0" prefHeight="40.0" prefWidth="229.0" text="click on your wine to see its details" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font size="15.0" />
                </font>
             </Label>
+            <Button fx:id="deleteLogButton" layoutX="217.0" layoutY="717.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="145.0" text="Delete log" />
          </children>
         </AnchorPane>
     </children>
