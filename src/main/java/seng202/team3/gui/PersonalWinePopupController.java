@@ -93,10 +93,17 @@ public class PersonalWinePopupController {
     final int DEFAULTVOLUME = 750;
     final int DEFAULTYEAR = 0;
 
+    /**
+     * Constructor for the PersonalWinePopupController
+     * @param onWineCreated consumer to carry personal wine
+     */
     public PersonalWinePopupController(Consumer<Wine> onWineCreated) {
         this.onWineCreated = onWineCreated;
     }
 
+    /**
+     * Initialise popup, add styling, text field formatters and searchable comboboxes
+     */
     public void initialize() {
         GuiService.setUpPopUp(overlayPane, popUpAnchorPane, () ->
             FXWrapper.getInstance().loadLogChangesPopup(() -> FXWrapper.getInstance().removePopUp(overlayPane))
@@ -106,7 +113,9 @@ public class PersonalWinePopupController {
         setSearchableComboboxes();
     }
 
-
+    /**
+     * Populate the searchable comboboxes from the database using the SearchService
+     */
     private void setSearchableComboboxes() {
         List<String> colours = SearchService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER);
         colours.removeFirst();
@@ -122,6 +131,9 @@ public class PersonalWinePopupController {
         fullnessComboBox.getItems().addAll(fullness);
     }
 
+    /**
+     * Set formatters for all the text fields depending on what type entry is required
+     */
     private void setFormatters() {
         countryTextField.setTextFormatter(PersonalWinePopupService.getAlphabeticalFormatter());
         pricePerBottleTextField.setTextFormatter(PersonalWinePopupService.getFloatFormatter());
@@ -130,6 +142,10 @@ public class PersonalWinePopupController {
         yearTextField.setTextFormatter(PersonalWinePopupService.getIntegerFormatter());
     }
 
+    /**
+     * Close personal wine popup
+     * @param personalWine final personal wine after validation
+     */
     private void closethis(Wine personalWine) {
         FXWrapper.getInstance().removePopUp(overlayPane);
         if (personalWine != null) {
@@ -137,6 +153,11 @@ public class PersonalWinePopupController {
         }
     }
 
+    /**
+     * Validate personal wine entry using PersonalWinePopupService to check text fields
+     * Add personal wine to database if valid
+     * @throws WineDrinkerAlreadyExistsException exception thrown by the add method in PersonalWineDAO
+     */
     @FXML
     void addPersonalWine() throws WineDrinkerAlreadyExistsException {
         Wine personalWine = createPersonalWine();
@@ -162,6 +183,10 @@ public class PersonalWinePopupController {
         }
     }
 
+    /**
+     * Construct a wine object using the fxml fields
+     * @return personal wine represented as a wine object
+     */
     private Wine createPersonalWine() {
         WineDAO wineDAO = new WineDAO();
         int uniqueWineID = wineDAO.getLastID() + 1;
@@ -175,17 +200,38 @@ public class PersonalWinePopupController {
                 yearTextField.getText().isEmpty() ? DEFAULTYEAR : parseInt(yearTextField.getText()));
     }
 
+    /**
+     * Cancel a personal wine entry
+     */
     @FXML
     void cancelPersonalWine() {
         closethis(null);
     }
 
+    /**
+     * Get style classes needed for styling the personal wine popup
+     */
     private void addStyleClasses() {
         popUpAnchorPane.getStyleClass().add("titled-pane");
         cancelPersonalWineButton.getStyleClass().add("nav-bar-button");
         addPersonalWineButton.getStyleClass().add("nav-bar-button");
+        nameTextField.getStyleClass().add("sign-in-screen-text-field");
+        countryTextField.getStyleClass().add("sign-in-screen-text-field");
+        pricePerBottleTextField.getStyleClass().add("sign-in-screen-text-field");
+        abvTextField.getStyleClass().add("sign-in-screen-text-field");
+        volumeTextField.getStyleClass().add("sign-in-screen-text-field");
+        yearTextField.getStyleClass().add("sign-in-screen-text-field");
+        descriptionTextArea.getStyleClass().add("description-text-area");
+        colourComboBox.getStyleClass().add("fifteen-combo-box");
+        fullnessComboBox.getStyleClass().add("fifteen-combo-box");
+        grapeComboBox.getStyleClass().add("fifteen-combo-box");
+        styleComboBox.getStyleClass().add("fifteen-combo-box");
+
     }
 
+    /**
+     * Reset the style of all text field so only the latest error is indicated
+     */
     private void resetStyleErrors() {
         nameLabel.setStyle("");
         nameTextField.setStyle("");
@@ -197,6 +243,12 @@ public class PersonalWinePopupController {
         yearTextField.setStyle("");
     }
 
+    /**
+     * Styling for an error in a text field entry
+     * @param label the label of the attribute with an error
+     * @param textField the text field of the attribute with an error
+     * @param message the message to display for the attribute with an error
+     */
     private void styleError(Label label, TextField textField, String message) {
         label.setStyle("-fx-text-fill: -fx-dark-red-wine-colour;");
         textField.setText("");
