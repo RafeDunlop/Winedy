@@ -15,6 +15,8 @@ import seng202.team3.services.ProfileScreenService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.function.Consumer;
 
 /**
  * Controller for the profile_screen.fxml window
@@ -182,7 +184,9 @@ public class ProfileScreenController {
         GuiService.turnOnPane(recommendStep3Pane);
         GuiService.turnOffPane(recommendStep2Pane);
         recommendedWinesVBox.getChildren().clear();
-        GuiService.startButtonGeneration(userSelectedRecommendWines, recommendedWinesVBox, null, 3);
+        Consumer<Wine> onAction = wine -> FXWrapper.getInstance().loadIndividualWineViewPopup(wine);
+        GuiService.startButtonGeneration(userSelectedRecommendWines, recommendedWinesVBox,
+                onAction, 3);
     }
 
     /**

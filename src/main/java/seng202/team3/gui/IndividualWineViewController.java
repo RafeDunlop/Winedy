@@ -131,11 +131,11 @@ public class IndividualWineViewController {
             addToListButton.setDisable(true);
             addToListButton.setOpacity(0.5);
             notLoggedInLabel.setVisible(true);
-        }  else {
-           if (individualWineService.inFavourites(wineToDisplay)) {
-               likeButton.setStyle(individualWineService.inFavourites(wineToDisplay)? "-fx-background-color: -fx-dark-red-wine-colour" : "");
-           }
         }
+       if (individualWineService.inFavourites(wineToDisplay)) {
+           likeButton.setStyle("-fx-background-color: -fx-dark-red-wine-colour");
+       }
+
 
         log.info("Individual wine view loaded successfully");
     }

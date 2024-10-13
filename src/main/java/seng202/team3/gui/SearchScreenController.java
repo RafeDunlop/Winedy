@@ -27,6 +27,8 @@ import seng202.team3.services.WineManager;
 import seng202.team3.models.SearchWineList;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -151,8 +153,10 @@ public class SearchScreenController {
     private boolean filterVBoxExpanded = true;
 
     /**
-     * Search results pagination
+     * Map from page index to its child scrollpane for the wine buttons
      */
+    private Map<Integer, ScrollPane> pageScrollPaneMap;
+
     private Pagination searchResultsPagination; //ToDO I dont think the return value of create pagination is needed
 
     /**
@@ -212,6 +216,7 @@ public class SearchScreenController {
      */
     private void getSearchResults(boolean usePreviousSearch) {
         Task<Void> task = new Task<>() {
+
             @Override
             protected Void call() {
                 SearchWineList results;
@@ -244,7 +249,7 @@ public class SearchScreenController {
                     } else {
                         infoTextRectangle.setVisible(false);
                         infoTextLabel.setVisible(false);
-                        searchResultsPagination = GuiService.createPagination(results.getWineList(), rootVBox, 4, 3, wineDetailsAnchorPane);
+                        pageScrollPaneMap = GuiService.createPagination(results.getWineList(), rootVBox, 4, 3, wineDetailsAnchorPane);
                     }
 
                 });
