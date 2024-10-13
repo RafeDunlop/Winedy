@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="overlayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.CancelChangesPopUpController">
+<StackPane fx:id="overlayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.CancelChangesPopUpController">
    <children>
       <AnchorPane fx:id="popUpAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="271.0" prefWidth="487.0" StackPane.alignment="CENTER">
          <children>
@@ -32,7 +32,7 @@
                         <Insets bottom="10.0" left="30.0" top="50.0" />
                      </GridPane.margin>
                   </Label>
-                  <Button fx:id="saveChangesButton" mnemonicParsing="false" onAction="#onSaveChangesButtonClicked" prefHeight="49.0" prefWidth="146.0" text="Save changes " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                  <Button fx:id="saveChangesButton" mnemonicParsing="false" onAction="#onSaveChangesButtonClicked" prefHeight="49.0" prefWidth="166.0" text="Save changes " GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets right="15.0" />
                      </GridPane.margin>
@@ -40,7 +40,7 @@
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Button fx:id="cancelChangesButton" mnemonicParsing="false" onAction="#onCancelChangesButtonClicked" prefHeight="49.0" prefWidth="148.0" text="Discard changes" GridPane.rowIndex="1">
+                  <Button fx:id="cancelChangesButton" mnemonicParsing="false" onAction="#onCancelChangesButtonClicked" prefHeight="49.0" prefWidth="177.0" text="Discard changes" GridPane.rowIndex="1">
                      <font>
                         <Font size="16.0" />
                      </font>
