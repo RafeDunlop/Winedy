@@ -146,6 +146,15 @@ public class ProfileListViewScreenController {
      */
     private boolean deleteMode = false;
 
+    /**
+     * Boolean variable to declare whether the screen is in edit description mode
+     */
+    private boolean editDescriptionMode = false;
+
+    /**
+     * Boolean variable to declare whether the screen is in rename mode
+     */
+    private boolean renameMode = false;
     private Image checked;
     private Image unChecked;
     private Image unCheckedHover;
@@ -171,13 +180,19 @@ public class ProfileListViewScreenController {
         wineListNameTextField.setText(listToDisplay.getWineListName());
         wineListNameLabel.setText(listToDisplay.getWineListName());
         wineListNameTextField.setVisible(false);
+        wineListNameTextField.setEditable(true);
 
         descriptionTextArea.setText(listToDisplay.getDescription());
         descriptionTextArea.setVisible(false);
+        descriptionTextArea.setEditable(true);
 
         if (listToDisplay.getWineListName().equals("Favourites")) {
             renameButton.setVisible(false);
             editDescriptionButton.setVisible(false);
+        }
+
+        if (listToDisplay.getWineList().isEmpty()) {
+            editListButton.setDisable(true);
         }
         setUpTextAreaListenersForErrorMessages();
         setUpListenersForDescValidation();
@@ -214,20 +229,12 @@ public class ProfileListViewScreenController {
     @FXML
     public void onSaveListChangesButtonClicked() {
         wineListManager.rename(listToDisplay, wineListNameTextField.getText());
-
-        wineListNameTextField.setVisible(false);
-        wineListNameLabel.setVisible(true);
         wineListNameLabel.setText(listToDisplay.getWineListName());
 
-        saveListChangesButton.setVisible(false);
-        renameButton.setVisible(true);
-        editListButton.setVisible(true);
-        cancelListChangesButton.setVisible(false);
+        toggleRenameMode();
 
         errorLabel.setVisible(false);
         descErrorLabel.setVisible(false);
-
-        editDescriptionButton.setDisable(false);
 
     }
 
@@ -237,18 +244,9 @@ public class ProfileListViewScreenController {
      */
     @FXML
     public void onRenameButtonClicked() {
+        saveListChangesButton.setDisable(true);
 
-            wineListNameLabel.setVisible(false);
-            wineListNameTextField.setVisible(true);
-            wineListNameTextField.setEditable(true);
-
-            saveListChangesButton.setVisible(true);
-            saveListChangesButton.setDisable(true);
-            renameButton.setVisible(false);
-            editListButton.setVisible(false);
-            cancelListChangesButton.setVisible(true);
-
-            editDescriptionButton.setDisable(true);
+        toggleRenameMode();
     }
 
     /**
@@ -278,18 +276,10 @@ public class ProfileListViewScreenController {
         profileScreenService.unsavedChanges(listToDisplay.getWineListName(), wineListNameTextField.getText())) {
             FXWrapper.getInstance().loadCancelChangesPopUp(listToDisplay, true, wineListNameTextField.getText(), descriptionTextArea.getText(), rootAnchorPane);
         } else {
-            wineListNameTextField.setVisible(false);
-            wineListNameLabel.setVisible(true);
-
-            saveListChangesButton.setVisible(false);
-            renameButton.setVisible(true);
-            editListButton.setVisible(true);
-            cancelListChangesButton.setVisible(false);
+            toggleRenameMode();
 
             errorLabel.setVisible(false);
             descErrorLabel.setVisible(false);
-
-            editDescriptionButton.setDisable(false);
 
 
         }
@@ -300,18 +290,7 @@ public class ProfileListViewScreenController {
      */
     @FXML
     public void onEditDescriptionButtonClicked() {
-
-        descriptionScrollPane.setVisible(false);
-        descriptionTextArea.setVisible(true);
-        descriptionTextArea.setEditable(true);
-
-        saveDescChangesButton.setVisible(true);
-        editDescriptionButton.setVisible(false);
-        cancelDescChangesButton.setVisible(true);
-
-        renameButton.setDisable(true);
-        editListButton.setDisable(true);
-
+        toggleEditDescMode();
         saveDescChangesButton.setDisable(true);
     }
 
@@ -323,18 +302,10 @@ public class ProfileListViewScreenController {
         listToDisplay.setDescription(descriptionTextArea.getText());
         wineListManager.update(listToDisplay);
 
-        descriptionTextArea.setVisible(false);
-        descriptionScrollPane.setVisible(true);
-
-        saveDescChangesButton.setVisible(false);
-        editDescriptionButton.setVisible(true);
-        cancelDescChangesButton.setVisible(false);
-
         errorLabel.setVisible(false);
         errorLabel.setVisible(false);
 
-        renameButton.setDisable(false);
-        editListButton.setDisable(false);
+        toggleEditDescMode();
     }
 
     /**
@@ -345,20 +316,12 @@ public class ProfileListViewScreenController {
         if (profileScreenService.unsavedChanges(listToDisplay.getDescription(), descriptionTextArea.getText())) {
             FXWrapper.getInstance().loadCancelChangesPopUp(listToDisplay, true, wineListNameTextField.getText(), descriptionTextArea.getText(), rootAnchorPane);
         } else  {
-            descriptionTextArea.setVisible(false);
-            descriptionScrollPane.setVisible(true);
-
-            saveDescChangesButton.setVisible(false);
-            editDescriptionButton.setVisible(true);
-            cancelDescChangesButton.setVisible(false);
-
+            toggleEditDescMode();
             errorLabel.setVisible(false);
             errorLabel.setVisible(false);
-
-            renameButton.setDisable(false);
-            editListButton.setDisable(false);
         }
     }
+
 
     /**
      * Handles showing the error messages for the user based on the input into text fields
@@ -594,5 +557,33 @@ public class ProfileListViewScreenController {
         pagination.setPageFactory(pageScrollPaneMap::get);
         return pageScrollPaneMap;
     }
+
+        private void toggleEditDescMode() {
+            editDescriptionMode = !editDescriptionMode;
+            descriptionScrollPane.setVisible(!editDescriptionMode);
+            descriptionTextArea.setVisible(editDescriptionMode);
+
+            saveDescChangesButton.setVisible(editDescriptionMode);
+            editDescriptionButton.setVisible(!editDescriptionMode);
+            cancelDescChangesButton.setVisible(editDescriptionMode);
+
+            renameButton.setDisable(editDescriptionMode);
+            editListButton.setDisable(editDescriptionMode);
+
+        }
+
+        private void toggleRenameMode() {
+            renameMode = !renameMode;
+            wineListNameTextField.setVisible(renameMode);
+            wineListNameLabel.setVisible(!renameMode);
+
+            saveListChangesButton.setVisible(renameMode);
+            renameButton.setVisible(!renameMode);
+            editListButton.setVisible(!renameMode);
+            cancelListChangesButton.setVisible(renameMode);
+
+            editDescriptionButton.setDisable(renameMode);
+        }
+
 
 }
