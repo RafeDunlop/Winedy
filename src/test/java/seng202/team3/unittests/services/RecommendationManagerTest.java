@@ -53,6 +53,34 @@ public class RecommendationManagerTest {
             (float) 14,
             750,
             2017);
+    private final Wine FAKE_WINE_1 = new Wine(
+            4,
+            "FAKE WINEEEEE",
+            "Mars",
+            null,
+            "small",
+            null,
+            null,
+            "MARTIANS LOVE ME",
+            (float) 100 ,
+            new String[]{"IWC 2019 - Commended Award, IWC 2018 - Bronze Award", "Decanter 2018 - Silver Award"},
+            (float) 14,
+            1000,
+            1977);
+    private final Wine NULL_WINE = new Wine(
+            4,
+            "FAKE WINEEEEE 2",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            (float) 100 ,
+            new String[]{"IWC 2019 - Commended Award, IWC 2018 - Bronze Award", "Decanter 2018 - Silver Award"},
+            (float) 14,
+            1000,
+            1977);
     private RecommendationDAO recommendationDAO;
     @BeforeAll
     public static void deleteTestDB() {
@@ -165,5 +193,42 @@ public class RecommendationManagerTest {
         recommendationManager.updatePreferenceModelAfterUserSelection(WINE_2, true);
         float newValue = recommendationManager.getCurDrinkerPrefModel().getPrefValByAttr("Red");
         assertEquals(7.2, newValue, 0.02);
+    }
+
+    @Test
+    public void testUpdatePreferenceAfterUserSelectionLikeWithBadABV(){
+        recommendationManager.initialiseUserPreferenceModel(wineDrinker);
+        wineDrinker.setAbvLimit(8);
+        recommendationManager.updatePreferenceModelAfterUserSelection(WINE_2, true);
+        float newValue = recommendationManager.getCurDrinkerPrefModel().getPrefValByAttr("Red");
+        assertEquals(7.2, newValue, 0.02);
+    }
+
+    @Test
+    public void testCalculateScoreBadWine(){
+        recommendationManager.initialiseUserPreferenceModel(wineDrinker);
+        float score = recommendationManager.calculateWineScore(FAKE_WINE_1);
+        assertEquals(0, score, 0.02);
+    }
+    @Test
+    public void testCalculateScoreNullWine(){
+        recommendationManager.initialiseUserPreferenceModel(wineDrinker);
+        float score = recommendationManager.calculateWineScore(NULL_WINE);
+        assertEquals(0, score, 0.02);
+    }
+
+    @Test
+    public void testUpdateManualPreference(){
+        recommendationManager.initialiseUserPreferenceModel(wineDrinker);
+        recommendationManager.updateUserManualPreferences("White","DRY","Sauvignon Blanc", 8);
+        assertEquals(5, recommendationDAO.getPreferenceModelByUsername(wineDrinker.getUsername()).getPrefValByAttr("Red"));
+        assertEquals(7, recommendationDAO.getPreferenceModelByUsername(wineDrinker.getUsername()).getPrefValByAttr("White"));
+    }
+    @Test
+    public void testUpdateManualPreferenceNotWorking(){
+        recommendationManager.initialiseUserPreferenceModel(wineDrinker);
+        DrinkerPreferenceModel original = recommendationManager.getCurDrinkerPrefModel();
+        recommendationManager.updateUserManualPreferences(null,null,null, 8);
+        assertEquals(original.getPrefValByAttr("Red"), recommendationDAO.getPreferenceModelByUsername(wineDrinker.getUsername()).getPrefValByAttr("Red"));
     }
 }
