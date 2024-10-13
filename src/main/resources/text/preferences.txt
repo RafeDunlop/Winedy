@@ -1,0 +1,7 @@
+Upon logging in, the Winedy profile tab is the first to come up.
+
+This page contains the wine recommendations and user preferences. If you would like to change any of your selected preferences, click on one of the colour, fullness, or variety combo boxes.
+
+This will drop down and show all the possible values you could choose from in each preference type. Scroll through and chose your new preferred preference by clicking on it.
+
+Once you are happy with your new selections, click on the 'Save Preferences' button. Your preferences will be updated in the database to reflect any changes made.

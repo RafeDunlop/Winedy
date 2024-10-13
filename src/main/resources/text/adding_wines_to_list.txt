@@ -1,0 +1,9 @@
+The main place to add a wine to a list is from the search screen. To open the search screen, either open the navigation bar by hovering over the button in the top left of the screen and clicking the search button, or by first clicking the home button, and then clicking the search button on the home screen.
+
+From here, complete a successful search to find the wine you would like to add to a list (See Searching). Once you have found the wine you would like to add, click on its button to open up its information page on the left.
+
+To add this wine to a list, press the 'Add to List' button that is the shape of a cross. This will open up the 'Add to List popup' from here, you can click on each wine list to toggle whether the wine is or is not in the selected wine list. Wine lists that the wine is in will have a check mark on the left. Wine lists that the wine is not in will have an empty circle instead.
+
+If you currently have no wine lists, or would like to add this wine to a new wine list, click the 'Create New Wine List' which will open the 'Create a List' (See Creating Wine Lists).
+
+If you would like to add this wine to your favourites list instead of a created list. Click the 'Like' button instead of the 'Add to List' button. This is the button that is shaped like a heart. The button will turn red to indicate that this wine has been added to your favourites list.
