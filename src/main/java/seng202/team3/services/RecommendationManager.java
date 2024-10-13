@@ -9,6 +9,7 @@ import seng202.team3.repository.WineDAO;
 
 import java.security.SecureRandom;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * A singleton manager class to handle all logic for recommendation screen
@@ -95,12 +96,17 @@ public class RecommendationManager {
             fullness = wineToJudge.getFullness();
             grapes = wineToJudge.getGrapes()[0];
         } catch (RuntimeException e){
-            // if wine contains attributes not stored
+            // if wine contains no grapes
             return 0;
         }
-
-        float calculatedScore = curDrinkerPrefModel.getPrefValByAttr(colour) +curDrinkerPrefModel.getPrefValByAttr(fullness)
-        + curDrinkerPrefModel.getPrefValByAttr(grapes);
+        float calculatedScore;
+        try {
+            calculatedScore = curDrinkerPrefModel.getPrefValByAttr(colour) + curDrinkerPrefModel.getPrefValByAttr(fullness)
+                    + curDrinkerPrefModel.getPrefValByAttr(grapes);
+        } catch (NullPointerException e) {
+            //if wine attributes aren't in database
+            return 0;
+        }
         double wineABV = wineToJudge.getAlcoholByVolume();
         double userABV = curUser.getAbvLimit();
 
@@ -180,7 +186,7 @@ public class RecommendationManager {
             recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), currentFullnessPreference, curDrinkerPrefModel.getPrefValByAttr(currentFullnessPreference)-2);
             recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), newFullness, curDrinkerPrefModel.getPrefValByAttr(newFullness)+2);
         }
-        if (newVariety != currentVarietyPreference){
+        if (newVariety != currentVarietyPreference && currentVarietyPreference != null && newVariety != null){
             recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), currentVarietyPreference, curDrinkerPrefModel.getPrefValByAttr(currentVarietyPreference)-2);
             recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), newVariety, curDrinkerPrefModel.getPrefValByAttr(newVariety)+2);
         }
