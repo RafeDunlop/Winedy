@@ -10,11 +10,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Service class for search screen
+ * Service class for retrieving values from the database
+ * Used in the sign in, profile and search screens
  *
- * @author Yuvraj (yfa50)
+ * @author Yuvraj Fagotra (yfa50)
  */
-public final class SearchScreenService {
+public final class SearchService {
 
     /**
      * Instance of a search DAO for database related actions

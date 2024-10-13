@@ -14,6 +14,7 @@ import seng202.team3.repository.SearchDAO;
 import seng202.team3.repository.Table;
 import seng202.team3.repository.WineDAO;
 import seng202.team3.services.RecommendationManager;
+import seng202.team3.services.SearchService;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.ProfileScreenService;
 

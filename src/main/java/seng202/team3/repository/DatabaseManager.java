@@ -14,7 +14,8 @@ import java.util.List;
 /**
  * Singleton class responsible for interaction with SQLite database
  *
- * @author Yuvraj Singh Fagotra (Yfa50), Steven Leishman(sle159)
+ * @author Yuvraj Singh Fagotra (Yfa50)
+ * @author Steven Leishman (sle159)
  */
 public class DatabaseManager {
 
@@ -58,7 +59,7 @@ public class DatabaseManager {
     }
 
     /**
-     * initialise the preferencemodel table by dynamically setting column names
+     * initialise the preference model table by dynamically setting column names
      * by attributes read from populated tables
      */
     private static void initialisePreferenceModelTable(){
@@ -123,6 +124,19 @@ public class DatabaseManager {
             executeSQLScript(in);
         } catch (NullPointerException e) {
             log.error("Error loading database initialisation file", e);
+        }
+    }
+
+    /**
+     * Resets the wine tables in the database when logging out
+     */
+    public void resetWineTable() throws FileNotFoundException, URISyntaxException {
+        try {
+            InputStream in = getClass().getResourceAsStream("/sql/reset_wine_database.sql");
+            executeSQLScript(in);
+            populateWineTables("/csv/majestic_df_preprocessed.csv");
+        } catch (NullPointerException e) {
+            log.error("Error loading database reset file", e);
         }
     }
 
@@ -214,5 +228,6 @@ public class DatabaseManager {
             }
             i += 100;
         }
+        wineDAO.addBatch(new PersonalWineDAO().getAll());
     }
 }

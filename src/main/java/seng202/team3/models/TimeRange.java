@@ -96,11 +96,11 @@ public enum TimeRange {
         return switch (range) {
             case THISWEEK -> new Pair<>(soWeek, now);
             case LASTWEEK ->
-                    new Pair<>(new Date(soWeek.getTime() - 8 * dayMillis), new Date(soWeek.getTime() - dayMillis));
+                    new Pair<>(new Date(soWeek.getTime() - 7 * dayMillis), new Date(soWeek.getTime() - dayMillis));
             case THISMONTH -> new Pair<>(soThisMonth, now);
-            case LASTMONTH -> new Pair<>(soLastMonth, soThisMonth);
+            case LASTMONTH -> new Pair<>(soLastMonth, new Date(soThisMonth.getTime() - dayMillis));
             case THISYEAR -> new Pair<>(soThisYear, now);
-            case LASTYEAR -> new Pair<>(soLastYear, soThisYear);
+            case LASTYEAR -> new Pair<>(soLastYear, new Date(soThisYear.getTime() - dayMillis));
             case ALLTIME -> new Pair<>(new Date(0), now);
         };
     }
@@ -207,10 +207,19 @@ public enum TimeRange {
         return new Date(cal.getTimeInMillis());
     }
 
+    /**
+     * Gets the String representation of the given TimeRange value at the give index for displaying on the bar chat of
+     * the consumption logging screen
+     *
+     * @param index the index of the time range value to be converted eg 2 means the third week of the month or the
+     *              third day of the week (Tuesday)
+     * @param timeRange the time range value to be converted to a string
+     * @return the string representation of the index of the given time value
+     */
     public static String getStringRep(int index, TimeRange timeRange) {
         return switch (timeRange.timePeriod) {
-            case DAYS -> DayOfWeek.of(index).getDisplayName(TextStyle.FULL, Locale.ENGLISH);
-            case WEEKS -> "Week" + (index + 1);
+            case DAYS -> DayOfWeek.of(index).getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
+            case WEEKS -> "Week " + (index + 1);
             case MONTHS -> Month.of(index + 1).getDisplayName(TextStyle.FULL, Locale.ENGLISH);
             case YEARS -> Integer.toString(index);
         };

@@ -2,8 +2,10 @@ package seng202.team3.services;
 
 
 
+import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
+import seng202.team3.repository.PersonalWineDAO;
 import seng202.team3.repository.WineDAO;
 
 
@@ -24,6 +26,10 @@ public class WineManager {
      */
     private WineDAO wineDAO;
     /**
+     * Personal Wine DAO instance to handle database related actions with personal wines
+     */
+    private PersonalWineDAO personalWineDAO;
+    /**
      * Singleton instance of WineManager
      */
     private static WineManager instance;
@@ -34,10 +40,12 @@ public class WineManager {
      */
     private WineManager(String url) {
         wineDAO = new WineDAO(url);
+        personalWineDAO = new PersonalWineDAO(url);
     }
 
     private WineManager() {
         wineDAO = new WineDAO();
+        personalWineDAO = new PersonalWineDAO();
     }
 
     /**
@@ -75,7 +83,7 @@ public class WineManager {
      * Adds a wine
      * TODO use in deliverable 3 for the tracking consumption feature
      * @param wine wine to add
-     * @return -1 if sale added without error
+     * @return -1 if wine added without error
      */
     public int addWine(Wine wine) {
         return wineDAO.add(wine);
@@ -100,7 +108,7 @@ public class WineManager {
     }
 
     /**
-     * Gets sale from persistence by id
+     * Gets wine from persistence by id
      *
      * @param id id of wine to fetch
      * @return wine specified by id or null if it doesn't exist
@@ -108,6 +116,24 @@ public class WineManager {
     public Wine getWineById(int id) {
         return wineDAO.getWineByID(id);
     }
+
+    /**
+     * Adds a personal wine
+     * @param wine wine to add
+     * @return -1 if wine added without error
+     */
+    public int addPersonalWine(Wine wine) throws WineDrinkerAlreadyExistsException {
+        return personalWineDAO.add(wine);
+    }
+
+    /**
+     * Gets all personal wines of the current user
+     * @return List of personal wines
+     */
+    public List<Wine> getAllPersonalWines() {
+        return personalWineDAO.getAll();
+    }
+
 
     /**
      * Gets wine search results based on keywords put into the search bar and filters chosen by the wine drinker

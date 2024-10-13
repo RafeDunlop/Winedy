@@ -1,5 +1,6 @@
 package seng202.team3.models;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -70,10 +71,10 @@ public class SearchWineList extends WineList {
      */
     public SearchWineList(List<String> keywords, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice,
                           String country, String colour, String fullness, String grapeName) {
-        this.minYear = (minYear != null) ? minYear : 2007;
-        this.maxYear = (maxYear != null) ? maxYear : 2019;
+        this.minYear = (minYear != null) ? minYear : 0;
+        this.maxYear = (maxYear != null) ? maxYear : LocalDate.now().getYear();
         this.minPrice = (minPrice != null) ? minPrice : 0f;
-        this.maxPrice = (maxPrice != null) ? maxPrice : 0f;
+        this.maxPrice = (maxPrice != null) ? maxPrice : 220f;
         this.country = (country != null && !country.isEmpty()) ? country : "All";
         this.colour = (colour != null && !colour.isEmpty()) ? colour : "All";
         this.fullness = (fullness != null && !fullness.isEmpty()) ? fullness : "All";

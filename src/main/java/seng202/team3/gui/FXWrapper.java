@@ -15,6 +15,7 @@ import seng202.team3.models.WineList;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * Contains all methods for loading JavaFX classes
@@ -207,6 +208,22 @@ public class FXWrapper {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.ADDLOGPOPUP.file));
             popupLoader.setControllerFactory(param -> new LogPopupController(wineLog, wine, toReturnTo));
+            StackPane popup = popupLoader.load();
+            superPane.getChildren().add(popup);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    /**
+     * Loads the add personal wine popup onto the screen.
+     *
+     * @param onPWineCreated Consumer to be called when the personal wine is created
+     */
+    public void loadPersonalWinePopup(Consumer<Wine> onPWineCreated) {
+        try {
+            FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.ADDPERSONALWINEPOPUP.file));
+            popupLoader.setControllerFactory(param -> new PersonalWinePopupController(onPWineCreated));
             StackPane popup = popupLoader.load();
             superPane.getChildren().add(popup);
         } catch (IOException e) {

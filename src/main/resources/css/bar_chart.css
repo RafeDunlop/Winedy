@@ -1,0 +1,46 @@
+.default-color0.chart-bar { -fx-bar-fill: -fx-dark-red-wine-colour; }
+.default-color1.chart-bar { -fx-bar-fill: -fx-dark-red-wine-colour; }
+.default-color2.chart-bar { -fx-bar-fill: -fx-dark-red-wine-colour; }
+.default-color3.chart-bar { -fx-bar-fill: -fx-dark-red-wine-colour; }
+.default-color4.chart-bar { -fx-bar-fill: -fx-dark-red-wine-colour; }
+.default-color5.chart-bar { -fx-bar-fill: -fx-dark-red-wine-colour; }
+.default-color6.chart-bar { -fx-bar-fill: -fx-dark-red-wine-colour; }
+.default-color7.chart-bar { -fx-bar-fill: -fx-dark-red-wine-colour; }
+
+.level-legend {
+    -fx-padding: 10;
+    -fx-border-width: 2;
+    -fx-background-color: rgba(211, 211, 211, 0.5);
+    -fx-border-color: derive(rgba(211, 211, 211, 0.7), 10%);
+}
+
+.chart-bar {
+    -fx-background-color: -fx-dark-red-wine-colour;
+    -fx-background-insets: 0,1,2;
+    -fx-background-radius: 10 10 0 0, 8 8 0 0, 6 6 0 0;
+}
+
+.chart-plot-background {
+    -fx-background-color: transparent;
+}
+
+.axis-label {
+    -fx-text-fill: #000000;
+    -fx-font-size: 20px;
+}
+
+.chart-vertical-grid-lines {
+    -fx-stroke: transparent;
+}
+
+.chart-horizontal-grid-lines {
+    -fx-stroke: transparent;
+}
+
+.chart-vertical-zero-line {
+    -fx-stroke: #000000;
+}
+
+.chart-horizontal-zero-line {
+    -fx-stroke: #000000;
+}

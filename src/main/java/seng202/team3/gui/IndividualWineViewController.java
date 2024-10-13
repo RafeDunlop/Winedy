@@ -1,22 +1,14 @@
 package seng202.team3.gui;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.models.Wine;
 import seng202.team3.services.IndividualWineViewService;
 import seng202.team3.services.WineDrinkerManager;
-
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * Controller for individual_wine_view.fxml

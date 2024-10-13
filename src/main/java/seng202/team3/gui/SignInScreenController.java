@@ -13,18 +13,26 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team3.models.SearchWineList;
 import seng202.team3.models.WineAttribute;
+import seng202.team3.repository.DatabaseManager;
 import seng202.team3.repository.Table;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.SignInScreenService;
-import seng202.team3.services.SearchScreenService;
+import seng202.team3.services.SearchService;
 import seng202.team3.exceptions.IllegalWineDrinkerException;
+import seng202.team3.services.WineListManager;
+
+import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
+
 import static seng202.team3.gui.GuiService.fullDisable;
 
 /**
  * controller for sign_in_screen.fxml. Handles logging in, registering and setting initial preferences
  *
- * @author Rafe Dunlop (rdu46), Steven Leishman (sle159)
+ * @author Rafe Dunlop (rdu46)
+ * @author Steven Leishman (sle159)
  */
 public class SignInScreenController {
 
@@ -123,12 +131,11 @@ public class SignInScreenController {
      * method to set up all the styles. Adds the gif into the image view.
      */
     public void initialize() {
-        SearchScreenService searchScreenService = new SearchScreenService();
         toggleSignInButton.setOnAction(x -> toggleMode());
         toggleMode();
-        colourPreferenceComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER));
-        fullnessPreferenceComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.FULLNESS, Table.WINESUPER));
-        varietyPreferenceComboBox.getItems().addAll(searchScreenService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE));
+        colourPreferenceComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER));
+        fullnessPreferenceComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.FULLNESS, Table.WINESUPER));
+        varietyPreferenceComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE));
 
         addStyleClasses();
 
@@ -180,7 +187,10 @@ public class SignInScreenController {
             String password = enterPasswordField.getText();
             SignInScreenService.validateAndLoginUser(username, password);
             FXWrapper.getInstance().loadProfileTabPane(0);
-        } catch (IllegalWineDrinkerException e) {
+            DatabaseManager.getInstance().resetWineTable();
+            SearchWineList searchReset = new SearchWineList(null, null, null, null, null, null, null, null, null);
+            WineListManager.getInstance().setLastSearched(searchReset);
+        } catch (IllegalWineDrinkerException | FileNotFoundException | URISyntaxException e) {
             fullDisable(errorLabel, false);
             errorLabel.setText(e.getMessage());
             errorLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour; -fx-font-size: 20;");
