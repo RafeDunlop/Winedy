@@ -1,0 +1,9 @@
+View the 'Consumption Tracking' tab by first opening the 'Profile' screen. This can be done by either clicking the 'Profile' button in the navigation bar, or by first clicking the 'Home' button in the left of the navigation bar.
+
+If you are not signed in, first register or sign-in to an account (See Sign-in & Register).
+
+Navigate to the 'Consumption Tracking' tab by clicking on this title in the tab pane, the screen should display.
+
+On this page you can change the consumption date range shown on the graph by clicking the combo box at the top left of the pane. This should drop down to show you all the possible date ranges you can choose from. Click on the range you want and the graph should update to show your wine consumption during the selected date range.
+
+To log your consumption of a wine, you can click the 'Log a Wine' button in the top right of the pane (See Logging Wine Consumption).

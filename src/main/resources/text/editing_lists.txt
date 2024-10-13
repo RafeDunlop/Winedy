@@ -1,0 +1,7 @@
+To edit a list, first open the list you would like to edit (See Viewing Wine Lists).
+
+To rename the list, click the 'Rename' button near the top right of the tab view. Edit the text field to your liking and then press save to save the new name of your wine list.
+
+To remove wines from the wine list, click the 'Edit List' button in the very top right of the tab view. Each wine in the list should now have a check circle in the top right of their view button. Click this check button for all the wines you would like to delete. To confirm removing these wines from the list, click the 'Remove' button in the very top right of the tab view.
+
+A confirmation popup should appear. Take some time to review the wines you have selected to remove from the list. When you are happy, click the 'Yes' button in the bottom right of the popup. These wines will now be removed from your wine list.

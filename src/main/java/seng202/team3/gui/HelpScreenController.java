@@ -55,6 +55,39 @@ public class HelpScreenController {
     private Button signinButton;
 
     @FXML
+    private Button winedyProfileTabButton;
+
+    @FXML
+    private Button changingPreferencesButton;
+
+    @FXML
+    private Button viewingRecommendedWinesButton;
+
+    @FXML
+    private Button creatingWineListsButton;
+
+    @FXML
+    private Button addingWinesToListsButton;
+
+    @FXML
+    private Button deletingWineListsButton;
+
+    @FXML
+    private Button viewingWineListsButton;
+
+    @FXML
+    private Button editingWineListsButton;
+
+    @FXML
+    private Button consumptionTrackingButton;
+
+    @FXML
+    private Button loggingButton;
+
+    @FXML
+    private Button addingWinesButton;
+
+    @FXML
     private Button searchingButton;
 
     @FXML
@@ -123,6 +156,72 @@ public class HelpScreenController {
     @FXML
     private Label searchingContentLabel;
 
+    @FXML
+    private Label winedyProfileTabTitleLabel;
+
+    @FXML
+    private Label winedyProfileTabContentLabel;
+
+    @FXML
+    private Label changingPreferencesTitleLabel;
+
+    @FXML
+    private Label changingPreferencesContentLabel;
+
+    @FXML
+    private Label viewingRecommendedWinesTitleLabel;
+
+    @FXML
+    private Label viewingRecommendedWinesContentLabel;
+
+    @FXML
+    private Label creatingWineListsTitleLabel;
+
+    @FXML
+    private Label creatingWineListsContentLabel;
+
+    @FXML
+    private Label addingWinesToListsTitleLabel;
+
+    @FXML
+    private Label addingWinesToListContentLabel;
+
+    @FXML
+    private Label deletingWineListsTitleLabel;
+
+    @FXML
+    private Label deletingWineListsContentLabel;
+
+    @FXML
+    private Label viewingWineListsTitleLabel;
+
+    @FXML
+    private Label viewingWineListsContentLabel;
+
+    @FXML
+    private Label editingWineListsTitleLabel;
+
+    @FXML
+    private Label editingWineListsContentLabel;
+
+    @FXML
+    private Label consumptionTrackingTitleLabel;
+
+    @FXML
+    private Label consumptionTrackingContentLabel;
+
+    @FXML
+    private Label loggingTitleLabel;
+
+    @FXML
+    private Label loggingContentLabel;
+
+    @FXML
+    private Label addingWinesTitleLabel;
+
+    @FXML
+    private Label addingWinesContentLabel;
+
     /**
      * Method used by JavaFX when initialising the Help Screen.
      */
@@ -162,6 +261,17 @@ public class HelpScreenController {
         createAnAccountButton.getStyleClass().add("help-screen-contents-button");
         signinButton.getStyleClass().add("help-screen-contents-button");
         searchingButton.getStyleClass().add("help-screen-contents-button");
+        winedyProfileTabButton.getStyleClass().add("help-screen-contents-button");
+        changingPreferencesButton.getStyleClass().add("help-screen-contents-button");
+        viewingRecommendedWinesButton.getStyleClass().add("help-screen-contents-button");
+        creatingWineListsButton.getStyleClass().add("help-screen-contents-button");
+        addingWinesToListsButton.getStyleClass().add("help-screen-contents-button");
+        deletingWineListsButton.getStyleClass().add("help-screen-contents-button");
+        viewingWineListsButton.getStyleClass().add("help-screen-contents-button");
+        editingWineListsButton.getStyleClass().add("help-screen-contents-button");
+        consumptionTrackingButton.getStyleClass().add("help-screen-contents-button");
+        loggingButton.getStyleClass().add("help-screen-contents-button");
+        addingWinesButton.getStyleClass().add("help-screen-contents-button");
     }
 
     /**
@@ -178,6 +288,17 @@ public class HelpScreenController {
             createAnAccountContentLabel.setText(GuiService.getContentFromFile("/text/create_an_account.txt"));
             signinContentLabel.setText(GuiService.getContentFromFile("/text/sign_in.txt"));
             searchingContentLabel.setText(GuiService.getContentFromFile("/text/searching.txt"));
+            winedyProfileTabContentLabel.setText(GuiService.getContentFromFile("/text/profile_tab.txt"));
+            changingPreferencesContentLabel.setText(GuiService.getContentFromFile("/text/preferences.txt"));
+            viewingRecommendedWinesContentLabel.setText(GuiService.getContentFromFile("/text/recommended_wines.txt"));
+            creatingWineListsContentLabel.setText(GuiService.getContentFromFile("/text/creating_wine_lists.txt"));
+            addingWinesToListContentLabel.setText(GuiService.getContentFromFile("/text/adding_wines_to_list.txt"));
+            deletingWineListsContentLabel.setText(GuiService.getContentFromFile("/text/deleting_wine_lists.txt"));
+            viewingWineListsContentLabel.setText(GuiService.getContentFromFile("/text/viewing_list_contents.txt"));
+            editingWineListsContentLabel.setText(GuiService.getContentFromFile("/text/editing_lists.txt"));
+            consumptionTrackingContentLabel.setText(GuiService.getContentFromFile("/text/consumption_tracking.txt"));
+            loggingContentLabel.setText(GuiService.getContentFromFile("/text/logging_wine_consumption.txt"));
+            addingWinesContentLabel.setText(GuiService.getContentFromFile("/text/adding_personal_wines.txt"));
             log.info("Help Screen loaded.");
         } catch (NullPointerException e) {
             log.error("Error loading txt files. Did you misspell their path", e);
@@ -198,6 +319,17 @@ public class HelpScreenController {
         setContentsButtonOnAction(createAnAccountButton, createAnAccountTitleLabel);
         setContentsButtonOnAction(signinButton, signinTitleLabel);
         setContentsButtonOnAction(searchingButton, searchingTitleLabel);
+        setContentsButtonOnAction(winedyProfileTabButton, winedyProfileTabTitleLabel);
+        setContentsButtonOnAction(changingPreferencesButton, changingPreferencesTitleLabel);
+        setContentsButtonOnAction(viewingRecommendedWinesButton, viewingRecommendedWinesTitleLabel);
+        setContentsButtonOnAction(creatingWineListsButton, creatingWineListsTitleLabel);
+        setContentsButtonOnAction(addingWinesToListsButton, addingWinesToListsTitleLabel);
+        setContentsButtonOnAction(deletingWineListsButton, deletingWineListsTitleLabel);
+        setContentsButtonOnAction(viewingWineListsButton, viewingWineListsTitleLabel);
+        setContentsButtonOnAction(editingWineListsButton, editingWineListsTitleLabel);
+        setContentsButtonOnAction(consumptionTrackingButton, consumptionTrackingTitleLabel);
+        setContentsButtonOnAction(loggingButton, loggingTitleLabel);
+        setContentsButtonOnAction(addingWinesButton, addingWinesTitleLabel);
     }
 
     /**

@@ -1,0 +1,5 @@
+To view the contents of a wine list, you must first be on the 'My Wine Lists' tab of the profile screen. Navigate here by either clicking on the 'Profile' button in the navigation bar, or by first clicking on the 'Home' button in the top left of the navigation bar and then clicking on the 'Profile' button on the home screen.
+
+From this view, you can open the wine list view by clicking on one of the buttons on the 'My Wine Lists' pane.
+
+On the wine list view, you can scroll through all the different wines in the list in the pane on the left. The description of the wine list is on the pane to the right.

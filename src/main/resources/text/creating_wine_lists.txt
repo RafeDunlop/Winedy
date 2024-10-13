@@ -1,0 +1,7 @@
+To create a new wine list, you must first open the 'My Wine Lists' tab on the profile screen. Then you can click the 'Create New Wine List' button which will open the list creation popup.
+
+Enter a name for your new list in the upper text field. Every wine list must have a unique name so don't enter the name of a list that already exists.
+
+If you would like to, you can enter a description for your list to explain what the purpose of your list is.
+
+Once you are happy, click the 'Create New List' button. Congratulations! you have just created a new wine list and can start keeping track of all your different wine categories.
