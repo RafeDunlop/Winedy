@@ -11,11 +11,11 @@ import org.controlsfx.control.SearchableComboBox;
 import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
 import seng202.team3.models.Wine;
 import seng202.team3.models.WineAttribute;
-import seng202.team3.repository.PersonalWineDAO;
 import seng202.team3.repository.Table;
 import seng202.team3.repository.WineDAO;
 import seng202.team3.services.PersonalWinePopupService;
 import seng202.team3.services.SearchService;
+import seng202.team3.services.WineManager;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -179,8 +179,7 @@ public class PersonalWinePopupController {
         }
         else {
             service.validatePersonalWineColourStyleFullness();
-            PersonalWineDAO personalWineDAO = new PersonalWineDAO();
-            personalWineDAO.add(service.getPersonalWine());
+            WineManager.getInstance().addPersonalWine(service.getPersonalWine());
             closethis(personalWine);
         }
     }

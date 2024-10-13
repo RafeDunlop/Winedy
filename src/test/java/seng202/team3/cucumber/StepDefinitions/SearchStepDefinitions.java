@@ -12,6 +12,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Cucumber tests for AT_1-4 (searching)
+ * @author Krishna Sridhar (nsr36)
+ */
+
 public class SearchStepDefinitions {
     List<String> keywords;
     private String colour;
