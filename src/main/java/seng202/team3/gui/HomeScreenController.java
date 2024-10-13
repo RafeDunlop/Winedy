@@ -7,7 +7,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.image.ImageView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team3.repository.DatabaseManager;
 import seng202.team3.services.WineDrinkerManager;
+
+import java.io.FileNotFoundException;
+import java.net.URISyntaxException;
 
 /**
  * Used by JavaFX as the controller for home_screen.fxml
@@ -53,6 +57,12 @@ public class HomeScreenController {
         titleBackgroundRectangle.getStyleClass().add("white-wine-rectangle");
         homeButtonsRectangle.getStyleClass().add("red-wine-rectangle");
         winedyImageView.setImage(new Image("/images/winedy_logo.png"));
+
+        try {
+            DatabaseManager.getInstance().resetWineTable();
+        } catch (FileNotFoundException | URISyntaxException e) {
+            log.error("Error resetting database", e);
+        }
 
         log.info("HomeScreen initialized");
     }
