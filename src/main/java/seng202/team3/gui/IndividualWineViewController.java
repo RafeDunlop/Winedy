@@ -65,6 +65,9 @@ public class IndividualWineViewController {
     @FXML
     private Button viewInDetailButton;
 
+    @FXML
+    private Button logConsumptionButton;
+
     /**
      * Service class for handling logic based tasks
      */
@@ -99,6 +102,7 @@ public class IndividualWineViewController {
         likeButton.getStyleClass().add("like-button");
         addToListButton.getStyleClass().add("add-to-list-button");
         viewInDetailButton.getStyleClass().add("nav-bar-button");
+        logConsumptionButton.getStyleClass().add("nav-bar-button");
         wineNameLabel.setText(wineToDisplay.getName());
         fullnessLabel.setText(wineToDisplay.getFullness());
         priceLabel.setText("$" + wineToDisplay.getPricePerBottle());
@@ -123,6 +127,8 @@ public class IndividualWineViewController {
             addToListButton.setDisable(true);
             addToListButton.setOpacity(0.5);
             notLoggedInLabel.setVisible(true);
+            logConsumptionButton.setVisible(false);
+            logConsumptionButton.setDisable(true);
         }
        if (individualWineService.inFavourites(wineToDisplay)) {
            likeButton.setStyle("-fx-background-color: -fx-dark-red-wine-colour");
@@ -157,6 +163,11 @@ public class IndividualWineViewController {
     @FXML
     public void onViewInDetailButtonClicked() {
         FXWrapper.getInstance().loadIndividualWineViewPopup(wineToDisplay);
+    }
+
+    @FXML
+    public void onLogConsumptionButtonClicked() {
+        FXWrapper.getInstance().loadLogPopup(null, wineToDisplay, Screen.SEARCH);
     }
 
 }
