@@ -15,6 +15,8 @@ import seng202.team3.services.ProfileScreenService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.function.Consumer;
 
 /**
  * Controller for the profile_screen.fxml window
@@ -54,8 +56,6 @@ public class ProfileScreenController {
     private Rectangle profileAbvLimitRectangle;
     @FXML
     private Button savePreferencesButton;
-
-    //******************************************************* Recommendation
     @FXML
     private Button beginRecommendationButton;
     @FXML
@@ -82,8 +82,6 @@ public class ProfileScreenController {
     private List<Wine> recommendedWines = new ArrayList<>();
     private ArrayList<Wine> userSelectedRecommendWines = new ArrayList<>();
     private List<Float> wineMatchPercentages = new ArrayList<>();
-
-    //****************************************************** ENDS
 
     /**
      * Instance of the ProfileScreenServiceClass, used for data validation
@@ -149,7 +147,7 @@ public class ProfileScreenController {
         RecommendationManager.getInstance().
             updatePreferenceModelAfterUserSelection(recommendedWines.get(recommendedWineIndex), false);
         recommendedWineIndex++;
-        if (recommendedWineIndex < 5) {
+        if (recommendedWineIndex < 4) {
             recommendNextWineToUser();
         } else {
             endRecommendationReturnWines();
@@ -166,7 +164,7 @@ public class ProfileScreenController {
                 updatePreferenceModelAfterUserSelection(recommendedWines.get(recommendedWineIndex), true);
         userSelectedRecommendWines.add(recommendedWines.get(recommendedWineIndex));
         recommendedWineIndex++;
-        if (recommendedWineIndex < 5) {
+        if (recommendedWineIndex < 4) {
             recommendNextWineToUser();
         } else {
             endRecommendationReturnWines();
@@ -182,7 +180,9 @@ public class ProfileScreenController {
         GuiService.turnOnPane(recommendStep3Pane);
         GuiService.turnOffPane(recommendStep2Pane);
         recommendedWinesVBox.getChildren().clear();
-        GuiService.startButtonGeneration(userSelectedRecommendWines, recommendedWinesVBox, null, 3);
+        Consumer<Wine> onAction = wine -> FXWrapper.getInstance().loadIndividualWineViewPopupWithButtons(wine);
+        GuiService.startButtonGeneration(userSelectedRecommendWines, recommendedWinesVBox,
+                onAction, 2);
     }
 
     /**
@@ -195,6 +195,7 @@ public class ProfileScreenController {
         String grapeVariety =  varietyPreferenceComboBox.valueProperty().getValue();
         double abvLimit = abvLimitSlider.getValue();
         profileScreenService.savePreferences(colour, fullness, grapeVariety, abvLimit);
+        RecommendationManager.getInstance().updateUserManualPreferences(colour,fullness,grapeVariety,abvLimit);
     }
 
     /**

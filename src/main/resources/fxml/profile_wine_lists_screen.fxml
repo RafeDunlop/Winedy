@@ -27,6 +27,6 @@
       <Button fx:id="cancelButton" layoutX="948.0" layoutY="146.0" mnemonicParsing="false" onAction="#onCancelButtonClicked" prefHeight="67.0" prefWidth="199.0" text="Cancel" visible="false" />
       <Button fx:id="deleteButton" disable="true" layoutX="944.0" layoutY="67.0" mnemonicParsing="false" onAction="#onDeleteButtonClicked" opacity="0.48" prefHeight="67.0" prefWidth="206.0" text="Delete" visible="false" />
       <Rectangle fx:id="backgroundRectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="522.0" layoutX="22.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" width="865.0" />
-      <VBox fx:id="rootVBox" layoutX="32.0" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="494.0" prefWidth="841.0" />
+      <VBox fx:id="rootVBox" alignment="CENTER" layoutX="32.0" layoutY="70.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="494.0" prefWidth="841.0" />
    </children>
 </AnchorPane>

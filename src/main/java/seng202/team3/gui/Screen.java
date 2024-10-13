@@ -92,6 +92,12 @@ public enum Screen {
     INDIVIDUALWINEVIEWPOPUP("individual_wine_view_popup.fxml", false),
 
     /**
+     * The individual wine view popup. Displays the information of a specific wine in detail. Opened on top of and by
+     *  the individual wine view in the search screen. Includes buttons to add to lists
+     */
+    INDIVIDUALWINEVIEWPOPUPBUTTONS("individual_wine_view_popup_buttons.fxml", false),
+
+    /**
      * The popup which appears when the user attempts to discard their changes
      * on any screen within the consumption screen
      */
@@ -101,11 +107,18 @@ public enum Screen {
      * The wine list select popup. Opened on top of and by the individual wine view in the search screen when the add
      * to list button is selected.
      */
-    WINELISTSELECTPOPUP("wine_list_select.fxml", false);
+    WINELISTSELECTPOPUP("wine_list_select.fxml", false),
+
+    /**
+     * The deleting wines from a list pop up. Opened on top of the profile list view screen when
+     * a user would like to delete a wine/wines to ensure they would like to confirm
+     */
+    DELETINGWINESPOPUP("deleting_wines_pop_up.fxml", false);
 
     /**
      * The file name of the fxml file related to this screen without prefix i.e. "main.fxml"
      */
+
     public final String file;
 
     /**

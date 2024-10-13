@@ -233,6 +233,6 @@ public class NavBarController {
         button.getStyleClass().add("nav-bar-button");
         button.setText("");
 
-        return GuiService.addImageGraphicToButton(button, imagePath, width, 50, isInvisible);
+        return GuiService.addImageGraphicToButton(button, imagePath, width, 50, isInvisible, false);
     }
 }

@@ -19,6 +19,10 @@ public class RecommendationManager {
     private static RecommendationManager instance;
     private final float SELECT_PREFERENCE_DEFAULT_VALUE = 7;
     private  RecommendationDAO recommendationDAO;
+    private String currentColourPreference;
+    private String currentFullnessPreference;
+    private String currentVarietyPreference;
+    private float currentABVPreference;
     private WineDAO wineDAO;
     private List<Integer> wineIndexes;
     private  DrinkerPreferenceModel curDrinkerPrefModel;
@@ -130,17 +134,17 @@ public class RecommendationManager {
      */
     public void updatePreferenceModelWithUserSelectedPreferences(WineDrinker curUser) {
 
-        String colPref = curUser.getColourPreference();
-        String grapePref = curUser.getGrapePreference();
-        String fullnessPref = curUser.getFullnessPreference();
-        if (colPref != null) {
-            recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), colPref, SELECT_PREFERENCE_DEFAULT_VALUE);
+        currentColourPreference   = curUser.getColourPreference();
+        currentVarietyPreference  = curUser.getGrapePreference();
+        currentFullnessPreference = curUser.getFullnessPreference();
+        if (currentColourPreference != null) {
+            recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), currentColourPreference, SELECT_PREFERENCE_DEFAULT_VALUE);
         }
-        if (grapePref != null) {
-            recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), grapePref, SELECT_PREFERENCE_DEFAULT_VALUE);
+        if (currentVarietyPreference != null) {
+            recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), currentVarietyPreference, SELECT_PREFERENCE_DEFAULT_VALUE);
         }
-        if (fullnessPref != null) {
-            recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), fullnessPref, SELECT_PREFERENCE_DEFAULT_VALUE);
+        if (currentFullnessPreference != null) {
+            recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), currentFullnessPreference, SELECT_PREFERENCE_DEFAULT_VALUE);
         }
     }
 
@@ -153,11 +157,35 @@ public class RecommendationManager {
     public void recommendWines(List<Wine> selectedWines, List<Float> selectedWinePercents) {
         Random rand = new SecureRandom();
         setupWineIndexList();
-        while (selectedWines.size() < 5) {
+        while (selectedWines.size() < 4) {
             int randomIndex = rand.nextInt(wineIndexes.size());
             selectWinesWithIndex(selectedWines, selectedWinePercents, randomIndex);
         }
 
+    }
+
+    /**
+     * Updates the preference model when the user saves/updates their preferences
+     * @param newColour the new colour preference to update
+     * @param newFullness the new fullnes preference to update
+     * @param newVariety the new variety preference to update
+     * @param newABV the new abv limit
+     */
+
+    public void updateUserManualPreferences(String newColour, String newFullness, String newVariety, double newABV){
+        if (newColour != currentColourPreference && currentColourPreference != null && newColour != null) {
+            recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), currentColourPreference, curDrinkerPrefModel.getPrefValByAttr(currentColourPreference)-2);
+            recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), newColour, curDrinkerPrefModel.getPrefValByAttr(newColour)+2);
+        }
+        if (newFullness != currentFullnessPreference && currentFullnessPreference != null && newFullness != null){
+            recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), currentFullnessPreference, curDrinkerPrefModel.getPrefValByAttr(currentFullnessPreference)-2);
+            recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), newFullness, curDrinkerPrefModel.getPrefValByAttr(newFullness)+2);
+        }
+        if (newVariety != currentVarietyPreference){
+            recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), currentVarietyPreference, curDrinkerPrefModel.getPrefValByAttr(currentVarietyPreference)-2);
+            recommendationDAO.updateIndividualPreferenceVal(curUser.getUsername(), newVariety, curDrinkerPrefModel.getPrefValByAttr(newVariety)+2);
+        }
+        curDrinkerPrefModel.setHashMapValues(new ArrayList<>(Arrays.asList("ABV")), new ArrayList<>(Arrays.asList((float) newABV)));
     }
 
     /**

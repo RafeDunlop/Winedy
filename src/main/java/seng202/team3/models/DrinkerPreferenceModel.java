@@ -16,6 +16,7 @@ public class DrinkerPreferenceModel {
      */
     private String username;
 
+
     /**
      * A hashmap that maps the preference types to their preference values
      */

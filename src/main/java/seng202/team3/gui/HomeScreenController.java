@@ -109,6 +109,6 @@ public class HomeScreenController {
      */
     private void setUpHomeButton(Button button, String imagePath) {
         button.getStyleClass().add("home-screen-button");
-        GuiService.addImageGraphicToButton(button, imagePath, 100, 100, false);
+        GuiService.addImageGraphicToButton(button, imagePath, 100, 100, false, false);
     }
 }
