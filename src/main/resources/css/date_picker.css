@@ -1,0 +1,130 @@
+.root {
+    -fx-dpb-border-colour: "Black";
+    -fx-fcb-body-colour: #F0F0F0; /* Off-white grey */
+    -fx-fcb-hover-colour: #F7DBE2;
+    -fx-white-wine-colour: #EEEDC4;
+}
+
+
+.date-picker > .text-field {
+    -fx-background-color: -fx-fcb-body-colour;
+    -fx-text-fill: black;
+    -fx-font-size: 15;
+}
+
+.date-picker {
+    -fx-background-color: -fx-fcb-body-colour;
+    -fx-border-color: -fx-fcb-border-colour;
+    -fx-background-insets: 0, 1;
+    -fx-border-insets: 0, 1;
+    -fx-background-radius: 5;
+    -fx-padding: 2 8 2 2;
+    -fx-text-fill: black;
+    -fx-border-width: 2;
+    -fx-border-radius: 5;
+    -fx-font-size: 15;
+}
+
+.date-picker:focused {
+    -fx-background-radius: 3, 2;
+    -fx-border-insets: 2;
+    -fx-background-insets: 2;
+}
+
+.date-picker:hover {
+    -fx-background-color: -fx-fcb-hover-colour;
+}
+
+.date-picker:hover > .text-field {
+    -fx-background-color: -fx-fcb-hover-colour;
+}
+
+.date-picker > .arrow-button {
+    -fx-background-color: -fx-fcb-body-colour;
+    -fx-border-color: black;
+    -fx-border-insets: 0, 1;
+    -fx-background-size: 90% 90%;
+    -fx-background-repeat: no-repeat;
+    -fx-background-radius: 50;
+    -fx-background-image: url("/images/calendar_icon.png");
+}
+
+.date-picker:hover > .arrow-button,
+.date-picker > .arrow-button:hover {
+    -fx-background-color: -fx-fcb-hover-colour;
+    -fx-border-color: -fx-dpb-border-colour;
+}
+
+.date-picker > .arrow-button > * {
+    -fx-opacity: 0;
+}
+
+.date-picker > .date-picker-popup {
+    -fx-background-color: -fx-fcb-body-colour, derive(-fx-control-body-colour, -20%);
+    -fx-background-radius: 5;
+    -fx-background-insets: 0, 10;
+    -fx-alignment: CENTER;
+}
+
+.date-picker-popup > .month-year-pane {
+    -fx-background-color: derive(-fx-fcb-hover-colour, -10%);
+}
+
+.date-picker-popup > * > .spinner {
+    -fx-fill-height: true;
+}
+
+.date-picker-popup > * > .spinner > .button {
+    -fx-background-color: derive(-fx-fcb-hover-colour, -20%);
+    -fx-color: -fx-fcb-border-colour;
+    -fx-background-radius: 3;
+}
+
+.date-picker-popup > *:focused:disabled {}
+
+.date-picker-popup > .calendar-grid {
+    -fx-background-color: -fx-fcb-body-colour;
+    -fx-padding: 2;
+    -fx-background-radius: 5;
+    -fx-background-insets: 0, 2;
+    -fx-border-color: -fx-dpb-border-colour;
+}
+
+.date-picker-popup > * > .date-cell {
+    -fx-background-colour: -fx-fcb-body-colour;
+}
+
+.date-picker-popup > * > .day-cell:focused:hover,
+.date-picker-popup > * > .today:focused:hover,
+.date-picker-popup > * > .selected:focused,
+.date-picker-popup > * > .today.selected:focused {
+    -fx-background-color: derive(#821D38, 30%), -fx-dpb-border-colour, derive(#821D38, 30%);
+}
+
+.date-picker-popup > * > .week-number-cell {
+    -fx-background: derive(-fx-fcp-hover-colour, -10%);
+}
+
+
+
+.date-picker-popup > * > .day-cell:hover > .secondary-text,
+.date-picker-popup > * > .previous-month > .secondary-text,
+.date-picker-popup > * > .next-month > .secondary-text,
+.date-picker-popup > * > .selected > .secondary-text {
+    -fx-fill: -fx-fcb-body-colour;
+}
+
+.date-picker-popup > * > .previous-month.today,
+.date-picker-popup > * > .next-month.today {
+    -fx-background-color: -fx-white-wine-colour, -fx-dpd-border-colour, -fx-white-wine-colour;
+}
+
+
+
+
+
+
+
+
+
+

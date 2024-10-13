@@ -6,7 +6,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import seng202.team3.models.Wine;
+import seng202.team3.models.WineAttribute;
+import seng202.team3.repository.Table;
 import seng202.team3.services.RecommendationManager;
+import seng202.team3.services.SearchService;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.ProfileScreenService;
 
@@ -89,17 +92,16 @@ public class ProfileScreenController {
      * Method called by JavaFX when initialising the profile screen.
      */
     public void initialize() {
-        /**
-         * The current instance of WineDrinkerManager
-         */
         WineDrinkerManager wineDrinkerManager = WineDrinkerManager.getInstance();
         profileScreenService = new ProfileScreenService();
-        colourPreferenceComboBox.getItems().addAll("Red", "White", "Rose");
+        colourPreferenceComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER));
+        colourPreferenceComboBox.getItems().removeFirst();
         colourPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getColourPreference());
-        fullnessPreferenceComboBox.getItems().addAll("Off Dry", "Dry", "Light", "Medium", "Full");
+        fullnessPreferenceComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.FULLNESS, Table.WINESUPER));
+        fullnessPreferenceComboBox.getItems().removeFirst();
         fullnessPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getFullnessPreference());
-        varietyPreferenceComboBox.getItems().addAll("Pinot Noir", "Chardonnay", "Sauvignon Blanc", "Cabernet Sauvignon",
-                "Pinot Gris", "Malbec", "Shiraz", "Viognier", "Syrah", "Grenache", "Merlot", "Prosecco");
+        varietyPreferenceComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE));
+        varietyPreferenceComboBox.getItems().removeFirst();
         varietyPreferenceComboBox.getSelectionModel().select(wineDrinkerManager.getCurrentUser().getGrapePreference());
         abvLimitSlider.setValue(wineDrinkerManager.getCurrentUser().getAbvLimit());
         GuiService.turnOnPane(recommendStep1Pane);

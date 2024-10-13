@@ -9,8 +9,8 @@ import static io.cucumber.junit.platform.engine.Constants.*;
 
 /**
  * Runner class for cucumber tests (using junit 5)
- * features must be located in src/test/resources/features
- * step definitions must be located in src/test/java/seng202/team3/cucumber
+ * features are located in src/test/resources/features
+ * step definitions are located in src/test/java/seng202/team3/cucumber/StepDefinitions
  * publish is set to quiet in test/resources/junit-platform.properties
  * @author seng202 teaching team
  */

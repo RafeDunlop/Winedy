@@ -88,6 +88,32 @@ public class WineDAO implements DAOInterface<Wine> {
     }
 
     /**
+     * Returns the highest wine id in the database
+     *
+     * @return the id of the last wine
+     */
+    public int getLastID() {
+        int lastID = 0;
+        String sqlWine = "SELECT * FROM wineSuper JOIN wine on wineSuper.id = wine.id ORDER BY id";
+        try (Connection conn = databaseManager.connect();
+             PreparedStatement psWine = conn.prepareStatement(sqlWine);) {
+            ResultSet resultSet = psWine.executeQuery();
+            int id;
+            while (resultSet.next()) {
+                id = resultSet.getInt("id");
+                if (lastID < id) {
+                    lastID = id;
+                }
+            }
+
+            return lastID;
+        } catch (SQLException sqlException) {
+            log.error(sqlException);
+            return 0;
+        }
+    }
+
+    /**
      * Gets a list of Strings representing grapes associated with a wine ID
      *
      * @param wineId ID of the wine to get the grapes from
@@ -181,11 +207,15 @@ public class WineDAO implements DAOInterface<Wine> {
              PreparedStatement psAward = conn.prepareStatement(sqlAward);
              PreparedStatement psWine = conn.prepareStatement(sqlWine)) {
             setWineSuperParams(psWineSuper, toAdd);
-            for (String grape : toAdd.getGrapes()) {
-                setGrapeParams(psGrape, toAdd.getUniqueWineID(), grape);
+            if (toAdd.getGrapes() != null) {
+                for (String grape : toAdd.getGrapes()) {
+                    setGrapeParams(psGrape, toAdd.getUniqueWineID(), grape);
+                }
             }
-            for (String award : toAdd.getAwards()) {
-                setAwardParams(psAward, toAdd.getUniqueWineID(), award);
+            if (toAdd.getAwards() != null) {
+                for (String award : toAdd.getAwards()) {
+                    setAwardParams(psAward, toAdd.getUniqueWineID(), award);
+                }
             }
             psWine.setInt(1, toAdd.getUniqueWineID());
             psWine.executeUpdate();
@@ -204,7 +234,7 @@ public class WineDAO implements DAOInterface<Wine> {
      *
      * @param toAdd a list of wines to add to the database
      */
-    public void addBatch (List < Wine > toAdd) {
+    public void addBatch (List <Wine> toAdd) {
         String sqlWineSuper = "INSERT OR IGNORE INTO wineSuper (id, name, country, colour, style, fullness, longDescription, pricePerBottle, alcoholByVolume, volumeInML, year) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
         String sqlGrape = "INSERT INTO grape (wineId, name) VALUES (?, ?)";
         String sqlAward = "INSERT INTO award (wineId, name) VALUES (?, ?)";

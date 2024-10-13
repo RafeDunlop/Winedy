@@ -147,7 +147,8 @@ public class LogManager {
         int loggedID = logDiff.getWine().getUniqueWineID();
         Time time = Time.valueOf(LocalTime.of(logDiff.getHour(), 0, 0));
         float standards = getStandards(logDiff.getWine(), logDiff.getAmt(), logDiff.getIsBottles());
-        WineLog toLog = new WineLog(loggedID, logDiff.getNote(), logDiff.getDate(), time, standards, logDiff.getIsBottles());
+        String note = (logDiff.getNote().isEmpty()) ? null : logDiff.getNote();
+        WineLog toLog = new WineLog(loggedID, note, logDiff.getDate(), time, standards, logDiff.getIsBottles());
         wineLogDAO.add(toLog);
     }
 
@@ -210,9 +211,9 @@ public class LogManager {
 
     public String getLogDateString(WineLog wineLog) {
         LocalDate date = wineLog.getDate().toLocalDate();
-        return ((date.getDayOfMonth() < 10) ? date.getDayOfMonth() + "0" : date.getDayOfMonth()) +
+        return ((date.getDayOfMonth() < 10) ? "0" + date.getDayOfMonth(): date.getDayOfMonth()) +
                 "/" +
-                ((date.getMonthValue() < 10) ? date.getMonthValue() + "0" : date.getMonthValue()) +
+                ((date.getMonthValue() < 10) ? "0" + date.getMonthValue(): date.getMonthValue()) +
                 "/" +
                 date.getYear();
     }
@@ -254,6 +255,8 @@ public class LogManager {
                 return new Pair<>(false, "Amount must be positive");
             } else if (value == 0) {
                 return new Pair<>(false, "Amount cannot be 0");
+            } else if (value > 10){
+                return new Pair<>(false, "Amount cannot be more than 10");
             } else {
                 return new Pair<>(true,"errorDisplayLabel");
             }
@@ -264,7 +267,7 @@ public class LogManager {
 
 
     public StringConverter<Integer> getHourConverter() {
-        return new StringConverter<Integer>() {
+        return new StringConverter<>() {
             @Override
             public String toString(Integer integer) {
                 if (integer == 0) {
@@ -288,6 +291,12 @@ public class LogManager {
                 return Integer.parseInt(s.replace("AM", ""));
             }
         };
+    }
+
+    public String getAmtPromptText(boolean isBottles) {
+        return "Enter how many " +
+                ((isBottles) ? "bottles" : "glasses") +
+                "you had.";
     }
 
     public void setTimeRange(TimeRange toSet) {
