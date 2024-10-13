@@ -67,6 +67,7 @@ public class ProfileTabPaneController {
         profileTabPane.getStyleClass().add("profile-tab-pane");
         logoutButton.getStyleClass().add("nav-bar-button");
         helloUserLabel.setText("Welcome, " + WineDrinkerManager.getInstance().getCurrentUser().getUsername() + "!");
+        profileTabPane.getSelectionModel().selectedItemProperty().addListener((obs, oldTab, newTab) ->reloadTabContent(newTab));
         FXWrapper.getInstance().loadProfileActionScreen(winedyProfileAnchorPane, Screen.PROFILESCREEN);
         FXWrapper.getInstance().loadProfileActionScreen(wineListAnchorPane, Screen.WINELISTSSCREEN);
         FXWrapper.getInstance().loadProfileActionScreen(consumptionTrackingAnchorPane, Screen.TRACKINGCONSUMPTIONSCREEN);
@@ -83,5 +84,23 @@ public class ProfileTabPaneController {
         DatabaseManager.getInstance().resetWineTable();
         SearchWineList searchReset = new SearchWineList(null, null, null, null, null, null, null, null, null);
         WineListManager.getInstance().setLastSearched(searchReset);
+    }
+
+    /**
+     * Reloads tab content when you switch pages
+     */
+    public void reloadTabContent(Tab tab) {
+        System.out.println(tab.getText());
+        switch(tab.getText()) {
+            case ("Winedy Profile "):
+                FXWrapper.getInstance().loadProfileActionScreen(winedyProfileAnchorPane, Screen.PROFILESCREEN);
+                break;
+            case ("My Wine Lists "):
+                FXWrapper.getInstance().loadProfileActionScreen(wineListAnchorPane, Screen.WINELISTSSCREEN);
+                break;
+            case ("Consumption Tracking"):
+                FXWrapper.getInstance().loadProfileActionScreen(consumptionTrackingAnchorPane, Screen.TRACKINGCONSUMPTIONSCREEN);
+                break;
+        }
     }
 }
