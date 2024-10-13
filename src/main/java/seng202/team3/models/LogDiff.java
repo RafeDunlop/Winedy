@@ -1,5 +1,7 @@
 package seng202.team3.models;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.sql.Date;
 
 
@@ -88,7 +90,7 @@ public class LogDiff {
         return this.isBottles == other.getIsBottles() &&
                 this.amt == other.getAmt() &&
                 this.wine == other.getWine() &&
-                this.date == other.getDate() &&
+                this.date.equals(other.getDate()) &&
                 this.hour == other.getHour() &&
                 this.note.equals(other.getNote());
     }
