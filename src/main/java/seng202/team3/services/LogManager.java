@@ -152,7 +152,7 @@ public class LogManager {
         wineLogDAO.add(toLog);
     }
 
-    public float getStandards(Wine wine, float amtHad, boolean isBottles) {
+    private float getStandards(Wine wine, float amtHad, boolean isBottles) {
         float standards;
         if (isBottles) {
             float gramsAlcoholPerBottle = getGramsAlcoholPerBottle(wine);
@@ -286,6 +286,10 @@ public class LogManager {
                 if (s.endsWith("PM")) {
                     s = s.replace("PM", "");
                     return (!s.equals("12")) ? Integer.parseInt(s) + 12 : 12;
+                }
+
+                if (s.equals("12AM")) {
+                    return 0;
                 }
 
                 return Integer.parseInt(s.replace("AM", ""));
