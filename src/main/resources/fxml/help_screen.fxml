@@ -40,7 +40,7 @@
                               <Insets bottom="20.0" />
                            </VBox.margin>
                         </Label>
-                        <Button fx:id="aboutWinedyButton" mnemonicParsing="false" text="About Winedy" underline="true">
+                        <Button fx:id="aboutWinedyButton" mnemonicParsing="false" text="About Winedy" underline="true" wrapText="true">
                            <font>
                               <Font size="25.0" />
                            </font>
@@ -50,7 +50,7 @@
                               <Font size="25.0" />
                            </font>
                         </Button>
-                        <Button fx:id="colourButton" mnemonicParsing="false" text="Colour" underline="true">
+                        <Button fx:id="colourButton" mnemonicParsing="false" text="Colour" underline="true" wrapText="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
@@ -58,7 +58,7 @@
                               <Font size="20.0" />
                            </font>
                         </Button>
-                        <Button fx:id="varietyButton" mnemonicParsing="false" text="Variety" underline="true">
+                        <Button fx:id="varietyButton" mnemonicParsing="false" text="Variety" underline="true" wrapText="true">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -74,7 +74,7 @@
                               <Font size="20.0" />
                            </font>
                         </Button>
-                        <Button fx:id="abvButton" mnemonicParsing="false" text="ABV" underline="true">
+                        <Button fx:id="abvButton" mnemonicParsing="false" text="ABV" underline="true" wrapText="true">
                            <font>
                               <Font size="20.0" />
                            </font>
@@ -87,7 +87,7 @@
                               <Font size="25.0" />
                            </font>
                         </Button>
-                        <Button fx:id="searchingButton" mnemonicParsing="false" text="Searching" underline="true">
+                        <Button fx:id="searchingButton" mnemonicParsing="false" text="Searching" underline="true" wrapText="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
@@ -95,7 +95,7 @@
                               <Font size="20.0" />
                            </font>
                         </Button>
-                        <Button fx:id="createAnAccountButton" mnemonicParsing="false" text="Create an account" underline="true">
+                        <Button fx:id="createAnAccountButton" mnemonicParsing="false" text="Create an account" underline="true" wrapText="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
@@ -103,13 +103,101 @@
                               <Font size="20.0" />
                            </font>
                         </Button>
-                        <Button fx:id="signinButton" mnemonicParsing="false" text="Sign-in" underline="true">
+                        <Button fx:id="signinButton" mnemonicParsing="false" text="Sign-in" underline="true" wrapText="true">
                            <VBox.margin>
                               <Insets left="20.0" />
                            </VBox.margin>
                            <font>
                               <Font size="20.0" />
                            </font>
+                        </Button>
+                        <Button fx:id="winedyProfileTabButton" mnemonicParsing="false" text="Winedy Profile Tab" underline="true" wrapText="true">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Button fx:id="changingPreferencesButton" mnemonicParsing="false" text="Changing Preferences" underline="true" wrapText="true">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="viewingRecommendedWinesButton" mnemonicParsing="false" text="Viewing Recommended Wines" underline="true" wrapText="true">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="creatingWineListsButton" mnemonicParsing="false" text="Creating Wine Lists" underline="true" wrapText="true">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="addingWinesToListsButton" mnemonicParsing="false" text="Adding Wines to Lists" underline="true" wrapText="true">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="deletingWineListsButton" mnemonicParsing="false" text="Deleting Wine Lists" underline="true" wrapText="true">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Button fx:id="viewingWineListsButton" mnemonicParsing="false" text="Viewing WineLists" underline="true" wrapText="true">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="editingWineListsButton" mnemonicParsing="false" text="Editing the Contents of a Wine List" underline="true" wrapText="true">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Button fx:id="consumptionTrackingButton" mnemonicParsing="false" text="Consumption Tracking" underline="true" wrapText="true">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Button fx:id="loggingButton" mnemonicParsing="false" text="Logging Wine Consumption Button" underline="true" wrapText="true">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="addingWinesButton" mnemonicParsing="false" text="Adding Your Own Wines to the Database" underline="true" wrapText="true">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
                         </Button>
                      </children>
                   </VBox>
@@ -245,6 +333,152 @@
                            <font>
                               <Font size="20.0" />
                            </font>
+                        </Label>
+                        <Label fx:id="winedyProfileTabTitleLabel" text="- Winedy Profile Tab">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="winedyProfileTabContentLabel" text="Winedy profile tab content" wrapText="true">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="changingPreferencesTitleLabel" text="- Changing Preferences">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="changingPreferencesContentLabel" text="Changing preferences content" wrapText="true">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="viewingRecommendedWinesTitleLabel" text="- Viewing Recommended Wines">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="viewingRecommendedWinesContentLabel" text="Viewing" wrapText="true">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="creatingWineListsTitleLabel" text="- Creating Wine Lists">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="creatingWineListsContentLabel" text="Creating" wrapText="true">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="addingWinesToListsTitleLabel" text="- Adding Wines To List">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="addingWinesToListContentLabel" text="Adding" wrapText="true">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="deletingWineListsTitleLabel" text="- Deleting Wine Lists">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="deletingWineListsContentLabel" text="deleting" wrapText="true">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <padding>
+                              <Insets left="20.0" />
+                           </padding>
+                        </Label>
+                        <Label fx:id="viewingWineListsTitleLabel" text="- Viewing Wine Lists Content Label">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="viewingWineListsContentLabel" text="viewing" wrapText="true">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="editingWineListsTitleLabel" text="- Editing Wine Lists">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="editingWineListsContentLabel" text="edit" wrapText="true">
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="consumptionTrackingTitleLabel" text="- Consumption Tracking">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="consumptionTrackingContentLabel" text="consumption" wrapText="true">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="loggingTitleLabel" text="- Logging Wine Consumption">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="loggingContentLabel" text="logging" wrapText="true">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
+                        </Label>
+                        <Label fx:id="addingWinesTitleLabel" text="- Adding Your Own Wines to the Database" wrapText="true">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="addingWinesContentLabel" text="adding" wrapText="true">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="20.0" />
+                           </VBox.margin>
                         </Label>
                      </children>
                      <padding>
