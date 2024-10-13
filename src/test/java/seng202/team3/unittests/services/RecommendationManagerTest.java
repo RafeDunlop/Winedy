@@ -9,7 +9,6 @@ import seng202.team3.models.Wine;
 import seng202.team3.models.WineDrinker;
 import seng202.team3.repository.DatabaseManager;
 import seng202.team3.repository.RecommendationDAO;
-import seng202.team3.repository.WineDAO;
 import seng202.team3.services.RecommendationManager;
 
 

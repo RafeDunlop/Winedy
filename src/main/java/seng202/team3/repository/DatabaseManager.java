@@ -3,7 +3,6 @@ package seng202.team3.repository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.models.Wine;
-import seng202.team3.services.WineDrinkerManager;
 
 import java.io.*;
 import java.net.URISyntaxException;

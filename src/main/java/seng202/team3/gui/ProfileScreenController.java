@@ -15,7 +15,6 @@ import seng202.team3.services.ProfileScreenService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.function.Consumer;
 
 /**

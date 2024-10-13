@@ -3,7 +3,6 @@ package seng202.team3.services;
 import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
 
-import java.util.Collections;
 import java.util.List;
 
 public class WineListSelectService {

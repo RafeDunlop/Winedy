@@ -21,7 +21,6 @@ import org.controlsfx.control.RangeSlider;
 import seng202.team3.models.WineAttribute;
 import seng202.team3.repository.Table;
 import seng202.team3.services.SearchService;
-import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.WineListManager;
 import seng202.team3.services.WineManager;
 import seng202.team3.models.SearchWineList;
@@ -29,7 +28,6 @@ import seng202.team3.models.SearchWineList;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
