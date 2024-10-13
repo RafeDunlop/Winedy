@@ -72,6 +72,7 @@ public class WineDAOTest {
         File file = new File("./src/test/resources/test_database.db");
         file.delete();
     }
+
     @Test
     public void testAddUniqueWine() {
         int insertId = wineDAO.add(WINE_1);

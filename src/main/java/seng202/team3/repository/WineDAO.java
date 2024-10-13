@@ -54,7 +54,7 @@ public class WineDAO implements DAOInterface<Wine> {
     /**
      * Gets all wines in the database and converts them into wine objects
      *
-     * @return a list of all sales
+     * @return a list of all wines
      */
     @Override
     public List<Wine> getAll() {
@@ -165,7 +165,7 @@ public class WineDAO implements DAOInterface<Wine> {
     /**
      * Gets an individual wine from database by id
      *
-     * @param id id of sale to get
+     * @param id id of wine to get
      * @return Wine from database that matches id
      */
     public Wine getWineByID(int id) {
@@ -435,7 +435,7 @@ public class WineDAO implements DAOInterface<Wine> {
     /**
      * Updates a Wine in database
      *
-     * @param toUpdate sale that needs to be updated (this object must be able to identify itself and its previous self)
+     * @param toUpdate wine that needs to be updated (this object must be able to identify itself and its previous self)
      */
     @Override
     public int update (Wine toUpdate) {
