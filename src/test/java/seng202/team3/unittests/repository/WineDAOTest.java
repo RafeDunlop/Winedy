@@ -15,7 +15,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for the WineDAO service class
+ * Unit tests for the WineDAO repository class
  * @author Krishna Sridhar (nsr36)
  */
 
