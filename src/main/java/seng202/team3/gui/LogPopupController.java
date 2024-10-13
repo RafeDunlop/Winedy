@@ -335,7 +335,7 @@ public class LogPopupController {
         displayed = new Button(wine.getName());
         displayed.setPrefSize(260,240);
         displayed.setWrapText(true);
-        GuiService.addImageGraphicToButton(displayed, "/images/" + wine.getColour() + "_wine_image.png", 100, 100, false);
+        GuiService.addImageGraphicToButton(displayed, "/images/" + wine.getColour() + "_wine_image.png", 100, 100, false, false);
         displayed.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineViewPopup(wine));
         displayed.setContentDisplay(TOP);
         displayed.getStyleClass().add("nav-bar-button");
