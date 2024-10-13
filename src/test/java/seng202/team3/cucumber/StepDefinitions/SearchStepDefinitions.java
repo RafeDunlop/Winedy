@@ -3,10 +3,15 @@ package seng202.team3.cucumber.StepDefinitions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
+import seng202.team3.repository.DatabaseManager;
 import seng202.team3.repository.WineDAO;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,10 +30,29 @@ public class SearchStepDefinitions {
     private WineDAO wineDAO;
     private final SearchWineList searchedWines = new SearchWineList(Collections.emptyList(), 0, 0, 0f,
             0f, null, null, null, null);
+    final String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
+
+    @BeforeAll
+    public static void deleteTestDB() {
+        File file = new File("./src/test/resources/test_database.db");
+        file.delete();
+    }
+
+    @BeforeEach
+    public void setup() {
+        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.getInstance(DATABASE_PATH);
+    }
+
+    @AfterEach
+    public void cleanUp() {
+        File file = new File("./src/test/resources/test_database.db");
+        file.delete();
+    }
 
     @Given("The Wine Drinker is in the search wine page")
     public void userIsOnSearchScreenWithDatabaseLoaded() {
-        wineDAO = new WineDAO("jdbc:sqlite:./src/test/resources/test_database.db");
+        wineDAO = new WineDAO(DATABASE_PATH);
     }
 
     private void addWines(SearchWineList searchWineList) {

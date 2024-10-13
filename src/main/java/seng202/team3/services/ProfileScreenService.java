@@ -31,6 +31,14 @@ public class ProfileScreenService {
     }
 
     /**
+     * Constructor for testing with the test database url
+     */
+    public ProfileScreenService(String url) {
+        this.wineDrinkerManager = WineDrinkerManager.getInstance(url);
+        this.wineListManager = WineListManager.getInstance(url);
+    }
+
+    /**
      * Saves the users preferences when they are changed on the profile screen
      *
      * @param colour wine colour preference

@@ -7,12 +7,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import seng202.team3.exceptions.IllegalWineDrinkerException;
 import seng202.team3.models.WineDrinker;
 import seng202.team3.repository.DatabaseManager;
-import seng202.team3.repository.WineDAO;
 import seng202.team3.repository.WineDrinkerDAO;
 import seng202.team3.services.SignInScreenService;
 import seng202.team3.services.WineDrinkerManager;
@@ -28,6 +28,7 @@ public class LoginStepDefinitions {
     private WineDrinkerManager wineDrinkerManager;
     private SignInScreenService signInScreenService;
     final String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
+
     @BeforeAll
     public static void deleteTestDB() {
         File file = new File("./src/test/resources/test_database.db");
@@ -40,9 +41,15 @@ public class LoginStepDefinitions {
         DatabaseManager.getInstance(DATABASE_PATH);
     }
 
+    @AfterEach
+    public void cleanUp() {
+        File file = new File("./src/test/resources/test_database.db");
+        file.delete();
+    }
+
     @Given("The Wine Drinker is on the login page")
     public void theWineDrinkerIsOnTheLoginPageWithDatabaseLoaded(){
-        wineDrinkerManager = WineDrinkerManager.getInstance();
+        wineDrinkerManager = WineDrinkerManager.getInstance(DATABASE_PATH);
         wineDrinkerManager.setWineDrinkerDAO( new WineDrinkerDAO(DATABASE_PATH));
         signInScreenService = new SignInScreenService();
         signInScreenService.setWineDrinkerManager(wineDrinkerManager);
