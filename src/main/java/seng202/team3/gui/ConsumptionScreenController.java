@@ -82,8 +82,6 @@ public class ConsumptionScreenController {
      */
     private List<WineLog> logs;
 
-    private TimeRange selectedTimeRange;
-
 
     /**
      * initializes the controller, calling function to add style classes, setup variables, setup combo boxes and pagination
@@ -94,14 +92,15 @@ public class ConsumptionScreenController {
 
         timeRangeComboBox.getItems().addAll(TimeRange.getAll());
         timeRangeComboBox.setConverter(TimeRange.getStringConverter());
-        timeRangeComboBox.setOnAction(event -> loadLogData(timeRangeComboBox.getValue()));
+        timeRangeComboBox.setOnAction(event -> {
+            logManager.setTimeRange(timeRangeComboBox.getValue());
+            FXWrapper.getInstance().loadProfileTabPane(2);
+        });
         timeRangeComboBox.getSelectionModel().select(logManager.getPrevRange());
         loadLogData(logManager.getPrevRange());
     }
 
     private void loadLogData(TimeRange timeRange) {
-        selectedTimeRange = timeRange;
-        logManager.setTimeRange(timeRange);
         Pair<Date, Date> dateRange = TimeRange.getDateRange(timeRange);
         logs = logManager.getLogsInRange(dateRange.getKey(), dateRange.getValue());
         boolean empty = logs.isEmpty();
@@ -113,7 +112,7 @@ public class ConsumptionScreenController {
         fullDisable(logVBox, empty);
         if (!empty) {
             createPaginationLogs();
-            loadGraph();
+            loadGraph(timeRange);
         }
     }
 
@@ -210,7 +209,7 @@ public class ConsumptionScreenController {
     /**
      * loads the graph for the specified time range
      */
-    private void loadGraph() {
+    private void loadGraph(TimeRange selectedTimeRange) {
         consumptionChart.getData().clear();
 
         consumptionChart.getXAxis().setLabel(TimeRange.getLabel(selectedTimeRange));
@@ -224,6 +223,9 @@ public class ConsumptionScreenController {
 
 
         XYChart.Series<String, Float> dataSeries = new XYChart.Series<>();
+        for (int i : selectedTimeRange.timePeriod.getDomain(logs.getFirst().getDate())) { // make sure all bars present
+            dataSeries.getData().add(new XYChart.Data<>(getStringRep(i, selectedTimeRange), 0.0f));
+        }
         for (Map.Entry<Integer, List<WineLog>> entry : selectedTimeRange.timePeriod.splitIntoPeriods(logs).entrySet()) {
             float standards = 0;
             for (WineLog log : entry.getValue()) {
