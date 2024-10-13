@@ -193,6 +193,7 @@ public class ProfileScreenController {
         String grapeVariety =  varietyPreferenceComboBox.valueProperty().getValue();
         double abvLimit = abvLimitSlider.getValue();
         profileScreenService.savePreferences(colour, fullness, grapeVariety, abvLimit);
+        RecommendationManager.getInstance().updateUserManualPreferences(colour,fullness,grapeVariety,abvLimit);
     }
 
     /**
