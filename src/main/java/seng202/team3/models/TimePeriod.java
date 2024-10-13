@@ -1,12 +1,11 @@
 package seng202.team3.models;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.temporal.WeekFields;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.function.BiFunction;
+import java.util.stream.IntStream;
 
 /**
  * An Enum containing values that represent different time periods. Defines methods useful for splitting Date objects
@@ -69,6 +68,15 @@ public enum TimePeriod {
         return hashMap;
     }
 
+    public List<Integer> getDomain(Date startDate) {
+        return switch (this) {
+            case DAYS -> IntStream.range(1, 8).boxed().toList();
+            case WEEKS -> getWeekIndices(startDate);
+            case MONTHS -> IntStream.range(0, 12).boxed().toList();
+            case YEARS -> getYearIndicesPadded(startDate);
+        };
+    }
+
     /**
      * Splits the given list of Timed objects T into its year groups. Puts the groups of T into the given hashmap that
      * maps an integer to a list of T where each list represents a singular year.
@@ -114,7 +122,7 @@ public enum TimePeriod {
      * @param <T> an object type T which extends the Timed class
      */
     private <T extends Timed> void splitIntoWeeks(HashMap<Integer, List<T>> hashMap, List<T> toSplit) {
-        int weekNum = toSplit.getFirst().getDate().toLocalDate().get(WeekFields.ISO.weekOfWeekBasedYear());
+        int weekNum = toSplit.getFirst().getDate().toLocalDate().withDayOfMonth(1).get(WeekFields.ISO.weekOfWeekBasedYear());
         for (T entry : toSplit) {
             hashMap.merge(
                     getWeekKey(entry.getDate(), weekNum),
@@ -195,5 +203,16 @@ public enum TimePeriod {
      */
     private int getYearKey(Date date) {
         return date.toLocalDate().getYear();
+    }
+
+    private List<Integer> getWeekIndices(Date startDate) {
+        LocalDate start = startDate.toLocalDate().withDayOfMonth(1);
+        LocalDate end = start.plusMonths(1);
+        return IntStream.range(0, end.get(WeekFields.ISO.weekOfWeekBasedYear()) - start.get(WeekFields.ISO.weekOfWeekBasedYear()) + 1).boxed().toList();
+    }
+
+    private List<Integer> getYearIndicesPadded(Date startDate) {
+        int year = startDate.toLocalDate().getYear();
+        return List.of(year -1, year, year+1);
     }
 }

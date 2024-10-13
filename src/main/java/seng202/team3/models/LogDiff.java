@@ -1,5 +1,7 @@
 package seng202.team3.models;
 
+import seng202.team3.services.LogManager;
+
 import java.sql.Date;
 
 
@@ -96,5 +98,14 @@ public class LogDiff {
     public boolean isValid() {
         return wine != null &&
                 amt != 0;
+    }
+
+    public String toString() {
+        return String.format("You are logging %.1f %s of %s at %s on %s.",
+                amt,
+                (isBottles) ? "bottles" : "glasses",
+                wine.getName(),
+                LogManager.getInstance().getHourConverter().toString(hour),
+                LogManager.getInstance().getDateString(date));
     }
 }

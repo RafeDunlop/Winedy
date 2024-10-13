@@ -13,6 +13,8 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
 /**
  * singleton class for managing logged wines and helper functions for consumption tracking
@@ -296,10 +298,32 @@ public class LogManager {
     public String getAmtPromptText(boolean isBottles) {
         return "Enter how many " +
                 ((isBottles) ? "bottles" : "glasses") +
-                "you had.";
+                " you had.";
+    }
+
+    /**
+     * to test:
+     * ArrayList<Integer> testList ...
+     * ... pass in a consumer like "hour -> testList.add(hour)"
+     * and make sure its only added if it is not after the current hour
+     * TODO: delete above
+     *
+     *
+     * @param logDiff
+     * @param comboSetFunc
+     */
+    public void setValidHours(LogDiff logDiff, Consumer<Integer> comboSetFunc) {
+        List<Integer> hours = IntStream.range(0, 24).boxed().toList();
+        boolean isToday = logDiff.getDate().toLocalDate().equals(getCurrentDate().toLocalDate());
+        for (int hour : hours) {
+            if (!isToday || hour <= logDiff.getHour()) {
+                comboSetFunc.accept(hour);
+            }
+        }
     }
 
     public void setTimeRange(TimeRange toSet) {
         prevRange = toSet;
     }
+
 }
