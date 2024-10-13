@@ -45,6 +45,7 @@ public class WineListSelectPopUpController {
     /**
      * Constructs controller and sets the wine that this controller will handle
      * @param wineToAdd The wine to be added to the wine lists
+     * @param refreshPrev boolean whether the overlaid screen should be refreshed
      */
     public  WineListSelectPopUpController(Wine wineToAdd, boolean refreshPrev) {
         this.wineToAdd = wineToAdd;
@@ -97,12 +98,19 @@ public class WineListSelectPopUpController {
         wineListSelectService.updateWineList(wineToAdd, wineList);
     }
 
+    /**
+     * sets up the vbox with required styling
+     * @param vBox vbox to be styled
+     */
     private void setUpVBox(VBox vBox) {
         vBox.setPadding(new Insets(5,5,5,5));
         vBox.setSpacing(5);
         vBox.getStyleClass().add("wine-list-vbox");
     }
 
+    /**
+     * Sets the style classes for various attributes of this popup
+     */
     private void setStyleClasses() {
         titleLabel.getStyleClass().add("status-label");
         gridPane.setStyle("-fx-background-color: transparent");
@@ -110,6 +118,9 @@ public class WineListSelectPopUpController {
         createListButton.getStyleClass().add("wine-list-button");
     }
 
+    /**
+     * Set up the buttons for adding a wine to a list
+     */
     private void setUpButtons() {
 
         for (UserWineList wineList: wineListSelectService.getWineLists()) {
@@ -151,6 +162,10 @@ public class WineListSelectPopUpController {
         }
     }
 
+    /**
+     * Sets up the space for tick image to sit
+     * @param imageView the space for the image
+     */
     private void setUpImageView(ImageView imageView) {
         imageView.setFitHeight(50);
         imageView.setFitWidth(50);
@@ -158,6 +173,11 @@ public class WineListSelectPopUpController {
         imageView.setSmooth(true);
     }
 
+    /**
+     * Updates a given image view with a tick if a wine is in a list
+     * @param imageView the image view that needs updated
+     * @param wineList the winelist to check contains the wine
+     */
     private void updateImageView(ImageView imageView, UserWineList wineList) {
         if (wineList.getWineList().contains(wineToAdd)) {
             imageView.setImage(checked);

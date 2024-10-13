@@ -17,7 +17,7 @@ import seng202.team3.services.IndividualWineViewService;
 /**
  * Controller for individual_wine_view_popup.fxml
  *
- * @author Hannah Botting (hbo51)
+ * @author Steven Leishman (sle159)
  */
 public class IndividualWineViewPopupButtonsController {
 
@@ -109,11 +109,6 @@ public class IndividualWineViewPopupButtonsController {
      * Initialises the individual wine view popup. Sets all the label attributes to display the wine attributes.
      * Adds style classes to the exit button, and scroll panes.
      */
-
-    /**
-     * Initialises the individual wine view popup. Sets all the label attributes to display the wine attributes.
-     * Adds style classes to the exit button, and scroll panes.
-     */
     public void initialize() {
         nameTitleLabel.setText(wineToDisplay.getName());
         priceContentsLabel.setText(String.format("$%.2f", wineToDisplay.getPricePerBottle()));
@@ -138,9 +133,10 @@ public class IndividualWineViewPopupButtonsController {
     }
 
     /**
-     * used by JavaFX as the onAction for the exit button. calls the remove popup method in FXWrapper to close this popup
+     * initialises the country text on the popup if a country exists
+     * in the given wine
      */
-    public void initialiseCountry(){
+    private void initialiseCountry(){
         if (!wineToDisplay.getCountry().isEmpty()) {
             countryContentsLabel.setText(wineToDisplay.getCountry());
         } else {
@@ -151,7 +147,11 @@ public class IndividualWineViewPopupButtonsController {
         }
     }
 
-    public void initialiseStyle(){
+    /**
+     * initialises the style text on the popup if a style exists
+     * in the given wine
+     */
+    private void initialiseStyle(){
         if (!wineToDisplay.getStyle().isEmpty() ) {
             styleContentsLabel.setText(wineToDisplay.getStyle());
         } else {
@@ -163,7 +163,11 @@ public class IndividualWineViewPopupButtonsController {
 
     }
 
-    public void initialiseYear(){
+    /**
+     * initialises the year text on the popup if a year exists
+     * in the given wine
+     */
+    private void initialiseYear(){
         if (wineToDisplay.getYear() != 0) {
             yearContentsLabel.setText(String.format("%d", wineToDisplay.getYear()));
         } else {
@@ -174,7 +178,11 @@ public class IndividualWineViewPopupButtonsController {
         }
     }
 
-    public void initialiseLongDescription(){
+    /**
+     * initialises the long description text on the popup if a description exists
+     * in the given wine
+     */
+    private void initialiseLongDescription(){
         if (!wineToDisplay.getLongDescription().isEmpty()) {
             descriptionContentsLabel.setText(wineToDisplay.getLongDescription());
         } else {
@@ -182,7 +190,11 @@ public class IndividualWineViewPopupButtonsController {
         }
     }
 
-    public void initialiseAwards(){
+    /**
+     * initialises the awards text on the popup if an/some awards exists
+     * in the given wine
+     */
+    private void initialiseAwards(){
         for (String award : wineToDisplay.getAwards()) {
             if (award != null && !award.isEmpty()) {
                 awardsContentsLabel.setText(awardsContentsLabel.getText() + award + '\n');
@@ -194,7 +206,11 @@ public class IndividualWineViewPopupButtonsController {
         }
 
     }
-    public void initialiseImages(){
+
+    /**
+     * initialises the image graphics on the popup
+     */
+    private void initialiseImages(){
         try {
             wineViewImageView.setImage(new Image("/images/" + wineToDisplay.getColour() + "_wine_image.png"));
         } catch (Exception e) {
@@ -203,6 +219,10 @@ public class IndividualWineViewPopupButtonsController {
 
     }
 
+    /**
+     * Defines the action for the exit button
+     * when it's clicked
+     */
     @FXML
     public void onExitButtonClicked() {
         FXWrapper.getInstance().removePopUp(overlayPane);

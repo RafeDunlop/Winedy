@@ -329,7 +329,9 @@ public final class GuiService {
     }
 
     /**
-     * sets action for the exit button
+     * Determines the action for exit buttons in wine pop-ups
+     * @param refreshPrev boolean whether the previous screen should refresh
+     * @param overlayPane the pane of which should the pop-up should show over
      */
     public static void onExitClicked(boolean refreshPrev, StackPane overlayPane) {
         FXWrapper.getInstance().removePopUp(overlayPane);
