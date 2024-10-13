@@ -428,7 +428,6 @@ public class ProfileListViewScreenController {
                 ImageView imageView = (ImageView) buttonHBox.getChildren().get(1);
                 imageView.setVisible(deleteMode);
                 imageView.setImage(unChecked);
-                button.getStyleClass().clear();
                 int finalI = i;
                 int finalJ = j;
                 if (deleteMode) {
@@ -469,7 +468,7 @@ public class ProfileListViewScreenController {
             removeWinesButton.setText("Remove " + selectedWines.size() + " wines");
             removeWinesButton.setDisable(false);
         } else if (selectedWines.size() == 1) {
-            removeWinesButton.setText("Remove" + selectedWines.size() + " wine");
+            removeWinesButton.setText("Remove " + selectedWines.size() + " wine");
             removeWinesButton.setDisable(false);
         } else {
             removeWinesButton.setText("Remove wines");
