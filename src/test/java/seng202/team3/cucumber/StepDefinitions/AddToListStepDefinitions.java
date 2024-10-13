@@ -87,6 +87,12 @@ public class AddToListStepDefinitions {
     public void wineDrinkerClicksCreateList() {
         wineListManager.newList(mockListNameTextField, mockDescriptionTextField);
     }
+
+    @Given("Wine Drinker is viewing a wine")
+    public void wineDrinkerIsViewingWine() {
+    }
+
+
     @When("Wine Drinker clicks {string} on the add wine to list pop up to add wine to this list")
     public void wineDrinkerClickOnListToAddWineTo(String listName) {
         UserWineList wineList = wineListManager.getAllUserWineLists().stream().filter(list -> list.getWineListName().equals(listName)).toList().getFirst();
@@ -107,17 +113,30 @@ public class AddToListStepDefinitions {
         assertTrue(found);
     }
 
+    @When("Wine Drinker clicks the empty heart icon")
+    public void wineDrinkerLikesWine() {
+        wineListManager.getFavourites().addWineToList(WINE_1);
+        wineListManager.update(wineListManager.getFavourites());
+    }
+
+
     @Then("A wine is removed from {string}")
     public void wineRemovedFromList(String listName) {
         UserWineList wineList = wineListManager.getAllUserWineLists().stream().filter(list -> list.getWineListName().equals(listName)).toList().getFirst();
         boolean found = wineList.getWineList().stream().anyMatch(wine -> wine.getUniqueWineID() == wineToAdd.getUniqueWineID());
         assertTrue(!found);
-
     }
+    @Then("Wine is added to the favourites list")
+    public void wineAddedToFavourites() {
+        UserWineList wineList = wineListManager.getFavourites();
+        boolean found = wineList.getWineList().stream().anyMatch(wine -> wine.getUniqueWineID() == WINE_1.getUniqueWineID());
+        assertTrue(found);
+    }
+
+
     @After
     public void cleanUp() {
         File file = new File("./src/test/resources/test_database.db");
         file.delete();
     }
-
 }

@@ -21,3 +21,11 @@ Feature: Adding a wine to list
       When Wine Drinker clicks "Summer Wines" on the add wine to list pop up to add wine to this list, unselecting it
       Then A wine is removed from "Summer Wines"
 
+  Scenario: Wine Drinker likes a wine
+    Given Wine Drinker is logged in with username "testing" and password "password"
+    And Wine Drinker is viewing a wine
+    When Wine Drinker clicks the empty heart icon
+    Then Wine is added to the favourites list
+
+
+
