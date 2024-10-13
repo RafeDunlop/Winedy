@@ -187,7 +187,6 @@ public class ProfileScreenController {
 
     /**
      * helper function to show wine info
-     * TODO will show individual wine view rather than text
      */
     private void recommendNextWineToUser(){
         FXWrapper.getInstance().loadMiniIndividualWineView(wineViewPane,recommendedWines.get(recommendedWineIndex));

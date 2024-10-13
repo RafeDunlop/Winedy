@@ -81,7 +81,6 @@ public class WineManager {
 
     /**
      * Adds a wine
-     * TODO use in deliverable 3 for the tracking consumption feature
      * @param wine wine to add
      * @return -1 if wine added without error
      */

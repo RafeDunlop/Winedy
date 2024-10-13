@@ -251,7 +251,6 @@ public class ProfileListViewScreenController {
 
     /**
      * Goes back to the list view page when the Wine Drinker clicks the back button
-     * TODO notify user of unsaved changes
      */
     @FXML
     public void onBackButtonClicked() {

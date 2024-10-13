@@ -156,7 +156,7 @@ public class SearchScreenController {
      */
     private Map<Integer, ScrollPane> pageScrollPaneMap;
 
-    private Pagination searchResultsPagination; //ToDO I dont think the return value of create pagination is needed
+    private Pagination searchResultsPagination;
 
     /**
      * Called by JavaFX upon initialisation of the search screen. Sets the values of the price range slider to the low

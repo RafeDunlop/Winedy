@@ -77,7 +77,6 @@ public class DeletingWinesPopUpController {
 
     /**
      * initialises pop-up that asks user to confirm they would like to delete lists
-     * TODO create a style sheet for text of the wine names
      */
     public void initialize() {
         this.wineListManager = WineListManager.getInstance();

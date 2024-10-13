@@ -11,7 +11,7 @@ import seng202.team3.models.WineList;
 
 import java.util.List;
 
-/**TODO remove if not used (as well as the fxml file)
+/**
  * Controller for the wine_list_view.fxml
  *
  * @author Hannah Botting (hbo51)

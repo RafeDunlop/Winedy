@@ -57,7 +57,6 @@ public class SearchWineList extends WineList {
 
     /**
      * Constructor for the SearchWineList, sets all the search attributes to the given values
-     * TODO Replace default min max values to get from the database
      *
      * @param keywords the keywords that were entered into the search bar
      * @param minYear the minimum year entered for the search

@@ -99,7 +99,6 @@ public class WineDrinker {
 
     /**
      * Creates new userWineList and adds it to drinkersWineList
-     * TODO Use in wine list functionality in deliverable 3
      */
     void createWineList(String name) {
         UserWineList userWineList = new UserWineList(null, name, null);

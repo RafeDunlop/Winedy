@@ -24,7 +24,7 @@ public class DrinkerPreferenceModel {
 
     /**
      * Empty default constructor
-     * ToDo remove if unused
+     *
      */
     public DrinkerPreferenceModel() {
 

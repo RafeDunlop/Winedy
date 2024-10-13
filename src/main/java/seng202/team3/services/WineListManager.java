@@ -86,7 +86,6 @@ public class WineListManager {
     /**
      * sets up the currently logged-in user's favourites list
      * called whenever a new user is logged in
-     * TODO: call this somewhere
      */
     public void setupFavourites() {
         List<UserWineList> all = getAllUserWineLists();
