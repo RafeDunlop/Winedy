@@ -101,11 +101,23 @@ public enum Screen {
      * The wine list select popup. Opened on top of and by the individual wine view in the search screen when the add
      * to list button is selected.
      */
-    WINELISTSELECTPOPUP("wine_list_select.fxml", false);
+    WINELISTSELECTPOPUP("wine_list_select.fxml", false),
+
+    /**
+     * popup which appears when you attempt to delete a log within the addLog popup
+     */
+    DELETELOGPOPUP("delete_log_popup.fxml", false),
+
+    /**
+     * The deleting wines from a list pop up. Opened on top of the profile list view screen when
+     * a user would like to delete a wine/wines to ensure they would like to confirm
+     */
+    DELETINGWINESPOPUP("deleting_wines_pop_up.fxml", false);
 
     /**
      * The file name of the fxml file related to this screen without prefix i.e. "main.fxml"
      */
+
     public final String file;
 
     /**
