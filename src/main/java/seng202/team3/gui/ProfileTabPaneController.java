@@ -90,7 +90,6 @@ public class ProfileTabPaneController {
      * Reloads tab content when you switch pages
      */
     public void reloadTabContent(Tab tab) {
-        System.out.println(tab.getText());
         switch(tab.getText()) {
             case ("Winedy Profile "):
                 FXWrapper.getInstance().loadProfileActionScreen(winedyProfileAnchorPane, Screen.PROFILESCREEN);
