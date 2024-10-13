@@ -1,8 +1,13 @@
 package seng202.team3.services;
 
 import seng202.team3.models.UserWineList;
+import seng202.team3.models.WineAttribute;
 import seng202.team3.models.WineDrinker;
+import seng202.team3.repository.SearchDAO;
+import seng202.team3.repository.Table;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +26,11 @@ public class ProfileScreenService {
      * WineListManager to handle wine list related tasks
      */
     private WineListManager wineListManager;
+
+    /**
+     * Instance of a search DAO for database related actions
+     */
+    private static final SearchDAO searchDAO = new SearchDAO();
 
     /**
      * Constructor for profile screen service initialised the wineDrinkerManager and wineListManager
@@ -118,6 +128,36 @@ public class ProfileScreenService {
      */
     public boolean unsavedChanges(String oldString, String newString) {
         return !oldString.equals(newString);
+    }
+
+    /**
+     * Gets all distinct values that occur in the given attribute (column) in the database
+     *
+     * @param attribute the name of the attribute (column) to get values from
+     * @param table the name of the table whose attribute values are being selected
+     * @return a list of strings of all distinct values in the given column in the wineSuper table
+     */
+    public static ArrayList<String> getAttributeValues(WineAttribute attribute, Table table) {
+
+        ArrayList<String> values = new ArrayList<>();
+        if (searchDAO.isValidAttribute(attribute.attributeName, table.tableName)) {
+            values.addAll(searchDAO.getWineAttributeValues(attribute.attributeName, table.tableName));
+        }
+        Collections.sort(values);
+        values.addFirst("All");
+
+        return values;
+    }
+
+    /**
+     * Gets the value of the aggregate function applied on the wine attribute from the given table
+     *
+     * @param attribute the wine attribute to get the minimum value from
+     * @param table the table the given wine attribute is a column of
+     * @return the minimum value of the attribute in the table
+     */
+    public static float getBoundaryAttributeValue(WineAttribute attribute, Table table, String aggregateBoundary) {
+        return searchDAO.getAggregateFunctionValue(attribute.attributeName, table.tableName, aggregateBoundary);
     }
 
 }
