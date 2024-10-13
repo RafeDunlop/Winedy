@@ -33,16 +33,35 @@ public class LogManager {
      */
     private static LogManager instance;
 
+    /**
+     * the density of alcohol (gmL^-1)
+     */
     public final static float RHO_ALCOHOL = 0.8f;
 
+    /**
+     * the default presumed volume of a bottle of wine as a float (mL)
+     */
     public final static float DEFAULT_WINE_VOLUME = 750.0f;
 
-    public final static float DEFAULT_WINE_ABV = 14.0f; //typically 12-14 but assume high for safety
+    /**
+     * the default presumed alcohol by volume of a wine typically 12-14 but assume high for safety (%)
+     */
+    public final static float DEFAULT_WINE_ABV = 14.0f;
 
+    /**
+     * ratio, the definition of a standard drink in New Zealand (g(STD)^-1)
+     */
     public final static float GRAMS_ALCOHOL_PER_NZ_STAN_DRINK = 10.0f;
 
-    public final static float STANDARDS_PER_GLASS = 1.4f;
+    /**
+     * the approximate number of standard drinks in a glass of wine,(Te Whatu Ora)
+     * not calculated seperately becuase of inevitable innaccuracy in logging.
+     */
+    public final static float STANDARDS_PER_GLASS = 1.3f;
 
+    /**
+     * the last TimeRange used to categorize logs
+     */
     private TimeRange prevRange = TimeRange.THISWEEK;
 
     /**
@@ -119,15 +138,6 @@ public class LogManager {
     }
 
     /**
-     * gets all wine logs associated with the logged-in user ordered by their recency
-     *
-     * @return List of all user's wine logs
-     */
-    public List<WineLog> getAllLogs() {
-        return wineLogDAO.getAll();
-    }
-
-    /**
      * gets all the logs associated with the logged-in user ordered by recency which correspond to the specified range (inclusive)
      * @param startDate the first date that logs should be fetched
      * @param endDate the last date that logs should be fetched
@@ -154,6 +164,14 @@ public class LogManager {
         wineLogDAO.add(toLog);
     }
 
+    /**
+     * gets the number of standard drinks from a specific wine, amount and logging type
+     * using constants defined above
+     * @param wine the wine to get relevant data from
+     * @param amtHad the amount consumed as a number of glasses or bottles
+     * @param isBottles whether amount corresponds to bottles (or glasses)
+     * @return float, the number of standards this corresponds to
+     */
     public float getStandards(Wine wine, float amtHad, boolean isBottles) {
         float standards;
         if (isBottles) {
@@ -165,6 +183,13 @@ public class LogManager {
         return standards;
     }
 
+    /**
+     * reverses opperation of getStandards
+     * @param wine the wine whose attributes are used
+     * @param standards the number of standards which to be decoded
+     * @param isBottles whether the number of standards was calculated via bottles (or glasses)
+     * @return float, the amount the standards refers back to
+     */
     public float getAmt(Wine wine, float standards, boolean isBottles) {
         float amt;
         if (isBottles) {
@@ -177,6 +202,11 @@ public class LogManager {
         return amt;
     }
 
+    /**
+     * helper function to get the actual alcohol quantity of alcohol in a bottle, using defaults where necessary
+     * @param wine the wine to get the alcohol content of
+     * @return float, the number of grams of alcohol in one bottle of the specified wine
+     */
     private float getGramsAlcoholPerBottle(Wine wine) {
         float mlsWine = (wine.getVolumeInMl() != 0) ? wine.getVolumeInMl() : DEFAULT_WINE_VOLUME;
         float percentageABV = (wine.getAlcoholByVolume() != 0) ? wine.getAlcoholByVolume() : DEFAULT_WINE_ABV;
@@ -211,6 +241,11 @@ public class LogManager {
         wineLogDAO.delete(toDelete);
     }
 
+    /**
+     * gets a string to display the timing of the specified WineLog
+     * @param wineLog WineLog whose timing is to be displayed
+     * @return String representation of the wineLo;s timing
+     */
     public String getLogDateString(WineLog wineLog) {
         LocalDate date = wineLog.getDate().toLocalDate();
         return ((date.getDayOfMonth() < 10) ? "0" + date.getDayOfMonth(): date.getDayOfMonth()) +
@@ -220,6 +255,11 @@ public class LogManager {
                 date.getYear();
     }
 
+    /**
+     * gets a string to display a date readably
+     * @param date Java.sql.Date object to be converted
+     * @return readable String rep of the specified Java.sql.Date object
+     */
     public String getDateString(Date date) {
         LocalDate lDate = date.toLocalDate();
         int dayOM = lDate.getDayOfMonth();
@@ -231,6 +271,11 @@ public class LogManager {
                 lDate.getYear());
     }
 
+    /**
+     * gets the correct ordinal suffix to append to the day number
+     * @param day the day of month to get the translation of
+     * @return String suffix to append to the day number
+     */
     private String getDaySuffix(int day) {
         if (day >= 11 && day <= 13) {
             return "th";
@@ -244,6 +289,12 @@ public class LogManager {
         };
     }
 
+    /**
+     * validates the amount entry
+     * @param toValidate String to be parsed into an amount float
+     * @return a pair, the first member of which is a boolean, true if the entry is valid (and van be parsed).
+     * The second entry is an error to display if the first entry is false
+     */
     public Pair<Boolean, String> validateAmount(String toValidate) {
         int maxLength = 21;
         if (toValidate.isEmpty()) {
@@ -267,7 +318,10 @@ public class LogManager {
         }
     }
 
-
+    /**
+     * gets a string converter integer <--> String to show readable values for hours
+     * @return a StringConverter: integer <--> String to show readable values for hours
+     */
     public StringConverter<Integer> getHourConverter() {
         return new StringConverter<>() {
             @Override
@@ -295,6 +349,11 @@ public class LogManager {
         };
     }
 
+    /**
+     * gets the prompt text to show the user what to enter and the units
+     * @param isBottles whether the unit is bottles (or glasses)
+     * @return String, prompt showing the prompt text
+     */
     public String getAmtPromptText(boolean isBottles) {
         return "Enter how many " +
                 ((isBottles) ? "bottles" : "glasses") +
@@ -302,15 +361,9 @@ public class LogManager {
     }
 
     /**
-     * to test:
-     * ArrayList<Integer> testList ...
-     * ... pass in a consumer like "hour -> testList.add(hour)"
-     * and make sure its only added if it is not after the current hour
-     * TODO: delete above
-     *
-     *
-     * @param logDiff
-     * @param comboSetFunc
+     * sets all the valid hours via a consumer
+     * @param logDiff the LogDiff whose fields are used for validation
+     * @param comboSetFunc the Consumer used to accept the valid hours of the day
      */
     public void setValidHours(LogDiff logDiff, Consumer<Integer> comboSetFunc) {
         List<Integer> hours = IntStream.range(0, 24).boxed().toList();
@@ -322,6 +375,11 @@ public class LogManager {
         }
     }
 
+    /**
+     * sets the TimeRange that was selected so the next time the screen is loaded it uses this TimeRange.
+     * Does not have database permanence
+     * @param toSet the TimeRange to set
+     */
     public void setTimeRange(TimeRange toSet) {
         prevRange = toSet;
     }

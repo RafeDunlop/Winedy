@@ -68,6 +68,13 @@ public enum TimePeriod {
         return hashMap;
     }
 
+    /**
+     * gets the whole domain of a TimePeriod to display as bars in a chart
+     * -exception: does not display the whole domain of years, only the specified year padded with the previous and following year
+     * used to get every bar value to show all bars
+     * @param startDate a date acts as a group member to partition the infinite domain into a specific finite additive subgroup
+     * @return a list of keys for each value in the domain
+     */
     public List<Integer> getDomain(Date startDate) {
         return switch (this) {
             case DAYS -> IntStream.range(1, 8).boxed().toList();
@@ -89,7 +96,7 @@ public enum TimePeriod {
         for (T entry : toSplit) {
             hashMap.merge(
                     getYearKey(entry.getDate()),
-                    new ArrayList<T>(List.of(entry)),
+                    new ArrayList<>(List.of(entry)),
                     getMergeFunc()
             );
         }
@@ -107,7 +114,7 @@ public enum TimePeriod {
         for (T entry : toSplit) {
             hashMap.merge(
                     getMonthKey(entry.getDate()),
-                    new ArrayList<T>(List.of(entry)),
+                    new ArrayList<>(List.of(entry)),
                     getMergeFunc()
             );
         }
@@ -126,7 +133,7 @@ public enum TimePeriod {
         for (T entry : toSplit) {
             hashMap.merge(
                     getWeekKey(entry.getDate(), weekNum),
-                    new ArrayList<T>(List.of(entry)),
+                    new ArrayList<>(List.of(entry)),
                     getMergeFunc()
             );
         }
@@ -205,12 +212,22 @@ public enum TimePeriod {
         return date.toLocalDate().getYear();
     }
 
+    /**
+     * gets the numbers of the weeks for the relevant month
+     * @param startDate the first date in the dataset to be subdivided
+     * @return the indices of weeks in the month which startDate corresponds to
+     */
     private List<Integer> getWeekIndices(Date startDate) {
         LocalDate start = startDate.toLocalDate().withDayOfMonth(1);
         LocalDate end = start.plusMonths(1);
         return IntStream.range(0, end.get(WeekFields.ISO.weekOfWeekBasedYear()) - start.get(WeekFields.ISO.weekOfWeekBasedYear()) + 1).boxed().toList();
     }
 
+    /**
+     * pads the year with the previous and following year
+     * @param startDate the date whose year is to be padded
+     * @return list containing the year corresponding to startDate and the previous and following as integers
+     */
     private List<Integer> getYearIndicesPadded(Date startDate) {
         int year = startDate.toLocalDate().getYear();
         return List.of(year -1, year, year+1);

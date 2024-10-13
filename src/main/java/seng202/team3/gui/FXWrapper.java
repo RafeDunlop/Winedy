@@ -115,7 +115,7 @@ public class FXWrapper {
      * Method for loading screens which are nested within other screens
      *
      * @param toNest the Pane object that the screen is loaded into
-     * @param toLoad a member of the NestedScreen enum which specifies teh screen to be loaded
+     * @param toLoad a member of the NestedScreen enum which specifies the screen to be loaded
      */
     public void loadProfileActionScreen(Pane toNest, Screen toLoad) {
         try {
@@ -231,6 +231,11 @@ public class FXWrapper {
         }
     }
 
+    /**
+     * loads a popup that prompts the user to confirm they want to discard their changes
+     * @param onDiscard a function to be called if the user discards their changes.
+     *                  Typically cleans up other pop-ups and returns to the screen below
+     */
     public void loadLogChangesPopup(Runnable onDiscard) {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.LOGCHANGESPOPUP.file));
@@ -242,6 +247,10 @@ public class FXWrapper {
         }
     }
 
+    /**
+     * popup that appears when a user tries to delete a log
+     * @param onDelete Runnable to run if the user clicks accept/delete (as well as removing the popup)
+     */
     public void loadLogDeletePopup(Runnable onDelete) {
         try {
             FXMLLoader popupLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.DELETELOGPOPUP.file));
@@ -260,6 +269,7 @@ public class FXWrapper {
      * @param toNest the pane that the wine list view should be nested in
      * @param wineDetailsAnchorPane the anchor pane that the details view of each wine should be bound to
      * @param scrollPaneHeight the height of the scroll pane in the wine list view
+     *                         todo: delete if not used
      */
     public void loadWineListView(WineList wineListToDisplay, Pane toNest, AnchorPane wineDetailsAnchorPane, int scrollPaneHeight) {
         try {

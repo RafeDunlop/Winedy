@@ -75,10 +75,10 @@ public class ConsumptionScreenController {
     /**
      * the number of logs to display on each page of the ScrollPane
      */
-    private final int logsPerPage = 10;
+    private final int LOGSPERPAGE = 10;
 
     /**
-     * all the user's WineLogs corresponding to teh current date
+     * all the user's WineLogs corresponding to the current date
      */
     private List<WineLog> logs;
 
@@ -100,6 +100,12 @@ public class ConsumptionScreenController {
         loadLogData(logManager.getPrevRange());
     }
 
+    /**
+     * handles showing or hiding the no-results display features
+     * gets the logs corresponding to the time range specified using dedicated functions in LogManager and TimeRange
+     * calls the functions which load the pagination and chart if relevant
+     * @param timeRange the range which logs should be gotten from
+     */
     private void loadLogData(TimeRange timeRange) {
         Pair<Date, Date> dateRange = TimeRange.getDateRange(timeRange);
         logs = logManager.getLogsInRange(dateRange.getKey(), dateRange.getValue());
@@ -116,10 +122,15 @@ public class ConsumptionScreenController {
         }
     }
 
+    /**
+     * creates the pagination for logs as a Javafx pagination nested inside a vbox with scroll panes nested in each page
+     * which are set via a page factory. Within the scroll pane up to LOGSPERPAGE logs are nested
+     * (inside another vbox which is the scrollPane's single child)
+     */
     private void createPaginationLogs() {
         logVBox.getChildren().clear();
 
-        int numberOfPages = (logs.size() % logsPerPage == 0) ? logs.size() / logsPerPage : (logs.size() / logsPerPage) + 1;
+        int numberOfPages = (logs.size() % LOGSPERPAGE == 0) ? logs.size() / LOGSPERPAGE : (logs.size() / LOGSPERPAGE) + 1;
         Pagination pagination = new Pagination(numberOfPages, 0);
         logVBox.getChildren().add(pagination);
         pagination.getStyleClass().add("wine-pagination");
@@ -128,8 +139,8 @@ public class ConsumptionScreenController {
         pagination.setPageFactory(pageIndex -> {
             VBox scrollContent = new VBox();
             scrollContent.setSpacing(10);
-            int start = pageIndex * logsPerPage;
-            int end = Math.min(start + logsPerPage, logs.size());
+            int start = pageIndex * LOGSPERPAGE;
+            int end = Math.min(start + LOGSPERPAGE, logs.size());
             logs.subList(start, end).forEach(log -> genButton(log, scrollContent));
             ScrollPane scrollPane = new ScrollPane(scrollContent);
             scrollPane.setFitToWidth(true);
@@ -138,6 +149,11 @@ public class ConsumptionScreenController {
         });
     }
 
+    /**
+     * handles generating the buttons. When a button is clicked the addLogScreen is opened in edit mode
+     * @param log The wine log which is represented on the button and edited upon clicking
+     * @param scrollContent the vbox to add the button to
+     */
     private void genButton(WineLog log, VBox scrollContent) {
         HBox buttonGraphic = new HBox();
         buttonGraphic.getChildren().add(genDateButtonText(log));
@@ -147,16 +163,19 @@ public class ConsumptionScreenController {
         Button button = new Button();
 
         button.setGraphic(buttonGraphic);
-        button.setOnAction(event -> {
-            System.out.println(log);
-            FXWrapper.getInstance().loadLogPopup(log, null, Screen.TRACKINGCONSUMPTIONSCREEN);
-        });
+        button.setOnAction(event -> FXWrapper.getInstance().loadLogPopup(log, null, Screen.TRACKINGCONSUMPTIONSCREEN));
         button.setPrefSize(560, 80);
         button.setMaxWidth(540);
         button.getStyleClass().add("nav-bar-button");
         scrollContent.getChildren().add(button);
     }
 
+    /**
+     * handles displaying the name and number of standards of a log. Uses split to make the standards bold
+     * wrapped in a vBox
+     * @param toGen the WineLog which contains the details to be displayed
+     * @return the Vbox preloaded with the log details
+     */
     private Node genLogLabel(WineLog toGen) {
         VBox vBox = new VBox();
         String[] logString = toGen.toString().split("\n");
@@ -177,6 +196,11 @@ public class ConsumptionScreenController {
         return vBox;
     }
 
+    /**
+     * handles displaying the date and hour of the log
+     * @param toGen log which contains time details
+     * @return Hbox preloaded with the log timimg details
+     */
     private Node genDateButtonText(WineLog toGen) {
         HBox hBox = new HBox();
 
@@ -212,7 +236,7 @@ public class ConsumptionScreenController {
     private void loadGraph(TimeRange selectedTimeRange) {
         consumptionChart.getData().clear();
 
-        consumptionChart.getXAxis().setLabel(TimeRange.getLabel(selectedTimeRange));
+        consumptionChart.getXAxis().setLabel(TimeRange.getUnits(selectedTimeRange));
         consumptionChart.getXAxis().setTickLabelFont(new Font("System", 20));
         consumptionChart.getYAxis().setTickLabelFont(new Font("System", 20));
         consumptionChart.getYAxis().setTickMarkVisible(false);
@@ -257,8 +281,6 @@ public class ConsumptionScreenController {
      */
     @FXML
     void onLogClicked() {
-        FXWrapper fxWrapper = FXWrapper.getInstance();
-        fxWrapper.addPreviousScreen(() -> fxWrapper.loadProfileTabPane(2));
         FXWrapper.getInstance().loadLogPopup(null, null, Screen.TRACKINGCONSUMPTIONSCREEN);
     }
 

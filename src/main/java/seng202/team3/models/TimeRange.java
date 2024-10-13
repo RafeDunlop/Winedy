@@ -105,7 +105,12 @@ public enum TimeRange {
         };
     }
 
-    public static String getLabel(TimeRange timeRange) {
+    /**
+     * gets the units of this Time Range
+     * @param timeRange the timeRange to get the units of
+     * @return String representing the units of this time range
+     */
+    public static String getUnits(TimeRange timeRange) {
         return switch (timeRange) {
             case THISWEEK, LASTWEEK -> "Days";
             case THISMONTH, LASTMONTH -> "Weeks";
