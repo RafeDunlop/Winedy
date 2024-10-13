@@ -125,9 +125,10 @@ public class IndividualWineViewPopupController {
     }
 
     /**
-     * used by JavaFX as the onAction for the exit button. calls the remove popup method in FXWrapper to close this popup
+     * initialises the country text on the popup if a country exists
+     * in the given wine
      */
-    public void initialiseCountry(){
+    private void initialiseCountry(){
         if (!wineToDisplay.getCountry().isEmpty()) {
             countryContentsLabel.setText(wineToDisplay.getCountry());
         } else {
@@ -138,7 +139,11 @@ public class IndividualWineViewPopupController {
         }
     }
 
-    public void initialiseStyle(){
+    /**
+     * initialises the style text on the popup if a style exists
+     * in the given wine
+     */
+    private void initialiseStyle(){
         if (!wineToDisplay.getStyle().isEmpty() ) {
             styleContentsLabel.setText(wineToDisplay.getStyle());
         } else {
@@ -150,7 +155,11 @@ public class IndividualWineViewPopupController {
 
     }
 
-    public void initialiseYear(){
+    /**
+     * initialises the year text on the popup if a year exists
+     * in the given wine
+     */
+    private void initialiseYear(){
         if (wineToDisplay.getYear() != 0) {
             yearContentsLabel.setText(String.format("%d", wineToDisplay.getYear()));
         } else {
@@ -161,7 +170,11 @@ public class IndividualWineViewPopupController {
         }
     }
 
-    public void initialiseLongDescription(){
+    /**
+     * initialises the long description text on the popup if a description exists
+     * in the given wine
+     */
+    private void initialiseLongDescription(){
         if (!wineToDisplay.getLongDescription().isEmpty()) {
             descriptionContentsLabel.setText(wineToDisplay.getLongDescription());
         } else {
@@ -169,7 +182,11 @@ public class IndividualWineViewPopupController {
         }
     }
 
-    public void initialiseAwards(){
+    /**
+     * initialises the awards text on the popup if an/some awards exists
+     * in the given wine
+     */
+    private void initialiseAwards(){
         for (String award : wineToDisplay.getAwards()) {
             if (award != null && !award.isEmpty()) {
                 awardsContentsLabel.setText(awardsContentsLabel.getText() + award + '\n');
@@ -181,7 +198,11 @@ public class IndividualWineViewPopupController {
         }
 
     }
-    public void initialiseImages(){
+
+    /**
+     * initialises the image graphics on the popup
+     */
+    private void initialiseImages(){
         try {
             wineViewImageView.setImage(new Image("/images/" + wineToDisplay.getColour() + "_wine_image.png"));
         } catch (Exception e) {
@@ -190,6 +211,10 @@ public class IndividualWineViewPopupController {
 
     }
 
+    /**
+     * Defines the action for the exit button
+     * when it's clicked
+     */
     @FXML
     public void onExitButtonClicked() {
         FXWrapper.getInstance().removePopUp(overlayPane);
