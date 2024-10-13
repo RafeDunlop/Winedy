@@ -22,7 +22,6 @@ public class RecommendationManager {
     private String currentColourPreference;
     private String currentFullnessPreference;
     private String currentVarietyPreference;
-    private float currentABVPreference;
     private WineDAO wineDAO;
     private List<Integer> wineIndexes;
     private  DrinkerPreferenceModel curDrinkerPrefModel;

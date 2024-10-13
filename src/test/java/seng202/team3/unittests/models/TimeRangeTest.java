@@ -8,9 +8,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team3.models.TimeRange;
 import seng202.team3.repository.DatabaseManager;
+import seng202.team3.services.LogManager;
 
 import java.io.File;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
 
@@ -121,43 +123,43 @@ public class TimeRangeTest {
 
     @Test
     public void getLabelThisWeekTest() {
-        String label = TimeRange.getLabel(TimeRange.THISWEEK);
+        String label = TimeRange.getUnits(TimeRange.THISWEEK);
         assertEquals("Days", label);
     }
 
     @Test
     public void getLabelLastWeekTest() {
-        String label = TimeRange.getLabel(TimeRange.LASTWEEK);
+        String label = TimeRange.getUnits(TimeRange.LASTWEEK);
         assertEquals("Days", label);
     }
 
     @Test
     public void getLabelThisMonthTest() {
-        String label = TimeRange.getLabel(TimeRange.THISMONTH);
+        String label = TimeRange.getUnits(TimeRange.THISMONTH);
         assertEquals("Weeks", label);
     }
 
     @Test
     public void getLabelLastMonthTest() {
-        String label = TimeRange.getLabel(TimeRange.LASTMONTH);
+        String label = TimeRange.getUnits(TimeRange.LASTMONTH);
         assertEquals("Weeks", label);
     }
 
     @Test
     public void getLabelThisYearTest() {
-        String label = TimeRange.getLabel(TimeRange.THISYEAR);
+        String label = TimeRange.getUnits(TimeRange.THISYEAR);
         assertEquals("Months", label);
     }
 
     @Test
     public void getLabelLastYearTest() {
-        String label = TimeRange.getLabel(TimeRange.LASTYEAR);
+        String label = TimeRange.getUnits(TimeRange.LASTYEAR);
         assertEquals("Months", label);
     }
 
     @Test
     public void getLabelAllTimeTest() {
-        String label = TimeRange.getLabel(TimeRange.ALLTIME);
+        String label = TimeRange.getUnits(TimeRange.ALLTIME);
         assertEquals("Years", label);
     }
 
@@ -184,7 +186,8 @@ public class TimeRangeTest {
     @Test
     public void getResetCalendarTest() {
         Calendar cal = TimeRange.getResetCalendar();
-        assertEquals(1728691200000L, cal.getTimeInMillis());
+        assertEquals(new Date(System.currentTimeMillis()).toLocalDate().atStartOfDay(),
+                new Date(cal.getTimeInMillis()).toLocalDate().atStartOfDay());
     }
 
     @Test

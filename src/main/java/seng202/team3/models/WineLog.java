@@ -16,29 +16,32 @@ public class WineLog implements Timed {
     /**
      * Date of consumption
      */
-    private Date date;
+    private final Date date;
 
     /**
      * time (of day) of consumption
      */
-    private Time time;
+    private final Time time;
 
     /**
      * float of NZ standards which the log corresponds to
      */
-    private float standards;
+    private final float standards;
 
     /**
      * the foreign key to the Wine which the log is about
      */
-    private int loggedId;
+    private final int loggedId;
 
     /**
      * the note associated with the log
      */
-    private String note;
+    private final String note;
 
-    private boolean loggedByBottles;
+    /**
+     * true if this log was made with bottles, false if it was made with glasses
+     */
+    private final boolean loggedByBottles;
 
     /**
      * standard constructor for WineLog
@@ -56,6 +59,7 @@ public class WineLog implements Timed {
         this.standards = standards;
         this.loggedId = loggedId;
         this.note = note;
+        this.loggedByBottles = loggedByBottles;
     }
 
     /**
@@ -98,16 +102,32 @@ public class WineLog implements Timed {
         return standards;
     }
 
+    /**
+     * gets whether the log was created by logging bottles or not
+     * this needs to be stored in case the user chooses to edit their log (because they made an error etc.)
+     * and changes, this allows the application to reverse calculate amounts (bottles/glasses) from standard drinks
+     * @return boolean, whether the log was made with bottles (or glasses)
+     */
     public boolean getIsBottles() {
         return loggedByBottles;
     }
 
+    /**
+     * gets the readable string representation of this Wine Log
+     * @return String, multiline representation which shows the name of the logged wine and below the number of standards
+     * logged
+     */
     public String toString() {
         return WineManager.getInstance().getWineById(loggedId).getName() +
                 "\nStandard drinks: " +
                 String.format("%.1f",standards);
     }
 
+    /**
+     *
+     * @param other
+     * @return
+     */
     public boolean equals(WineLog other) {
         boolean same = other.getIsBottles() == this.loggedByBottles;
         same = other.getStandards() == this.standards && same;

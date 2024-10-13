@@ -78,12 +78,9 @@ public class ProfileTabPaneController {
      * Removes the current logged-in user and launches the sign-in screen
      */
     @FXML
-    public void onLogoutButtonClicked() throws FileNotFoundException, URISyntaxException {
+    public void onLogoutButtonClicked() {
         WineDrinkerManager.getInstance().setCurrentUser(null);
         FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
-        DatabaseManager.getInstance().resetWineTable();
-        SearchWineList searchReset = new SearchWineList(null, null, null, null, null, null, null, null, null);
-        WineListManager.getInstance().setLastSearched(searchReset);
     }
 
     /**

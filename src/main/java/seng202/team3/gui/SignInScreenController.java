@@ -13,19 +13,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team3.models.SearchWineList;
 import seng202.team3.models.WineAttribute;
-import seng202.team3.repository.DatabaseManager;
 import seng202.team3.repository.Table;
 import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.SignInScreenService;
 import seng202.team3.services.SearchService;
 import seng202.team3.exceptions.IllegalWineDrinkerException;
-import seng202.team3.services.WineListManager;
-
-import java.io.FileNotFoundException;
-import java.net.URISyntaxException;
-
 import static seng202.team3.gui.GuiService.fullDisable;
 
 /**
@@ -187,10 +180,7 @@ public class SignInScreenController {
             String password = enterPasswordField.getText();
             SignInScreenService.validateAndLoginUser(username, password);
             FXWrapper.getInstance().loadProfileTabPane(0);
-            DatabaseManager.getInstance().resetWineTable();
-            SearchWineList searchReset = new SearchWineList(null, null, null, null, null, null, null, null, null);
-            WineListManager.getInstance().setLastSearched(searchReset);
-        } catch (IllegalWineDrinkerException | FileNotFoundException | URISyntaxException e) {
+        } catch (IllegalWineDrinkerException e) {
             fullDisable(errorLabel, false);
             errorLabel.setText(e.getMessage());
             errorLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour; -fx-font-size: 20;");
@@ -222,7 +212,7 @@ public class SignInScreenController {
 
     /**
      * Tries to acquire a combo box's selected item (currently String, may be changed).
-     * Otherwise throws a IllegalWineDrinker exception with the name of the combo box as the reason
+     * Otherwise, throws a IllegalWineDrinker exception with the name of the combo box as the reason
      */
     private String getComboInput(ComboBox<String> comboBox) throws IllegalWineDrinkerException {
         try {

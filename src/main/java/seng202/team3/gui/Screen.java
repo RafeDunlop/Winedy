@@ -110,6 +110,11 @@ public enum Screen {
     WINELISTSELECTPOPUP("wine_list_select.fxml", false),
 
     /**
+     * popup which appears when you attempt to delete a log within the addLog popup
+     */
+    DELETELOGPOPUP("delete_log_popup.fxml", false),
+
+    /**
      * The deleting wines from a list pop up. Opened on top of the profile list view screen when
      * a user would like to delete a wine/wines to ensure they would like to confirm
      */

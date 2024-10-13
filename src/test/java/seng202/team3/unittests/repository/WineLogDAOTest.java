@@ -208,7 +208,7 @@ public class WineLogDAOTest {
         assertEquals(new Date(2024, 5, 12), allLogs.getFirst().getDate());
         assertEquals(new Time(1600), allLogs.getFirst().getTime());
         assertEquals(7F, allLogs.getFirst().getStandards(), 0.01);
-        assertEquals(false, allLogs.getFirst().getIsBottles());
+        assertEquals(true, allLogs.getFirst().getIsBottles());
     }
 
 }

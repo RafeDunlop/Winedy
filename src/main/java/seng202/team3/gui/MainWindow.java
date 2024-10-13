@@ -71,6 +71,7 @@ public class MainWindow extends Application {
                 "/css/date_picker.css",
                 "/css/bar_chart.css",
                 "/css/toggle_switch.css",
+                "/css/wine_button_disabled.css",
                 "/css/white_white_wine_rectangle.css"
         };
 

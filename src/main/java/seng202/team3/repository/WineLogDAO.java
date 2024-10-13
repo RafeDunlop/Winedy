@@ -95,6 +95,10 @@ public class WineLogDAO implements DAOInterface<WineLog> {
      * @return list of logs that fall in the range
      */
     public List<WineLog> getInRange(Date startDate, Date endDate) {
+        if (startDate.getTime() == 0) {
+            return getAll();
+        }
+
         String sql = "SELECT wineID, logEntry, date, Time, quantity, isBottles FROM logs WHERE wineDrinker = ? AND date >= ? AND date <= ? ORDER BY date DESC, time DESC";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sql)) {

@@ -128,19 +128,6 @@ public class DatabaseManager {
     }
 
     /**
-     * Resets the wine tables in the database when logging out
-     */
-    public void resetWineTable() throws FileNotFoundException, URISyntaxException {
-        try {
-            InputStream in = getClass().getResourceAsStream("/sql/reset_wine_database.sql");
-            executeSQLScript(in);
-            populateWineTables("/csv/majestic_df_preprocessed.csv");
-        } catch (NullPointerException e) {
-            log.error("Error loading database reset file", e);
-        }
-    }
-
-    /**
      * Gets path to the database relative to the jar file
      * @return jdbc encoded url location of database
      */

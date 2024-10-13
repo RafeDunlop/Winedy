@@ -1,6 +1,5 @@
 package seng202.team3.gui;
 
-
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
@@ -20,11 +19,16 @@ import seng202.team3.services.WineManager;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import static javafx.scene.control.ContentDisplay.TOP;
 import static seng202.team3.gui.GuiService.fullDisable;
 
+/**
+ * complex controller which uses many service functions to handle Log alteration, updating, addition and deletion
+ * hides illegal actions from the user strenuously and carefully styled
+ *
+ * @author Rafe Dunlop (rdu46)
+ */
 public class LogPopupController {
 
     @FXML
@@ -78,26 +82,67 @@ public class LogPopupController {
     @FXML
     private Label selectedButtonLabel;
 
+    @FXML
+    private Button deleteLogButton;
+
+    /**
+     * logManager singleton instance to use for services
+     */
     private final LogManager logManager;
 
+    /**
+     * the WineLog to edit (null if not edit mode)
+     */
     private final WineLog preExistingLog;
 
+    /**
+     * the Wine passed to log (null if none is pre-specified mode)
+     */
     private final Wine preSelectedWine;
 
+    /**
+     * the button displayed in the selected section
+     */
     private Button displayed;
 
+    /**
+     * boolean which keeps track of whether a log should be addable/savable
+     */
     private boolean logValid;
 
+    /**
+     * boolean which keeps track of whether the amountTextField contains a valid parsable quantity
+     */
     private boolean validAmount;
 
+    /**
+     * the LogDiff object corresponding to the state of the log upon popup start.
+     * Set from the pre-existing log if relevant or with defaults
+     */
     private LogDiff oldLog;
 
+    /**
+     * the LogDiff corresponding to the new changes, updated dynamically
+     */
     private LogDiff newLog;
 
+    /**
+     * whether log should be updated or added to the database
+     */
     private boolean editMode;
 
+    /**
+     * the screen from which this popup originated, passed on construction
+     */
     private final Screen toReturnTo;
 
+    /**
+     * constructor which sets up final state variables
+     * specify null to not use optional parameters
+     * @param preExistingLog optional parameter if a log is being edited
+     * @param preSelectedWine optional, the wine to select on startup.
+     * @param toReturnTo Screen of origin
+     */
     public LogPopupController(WineLog preExistingLog, Wine preSelectedWine, Screen toReturnTo) {
         this.preExistingLog = preExistingLog;
         this.preSelectedWine = preSelectedWine;
@@ -105,15 +150,16 @@ public class LogPopupController {
         this.toReturnTo = toReturnTo;
     }
 
+    /**
+     * sets up all components with helper functions and sets uo the popup
+     * handles the state pattern implementation
+     */
     public void initialize() {
-        System.out.println("intialize started");
         if (preExistingLog != null) {
-            System.out.println("log exists");
             setLogParams();
-            System.out.println("params set");
-
         } else {
             setDefaultLogParams();
+            fullDisable(deleteLogButton, true);
         }
         editMode = preExistingLog != null;
 
@@ -138,20 +184,29 @@ public class LogPopupController {
         setupDatePicker();
         setupLogNoteTextArea();
 
-        System.out.println("pre validation");
         addStyleClasses();
         runValidationSequence();
-        System.out.println("initialize finsihed");
     }
 
+    /**
+     * sets up the text area into which the log description is entered
+     * validates dynamically
+     */
     private void setupLogNoteTextArea() {
         logNoteTextArea.setWrapText(true);
+        logNoteTextArea.setText(newLog.getNote());
         logNoteTextArea.textProperty().addListener((observable, oldNote, newNote) -> {
             newLog.setNote(newNote);
             runValidationSequence();
         });
     }
 
+    /**
+     * sets up the date picker preset to the current date if none is specified
+     * opens when clicked anywhere (not just the tiny icon on the right)
+     * sets a custom date cell factory to disable dates in the future
+     * ensures that the hours displayed in the hours combo box are never in the future
+     */
     private void setupDatePicker() {
         LocalDate currentDate = logManager.getCurrentDate().toLocalDate();
         datePicker.setEditable(false);
@@ -159,9 +214,9 @@ public class LogPopupController {
         datePicker.setValue(newLog.getDate().toLocalDate());
         datePicker.setOnAction(date -> {
             LocalDate selected = datePicker.getValue();
-            System.out.println(selected);
             if (selected != null) {
                 newLog.setDate(Date.valueOf(selected));
+                resetHoursComboBox();
             }
         });
 
@@ -181,6 +236,9 @@ public class LogPopupController {
             });
     }
 
+    /**
+     * sets up the editing mode, creating the LogDiff object and specifies values to be set as component defaults
+     */
     private void setLogParams() {
         finishLogButton.setText("Save log");
         oldLog = new LogDiff().setAmt(
@@ -194,12 +252,14 @@ public class LogPopupController {
                 .setNote((preExistingLog.getNote() == null) ? "" : preExistingLog.getNote());
 
         newLog = new LogDiff(oldLog);
-
         amountTextField.setText(String.format("%.1f", newLog.getAmt()));
-        logNoteTextArea.setText(newLog.getNote());
+
         setSelected();
     }
 
+    /**
+     * sets up the default log diff object
+     */
     private void setDefaultLogParams() {
         oldLog = new LogDiff().setAmt(0)
                 .setIsBottles(false)
@@ -210,6 +270,9 @@ public class LogPopupController {
         newLog = new LogDiff(oldLog);
     }
 
+    /**
+     * sets up the key buttons, add log, cancel and delete log
+     */
     private void setupCoreButtons() {
         finishLogButton.setOnAction(event -> {
             if (logValid) {
@@ -230,8 +293,18 @@ public class LogPopupController {
                         () -> FXWrapper.getInstance().removePopUp(overlayPane));
             }
         });
+
+        deleteLogButton.setOnAction(event -> FXWrapper.getInstance().loadLogDeletePopup(
+                () -> {
+                    logManager.deleteLog(preExistingLog);
+                    FXWrapper.getInstance().removePopUp(overlayPane);
+                    closeThis();
+                }));
     }
 
+    /**
+     * closes the popup and returns to the correct screen
+     */
     private void closeThis() {
         FXWrapper.getInstance().removePopUp(overlayPane);
         if (toReturnTo == Screen.TRACKINGCONSUMPTIONSCREEN) {
@@ -241,11 +314,14 @@ public class LogPopupController {
         }
     }
 
+    /**
+     * sets up the text field to dynamically read from and validate the contents
+     */
     private void setupInputTextField() {
         fullDisable(qtyDisplayLabel, true);
         amountTextField.textProperty().addListener((observable, sOld, sNew) ->
         {
-            fullDisable(qtyDisplayLabel, false);
+            fullDisable(qtyDisplayLabel, true);
             Pair<Boolean, String> validityPair = logManager.validateAmount(sNew);
             validAmount = validityPair.getKey();
             if (!validAmount) {
@@ -253,34 +329,32 @@ public class LogPopupController {
                 qtyDisplayLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour; -fx-font-size: 15");
                 qtyDisplayLabel.setWrapText(true);
                 newLog.setAmt(0);
-                fullDisable(qtyDisplayLabel, true);
+                fullDisable(qtyDisplayLabel, false);
             } else {
                 newLog.setAmt(Float.parseFloat(amountTextField.getText()));
-                qtyDisplayLabel.setStyle("-fx-text-fill: Black; -fx-font-size: 15");
-                qtyDisplayLabel.setWrapText(true);
-
             }
             runValidationSequence();
         });
     }
 
+    /**
+     * runs a series of services to ultimately decide whether to display an error message, and whether a log should
+     * be savable or addable
+     */
     private void runValidationSequence() {
         logValid = newLog.isValid();
-        System.out.println("log is valid: " + logValid);
         if (logValid) {
-            qtyDisplayLabel.setText(String.format("You are logging %.1f %s of %s at %s on %s.",
-                    newLog.getAmt(),
-                    (newLog.getIsBottles()) ? "bottles" : "glasses",
-                    newLog.getWine().getName(),
-                    logManager.getHourConverter().toString(newLog.getHour()),
-                    logManager.getDateString(newLog.getDate()))
-            );
+            fullDisable(qtyDisplayLabel, false);
+            qtyDisplayLabel.setStyle("-fx-text-fill: Black; -fx-font-size: 15");
+            qtyDisplayLabel.setWrapText(true);
+            qtyDisplayLabel.setText(newLog.toString());
         }
-        fullDisable(qtyDisplayLabel, !logValid);
-        System.out.println(editMode);
         finishLogButton.setDisable((editMode) ? oldLog.equals(newLog) : !logValid);
     }
 
+    /**
+     * sets up the controlsfx toggle buttons so that only one may be on at a time, sets to adjust the prompt text
+     */
     private void setupToggleButtons() {
         boolean isBottles = newLog.getIsBottles();
         glassesToggle.setSelected(!isBottles);
@@ -289,6 +363,10 @@ public class LogPopupController {
         bottlesToggle.selectedProperty().addListener((observable, old, newVal) -> toggle(!newVal));
     }
 
+    /**
+     * toggles the switch states
+     * @param toSet whether the final state is glasses --> toSet = !newLog.getIsBottles()
+     */
     private void toggle(boolean toSet) {
         glassesToggle.setSelected(toSet);
         bottlesToggle.setSelected(!toSet);
@@ -297,9 +375,15 @@ public class LogPopupController {
         runValidationSequence();
     }
 
+    /**
+     * sets up the combo boxes for hour and wines
+     * preloads the searchable combo box with all wines in the database
+     * uses a custom cellFactory to ensure that text wraps lines
+     * sets the String converter used for showing printable values from hour integers
+     * dynamically updates newLog
+     */
     private void setupComboBoxes() {
-        WineManager wineManager = WineManager.getInstance();
-        List<Wine> wines = wineManager.getAllWines();
+        List<Wine> wines = WineManager.getInstance().getAllWines();
 
         searchComboBox.getItems().addAll(wines);
         searchComboBox.setOnAction(selection -> {
@@ -323,12 +407,26 @@ public class LogPopupController {
             }
         };
         searchComboBox.setButtonCell(cellFactory);
-        hoursComboBox.getItems().addAll(IntStream.range(0, 24).boxed().toList());
+
         hoursComboBox.setOnAction(select -> newLog.setHour(hoursComboBox.getSelectionModel().getSelectedItem()));
-        hoursComboBox.getSelectionModel().select(newLog.getHour());
         hoursComboBox.setConverter(logManager.getHourConverter());
+        resetHoursComboBox();
     }
 
+    /**
+     * resets the combo box whenever the date changes,
+     * reselecting the current hour
+     * this can be used to select a time up to the end of the day (in the future) if the user is really keen
+     */
+    private void resetHoursComboBox() {
+        hoursComboBox.getItems().clear();
+        logManager.setValidHours(newLog, hour -> hoursComboBox.getItems().add(hour));
+        hoursComboBox.getSelectionModel().select(newLog.getHour());
+    }
+
+    /**
+     * sets the selected wine and sets uo the corresponding button
+     */
     private void setSelected() {
         Wine wine = newLog.getWine();
         selectedVBox.getChildren().remove(displayed);
@@ -341,11 +439,15 @@ public class LogPopupController {
         displayed.getStyleClass().add("nav-bar-button");
         displayed.setFont(new Font("System", 20));
         selectedVBox.getChildren().add(displayed);
+
         fullDisable(selectedButtonLabel, newLog.getWine() == null);
 
         runValidationSequence();
     }
 
+    /**
+     * adds all the  relevant style classes to the nodes
+     */
     private void addStyleClasses() {
         popUpAnchorPane.getStyleClass().add("titled-pane");
         searchRectangle.getStyleClass().add("red-wine-rectangle");
@@ -359,9 +461,13 @@ public class LogPopupController {
         finishLogButton.getStyleClass().add("nav-bar-button");
         datePicker.getStyleClass().add("date-picker");
         amountTextField.getStyleClass().add("sign-in-screen-text-field");
-        logNoteTextArea.getStyleClass().add("sign-in-screen-text-field");
+        logNoteTextArea.getStyleClass().add("description-text-area");
+        deleteLogButton.getStyleClass().add("nav-bar-button");
     }
 
+    /**
+     * loads the personal wine popup
+     */
     @FXML
     void onCreatePersonalWineButtonClicked() {
         FXWrapper.getInstance().loadPersonalWinePopup(wine -> {
