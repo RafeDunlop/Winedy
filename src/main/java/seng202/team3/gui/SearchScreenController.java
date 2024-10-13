@@ -26,6 +26,7 @@ import seng202.team3.services.WineListManager;
 import seng202.team3.services.WineManager;
 import seng202.team3.models.SearchWineList;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -448,8 +449,8 @@ public class SearchScreenController {
         varietyComboBox.setValue(previousSearch.getGrapeName());
         countryComboBox.setValue(previousSearch.getCountry());
         fullnessComboBox.setValue(previousSearch.getFullness());
-        startDateComboBox.setValue(previousSearch.getMinYear());
-        endDateComboBox.setValue(previousSearch.getMaxYear());
+        startDateComboBox.setValue(previousSearch.getMinYear() == 0 ? null : previousSearch.getMinYear());
+        endDateComboBox.setValue(previousSearch.getMaxYear() == LocalDate.now().getYear() ? null : previousSearch.getMaxYear());
         priceRangeSlider.setHighValue(previousSearch.getMaxPrice());
         priceRangeSlider.setLowValue(previousSearch.getMinPrice());
 

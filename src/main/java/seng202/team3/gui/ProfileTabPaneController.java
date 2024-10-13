@@ -6,8 +6,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
+import seng202.team3.models.SearchWineList;
 import seng202.team3.repository.DatabaseManager;
 import seng202.team3.services.WineDrinkerManager;
+import seng202.team3.services.WineListManager;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
@@ -79,5 +81,7 @@ public class ProfileTabPaneController {
         WineDrinkerManager.getInstance().setCurrentUser(null);
         FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
         DatabaseManager.getInstance().resetWineTable();
+        SearchWineList searchReset = new SearchWineList(null, null, null, null, null, null, null, null, null);
+        WineListManager.getInstance().setLastSearched(searchReset);
     }
 }

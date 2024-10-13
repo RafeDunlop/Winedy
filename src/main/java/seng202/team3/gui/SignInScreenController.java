@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import seng202.team3.models.SearchWineList;
 import seng202.team3.models.WineAttribute;
 import seng202.team3.repository.DatabaseManager;
 import seng202.team3.repository.Table;
@@ -20,6 +21,7 @@ import seng202.team3.services.WineDrinkerManager;
 import seng202.team3.services.SignInScreenService;
 import seng202.team3.services.SearchService;
 import seng202.team3.exceptions.IllegalWineDrinkerException;
+import seng202.team3.services.WineListManager;
 
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
@@ -186,6 +188,8 @@ public class SignInScreenController {
             SignInScreenService.validateAndLoginUser(username, password);
             FXWrapper.getInstance().loadProfileTabPane(0);
             DatabaseManager.getInstance().resetWineTable();
+            SearchWineList searchReset = new SearchWineList(null, null, null, null, null, null, null, null, null);
+            WineListManager.getInstance().setLastSearched(searchReset);
         } catch (IllegalWineDrinkerException | FileNotFoundException | URISyntaxException e) {
             fullDisable(errorLabel, false);
             errorLabel.setText(e.getMessage());
