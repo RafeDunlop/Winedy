@@ -18,6 +18,7 @@ import seng202.team3.services.PersonalWinePopupService;
 import seng202.team3.services.SearchService;
 import seng202.team3.services.WineManager;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -194,7 +195,7 @@ public class PersonalWinePopupController {
         return new Wine(uniqueWineID, nameTextField.getText(), countryTextField.getText(), colourComboBox != null ? colourComboBox.getSelectionModel().getSelectedItem() : null,
                 styleComboBox != null ? styleComboBox.getSelectionModel().getSelectedItem() : null, grapeComboBox != null ? grape : null,
                 fullnessComboBox != null ? fullnessComboBox.getSelectionModel().getSelectedItem() : null, descriptionTextArea.getText(),
-                pricePerBottleTextField.getText().isEmpty() ? DEFAULTPRICE : parseFloat(pricePerBottleTextField.getText()), null,
+                pricePerBottleTextField.getText().isEmpty() ? DEFAULTPRICE : parseFloat(pricePerBottleTextField.getText()), new String[0],
                 abvTextField.getText().isEmpty() ? DEFAULTABV : parseFloat(abvTextField.getText()),
                 volumeTextField.getText().isEmpty() ? DEFAULTVOLUME : parseFloat(volumeTextField.getText()),
                 yearTextField.getText().isEmpty() ? DEFAULTYEAR : parseInt(yearTextField.getText()));
