@@ -130,9 +130,9 @@ public class IndividualWineViewController {
             logConsumptionButton.setVisible(false);
             logConsumptionButton.setDisable(true);
         }
-       if (individualWineService.inFavourites(wineToDisplay)) {
-           likeButton.setStyle("-fx-background-color: -fx-dark-red-wine-colour");
-       }
+        if (wineDrinkerManager.getCurrentUser() != null && individualWineService.inFavourites(wineToDisplay)) {
+            likeButton.setStyle("-fx-background-color: -fx-dark-red-wine-colour");
+        }
 
 
         log.info("Individual wine view loaded successfully");
