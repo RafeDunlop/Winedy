@@ -1,0 +1,7 @@
+Once you have clicked the 'Add personal wine instead' button on the 'Consumption Tracking' popup (See Logging Wine Consumption', the 'Add personal Wine' popup should appear.
+
+You must select a name for your personal wine. All other fields (such as colour) are optional, and you may select these by clicking the searchable combo boxes and entering data into the relevant fields.
+
+Once you are done click "add personal wine".
+
+Your wine should now be stored in the database!

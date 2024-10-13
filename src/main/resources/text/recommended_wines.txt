@@ -1,0 +1,5 @@
+Another main function of the profile tab is wine recommendations.
+
+To recieve some wine recommendations, click on the “Recommend me a wine” button in the centre left. Upon doing this a small wine box will show up with a small amount of information on the wine and a view in detail button. The view in detail button is the same as in the search screen (See Searching).
+
+After each Wine is displayed, you have the option to either like or dislike the wine using the “Not for me” and “I’m interested” buttons. After 5 wines are shown this way, the ones that were liked are displayed like the search screen (See Searching) and can be collated into lists.

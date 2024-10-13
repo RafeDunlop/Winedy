@@ -1,0 +1,9 @@
+To delete a wine list, first navigate to the profile tabs by clicking on the profile button in the navigation bar, or by first clicking the home button and then clicking the profile button on the home screen.
+
+Navigate to the 'My wine lists' tab and click on the delete lists button.
+
+Checkboxes will come up next to each list. Select the list/lists you would like to delete and then click delete.
+
+One final pop-up will warn you that the deleted lists cannot be recovered. Take some time to review what lists you have selected and check that you are deleting the correct ones.
+
+In this pop up select yes and the wine lists will be removed from your account.
