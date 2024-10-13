@@ -7,6 +7,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
+import javafx.scene.control.ScrollPane;
 import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
 import seng202.team3.services.WineListManager;
@@ -31,13 +32,16 @@ public class DeletingWinesPopUpController {
     private Label areYouSureLabel;
 
     @FXML
-    private VBox listNamesVBox;
+    private VBox wineNamesVBox;
 
     @FXML
     private Button cancelButton;
 
     @FXML
     private Button yesButton;
+
+    @FXML
+    private ScrollPane wineNamesScrollPane;
 
     /**
      * Wine list manager to handle list related actions
@@ -86,24 +90,24 @@ public class DeletingWinesPopUpController {
             areYouSureLabel.setText("Are you sure you would like to delete " + winesToDelete.size() + " wine?");
         }
 
-        styleButtons();
+        addStyleSheets();
 
         int rows = (winesToDelete.size() % 2 == 0)? winesToDelete.size() / 2 : winesToDelete.size() / 2 + 1;
         for (int i = 0; i < rows ; i++) {
             Label bullet1 = new Label("- " + winesToDelete.get(2 * i).getName());
-            bullet1.setPrefWidth(210);
+            bullet1.setPrefWidth(190);
             bullet1.setStyle("-fx-font-size: 16");
             bullet1.setWrapText(true);
             TextFlow bulletFlow = new TextFlow();
             bulletFlow.getChildren().add(bullet1);
             if (2 * i + 1 < winesToDelete.size()) {
                 Label bullet2 = new Label("- " + winesToDelete.get(2 * i + 1).getName());
-                bullet2.setPrefWidth(210);
+                bullet2.setPrefWidth(190);
                 bullet2.setStyle("-fx-font-size: 16");
                 bullet2.setWrapText(true);
                 bulletFlow.getChildren().add(bullet2);
             }
-            listNamesVBox.getChildren().add(bulletFlow);
+            wineNamesVBox.getChildren().add(bulletFlow);
         }
 
     }
@@ -141,8 +145,9 @@ public class DeletingWinesPopUpController {
     /**
      * Styles the buttons to be consistent with all other buttons in the UI
      */
-    private void styleButtons() {
+    private void addStyleSheets() {
         yesButton.getStyleClass().add("nav-bar-button");
         cancelButton.getStyleClass().add("nav-bar-button");
+        wineNamesScrollPane.getStyleClass().add("white-wine-scroll-pane");
     }
 }

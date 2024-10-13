@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -26,7 +27,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label fx:id="areYouSureLabel" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="63.0" prefWidth="500.0" text="Are you sure you would like to delete these wines?" textAlignment="CENTER" wrapText="true" GridPane.columnSpan="2" GridPane.valignment="TOP">
+                  <Label fx:id="areYouSureLabel" alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="63.0" prefWidth="470.0" text="Are you sure you would like to delete these wines?" textAlignment="CENTER" wrapText="true" GridPane.columnSpan="2" GridPane.valignment="TOP">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -55,11 +56,18 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <VBox fx:id="listNamesVBox" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="143.0" prefWidth="465.0" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.valignment="TOP">
-                     <padding>
-                        <Insets left="20.0" right="20.0" />
-                     </padding>
-                  </VBox>
+                  <ScrollPane fx:id="wineNamesScrollPane" fitToWidth="true" hbarPolicy="NEVER" prefHeight="143.0" prefWidth="480.0" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                     <content>
+                        <VBox fx:id="wineNamesVBox" fillWidth="false" prefHeight="143.0" prefWidth="465.0">
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
+                        </VBox>
+                     </content>
+                     <GridPane.margin>
+                        <Insets bottom="50.0" />
+                     </GridPane.margin>
+                  </ScrollPane>
                </children>
             </GridPane>
          </children>

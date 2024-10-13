@@ -3,6 +3,7 @@ package seng202.team3.gui;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -38,6 +39,9 @@ public class DeletingListsPopUpController {
     @FXML
     private Button yesButton;
 
+    @FXML
+    private ScrollPane listNamesScrollPane;
+
     /**
      * Wine list manager to handle list related actions
      */
@@ -59,7 +63,6 @@ public class DeletingListsPopUpController {
 
     /**
      * initialises pop-up that asks user to confirm they would like to delete lists
-     * TODO create a style sheet for text of the wine names
      */
     public void initialize() {
         this.wineListManager = WineListManager.getInstance();
@@ -77,14 +80,14 @@ public class DeletingListsPopUpController {
         int rows = (listsToDelete.size() % 2 == 0)? listsToDelete.size() / 2 : listsToDelete.size() / 2 + 1;
         for (int i = 0; i < rows ; i++) {
             Label bullet1 = new Label("- " + listsToDelete.get(2 * i).getWineListName() + " (" + listsToDelete.get(2*i).getWineList().size() +" wines)");
-            bullet1.setPrefWidth(210);
+            bullet1.setPrefWidth(190);
             bullet1.setStyle("-fx-font-size: 16");
             bullet1.setWrapText(true);
             TextFlow bulletFlow = new TextFlow();
             bulletFlow.getChildren().add(bullet1);
             if (2 * i + 1 < listsToDelete.size()) {
                 Label bullet2 = new Label("- " + listsToDelete.get(2 * i + 1).getWineListName() + " (" + listsToDelete.get(2 * i + 1).getWineList().size() + " wines)");
-                bullet2.setPrefWidth(210);
+                bullet2.setPrefWidth(190);
                 bullet2.setStyle("-fx-font-size: 16");
                 bullet2.setWrapText(true);
                 bulletFlow.getChildren().add(bullet2);
@@ -121,5 +124,6 @@ public class DeletingListsPopUpController {
     private void styleButtons() {
         yesButton.getStyleClass().add("nav-bar-button");
         cancelButton.getStyleClass().add("nav-bar-button");
+        listNamesScrollPane.getStyleClass().add("white-wine-scroll-pane");
     }
 }
