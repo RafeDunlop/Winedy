@@ -59,7 +59,7 @@ public class DatabaseManager {
     }
 
     /**
-     * initialise the preferencemodel table by dynamically setting column names
+     * initialise the preference model table by dynamically setting column names
      * by attributes read from populated tables
      */
     private static void initialisePreferenceModelTable(){
@@ -215,5 +215,6 @@ public class DatabaseManager {
             }
             i += 100;
         }
+        wineDAO.addBatch(new PersonalWineDAO().getAll());
     }
 }

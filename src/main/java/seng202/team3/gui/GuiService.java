@@ -12,10 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -296,8 +293,13 @@ public final class GuiService {
         VBox pageContent = new VBox();
         int start = pageIndex * rowsPerPage * winesPerRow;
         int end = Math.min(start + rowsPerPage * winesPerRow, winesToDisplay.size());
+        Consumer<Wine> wineConsumer;
+        if (wineDetailsAnchorPane!=null){
+           wineConsumer = wine -> FXWrapper.getInstance().loadIndividualWineView(wineDetailsAnchorPane, wine);
+        } else {
+            wineConsumer = wine -> FXWrapper.getInstance().loadIndividualWineViewPopup(wine);
+        }
 
-        Consumer<Wine> wineConsumer = wine -> FXWrapper.getInstance().loadIndividualWineView(wineDetailsAnchorPane, wine);
         GuiService.startButtonGeneration(winesToDisplay.subList(start, end), pageContent, wineConsumer, 3);
 
         ScrollPane scrollPane = new ScrollPane(pageContent);
@@ -324,5 +326,17 @@ public final class GuiService {
                 new KeyFrame(Duration.millis(500), new KeyValue(node.translateXProperty(), 0))
         );
         timeline.play();
+    }
+
+    /**
+     * Determines the action for exit buttons in wine pop-ups
+     * @param refreshPrev boolean whether the previous screen should refresh
+     * @param overlayPane the pane of which should the pop-up should show over
+     */
+    public static void onExitClicked(boolean refreshPrev, StackPane overlayPane) {
+        FXWrapper.getInstance().removePopUp(overlayPane);
+        if(refreshPrev) {
+            FXWrapper.getInstance().loadPreviousScreen();
+        }
     }
 }

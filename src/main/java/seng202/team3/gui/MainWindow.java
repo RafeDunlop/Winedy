@@ -35,6 +35,7 @@ public class MainWindow extends Application {
         Parent root = baseLoader.load();
 
         primaryStage.setTitle("Winedy");
+        primaryStage.setResizable(false);
         Scene scene = new Scene(root, 1200, 800);
 
         String[] cssPaths = new String[]{

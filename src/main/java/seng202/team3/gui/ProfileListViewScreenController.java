@@ -1,8 +1,5 @@
 package seng202.team3.gui;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -13,7 +10,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 import seng202.team3.models.UserWineList;
 import seng202.team3.models.Wine;
 import seng202.team3.services.ProfileScreenService;

@@ -148,6 +148,12 @@ public class LogManager {
     }
 
     /**
+     * gets all the logs
+     */
+    public List<WineLog> getAllLogs() {
+        return wineLogDAO.getAll();
+    }
+    /**
      * adds a log with the specified parameters to the database
      * all parameters except note are mandatory
      * note that a glass is defined as 1.4 standards. This is because a "glass of wine" is slightly ill-defined.
@@ -172,7 +178,7 @@ public class LogManager {
      * @param isBottles whether amount corresponds to bottles (or glasses)
      * @return float, the number of standards this corresponds to
      */
-    public float getStandards(Wine wine, float amtHad, boolean isBottles) {
+    private float getStandards(Wine wine, float amtHad, boolean isBottles) {
         float standards;
         if (isBottles) {
             float gramsAlcoholPerBottle = getGramsAlcoholPerBottle(wine);
@@ -342,6 +348,10 @@ public class LogManager {
                 if (s.endsWith("PM")) {
                     s = s.replace("PM", "");
                     return (!s.equals("12")) ? Integer.parseInt(s) + 12 : 12;
+                }
+
+                if (s.equals("12AM")) {
+                    return 0;
                 }
 
                 return Integer.parseInt(s.replace("AM", ""));

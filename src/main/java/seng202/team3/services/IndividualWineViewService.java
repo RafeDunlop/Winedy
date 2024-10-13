@@ -17,10 +17,6 @@ public class IndividualWineViewService {
      */
     public IndividualWineViewService() {
         wineListManager = WineListManager.getInstance();
-
-        if (wineListManager.getFavourites() == null) {
-            wineListManager.setupFavourites();
-        }
     }
 
     /**

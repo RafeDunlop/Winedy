@@ -4,6 +4,7 @@ import seng202.team3.services.WineManager;
 
 import java.sql.Time;
 import java.sql.Date;
+import java.util.Objects;
 
 /**
  * object to represent an instance of logging of a wine by a user
@@ -122,7 +123,15 @@ public class WineLog implements Timed {
                 String.format("%.1f",standards);
     }
 
-
+    public boolean equals(WineLog other) {
+        boolean same = other.getIsBottles() == this.loggedByBottles;
+        same = other.getStandards() == this.standards && same;
+        same = other.getDate().equals(this.date) && same;
+        same = other.getTime().equals(this.time) && same;
+        same = Objects.equals(other.getNote(), this.note) && same;
+        same = other.getUniqueWineId() == loggedId && same;
+        return same;
+    }
 
 }
 

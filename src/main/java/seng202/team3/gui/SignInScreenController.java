@@ -212,7 +212,7 @@ public class SignInScreenController {
 
     /**
      * Tries to acquire a combo box's selected item (currently String, may be changed).
-     * Otherwise throws a IllegalWineDrinker exception with the name of the combo box as the reason
+     * Otherwise, throws a IllegalWineDrinker exception with the name of the combo box as the reason
      */
     private String getComboInput(ComboBox<String> comboBox) throws IllegalWineDrinkerException {
         try {

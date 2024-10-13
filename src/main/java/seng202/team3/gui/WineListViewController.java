@@ -1,8 +1,6 @@
 package seng202.team3.gui;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.scene.control.Pagination;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;

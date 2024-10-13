@@ -9,13 +9,12 @@ import seng202.team3.repository.WineDAO;
 import seng202.team3.services.WineDrinkerManager;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Unit tests for the WineDAO service class
+ * Unit tests for the WineDAO repository class
  * @author Krishna Sridhar (nsr36)
  */
 
@@ -73,6 +72,7 @@ public class WineDAOTest {
         File file = new File("./src/test/resources/test_database.db");
         file.delete();
     }
+
     @Test
     public void testAddUniqueWine() {
         int insertId = wineDAO.add(WINE_1);

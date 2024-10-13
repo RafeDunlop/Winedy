@@ -5,12 +5,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.TextFlow;
 import seng202.team3.models.UserWineList;
 import seng202.team3.services.WineListManager;
-
-import java.util.List;
 
 /**
  * Controller for the cancel_changes_pop_up.fxml file
