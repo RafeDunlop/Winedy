@@ -236,7 +236,7 @@ public class LogPopupController {
                 () -> {
                     logManager.deleteLog(preExistingLog);
                     FXWrapper.getInstance().removePopUp(overlayPane);
-                    FXWrapper.getInstance().loadProfileTabPane(2);
+                    closeThis();
                 }));
     }
 
