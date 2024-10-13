@@ -16,9 +16,7 @@ import seng202.team3.repository.Table;
 import seng202.team3.repository.WineDAO;
 import seng202.team3.services.PersonalWinePopupService;
 import seng202.team3.services.SearchService;
-import seng202.team3.services.WineManager;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -86,6 +84,9 @@ public class PersonalWinePopupController {
 
     @FXML
     private TextField yearTextField;
+
+    @FXML
+    private Label titleLabel;
     
     private Consumer<Wine> onWineCreated;
 
@@ -222,12 +223,11 @@ public class PersonalWinePopupController {
         abvTextField.getStyleClass().add("sign-in-screen-text-field");
         volumeTextField.getStyleClass().add("sign-in-screen-text-field");
         yearTextField.getStyleClass().add("sign-in-screen-text-field");
-        descriptionTextArea.getStyleClass().add("description-text-area");
+        descriptionTextArea.getStyleClass().add("sign-in-screen-text-field");
         colourComboBox.getStyleClass().add("fifteen-combo-box");
         fullnessComboBox.getStyleClass().add("fifteen-combo-box");
         grapeComboBox.getStyleClass().add("fifteen-combo-box");
         styleComboBox.getStyleClass().add("fifteen-combo-box");
-
     }
 
     /**
