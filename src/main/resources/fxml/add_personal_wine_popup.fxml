@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.SearchableComboBox?>
+
+<StackPane fx:id="overlayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(0,0,0, 0.5);" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.PersonalWinePopupController">
+    <children>
+        <AnchorPane fx:id="popUpAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="737.0" prefWidth="642.0" StackPane.alignment="CENTER">
+            <StackPane.margin>
+                <Insets />
+            </StackPane.margin>
+         <children>
+            <AnchorPane layoutX="38.0" layoutY="63.0" prefHeight="548.0" prefWidth="567.0" AnchorPane.leftAnchor="38.0">
+               <children>
+                  <Label fx:id="nameLabel" layoutX="34.0" layoutY="20.0" text="* Name:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="countryLabel" layoutX="48.0" layoutY="70.0" text="Country:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="styleLabel" layoutX="48.0" layoutY="170.0" text="Style:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="fullnessLabel" layoutX="48.0" layoutY="270.0" text="Fullness:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="descriptionLabel" layoutX="48.0" layoutY="320.0" text="Description:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="priceLabel" layoutX="48.0" layoutY="496.0" text="Price ($):">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="abvLabel" layoutX="48.0" layoutY="546.0" text="ABV (%):">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="volumeLabel" layoutX="329.0" layoutY="496.0" text="Volume (mL):">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="colourLabel" layoutX="48.0" layoutY="120.0" text="Colour:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="nameTextField" layoutX="215.0" layoutY="10.0" prefHeight="24.0" prefWidth="327.0" />
+                  <TextField fx:id="countryTextField" layoutX="215.0" layoutY="60.0" prefHeight="24.0" prefWidth="327.0" />
+                  <SearchableComboBox fx:id="colourComboBox" layoutX="215.0" layoutY="110.0" prefHeight="24.0" prefWidth="327.0" />
+                  <SearchableComboBox fx:id="styleComboBox" layoutX="215.0" layoutY="160.0" prefHeight="24.0" prefWidth="327.0" />
+                  <SearchableComboBox fx:id="grapeComboBox" layoutX="215.0" layoutY="260.0" prefHeight="24.0" prefWidth="327.0" />
+                  <SearchableComboBox fx:id="fullnessComboBox" layoutX="215.0" layoutY="210.0" prefHeight="24.0" prefWidth="327.0" />
+                  <TextArea fx:id="descriptionTextArea" layoutX="215.0" layoutY="310.0" prefHeight="164.0" prefWidth="327.0" wrapText="true" />
+                  <TextField fx:id="pricePerBottleTextField" layoutX="215.0" layoutY="536.0" prefHeight="24.0" prefWidth="80.0" />
+                  <TextField fx:id="abvTextField" layoutX="215.0" layoutY="486.0" prefHeight="24.0" prefWidth="80.0" />
+                  <TextField fx:id="volumeTextField" layoutX="462.0" layoutY="486.0" prefHeight="24.0" prefWidth="80.0" />
+                  <Label fx:id="yearLabel" layoutX="390.0" layoutY="546.0" text="Year:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="yearTextField" layoutX="462.0" layoutY="536.0" prefHeight="24.0" prefWidth="80.0" />
+                  <Label fx:id="grapeLabel" layoutX="48.0" layoutY="220.0" text="Grape:">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+            <Button fx:id="addPersonalWineButton" layoutX="351.0" layoutY="670.0" mnemonicParsing="false" onAction="#addPersonalWine" prefHeight="40.0" prefWidth="236.0" text="Add Personal Wine" />
+            <Button fx:id="cancelPersonalWineButton" layoutX="45.0" layoutY="670.0" mnemonicParsing="false" onAction="#cancelPersonalWine" prefHeight="40.0" prefWidth="147.0" text="Cancel" />
+            <Label fx:id="titleLabel" layoutX="45.0" layoutY="21.0" text="Add a personal wine">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="431.0" layoutY="26.0" text="* Mandatory fields">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+         </children>
+        </AnchorPane>
+    </children>
+</StackPane>

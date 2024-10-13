@@ -1,0 +1,7 @@
+Variety refers to the type of grape/s used in the wine. Wines are often made from a blend of more than one type of grape. The type of grape used to make a wine is closely linked to the colour of the wine i.e. red grapes tend to make red wines and white grapes tend to make white wines, but a white wine could be made from a red grape given that the skin of the grape was removed prior to the fermentation process.
+
+Popular grapes used in red wine include: Cabernet Sauvignon, Zinfandel, Merlot, Pinot Noir, Cabernet Franc, Malbec, Syrah (Shiraz), Bordeaux, Berbera, Sangiovese
+
+Popular grapes used in rosé wines include: Pinot Noir, Zinfandel, Pinot Grigio, Sangiovese
+
+Popular grapes used in white wine include: Chardonnay, Riesling, Sauvignon Blanc, Sémillon, Moscato (Muscat), Pinot Grigio, Gewürztraminer

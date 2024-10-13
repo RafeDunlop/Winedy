@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -10,117 +11,171 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="532.0" prefWidth="347.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.IndividualWineViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="360.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.IndividualWineViewController">
    <children>
-      <Rectangle fx:id="rectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="532.0" stroke="BLACK" strokeType="INSIDE" width="347.0" />
-      <GridPane layoutX="6.0" prefHeight="532.0" prefWidth="347.0">
+      <Rectangle fx:id="rectangle" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="600.0" stroke="BLACK" strokeType="INSIDE" width="360.0" />
+      <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="209.0" minWidth="10.0" prefWidth="73.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="277.0" minWidth="8.0" prefWidth="96.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="277.0" minWidth="1.0" prefWidth="71.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="277.0" minWidth="10.0" prefWidth="105.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="209.0" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="277.0" minWidth="8.0" prefWidth="200.0" />
         </columnConstraints>
         <rowConstraints>
-          <RowConstraints maxHeight="288.0" minHeight="10.0" prefHeight="82.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="358.0" minHeight="10.0" prefHeight="68.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="405.0" minHeight="10.0" prefHeight="182.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="405.0" minHeight="10.0" prefHeight="203.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="250.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="200.0" vgrow="SOMETIMES" />
+            <RowConstraints prefHeight="170.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label fx:id="wineNameLabel" alignment="CENTER" prefHeight="78.0" prefWidth="302.0" text="Wine Name " textAlignment="CENTER" wrapText="true" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Label fx:id="wineNameLabel" alignment="CENTER" prefHeight="230.0" prefWidth="340.0" text="Wine Name " textAlignment="CENTER" wrapText="true" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <GridPane.margin>
-                  <Insets left="10.0" />
+                  <Insets />
                </GridPane.margin>
                <font>
-                  <Font size="19.0" />
+                  <Font name="System Bold" size="30.0" />
                </font>
             </Label>
-            <Label text="Volume:" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <Label text="Price:" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="10.0" top="20.0" />
+                  <Insets left="20.0" top="10.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
             </Label>
             <Label text="ABV:" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="10.0" top="20.0" />
+                  <Insets left="20.0" top="40.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
             </Label>
-            <Label prefHeight="16.0" prefWidth="110.0" text="Price:" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <Label text="Fullness:" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="10.0" />
+                  <Insets left="20.0" top="70.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
             </Label>
-            <Label text="Fullness:" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <Label text="Volume:" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="10.0" />
+                  <Insets left="20.0" top="100.0" />
                </GridPane.margin>
-            </Label>
-            <Label fx:id="styleLabel" text="Style:" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets left="10.0" top="40.0" />
-               </GridPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
             </Label>
             <Label fx:id="countryLabel" text="Country:" visible="false" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="10.0" top="40.0" />
+                  <Insets left="20.0" top="130.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="styleLabel" text="Style:" visible="false" GridPane.rowIndex="1" GridPane.valignment="TOP">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <GridPane.margin>
+                  <Insets left="20.0" top="160.0" />
                </GridPane.margin>
             </Label>
-            <Label fx:id="wineCountryLabel" text="Country label" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets left="10.0" top="40.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="wineStyleLabel" text="Style Label" visible="false" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets left="10.0" top="40.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="fullnessLabel" text="Fullness Label" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="priceLabel" prefHeight="19.0" prefWidth="88.0" text="Price Label" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="ABVLabel" text="ABV Label" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets left="10.0" top="20.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="volumeLabel" text="Volume Label" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets left="10.0" top="20.0" />
-               </GridPane.margin>
-            </Label>
-            <Label fx:id="descriptionLabel" text="Description:" visible="false" GridPane.columnSpan="2" GridPane.rowIndex="2" GridPane.valignment="TOP">
-               <GridPane.margin>
-                  <Insets left="10.0" />
-               </GridPane.margin></Label>
-            <ScrollPane fx:id="descriptionScrollPane" fitToWidth="true" hbarPolicy="NEVER" maxWidth="-Infinity" prefHeight="161.0" prefWidth="335.0" GridPane.columnSpan="4" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets top="20.0" />
-               </GridPane.margin>
-               <content>
-                  <Label fx:id="wineDescriptionLabel" alignment="CENTER" contentDisplay="CENTER" prefWidth="331.0" text="Wine Description" textAlignment="JUSTIFY" wrapText="true">
-                     <padding>
-                        <Insets left="5.0" right="5.0" />
-                     </padding>
-                  </Label>
-               </content>
-            </ScrollPane>
-            <Label fx:id="awardsLabel" text="Awards:" visible="false" GridPane.rowIndex="3" GridPane.valignment="TOP">
+            <Label fx:id="priceLabel" text="Price Label" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="10.0" top="10.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
             </Label>
-            <Label fx:id="wineAwardsLabel" alignment="TOP_LEFT" prefHeight="76.0" prefWidth="323.0" text="Awards label" GridPane.columnSpan="4" GridPane.rowIndex="3" GridPane.valignment="TOP">
+            <Label fx:id="ABVLabel" text="ABV Label" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
-                  <Insets left="10.0" top="30.0" />
+                  <Insets left="10.0" top="40.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
             </Label>
+            <Label fx:id="fullnessLabel" text="Fullness Label" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="10.0" top="70.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="volumeLabel" text="Volume Label" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="10.0" top="100.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="wineCountryLabel" text="Country label" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="10.0" top="130.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="wineStyleLabel" text="Style Label" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets left="10.0" top="160.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Button id="like-button" fx:id="likeButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onLikeButtonClicked" prefHeight="55.0" prefWidth="73.0" styleClass="like-button" stylesheets="@../css/like_button.css" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="20.0" />
+               </GridPane.margin>
+               <tooltip>
+                  <Tooltip text="Like" />
+               </tooltip>
+            </Button>
+            <Button id="add-to-list-button" fx:id="addToListButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onAddButtonClicked" prefHeight="43.0" prefWidth="48.0" styleClass="add-to-list-button" stylesheets="@../css/add_to_list_button.css" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="20.0" right="20.0" />
+               </GridPane.margin>
+               <tooltip>
+                  <Tooltip text="Add to list">
+                     <graphic>
+                        <Label text="Label" />
+                     </graphic>
+                  </Tooltip>
+               </tooltip>
+            </Button>
+            <Label fx:id="notLoggedInLabel" alignment="CENTER" contentDisplay="CENTER" prefWidth="340.0" text="Log in to create and access personal lists!" textAlignment="CENTER" textFill="RED" visible="false" wrapText="true" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets top="20.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Button fx:id="viewInDetailButton" mnemonicParsing="false" onAction="#onViewInDetailButtonClicked" prefWidth="190.0" text="View In Detail" textAlignment="CENTER" wrapText="true" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+               <GridPane.margin>
+                  <Insets bottom="20.0" left="20.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="logConsumptionButton" mnemonicParsing="false" onAction="#onLogConsumptionButtonClicked" prefWidth="320.0" text="Drank this? - Record It Here" GridPane.columnSpan="2147483647" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+               <GridPane.margin>
+                  <Insets bottom="20.0" top="20.0" />
+               </GridPane.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
          </children>
       </GridPane>
    </children>

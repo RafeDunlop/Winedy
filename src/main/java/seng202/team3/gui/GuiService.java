@@ -1,22 +1,33 @@
 package seng202.team3.gui;
 
-import javafx.scene.control.Button;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import seng202.team3.gui.FXWrapper;
-import seng202.team3.gui.HelpScreenController;
 import seng202.team3.models.Wine;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
+import java.util.function.Consumer;
 
 import static javafx.scene.control.ContentDisplay.TOP;
 
@@ -35,14 +46,15 @@ public final class GuiService {
 
     /**
      * Returns the content of the file at the given path as a String
-     * @param filePath
+     *
+     * @param filePath the relative path that the file is located at
      * @return A String of the file content at the given path
      */
     public static String getContentFromFile(String filePath) {
         try (InputStream inputStream = Objects.requireNonNull(GuiService.class.getResourceAsStream(filePath))) {
             return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            log.error("IO Exception occured");
+            log.error("IO Exception occurred");
             return null;
         }
     }
@@ -50,6 +62,8 @@ public final class GuiService {
     /**
      * Adds a graphic to the given Button of the image located at the given path.
      * If isInvisible is true, the ImageView's opacity is set to 0, and it's height is set to 1 pixel.
+     * If an error occurs loading the image, the graphic is instead set to show that the image was not found.
+     *
      * @param button The Button the image graphic is being added to
      * @param imagePath The path the image is located at
      * @param fitWidth The width the image should be
@@ -57,39 +71,272 @@ public final class GuiService {
      * @param isInvisible The truth value of whether the image should be initially invisible
      * @return The ImageView containing the image added to the button
      */
-    public static ImageView addImageGraphicToButton(Button button, String imagePath, double fitWidth, double fitHeight, boolean isInvisible) {
-        Image image = new Image(imagePath);
-        ImageView imageView = new ImageView(image);
+    public static ImageView addImageGraphicToButton(Button button, String imagePath, double fitWidth, double fitHeight, boolean isInvisible, boolean needsTickBox) {
+        Node graphic = null;
 
-        imageView.setPreserveRatio(true);
-        if (isInvisible) {
-            imageView.setOpacity(0);
-            imageView.setFitHeight(1);
-        } else {
-            imageView.setFitHeight(fitHeight);
-            imageView.setFitWidth(fitWidth);
+        try {
+            Image image = new Image(imagePath);
+            ImageView imageView = new ImageView(image);
+            imageView.setPreserveRatio(true);
+            if (isInvisible) {
+                imageView.setOpacity(0);
+                imageView.setFitHeight(1);
+            } else {
+                imageView.setFitHeight(fitHeight);
+                imageView.setFitWidth(fitWidth);
+            }
+            graphic = imageView;
+        } catch (IllegalArgumentException e) {
+            log.warn("Image path not recognised: " + e.getMessage());
         }
 
-        button.setGraphic(imageView);
-
-        return imageView;
+        if (graphic == null) {
+            graphic = new Text("Image not found :(");
+        }
+        if (needsTickBox) {
+            ImageView imageView = new ImageView();
+            setUpImageView(imageView);
+            HBox hbox = new HBox(graphic, imageView);
+            HBox.setMargin(imageView, new Insets(0, 0, 20, 30));
+            hbox.setPadding(new Insets(10, 0, 0, 30));
+            StackPane stackPane = new StackPane(hbox);
+            stackPane.setAlignment(Pos.TOP_CENTER);
+            button.setGraphic(stackPane);
+            button.setContentDisplay(ContentDisplay.TOP);
+            button.setAlignment(Pos.TOP_CENTER);
+        } else {
+            button.setGraphic(graphic);
+        }
+        return (graphic instanceof ImageView) ? (ImageView) graphic : new ImageView();
     }
+
+    public static void setUpImageView(ImageView imageView) {
+        imageView.setFitHeight(30);
+        imageView.setFitWidth(30);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        Image image = new Image("/images/unchecked.png");
+        imageView.setImage(image);
+        imageView.setVisible(false);
+    }
+
 
     /**
      * Creates and returns a Button that contains an image graphic relevant to the colour of the given wine and the
      * title of the given wine. Sets the button's on-action event to load the individual wine view at the given
      * anchor pane of the given wine.
+     *
      * @param wineToDisplay The wine to be displayed on the button
-     * @param screenAnchorPane The anchor pane that the individual wine view should be loaded on to
+     * @param onAction Consumer method that defines the onAction of the button and can take a wine as parameter
+     * @param prefWidth preferred width of wineButton
+     * @param prefHeight preferred height of wineButton
      * @return a Button that displays the wine image and loads an individual wine view when clicked.
      */
-    public static Button generateWineButton(Wine wineToDisplay, AnchorPane screenAnchorPane, double prefWidth, double prefHeight) {
+    public static Button generateWineButton(Wine wineToDisplay, Consumer<Wine> onAction, double prefWidth, double prefHeight) {
         Button wineButton = new Button(wineToDisplay.getName());
         wineButton.setPrefSize(prefWidth,prefHeight);
         wineButton.setWrapText(true);
-        addImageGraphicToButton(wineButton, "/images/" + wineToDisplay.getColour() + "_wine_image.png", 100, 100, false);
-        wineButton.setOnAction(event -> FXWrapper.getInstance().loadIndividualWineView(screenAnchorPane, wineToDisplay));
+        addImageGraphicToButton(wineButton, "/images/" + wineToDisplay.getColour() + "_wine_image.png", 100, 100, false, true);
+        wineButton.setOnAction(e -> onAction.accept(wineToDisplay));
         wineButton.setContentDisplay(TOP);
+        wineButton.getStyleClass().add("nav-bar-button");
+        wineButton.setFont(new Font("System", 18));
         return wineButton;
+    }
+
+    /**
+     * Generates an HBox that contains buttons for each wine in the given list. This could be search results or contents of a wine list.
+     *
+     * @param wineList Contains the wines to generate buttons for
+     * @param wineConsumer Consumer method that defines the onAction of the button and can take a wine as parameter
+     * @return An HBox containing wine buttons
+     *
+     * @see GuiService#generateWineButton(Wine, Consumer, double, double)
+     * @see GuiService#startButtonGeneration(List, VBox, Consumer, int)
+     */
+    public static HBox GenerateHBox(List<Wine> wineList, Consumer<Wine> wineConsumer) {
+
+        HBox hBox = new HBox(10); // 10px
+        hBox.setSpacing(20);
+        hBox.setPadding(new Insets(10, 15, 10, 15));
+        hBox.setPrefWidth(800); // Set preferred width for the HBox
+
+        for (Wine wine: wineList) {
+            Button button = generateWineButton(wine, wineConsumer, 230, 230);
+            hBox.getChildren().add(button);
+        }
+
+        return hBox;
+    }
+
+    /**
+     * Creates a task which generates and updates the wine buttons for all given wines and updates the vbox safely on the
+     * JavaFX Application thread.
+     *
+     * @param wineList Contains wines to generate buttons for
+     * @param vBox  The VBox that will contain the generated buttons
+     * @param wineConsumer Consumer method that defines the onAction of the button and can take a wine as parameter
+     * @param buttonsPerRow The number of buttons to be generated per row/HBox
+     *
+     * @see GuiService#GenerateHBox(List, Consumer)
+     */
+    public static void startButtonGeneration(List<Wine> wineList, VBox vBox, Consumer<Wine> wineConsumer, int buttonsPerRow) {
+
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+
+                for (int i = 0; i < wineList.size(); i+=buttonsPerRow) {
+
+                    HBox hBox;
+                    if (i+buttonsPerRow >= wineList.size()) {
+                        hBox = GenerateHBox(wineList.subList(i,wineList.size()), wineConsumer);
+                    } else {
+                        hBox = GenerateHBox(wineList.subList(i,i+buttonsPerRow), wineConsumer);
+                    }
+
+                    Platform.runLater(() -> vBox.getChildren().add(hBox));
+                }
+
+                return null;
+            }
+        };
+
+        Thread thread = new Thread(task);
+        thread.setDaemon(true); //Make this thread a Daemon thread so that it closes when the main Application thread is closed
+        thread.start();
+    }
+
+    /** Sets up the pop-up
+     *
+     * @param overlayPane the overlay pane for the pop-up
+     * @param popUpAnchorPane the anchor pane for the pop-up
+     */
+    public static void setUpPopUp(StackPane overlayPane, AnchorPane popUpAnchorPane, Runnable onOutBoundsClicked) {
+        overlayPane.getStyleClass().add("overlay-stackpane");
+        popUpAnchorPane.getStyleClass().add("white-wine-pane");
+        overlayPane.setOnMouseClicked(event -> {
+            Bounds popUpBounds = popUpAnchorPane.localToScene(popUpAnchorPane.getLayoutBounds());
+            if (!popUpBounds.contains(event.getSceneX(), event.getSceneY())) {
+                if (onOutBoundsClicked == null) {
+                    FXWrapper.getInstance().removePopUp(overlayPane);
+                } else {
+                    onOutBoundsClicked.run();
+                }
+            }
+        });
+    }
+
+    /**
+     * Helper function for toggleMode to disable and make invisible the component in one line.
+
+     * @param component Node object, fx component to disable
+     * @param fullDisable whether to disable or enable the component
+     */
+    public static void fullDisable(Node component, boolean fullDisable) {
+        component.setDisable(fullDisable);
+        component.setOpacity((fullDisable) ? 0 : 1);
+    }
+
+    /**
+     * Creates paginated display of wine buttons for search screen and profile screens
+     *
+     * @param winesToDisplay list of wines to display in the pagination
+     * @param rootVBox vbox to insert pagination into
+     * @param rowsPerPage number of rows of wines per page
+     * @param winesPerRow number of wines per row
+     * @param wineDetailsAnchorPane wine details anchor pane if applicable for the onAction of the wine button
+     * @return pagination so it can be styled as needed per screen
+     */
+    public static Map<Integer, ScrollPane> createPagination(List<Wine> winesToDisplay, VBox rootVBox, int rowsPerPage, int winesPerRow, AnchorPane wineDetailsAnchorPane) {
+        int winesPerPage = 12;
+        int numberOfPages = (int) Math.ceil((double) winesToDisplay.size() / winesPerPage);
+        Map<Integer, ScrollPane> pageScrollPaneMap = new HashMap<>();
+
+        Pagination pagination = new Pagination(numberOfPages, 0);
+        rootVBox.getChildren().add(pagination);
+        pagination.getStyleClass().add("wine-pagination");
+
+        pagination.setPageFactory(pageIndex ->  createPageContentsScrollPane(pageScrollPaneMap, pageIndex, rowsPerPage, winesPerRow, winesToDisplay, wineDetailsAnchorPane));
+        return pageScrollPaneMap;
+    }
+
+    /**
+     * Changes the visibility and ability of anchor panes in the recommendation system
+     * @param toTurnOff the anchor pane to make invisible and unable to be interacted
+     */
+    public static void turnOffPane(AnchorPane toTurnOff){
+        toTurnOff.setVisible(false);
+        toTurnOff.setDisable(true);
+    }
+    /**
+     * Changes the visibility and ability of anchor panes in the recommendation system
+     * @param toTurnOn the anchor pane to make visible and able to be interacted
+     */
+    public static void turnOnPane(AnchorPane toTurnOn){
+        toTurnOn.setVisible(true);
+        toTurnOn.setDisable(false);
+    }
+
+    /**
+     * Method used in the page factories of creating pagination to create the scroll panes for each page
+     *
+     * @param pageScrollPaneMap maps the scroll pane to the corresponding page index
+     * @param pageIndex page index to create
+     * @param rowsPerPage rows per page
+     * @param winesPerRow wines per row
+     * @param winesToDisplay list of wines to display
+     * @param wineDetailsAnchorPane wineDetailsAnchorPane, null if being called from the list screen
+     * @return the scroll pane to be put into the page at pageIndex
+     */
+    public static ScrollPane createPageContentsScrollPane(Map<Integer, ScrollPane> pageScrollPaneMap, int pageIndex, int rowsPerPage, int winesPerRow, List<Wine> winesToDisplay, AnchorPane wineDetailsAnchorPane) {
+        VBox pageContent = new VBox();
+        int start = pageIndex * rowsPerPage * winesPerRow;
+        int end = Math.min(start + rowsPerPage * winesPerRow, winesToDisplay.size());
+        Consumer<Wine> wineConsumer;
+        if (wineDetailsAnchorPane!=null){
+           wineConsumer = wine -> FXWrapper.getInstance().loadIndividualWineView(wineDetailsAnchorPane, wine);
+        } else {
+            wineConsumer = wine -> FXWrapper.getInstance().loadIndividualWineViewPopup(wine);
+        }
+
+        GuiService.startButtonGeneration(winesToDisplay.subList(start, end), pageContent, wineConsumer, 3);
+
+        ScrollPane scrollPane = new ScrollPane(pageContent);
+        scrollPane.setFitToWidth(true);
+        scrollPane.getStyleClass().add("red-wine-scroll-pane");
+        pageScrollPaneMap.put(pageIndex, scrollPane);
+        scrollPane.setPrefHeight(1000);
+        return scrollPane;
+    }
+
+    /**
+     * Shakes a node to engage the user (mostly used for error messages)
+     *
+     * @param node node to be shaken
+     */
+    public static void shakeNode(Label node) {
+        // Define a Timeline for shaking effect
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.millis(0), new KeyValue(node.translateXProperty(), 0)),
+                new KeyFrame(Duration.millis(100), new KeyValue(node.translateXProperty(), -10)),
+                new KeyFrame(Duration.millis(200), new KeyValue(node.translateXProperty(), 10)),
+                new KeyFrame(Duration.millis(300), new KeyValue(node.translateXProperty(), -10)),
+                new KeyFrame(Duration.millis(400), new KeyValue(node.translateXProperty(), 10)),
+                new KeyFrame(Duration.millis(500), new KeyValue(node.translateXProperty(), 0))
+        );
+        timeline.play();
+    }
+
+    /**
+     * Determines the action for exit buttons in wine pop-ups
+     * @param refreshPrev boolean whether the previous screen should refresh
+     * @param overlayPane the pane of which should the pop-up should show over
+     */
+    public static void onExitClicked(boolean refreshPrev, StackPane overlayPane) {
+        FXWrapper.getInstance().removePopUp(overlayPane);
+        if(refreshPrev) {
+            FXWrapper.getInstance().loadPreviousScreen();
+        }
     }
 }

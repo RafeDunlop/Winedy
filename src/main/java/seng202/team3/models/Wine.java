@@ -1,5 +1,7 @@
 package seng202.team3.models;
 
+import java.util.Objects;
+
 /**
  * Wine class for creating wine objects that will be stored in a database
  *
@@ -37,7 +39,7 @@ public class Wine {
     /**
      * List of grapes that the wines contain
      */
-    private String[] grapes;
+    private final String[] grapes;
     /**
      * Wine fullness
      */
@@ -65,9 +67,12 @@ public class Wine {
 
     /**
      * Constructor for the Wine object
+     *
      * @param uniqueWineID identifying value for the wine
      * @param name of the wine
      * @param colour of wine, either red, white or rose
+     * @param style of the wine e.g. rich, fruity, smooth, bog
+     * @param grapes a list of the grapes used to make the wine
      * @param country that the wine was made in
      * @param year the year that the wine was made
      * @param fullness 1-2 word description of the fullness of the wine, e.g. "dry"
@@ -103,6 +108,36 @@ public class Wine {
         this.alcoholByVolume = alcoholByVolume;
         this.volumeInMl = volumeInMl;
         this.year = year;
+    }
+
+    /**
+     * Compares unique wine ids to determine equality of two wines
+     * @param other The object to compare
+     * @return true if both objects refer to the same wine, false otherwise
+     */
+    @Override
+    public boolean equals(Object other) {
+
+        if (this == other) {
+            return true;
+        }
+
+        if (other == null || getClass() != other.getClass()){
+            return false;
+        }
+
+        Wine wine = (Wine) other;
+
+        return uniqueWineID == wine.getUniqueWineID();
+    }
+
+    /**
+     * Computes hash code for wine based on the unique id
+     * @return The computed hashcode
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(uniqueWineID);
     }
 
     /**
@@ -238,6 +273,7 @@ public class Wine {
     public void setColour(String colour) {
         this.colour = colour;
     }
+
     /**
      * Sets the personal wine entry for a wine drinker
      * @param personalWineEntry Wine note taken by the user
@@ -314,6 +350,14 @@ public class Wine {
      */
     public void setVolumeInMl(float volumeInMl) {
         this.volumeInMl = volumeInMl;
+    }
+
+    /**
+     * Ensures that implicit casts to String of a Wine object return readable values
+     * @return the Wine's name
+     */
+    public String toString() {
+        return name;
     }
 }
 

@@ -53,7 +53,6 @@ public class HomeScreenController {
         titleBackgroundRectangle.getStyleClass().add("white-wine-rectangle");
         homeButtonsRectangle.getStyleClass().add("red-wine-rectangle");
         winedyImageView.setImage(new Image("/images/winedy_logo.png"));
-
         log.info("HomeScreen initialized");
     }
 
@@ -75,7 +74,8 @@ public class HomeScreenController {
         if (WineDrinkerManager.getInstance().getCurrentUser() == null) {
             FXWrapper.getInstance().loadScreen(Screen.SIGNINSCREEN);
         } else {
-            FXWrapper.getInstance().loadScreen(Screen.PROFILESCREEN);
+            FXWrapper.getInstance().loadScreen(Screen.NAVBAR);
+            FXWrapper.getInstance().loadProfileTabPane(0);
         }
     }
 
@@ -96,6 +96,6 @@ public class HomeScreenController {
      */
     private void setUpHomeButton(Button button, String imagePath) {
         button.getStyleClass().add("home-screen-button");
-        GuiService.addImageGraphicToButton(button, imagePath, 100, 100, false);
+        GuiService.addImageGraphicToButton(button, imagePath, 100, 100, false, false);
     }
 }

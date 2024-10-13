@@ -1,12 +1,14 @@
 package seng202.team3.services;
 
 
-//import seng202.team3.io.Importable;
+
+import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
+import seng202.team3.repository.PersonalWineDAO;
 import seng202.team3.repository.WineDAO;
 
-//import java.io.File;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,16 +26,26 @@ public class WineManager {
      */
     private WineDAO wineDAO;
     /**
+     * Personal Wine DAO instance to handle database related actions with personal wines
+     */
+    private PersonalWineDAO personalWineDAO;
+    /**
      * Singleton instance of WineManager
      */
     private static WineManager instance;
 
     /**
-     * Creates a new SalesManager object and creates a private SaleDAO object it will later use for all database
+     * Creates a new WineManager object and creates a private WineDAO object it will later use for all database
      * interactions
      */
+    private WineManager(String url) {
+        wineDAO = new WineDAO(url);
+        personalWineDAO = new PersonalWineDAO(url);
+    }
+
     private WineManager() {
         wineDAO = new WineDAO();
+        personalWineDAO = new PersonalWineDAO();
     }
 
     /**
@@ -47,13 +59,30 @@ public class WineManager {
         return instance;
     }
 
+    /**
+     * Get the singleton instance of WineManager
+     *
+     * @param url the relative or absolute filepath of the database to be set if it is not already set
+     * @return instance of WineManager
+     */
+    public static WineManager getInstance(String url) {
+        if (instance == null) {
+            instance = new WineManager(url);
+        }
+        return instance;
+    }
 
+    /**
+     *  WARNING Sets the current singleton instance to null
+     */
+    public static void REMOVE_INSTANCE() {
+        instance = null;
+    }
 
     /**
      * Adds a wine
-     * TODO use in deliverable 3 for the tracking consumption feature
      * @param wine wine to add
-     * @return -1 if sale added without error
+     * @return -1 if wine added without error
      */
     public int addWine(Wine wine) {
         return wineDAO.add(wine);
@@ -64,11 +93,9 @@ public class WineManager {
      * Deletes a Wine
      *
      * @param wine wine to delete
-     * @return true iff deleted, else false (what if it never existed?)
      */
-    public boolean deleteWine(Wine wine) {
-        wineDAO.delete(wine.getUniqueWineID());
-        return false;
+    public void deleteWine(Wine wine) {
+        wineDAO.delete(wine);
     }
 
     /**
@@ -80,7 +107,7 @@ public class WineManager {
     }
 
     /**
-     * Gets sale from persistence by id
+     * Gets wine from persistence by id
      *
      * @param id id of wine to fetch
      * @return wine specified by id or null if it doesn't exist
@@ -88,6 +115,24 @@ public class WineManager {
     public Wine getWineById(int id) {
         return wineDAO.getWineByID(id);
     }
+
+    /**
+     * Adds a personal wine
+     * @param wine wine to add
+     * @return -1 if wine added without error
+     */
+    public int addPersonalWine(Wine wine) throws WineDrinkerAlreadyExistsException {
+        return personalWineDAO.add(wine);
+    }
+
+    /**
+     * Gets all personal wines of the current user
+     * @return List of personal wines
+     */
+    public List<Wine> getAllPersonalWines() {
+        return personalWineDAO.getAll();
+    }
+
 
     /**
      * Gets wine search results based on keywords put into the search bar and filters chosen by the wine drinker
@@ -106,12 +151,15 @@ public class WineManager {
     public SearchWineList searchWines(String searchBarInput, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice,
                                       String country, String colour, String fullness, String grapeName) {
         List<String> keywords = getWordsFromSearchBar(searchBarInput);
-        return wineDAO.searchWines(keywords, minYear, maxYear, minPrice, maxPrice, country, colour, fullness, grapeName);
+        SearchWineList results = wineDAO.searchWines(keywords, minYear, maxYear, minPrice, maxPrice, country, colour, fullness, grapeName);
+        results.setKeywords(searchBarInput);
+        return results;
     }
 
     /**
      * Gets all the keywords from an input into the search bar.
      * This is based on the input into the search bar searchBarInput
+     *
      * @param searchBarInput String of input from the search bar
      * @return List of words entered into the search bar
      */
@@ -125,7 +173,5 @@ public class WineManager {
                 .distinct()
                 .toList();
     }
-    public void setWineDAO(WineDAO wineDAO) {
-        this.wineDAO = wineDAO;
-    }
+
 }

@@ -3,17 +3,21 @@ package seng202.team3.cucumber.StepDefinitions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import seng202.team3.models.WineDrinker;
+import seng202.team3.repository.DatabaseManager;
 import seng202.team3.services.ProfileScreenService;
-import seng202.team3.services.SignInScreenService;
 import seng202.team3.services.WineDrinkerManager;
+
+import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Cucumber tests for AT_26 and AT_27 (updating user preferences)
- * @author Krishna Sridhar
+ * @author Krishna Sridhar (nsr36)
  */
 
 public class UpdatePreferencesStepDefinitions {
@@ -23,8 +27,26 @@ public class UpdatePreferencesStepDefinitions {
     private String varietyPreference;
     private double abvLimitPreference;
     private WineDrinkerManager wineDrinkerManager;
-    private SignInScreenService signInScreenService = new SignInScreenService();
-    private ProfileScreenService profileScreenService = new ProfileScreenService();
+    final String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
+    private final ProfileScreenService profileScreenService = new ProfileScreenService(DATABASE_PATH);
+
+    @BeforeAll
+    public static void deleteTestDB() {
+        File file = new File("./src/test/resources/test_database.db");
+        file.delete();
+    }
+
+    @BeforeEach
+    public void setup() {
+        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.getInstance(DATABASE_PATH);
+    }
+
+    @AfterEach
+    public void cleanUp() {
+        File file = new File("./src/test/resources/test_database.db");
+        file.delete();
+    }
 
     @Given("Wine Drinker is logged in as {string}")
     public void wineDrinkLoggedIn(String mockUsername) {
@@ -41,7 +63,7 @@ public class UpdatePreferencesStepDefinitions {
 
     @Given("is on the profile screen")
     public void userIsOnSearchScreenWithDatabaseLoaded() {
-        wineDrinkerManager = WineDrinkerManager.getInstance();
+        wineDrinkerManager = WineDrinkerManager.getInstance(DATABASE_PATH);
         WineDrinker wineDrinker = new WineDrinker(mockUsername, "password", null, colourPreference, fullnessPreference, varietyPreference, abvLimitPreference);
         wineDrinkerManager.setCurrentUser(wineDrinker);
     }

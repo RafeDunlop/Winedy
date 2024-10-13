@@ -1,0 +1,20 @@
+/*
+ * This style sheet defines the nav_bar_winedy_rectangle style class.
+ */
+ .root {
+    -fx-nbwr-body-colour: #F0F0F0; /* Off-white grey */
+    -fx-nbwr-border-colour: "black";
+}
+
+/*
+ * Rectangle used behind the Winedy name on the Nav Bar.
+ * Has a near white background with a black border (stroke) and rounded corners (arc).
+ */
+.nav-bar-winedy-rectangle {
+    -fx-fill: -fx-nbwr-body-colour;
+    -fx-arc-width: 40px;
+    -fx-arc-height: 40px;
+
+    -fx-stroke: -fx-nbwr-border-colour;
+    -fx-stroke-width: 3px;
+}

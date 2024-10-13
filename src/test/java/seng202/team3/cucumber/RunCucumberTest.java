@@ -1,19 +1,16 @@
 package seng202.team3.cucumber;
 
-import io.cucumber.junit.Cucumber;
-import io.cucumber.junit.CucumberOptions;
 import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
 import org.junit.platform.suite.api.SelectClasspathResource;
 import org.junit.platform.suite.api.Suite;
-import org.junit.runner.RunWith;
 
 import static io.cucumber.junit.platform.engine.Constants.*;
 
 /**
  * Runner class for cucumber tests (using junit 5)
- * features must be located in src/test/resources/features
- * step definitions must be located in src/test/java/seng202/team3/cucumber
+ * features are located in src/test/resources/features
+ * step definitions are located in src/test/java/seng202/team3/cucumber/StepDefinitions
  * publish is set to quiet in test/resources/junit-platform.properties
  * @author seng202 teaching team
  */

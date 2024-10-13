@@ -1,0 +1,69 @@
+.root {
+    -fx-dark-red-wine-colour: derive(#821D38, 30%);
+    -fx-red-wine-colour: derive(-fx-dark-red-wine-colour, 30%);
+}
+
+.red-wine-pane {
+    -fx-background-color: -fx-red-wine-colour;
+    -fx-background-radius: 20;
+    -fx-border-radius: 10;
+    -fx-border-color: -fx-dark-red-wine-colour;
+    -fx-border-width: 5;
+}
+
+.white-wine-pane {
+    -fx-background-color: -fx-white-wine-colour;
+    -fx-background-radius: 20;
+    -fx-border-radius: 10;
+    -fx-border-color: -fx-dark-white-wine-colour;
+    -fx-border-width: 5;
+}
+
+.wine-list-vbox {
+    -fx-pref-width: 510;
+    -fx-pref-height: 320;
+    -fx-background-color: transparent;
+}
+
+.wine-list-scroll-pane,
+.wine-list-scroll-pane .viewport,
+.wine-list-scroll-pane .scroll-bar:vertical,
+.wine-list-scroll-pane .scroll-bar:vertical .increment-button,
+.wine-list-scroll-pane .scroll-bar:vertical .decrement-button,
+.wine-list-scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+.wine-list-scroll-pane .scroll-bar:vertical .decrement-arrow,
+.wine-list-scroll-pane .scroll-bar:vertical .increment-arrow {
+    -fx-background-color: -fx-hsb-border-colour;
+    -fx-scale-x: 1.5;
+    -fx-scale-y: 1.5;
+    /*-fx-background-insets: 1;*/
+    /*-fx-border-color: -fx-hsb-border-colour;*/
+    /*-fx-border-radius: 2px;*/
+    /*-fx-border-width: 2px;*/
+}
+
+.wine-list-scroll-pane .scroll-bar:vertical .thumb {
+    -fx-pref-height: 3;
+    -fx-background-color: -fx-hsb-body-colour;
+    -fx-background-insets: 1;
+    -fx-border-color: -fx-hsb-border-colour;
+    -fx-border-radius: 4;
+    -fx-border-width: 4;
+}
+
+.wine-list-button {
+    -fx-pref-width: infinity;
+    -fx-min-height: 100;
+    -fx-max-height: 100;
+    -fx-background-color: -fx-hsb-body-colour;
+    -fx-background-insets: 1;
+    -fx-border-color: -fx-hsb-border-colour;
+    -fx-border-radius: 5;
+    -fx-border-width: 4;
+    -fx-font-size: 20;
+    -fx-alignment: BASELINE_LEFT;
+}
+

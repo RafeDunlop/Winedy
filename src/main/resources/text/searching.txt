@@ -1,0 +1,9 @@
+To be able to search and filter through wines on Winedy, navigate to the search screen by either first clicking on the home screen button in the navigation bar and then clicking on the search button on the home screen, or clicking on the search button in the navigation bar.
+
+Once on the search screen, you can click on the drop-down combo boxes to chose filters to apply on the wine. The filters you can choose from are colour, variety, fullness, and country. You are also able to choose a price range or date range to apply as well.
+
+Optionally, enter a key word or phrase into the search bar. Upon searching, the system will match this with the wine's name, style, and description.
+
+To execute a search, press the search button. The results of your list will be shown in a scroll pane below.
+
+Once you have completed a successful search, scroll through the results until you have found a wine you would like to know more about. If you click on this wine, its details will show up on the left for you to read.

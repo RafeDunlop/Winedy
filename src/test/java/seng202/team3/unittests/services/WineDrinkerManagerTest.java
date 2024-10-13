@@ -1,22 +1,24 @@
 package seng202.team3.unittests.services;
 
 import org.junit.jupiter.api.*;
-import seng202.team3.exceptions.WineDrinkerAlreadyExistsException;
 import seng202.team3.models.WineDrinker;
 import seng202.team3.repository.DatabaseManager;
-import seng202.team3.repository.WineDrinkerDAO;
 import seng202.team3.services.WineDrinkerManager;
 
 import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the WineDrinkerManager service class
+ * @author Krishna Sridhar (nsr36)
+ */
+
 public class WineDrinkerManagerTest {
     private static final String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
     private WineDrinkerManager wineDrinkerManager;
-    private DatabaseManager databaseManager;
     private final String username = "TestUser1";
-    private final String password = "TestUserPassword";
+    private final String password = "password";
 
     private final WineDrinker testWineDrinker = new WineDrinker(username, password, null, null, null,null,0);
 
@@ -29,6 +31,7 @@ public class WineDrinkerManagerTest {
     @BeforeEach
     public void setup() {
         DatabaseManager.REMOVE_INSTANCE();
+        WineDrinkerManager.REMOVE_INSTANCE();
         wineDrinkerManager = WineDrinkerManager.getInstance(DATABASE_PATH);
     }
 
@@ -36,6 +39,13 @@ public class WineDrinkerManagerTest {
     public void cleanup() {
         File file = new File(DATABASE_PATH.substring(12));
         file.delete();
+    }
+
+    @Test
+    public void testRegisterCurrentUser() {
+        wineDrinkerManager.setCurrentUser(testWineDrinker);
+        wineDrinkerManager.registerWineDrinker();
+        assertNotNull(wineDrinkerManager.getWineDrinker(username));
     }
 
     @Test

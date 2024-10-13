@@ -1,6 +1,6 @@
 package seng202.team3.models;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -8,42 +8,183 @@ import java.util.List;
  *
  * @author Krishna Sridhar (nsr36)
  */
-
 public class SearchWineList extends WineList {
-    private List<Wine> searchWineList;
 
     /**
-     * Constructs new SearchWineList object and initializes the list.
+     * The keywords entered into the search bar
      */
-    public SearchWineList() {
-        searchWineList = new ArrayList<>();
+    private String keywords;
+
+    /**
+     * The minimum year of wines in the search
+     */
+    private int minYear;
+
+    /**
+     * The maximum year of wines in the search
+     */
+    private int maxYear;
+
+    /**
+     * The minimum price of wines in the search
+     */
+    private float minPrice;
+
+    /**
+     * The maximum price of wines in the search
+     */
+    private float maxPrice;
+
+    /**
+     * The country of the wines in the search
+     */
+    private String country;
+
+    /**
+     * The colour of the wines in the search
+     */
+    private String colour;
+
+    /**
+     * The fullness of the wines in the search
+     */
+    private String fullness;
+
+    /**
+     * The name of the grape (variety) used in the search
+     */
+    private String grapeName;
+
+    /**
+     * Constructor for the SearchWineList, sets all the search attributes to the given values
+     *
+     * @param keywords the keywords that were entered into the search bar
+     * @param minYear the minimum year entered for the search
+     * @param maxYear the maximum year entered for the search
+     * @param minPrice the minimum price entered for the search
+     * @param maxPrice the maximum price entered for the search
+     * @param country the country entered for the search
+     * @param colour the colour entered for the search
+     * @param fullness the fullness entered for the search
+     * @param grapeName the name of the grape (variety) entered for the search
+     */
+    public SearchWineList(List<String> keywords, Integer minYear, Integer maxYear, Float minPrice, Float maxPrice,
+                          String country, String colour, String fullness, String grapeName) {
+        this.minYear = (minYear != null) ? minYear : 0;
+        this.maxYear = (maxYear != null) ? maxYear : LocalDate.now().getYear();
+        this.minPrice = (minPrice != null) ? minPrice : 0f;
+        this.maxPrice = (maxPrice != null) ? maxPrice : 220f;
+        this.country = (country != null && !country.isEmpty()) ? country : "All";
+        this.colour = (colour != null && !colour.isEmpty()) ? colour : "All";
+        this.fullness = (fullness != null && !fullness.isEmpty()) ? fullness : "All";
+        this.grapeName = (grapeName != null && !grapeName.isEmpty()) ? grapeName : "All";
+
+        if (keywords != null) {
+            this.keywords = String.join(" ", keywords);
+        } else {
+            this.keywords = "";
+        }
     }
 
     /**
-     * Used to access the list of searched wines.
-     * @return list of wines returned from a search query
+     * implementation of abstract method
+     *
+     * @return "SearchWineList"
      */
     @Override
-    public List<Wine> getWineList() {
-        return searchWineList;
+    public String getWineListName() {
+        return "SearchWineList";
     }
 
     /**
-     * Adds a wine to the searched wine list
-     * @param wine object to be added
+     * Gets and returns the keywords from the search bar
+     *
+     * @return keywords
      */
-    @Override
-    public void addWineToList(Wine wine) {
-        searchWineList.add(wine);
+    public String getKeywords() {
+        return keywords;
     }
 
     /**
-     * Removes a wine from the searched wine list
-     * @param wine object to be removed
+     * Gets and returns the minimum year entered for the search
+     *
+     * @return minYear
      */
-    @Override
-    public boolean removeWineFromList(Wine wine) {
-        return searchWineList.remove(wine);
+    public int getMinYear() {
+        return minYear;
+    }
+
+    /**
+     * Gets and returns the maximum year entered for the search
+     *
+     * @return maxYear
+     */
+    public int getMaxYear() {
+        return maxYear;
+    }
+
+    /**
+     * Gets and returns the minimum price entered for the search
+     *
+     * @return minPrice
+     */
+    public float getMinPrice() {
+        return minPrice;
+    }
+
+    /**
+     * Gets and returns the maximum price entered for the search
+     *
+     * @return maxPrice
+     */
+    public float getMaxPrice() {
+        return maxPrice;
+    }
+
+    /**
+     * Gets and returns the country entered for the search
+     *
+     * @return country
+     */
+    public String getCountry() {
+        return country;
+    }
+
+    /**
+     * Gets and returns the fullness entered for the search
+     *
+     * @return fullness
+     */
+    public String getFullness() {
+        return fullness;
+    }
+
+    /**
+     * Gets and returns the colour entered for the search
+     *
+     * @return colour
+     */
+    public String getColour() {
+        return colour;
+    }
+
+    /**
+     * Gets and returns the name of the grape entered for the search
+     *
+     * @return grapeName
+     */
+    public String getGrapeName() {
+        return grapeName;
+    }
+
+    /**
+     * Sets the keywords to the given String.
+     * Used by the WineManager instance to change the keywords to have the correct capitalisation
+     *
+     * @param keywords the keywords from the search bar
+     */
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
     }
 
 }

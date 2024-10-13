@@ -35,22 +35,44 @@ public class MainWindow extends Application {
         Parent root = baseLoader.load();
 
         primaryStage.setTitle("Winedy");
+        primaryStage.setResizable(false);
         Scene scene = new Scene(root, 1200, 800);
 
         String[] cssPaths = new String[]{
                 "/css/date_combo_box.css",
                 "/css/help_screen_contents_button.css",
                 "/css/home_screen_button.css",
-                "/css/home_screen_text.css",
                 "/css/individual_wine_view_scroll_pane.css",
                 "/css/nav_bar_button.css",
                 "/css/nav_bar_rectangle.css",
+                "/css/nav_bar_winedy_rectangle.css",
                 "/css/red_wine_button.css",
                 "/css/red_wine_rectangle.css",
+                "/css/red_wine_scroll_pane.css",
                 "/css/white_wine_rectangle.css",
                 "/css/white_wine_scroll_pane.css",
-                "/css/red_wine_scroll_pane.css"
+                "/css/white_red_wine_scroll_pane.css",
+                "/css/profile_tab_pane.css",
+                "/css/add_to_list_button.css",
+                "/css/like_button.css",
+                "/css/overlay.css",
+                "/css/white_wine_pane.css",
+                "/css/wine_list_select.css",
+                "/css/white_red_wine_rectangle.css",
+                "/css/fifteen_combo_box.css",
+                "/css/slider.css",
+                "/css/sign_in_screen_text_field.css",
+                "/css/overlay.css",
+                "/css/wine_pagination.css",
+                "/css/list_pagination.css",
+                "/css/wine_list_pagination.css",
+                "/css/date_picker.css",
+                "/css/bar_chart.css",
+                "/css/toggle_switch.css",
+                "/css/wine_button_disabled.css",
+                "/css/white_white_wine_rectangle.css"
         };
+
         try {
             for (String cssFilePath : cssPaths) {
                 scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource(cssFilePath)).toExternalForm());

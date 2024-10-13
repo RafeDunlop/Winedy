@@ -40,8 +40,8 @@ IntelliJ has built-in support for Gradle. To import your project:
 **Note:** *If you run into dependency issues when running the app or the Gradle pop up doesn't appear then open the Gradle sidebar and click the Refresh icon.*
 
 ## Build Project 
-1. Open a command line interface inside the project directory and run `./gradlew run` to build a .jar file. The file is located at target/wino-1.0-SNAPSHOT.jar
+1. Open a command line interface inside the project directory and run `./gradlew build` to build a .jar file. The file is located at target/Winedy-1.0-SNAPSHOT.jar
 
 ## Run App
 - Open a command line interface inside the project directory and run `cd target` to change into the target directory.
-- Run the command `java -jar wino-1.0-SNAPSHOT.jar` to open the application.
+- Run the command `java -jar Winedy-1.0-SNAPSHOT.jar` to open the application.

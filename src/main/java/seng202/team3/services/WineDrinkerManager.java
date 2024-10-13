@@ -23,7 +23,7 @@ public class WineDrinkerManager {
     /**
      * Wine Drinker DAO instance to handle database related actions with a Wine Drinker
      */
-    private final WineDrinkerDAO wineDrinkerDAO;
+    private WineDrinkerDAO wineDrinkerDAO;
 
     /**
      * Currently logged in Wine Drinker
@@ -31,17 +31,22 @@ public class WineDrinkerManager {
     private WineDrinker currentUser = null;
 
     private static WineDrinkerManager instance;
+    private RecommendationManager recommendationManager;
 
     /**
      * Creates a new WineDrinkerManager object and creates a private WineDrinkerDAO object that it will later
      * use for all database interactions
+     *
+     * @param url the relative url that the test database is located at
      */
     private WineDrinkerManager(String url) {
         wineDrinkerDAO = new WineDrinkerDAO(url);
+        recommendationManager = RecommendationManager.getInstance();
     }
 
     /**
      * Get the singleton instance of WineDrinkerManager
+     *
      * @return instance of WineDrinkerManager
      */
     public static WineDrinkerManager getInstance() {
@@ -52,7 +57,10 @@ public class WineDrinkerManager {
     }
 
     /**
-     * Get the singleton instance of WineDrinkerManager
+     * Get the singleton instance of WineDrinkerManager.
+     * Used for JUnit testing
+     *
+     * @param url the relative url that the test database is located at
      * @return instance of WineDrinkerManager
      */
     public static WineDrinkerManager getInstance(String url) {
@@ -63,12 +71,22 @@ public class WineDrinkerManager {
     }
 
     /**
+     *  WARNING Sets the current singleton instance to null
+     */
+    public static void REMOVE_INSTANCE() {
+        instance = null;
+    }
+
+    /**
      * Set the currentUser WineDrinker object
      *
      * @param currentUser the WineDrinker to be stored
      */
     public void setCurrentUser (WineDrinker currentUser) {
         this.currentUser = currentUser;
+        if (currentUser != null) {
+            currentUser.setupMinSortKey();
+        }
     }
 
     /**
@@ -90,6 +108,7 @@ public class WineDrinkerManager {
         try {
             if (currentUser != null) {
                 wineDrinkerDAO.add(currentUser);
+                recommendationManager.initialiseUserPreferenceModel(currentUser);
             }
         } catch (WineDrinkerAlreadyExistsException e) {
             log.error(e);
@@ -99,6 +118,7 @@ public class WineDrinkerManager {
     /**
      * Authorises and fetches a wine drinker by checking that the username and password match the relevant WineDrinker
      * Uses the data to populate the currentUser object
+     *
      * @param username username entered by the WineDrinker
      * @param password password to check for WineDrinker
      */
@@ -106,16 +126,16 @@ public class WineDrinkerManager {
 
         WineDrinker wineDrinker = wineDrinkerDAO.getWineDrinkerFromUsername(username);
         if (wineDrinker != null) {
-            String[] saltPass = wineDrinker.getPassword().split(":");
-            if (Password.check(password, saltPass[1]).addSalt(saltPass[0]).withBcrypt()) {
+            String hash = wineDrinker.getPassword();
+            if (Password.check(password, hash).withBcrypt()) {
                 setCurrentUser(wineDrinker);
+                recommendationManager.initialiseUserPreferenceModel(currentUser);
             } else {
                 throw new IllegalWineDrinkerException("Password Incorrect");
             }
         } else {
             throw new IllegalWineDrinkerException("User does not exist.");
         }
-
    }
 
     /**
@@ -138,4 +158,22 @@ public class WineDrinkerManager {
        drinker = wineDrinkerDAO.getWineDrinkerFromUsername(username);
        return drinker;
    }
+
+    /**
+     * Calls the delete method of the DAO
+     *
+     * @param toDelete the wine drinker to delete
+     */
+   public void deleteWineDrinker(WineDrinker toDelete){
+       wineDrinkerDAO.delete(toDelete);
+   }
+
+    /**
+     * Sets wineDrinkerDao used for setting up test database
+     *
+     * @param wineDrinkerDAO DAO for the wine drinker
+     */
+    public void setWineDrinkerDAO(WineDrinkerDAO wineDrinkerDAO) {
+       this.wineDrinkerDAO = wineDrinkerDAO;
+    }
 }

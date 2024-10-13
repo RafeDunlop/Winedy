@@ -1,30 +1,37 @@
 package seng202.team3.gui;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import org.controlsfx.control.RangeSlider;
+import seng202.team3.models.WineAttribute;
+import seng202.team3.repository.Table;
+import seng202.team3.services.SearchService;
+import seng202.team3.services.WineListManager;
 import seng202.team3.services.WineManager;
 import seng202.team3.models.SearchWineList;
-import seng202.team3.models.Wine;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 /**
- * Controller class for the search screen
+ * Controller class for the search_screen.fxml
  *
  * @author Sophia Copley (sco207)
  */
@@ -43,10 +50,13 @@ public class SearchScreenController {
     private RangeSlider priceRangeSlider;
 
     @FXML
-    private TextField searchBarTextField;
+    private TextField lowPriceTextField;
 
     @FXML
-    private VBox searchResultsVBox;
+    private TextField highPriceTextField;
+
+    @FXML
+    private TextField searchBarTextField;
 
     @FXML
     private ComboBox<Integer> startDateComboBox;
@@ -59,119 +69,244 @@ public class SearchScreenController {
 
     @FXML
     private AnchorPane wineDetailsAnchorPane;
+
+    @FXML
+    private AnchorPane rootAnchorPane;
+
+    @FXML
+    private Rectangle searchWinesRectangle;
+
+    @FXML
+    private Rectangle filterRectangle;
+
+    @FXML
+    private Rectangle searchRectangle;
+
+    @FXML
+    private Rectangle infoTextRectangle;
+
+    @FXML
+    private Button searchButton;
+
+    @FXML
+    private Button clearFiltersButton;
+
+    @FXML
+    private Button applyFiltersButton;
+
+    @FXML
+    private Button filterToggleButton;
+
+    @FXML
+    private VBox filterVBox;
+
+    @FXML
+    private Label infoTextLabel;
+
+    @FXML
+    private VBox rootVBox;
+
+    /**
+     * Label containing the text of the filterToggleButton inside of it's graphic
+     */
+    private Label filterToggleButtonLabel;
+
+    /**
+     * ImageView that contains the drop-down triangle;
+     */
+    private ImageView filterToggleButtonArrowImageView;
+
     /**
      * Current wine colour filter selected by the Wine Drinker
      */
     private String selectedColour = null;
+
     /**
      * Current grape variety filter selected by the Wine Drinker
      */
     private String selectedVariety = null;
+
     /**
      * Current wine fullness filter selected by the Wine Drinker
      */
     private String selectedFullness = null;
+
     /**
      * Current country filter selected by the Wine Drinker
      */
     private String selectedCountry = null;
+
     /**
      * Earliest year filter selected by the Wine Drinker
      */
     private Integer lowYear = null;
+
     /**
      * Latest year filter selected by the Wine Drinker
      */
     private Integer highYear = null;
 
     /**
-     * Method to initialise the search screen with the required combo boxes for
-     * TODO: initialise the combo boxes so that they get the possible options from the database instead of hard coding the options
+     * Boolean to store the state of the sort VBox
+     */
+    private boolean filterVBoxExpanded = true;
+
+    /**
+     * Map from page index to its child scrollpane for the wine buttons
+     */
+    private Map<Integer, ScrollPane> pageScrollPaneMap;
+
+    private Pagination searchResultsPagination;
+
+    /**
+     * Called by JavaFX upon initialisation of the search screen. Sets the values of the price range slider to the low
+     * and high values. Adds all the possible attribute values to the combo boxes through searchScreenService. Sets the
+     * on actions of the combo boxes to change the selected filters. Collapses the filter VBox, adds the style classes
+     * to the widgets, and initialises the date range combo boxes. Loads the previous search into the VBox, if there is
+     * no previous search, this is set to all the wines in the database.
      */
     public void initialize() {
+
         searchBarTextField.setOnAction(this::onSearchButtonClicked);
-        priceRangeSlider.setLowValue(0);
-        priceRangeSlider.setHighValue(220);
 
-        // this style class is unfinished so the line of code has been commented out for GUI consistency
-        // startDateComboBox.getStyleClass().add("date-combo-box"); //Initialising combo boxes. In deliverable 3, the combo boxes will get the options from the recorded values in the database
-        colourComboBox.getItems().addAll("", "White", "Rose", "Red");
-        fullnessComboBox.getItems().addAll("", "DRY", "LIGHT", "FULL", "MEDIUM", "SWEET", "OFF DRY");
-        countryComboBox.getItems().addAll("", "USA", "Italy", "France", "New Zealand", "Portugal", "Spain", "Argentina",
-                "Australia", "Chile", "Romania", "South Africa", "Lebanon", "Germany",
-                "Hungary", "Austria", "UK", "Macedonia", "Greece");
-        setUpVarietyComboBox(varietyComboBox);
-
-        colourComboBox.setOnAction(select -> selectedColour = (colourComboBox.getSelectionModel().getSelectedItem() == "") ? null : colourComboBox.getSelectionModel().getSelectedItem());
-        fullnessComboBox.setOnAction(select -> selectedFullness = (fullnessComboBox.getSelectionModel().getSelectedItem() == "") ? null : fullnessComboBox.getSelectionModel().getSelectedItem());
-        countryComboBox.setOnAction(select -> selectedCountry = (countryComboBox.getSelectionModel().getSelectedItem() == "") ? null : countryComboBox.getSelectionModel().getSelectedItem());
-        varietyComboBox.setOnAction(select -> selectedVariety = (varietyComboBox.getSelectionModel().getSelectedItem() == "") ? null : varietyComboBox.getSelectionModel().getSelectedItem());
-
+        initialisePriceRangeSlider();
+        initialiseAttributeComboBoxes();
         initialiseDateRangeComboBoxes();
+
+        HBox filterToggleButtonHbox = new HBox();
+        filterToggleButtonArrowImageView = new ImageView(new Image("/images/drop_down_arrow.png"));
+        filterToggleButtonArrowImageView.setFitWidth(30);
+        filterToggleButtonArrowImageView.setFitHeight(15);
+        filterToggleButtonArrowImageView.setPreserveRatio(false);
+        filterToggleButtonLabel = new Label("Filter");
+        filterToggleButtonLabel.setFont(new Font("System", 20));
+        filterToggleButtonHbox.getChildren().addAll(filterToggleButtonLabel, filterToggleButtonArrowImageView);
+        filterToggleButton.setGraphic(filterToggleButtonHbox);
+        filterToggleButton.setText("");
+
+        expandFilterVBox();
+        addStyleClasses();
+
+        searchButton.setDisable(true);
+        getSearchResults(true); //Loads all wines into results box
     }
 
     /**
      * Method that sets the action of search button. It clears current search results, calls the WineManager
      * search method and displays the current search results
+     *
      * @param event ActionEvent for the button being clicked
      */
     @FXML
     void onSearchButtonClicked(ActionEvent event) {
-        searchResultsVBox.getChildren().clear();
+        searchButton.setDisable(true);
+        applyFiltersButton.setDisable(true);
+        clearFiltersButton.setDisable(true);
         FXWrapper.getInstance().clearPane(wineDetailsAnchorPane);
-        WineManager wineManager = WineManager.getInstance();
-
-        SearchWineList results = wineManager.searchWines(
-                searchBarTextField.getText(),
-                lowYear,
-                highYear,
-                (float) priceRangeSlider.getLowValue(),
-                (float) priceRangeSlider.getHighValue(),
-                selectedCountry,
-                selectedColour,
-                selectedFullness,
-                selectedVariety);
-        List<Wine> resultsList = results.getWineList();
-        Wine[] resultsArray = new Wine[resultsList.size()];
-        resultsArray = resultsList.toArray(resultsArray);
-
-        fillVbox(resultsArray);
+        getSearchResults(false);
     }
 
     /**
-     * Method to fill the search result VBox with buttons corresponding to the wines that are in the search results
-     * @param searchResults an array of the search results
+     * If usePreviousSearch is false, gets the results of the search from the database. Otherwise, uses the previous
+     * search stored in FXWrapper. Loads the wine list view with the search results. This is set up to run on a separate
+     * thread to keep the JavaFX application responsive while it runs in the background
+     *
+     * @param usePreviousSearch the truth value of whether the previous search should be used
      */
-    private void fillVbox(Wine[] searchResults) {
-        int length = searchResults.length;
-        int rows = (length % 3 == 0)? length / 3 : length / 3 + 1;
-        if (length == 0) {
-            Label noSearchResultsLabel = new Label("No Wines were found for your search!");
-            searchResultsVBox.setAlignment(Pos.CENTER);
-            searchResultsVBox.getChildren().add(noSearchResultsLabel);
-        }
-        for (int i = 0; i < rows; i++) {
-            HBox hbox = new HBox(10); // 10px
-            hbox.setSpacing(20);
-            hbox.setPadding(new Insets(10, 15, 10, 15));
-            hbox.setPrefWidth(800); // Set preferred width for the HBox
+    private void getSearchResults(boolean usePreviousSearch) {
+        Task<Void> task = new Task<>() {
 
-            Button button1 = GuiService.generateWineButton(searchResults[3 * i], wineDetailsAnchorPane, 240, 240);
-            hbox.getChildren().add(button1);
+            @Override
+            protected Void call() {
+                SearchWineList results;
 
-            if (3 * i + 1 < searchResults.length) {
-                Button button2 = GuiService.generateWineButton(searchResults[3 * i  + 1], wineDetailsAnchorPane, 240, 240);
-                hbox.getChildren().add(button2);
+                if (WineListManager.getInstance().getLastSearched() == null | !usePreviousSearch) {
+                    results = WineManager.getInstance().searchWines(
+                            searchBarTextField.getText(),
+                            lowYear,
+                            highYear,
+                            (float) priceRangeSlider.getLowValue(),
+                            (float) priceRangeSlider.getHighValue(),
+                            !"All".equals(selectedCountry) ? selectedCountry : null,
+                            !"All".equals(selectedColour) ? selectedColour : null,
+                            !"All".equals(selectedFullness) ? selectedFullness : null,
+                            !"All".equals(selectedVariety) ? selectedVariety : null);
+                } else {
+                    results = WineListManager.getInstance().getLastSearched();
+                    setUpPreviousSearchValues();
+                }
+
+                WineListManager.getInstance().setLastSearched(results);
+
+                Platform.runLater(() -> {
+                    rootVBox.getChildren().clear();
+
+                    if (results.getWineList().isEmpty()) {
+                        infoTextLabel.setText("Unfortunately there were no results for your search. Try checking your spelling or broadening your filters.");
+                        infoTextRectangle.setVisible(true);
+                        infoTextLabel.setVisible(true);
+                    } else {
+                        infoTextRectangle.setVisible(false);
+                        infoTextLabel.setVisible(false);
+                        pageScrollPaneMap = GuiService.createPagination(results.getWineList(), rootVBox, 4, 3, wineDetailsAnchorPane);
+                    }
+
+                });
+                return null;
             }
+        };
 
-            if (3 * i + 2 < searchResults.length) {
-                Button button3 = GuiService.generateWineButton(searchResults[3 * i + 2], wineDetailsAnchorPane, 240, 240);
-                hbox.getChildren().add(button3);
-            }
+        task.setOnSucceeded(e -> {
+            searchButton.setDisable(false);
+            applyFiltersButton.setDisable(false);
+            clearFiltersButton.setDisable(false);
+        });
 
-            searchResultsVBox.getChildren().add(hbox);
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    /**
+     * Used by JavaFX as the OnAction of the filter toggle button. Toggles the vbox between being expanded or collapsed
+     */
+    @FXML
+    void onFilterToggleButtonClicked() {
+        if (filterVBoxExpanded) {
+            collapseFilterVBox();
+            filterVBoxExpanded = false;
+        } else {
+            expandFilterVBox();
+            filterVBoxExpanded = true;
         }
+    }
 
+    /**
+     * Used by JavaFX as the onAction of the clear filters button. Sets all the filters to their default values and
+     * performs a search using only the keywords entered into the search bar
+     */
+    @FXML
+    public void onClearFiltersButtonClicked() {
+        colourComboBox.setValue("All");
+        varietyComboBox.setValue("All");
+        countryComboBox.setValue("All");
+        fullnessComboBox.setValue("All");
+        startDateComboBox.setValue(null);
+        endDateComboBox.setValue(null);
+        priceRangeSlider.setLowValue(priceRangeSlider.minProperty().get());
+        priceRangeSlider.setHighValue(priceRangeSlider.maxProperty().get());
+
+        onSearchButtonClicked(new ActionEvent());
+    }
+
+    /**
+     * Used by JavaFX as the onAction of the apply filters button. Applies any changed filters to the current search
+     */
+    @FXML
+    public void onApplyFiltersButtonClicked() {
+        collapseFilterVBox();
+        filterVBoxExpanded = false;
+        onSearchButtonClicked(new ActionEvent());
     }
 
     /**
@@ -181,9 +316,10 @@ public class SearchScreenController {
      */
     private void initialiseDateRangeComboBoxes() {
 
-        List<Integer> years = IntStream.rangeClosed(2007, 2019)
+        List<Integer> years = IntStream.rangeClosed((int) SearchService.getBoundaryAttributeValue(WineAttribute.YEAR, Table.WINESUPER, "min"),
+                                                    (int) SearchService.getBoundaryAttributeValue(WineAttribute.YEAR, Table.WINESUPER, "max"))
                 .boxed()
-                .collect(Collectors.toList());
+                .toList();
         ObservableList<Integer> yearList = FXCollections.observableArrayList();
         yearList.add(null);
         yearList.addAll(years);
@@ -210,19 +346,144 @@ public class SearchScreenController {
     }
 
     /**
-     * Adds all variety strings to the variety ComboBox.
-     * Created to modularise the initialize method in SearchScreenController to make it more readable nad maintainable.
-     * TODO: Change to querying the data base for a table of all unique variety types
-     * @param varietyComboBox the ComboBox the strings will be added to
+     * Adds the appropriate style classes to the widgets
      */
-    public static void setUpVarietyComboBox(ComboBox<String> varietyComboBox) {
-        varietyComboBox.getItems().addAll("", "Albariño", "Barbera", "Bonarda", "Bourboulenc", "Cabernet Franc",
-                "Cabernet Sauvignon", "Carignan", "Carmenere", "Carménère", "Chardonnay", "Chenin Blanc", "Chenin Blanc",
-                "Cinsault", "Clairette", "Cortese", "Fiano","Furmint", "Gamay", "Gewurztraminer", "Gewürztraminer",
-                "Grenache", "Grenache Blanc", "Gruner Veltliner", "Grüner Veltliner", "Harslevelu", "Malbec", "Marsanne",
-                "Melon de Bourgogne", "Merlot", "Mourvedre", "Mourvèdre", "Nebbiolo", "Nero d\'Avola", "Palomino",
-                "Petit Verdot", "Pinotage", "Pinot Grigio", "Pinot Noir", "Riesling", "Rioja", "Roussanne", "Sangiovese",
-                "Sangiovese", "Sauvignon Blanc", "Semillon", "Shiraz", "Syrah", "Tempranillo",
-                "Torrontes", "Verdejo", "Viognier", "Zinfandel"); // This is good for now, but what if we add more wines to the database
+    private void addStyleClasses() {
+        searchWinesRectangle.getStyleClass().add("red-wine-rectangle");
+        filterRectangle.getStyleClass().add("white-wine-rectangle");
+        searchRectangle.getStyleClass().add("white-wine-rectangle");
+        infoTextRectangle.getStyleClass().add("white-red-wine-rectangle");
+        searchButton.getStyleClass().add("nav-bar-button");
+        filterToggleButton.getStyleClass().add("nav-bar-button");
+        clearFiltersButton.getStyleClass().add("nav-bar-button");
+        applyFiltersButton.getStyleClass().add("nav-bar-button");
+        colourComboBox.getStyleClass().add("fifteen-combo-box");
+        countryComboBox.getStyleClass().add("fifteen-combo-box");
+        endDateComboBox.getStyleClass().add("fifteen-combo-box");
+        startDateComboBox.getStyleClass().add("fifteen-combo-box");
+        varietyComboBox.getStyleClass().add("fifteen-combo-box");
+        fullnessComboBox.getStyleClass().add("fifteen-combo-box");
+        searchBarTextField.getStyleClass().add("sign-in-screen-text-field");
+        lowPriceTextField.getStyleClass().add("sign-in-screen-text-field");
+        highPriceTextField.getStyleClass().add("sign-in-screen-text-field");
+    }
+
+    /**
+     * Sets the preferred height of the filter Vbox and Rectangle to 84. Sets every child of the vbox other than the
+     * toggle button to be unmanaged, disabled, and invisible. Moves the wine details anchor pane to the front of the
+     * screen by removing and re-adding it to the root anchor pane.
+     */
+    private void collapseFilterVBox() {
+        filterVBox.setPrefHeight(84);
+        filterRectangle.setHeight(84);
+        for (Node vBoxChild : filterVBox.getChildren()) {
+            vBoxChild.setManaged(false);
+            vBoxChild.setDisable(true);
+            vBoxChild.setVisible(false);
+        }
+        filterToggleButton.setManaged(true);
+        filterToggleButton.setDisable(false);
+        filterToggleButton.setVisible(true);
+        filterToggleButton.setPrefWidth(320);
+        filterToggleButtonLabel.setText("Filter");
+        filterToggleButtonArrowImageView.setImage(new Image("/images/drop_down_arrow.png"));
+        HBox.setMargin(filterToggleButtonLabel, new Insets(0, 200, 0, 0));
+
+        rootAnchorPane.getChildren().remove(wineDetailsAnchorPane);
+        rootAnchorPane.getChildren().add(wineDetailsAnchorPane);
+    }
+
+    /**
+     * Sets the preferred height of the filter Vbox and Rectangle to 645. Sets every child of the vbox to be managed,
+     * enabled, and visible. Moves the filter rectangle and vbox to the front of screen by removing and re-adding them
+     * to the root anchor pane.
+     */
+    private void expandFilterVBox() {
+        filterVBox.setPrefHeight(645);
+        filterRectangle.setHeight(645);
+        for (Node vBoxChild : filterVBox.getChildren()) {
+            vBoxChild.setManaged(true);
+            vBoxChild.setDisable(false);
+            vBoxChild.setVisible(true);
+        }
+
+        filterToggleButton.setPrefWidth(130);
+        filterToggleButtonLabel.setText("Close");
+        filterToggleButtonArrowImageView.setImage(new Image("/images/jump_up_arrow.png"));
+        HBox.setMargin(filterToggleButtonLabel, new Insets(0, 10, 0, 0));
+
+        rootAnchorPane.getChildren().remove(filterRectangle);
+        rootAnchorPane.getChildren().add(filterRectangle);
+        rootAnchorPane.getChildren().remove(filterVBox);
+        rootAnchorPane.getChildren().add(filterVBox);
+    }
+
+    /**
+     * Adds all the attribute values from the database to the attribute combo boxes. Sets the on action of the
+     * attribute combo boxes to update the value of the selected attribute to the selected item
+     */
+    private void initialiseAttributeComboBoxes() {
+        colourComboBox.setPromptText("All");
+        fullnessComboBox.setPromptText("All");
+        countryComboBox.setPromptText("All");
+        varietyComboBox.setPromptText("All");
+
+        colourComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.COLOUR, Table.WINESUPER));
+        fullnessComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.FULLNESS, Table.WINESUPER));
+        countryComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.COUNTRY, Table.WINESUPER));
+        varietyComboBox.getItems().addAll(SearchService.getAttributeValues(WineAttribute.VARIETY, Table.GRAPE));
+
+        colourComboBox.setOnAction(select -> selectedColour = (colourComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : colourComboBox.getSelectionModel().getSelectedItem());
+        fullnessComboBox.setOnAction(select -> selectedFullness = (fullnessComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : fullnessComboBox.getSelectionModel().getSelectedItem());
+        countryComboBox.setOnAction(select -> selectedCountry = (countryComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : countryComboBox.getSelectionModel().getSelectedItem());
+        varietyComboBox.setOnAction(select -> selectedVariety = (varietyComboBox.getSelectionModel().getSelectedItem().isEmpty()) ? null : varietyComboBox.getSelectionModel().getSelectedItem());
+    }
+
+    /**
+     * Sets up the values in the filter widgets to represent the values used in the previous search for the search bar,
+     * colour, variety, country, fullness, dates, and prices. Sets the relevant selected values to be these as well in
+     * case a search is made again without the on action of the combo boxes being triggered.
+     */
+    private void setUpPreviousSearchValues() {
+        SearchWineList previousSearch = WineListManager.getInstance().getLastSearched();
+
+        searchBarTextField.setText(previousSearch.getKeywords());
+        colourComboBox.setValue(previousSearch.getColour());
+        varietyComboBox.setValue(previousSearch.getGrapeName());
+        countryComboBox.setValue(previousSearch.getCountry());
+        fullnessComboBox.setValue(previousSearch.getFullness());
+        startDateComboBox.setValue(previousSearch.getMinYear() == 0 ? null : previousSearch.getMinYear());
+        endDateComboBox.setValue(previousSearch.getMaxYear() == LocalDate.now().getYear() ? null : previousSearch.getMaxYear());
+        priceRangeSlider.setHighValue(previousSearch.getMaxPrice());
+        priceRangeSlider.setLowValue(previousSearch.getMinPrice());
+
+        selectedColour = previousSearch.getColour();
+        selectedVariety = previousSearch.getGrapeName();
+        selectedCountry = previousSearch.getCountry();
+        selectedFullness = previousSearch.getFullness();
+        lowYear = previousSearch.getMinYear();
+        highYear = previousSearch.getMaxYear();
+    }
+
+    /**
+     * Initializes the price range slider by getting the minimum and maximum price values from the database. The minimum
+     * price is rounded down to the nearest ten and the maximum price is rounded up to the nearest ten. These values are
+     * set as the min and max values, and the high and low values of the price range slider.
+     */
+    private void initialisePriceRangeSlider() {
+        int minValue = (int) SearchService.getBoundaryAttributeValue(WineAttribute.PRICE, Table.WINESUPER, "min");
+        minValue = minValue / 10 * 10;
+        int maxValue = (int) SearchService.getBoundaryAttributeValue(WineAttribute.PRICE, Table.WINESUPER, "max");
+        maxValue = ((maxValue + 9) / 10) * 10;
+
+        priceRangeSlider.setMin(minValue);
+        priceRangeSlider.setMax(maxValue);
+        priceRangeSlider.setLowValue(priceRangeSlider.minProperty().get());
+        priceRangeSlider.setHighValue(priceRangeSlider.maxProperty().get());
+
+        lowPriceTextField.textProperty().bindBidirectional(priceRangeSlider.lowValueProperty(), SearchService.converter);
+        highPriceTextField.textProperty().bindBidirectional(priceRangeSlider.highValueProperty(), SearchService.converter);
+        lowPriceTextField.setTextFormatter(SearchService.getMinMaxPriceTextFormatter(minValue, maxValue));
+        highPriceTextField.setTextFormatter(SearchService.getMinMaxPriceTextFormatter(minValue, maxValue));
     }
 }

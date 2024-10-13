@@ -6,11 +6,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the Wine model class
- * @author Krishna Sridhar
+ * @author Krishna Sridhar (nsr36)
  */
 
 public class WineTest {
-    private Wine wine = new Wine(
+    private final Wine wine = new Wine(
             1,
             "Nero Oro Appassimento 2018, Sicily",
             "Italy",

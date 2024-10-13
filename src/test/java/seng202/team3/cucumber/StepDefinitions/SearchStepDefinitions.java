@@ -3,14 +3,24 @@ package seng202.team3.cucumber.StepDefinitions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import seng202.team3.models.SearchWineList;
 import seng202.team3.models.Wine;
-import seng202.team3.models.WineList;
+import seng202.team3.repository.DatabaseManager;
 import seng202.team3.repository.WineDAO;
 
+import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ * Cucumber tests for AT_1-4 (searching)
+ * @author Krishna Sridhar (nsr36)
+ */
 
 public class SearchStepDefinitions {
     List<String> keywords;
@@ -18,11 +28,31 @@ public class SearchStepDefinitions {
     private String fullness;
     private String country;
     private WineDAO wineDAO;
-    private WineList searchedWines = new WineList();
+    private final SearchWineList searchedWines = new SearchWineList(Collections.emptyList(), 0, 0, 0f,
+            0f, null, null, null, null);
+    final String DATABASE_PATH = "jdbc:sqlite:./src/test/resources/test_database.db";
+
+    @BeforeAll
+    public static void deleteTestDB() {
+        File file = new File("./src/test/resources/test_database.db");
+        file.delete();
+    }
+
+    @BeforeEach
+    public void setup() {
+        DatabaseManager.REMOVE_INSTANCE();
+        DatabaseManager.getInstance(DATABASE_PATH);
+    }
+
+    @AfterEach
+    public void cleanUp() {
+        File file = new File("./src/test/resources/test_database.db");
+        file.delete();
+    }
 
     @Given("The Wine Drinker is in the search wine page")
     public void userIsOnSearchScreenWithDatabaseLoaded() {
-        wineDAO = new WineDAO("jdbc:sqlite:./src/test/resources/test_database.db");
+        wineDAO = new WineDAO(DATABASE_PATH);
     }
 
     private void addWines(SearchWineList searchWineList) {
@@ -42,9 +72,11 @@ public class SearchStepDefinitions {
 
     @When("search with the phrase {string}")
     public void searchWithPhrase(String phrase) {
-        this.keywords = List.of(phrase.split(" "));
-        SearchWineList searchWineList = wineDAO.searchWines(keywords, null, null, null, null, null, null, null, null);
-        addWines(searchWineList);
+        if (phrase != null) {
+            this.keywords = List.of(phrase.split(" "));
+            SearchWineList searchWineList = wineDAO.searchWines(keywords, null, null, null, null, null, null, null, null);
+            addWines(searchWineList);
+        }
     }
     @When("enters the filter Colour: {string}")
     public void searchWithColourFilter(String colour) {
@@ -71,21 +103,27 @@ public class SearchStepDefinitions {
     public void theSearchedWinesShouldMatchPhraseAndFilters(String phrase, String colour, String fullness, String country) {
         List<String> keywords = List.of(phrase.split(" "));
         SearchWineList searchWineList = wineDAO.searchWines(keywords, null, null, null, null, country, colour, fullness, null);
+        int matching = getMatching();
+        assertEquals(searchWineList.getWineList().size(), matching);
+    }
+
+    private int getMatching() {
         int matching = 0;
         boolean wordMatch;
         for (Wine wine : searchedWines.getWineList()) {
             wordMatch = false;
-            for (String word : keywords) {
-                if (wine.getName().contains(word) || wine.getLongDescription().contains(word)){
-                    wordMatch = true;
+            if (this.keywords != null) {
+                for (String word : this.keywords) {
+                    if (wine.getName().contains(word) || wine.getLongDescription().contains(word)) {
+                        wordMatch = true;
+                        break;
+                    }
                 }
             }
             if (wine.getColour().equals(this.colour) && wine.getFullness().equals(this.fullness) && wine.getCountry().equals(this.country) && wordMatch) {
                 matching++;
             }
         }
-        System.out.println(searchWineList.getWineList().size());
-        System.out.println(matching);
-        assertTrue(searchWineList.getWineList().size() == matching);
+        return matching;
     }
 }

@@ -1,0 +1,21 @@
+/*
+ * This style sheet defines the white_red_wine_rectangle style class.
+ */
+.root {
+    -fx-wrwr-body-colour: #F0F0F0; /* Off-white grey */
+    -fx-wrwr-border-colour: derive(#821D38, 30%);
+}
+
+/*
+ * Rectangle used behind the Winedy name on the Nav Bar.
+ * Has a near white background with a black border (stroke) and rounded corners (arc).
+ */
+.white-red-wine-rectangle {
+    -fx-fill: -fx-wrwr-body-colour;
+    -fx-arc-width: 40px;
+    -fx-arc-height: 40px;
+
+    -fx-stroke: -fx-wrwr-border-colour;
+    -fx-stroke-width: 3px;
+    -fx-stroke-type: outside;
+}

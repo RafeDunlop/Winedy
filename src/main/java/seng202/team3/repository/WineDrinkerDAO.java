@@ -30,12 +30,13 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
 
     /**
      *  Creates a WineDrinkerDAO object and gets a reference to the database singleton
+     *
+     * @param url the relative url that the test database is located at
      */
-    public WineDrinkerDAO(String url){database = DatabaseManager.getInstance(url);}
+    public WineDrinkerDAO(String url) {
+        database = DatabaseManager.getInstance(url);
+    }
 
-    /**
-     * TODO: implement for deliverable 3
-     */
     @Override
     public List<WineDrinker> getAll() {
         throw new NotImplementedException("WineDrinkerDAO get all method not yet implemented");
@@ -87,7 +88,7 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
     public int add(WineDrinker toAdd) throws WineDrinkerAlreadyExistsException {
         String sqlQuery = "INSERT INTO wineDrinker(username, password, countryPreference, colourPreference, fullnessPreference, grapePreference, abvLimit) values (?,?,?,?,?,?,?);";
         Hash hash = Password.hash(toAdd.getPassword()).withBcrypt();
-        String password = hash.getSalt()+":"+hash.getResult();
+        String password = hash.getResult();
         try (Connection conn = database.connect();
             PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
             preparedStatement.setString(1, toAdd.getUsername());
@@ -118,11 +119,21 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
     /**
      * Delete object by ID
      *
-     * @param id id of object to delete
+     * @param toDelete WineDrinker object to be deleted
      */
     @Override
-    public void delete(int id ){
-        throw new NotImplementedException("WineDrinkerDAO get all method not yet implemented");
+    public int delete(WineDrinker toDelete) {
+        String sqlQuery = "DELETE from wineDrinker WHERE username=?";
+        try(Connection conn = database.connect();
+            PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
+            preparedStatement.setString(1, toDelete.getUsername());
+            preparedStatement.executeUpdate();
+            return 0;
+        } catch (SQLException e) {
+            log.error("Error updating user in database", e);
+            return 1;
+        }
+
     }
 
 
@@ -132,7 +143,7 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
      * @param user User that has updated preferences and needs their data stored in the database to be documents
      */
     @Override
-    public void update(WineDrinker user) {
+    public int update(WineDrinker user) {
         String sqlQuery = "UPDATE wineDrinker SET countryPreference=?, colourPreference=?, fullnessPreference=?, grapePreference=?, abvLimit=?  WHERE username=?";
         try(Connection conn = database.connect();
             PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
@@ -143,8 +154,10 @@ public class WineDrinkerDAO implements DAOInterface<WineDrinker> {
             preparedStatement.setDouble(5, user.getAbvLimit());
             preparedStatement.setString(6, user.getUsername());
             preparedStatement.executeUpdate();
+            return 0;
         } catch (SQLException e) {
             log.error("Error updating user in database", e);
+            return 1;
         }
 
     }
