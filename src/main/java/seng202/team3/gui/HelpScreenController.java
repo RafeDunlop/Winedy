@@ -289,6 +289,16 @@ public class HelpScreenController {
             signinContentLabel.setText(GuiService.getContentFromFile("/text/sign_in.txt"));
             searchingContentLabel.setText(GuiService.getContentFromFile("/text/searching.txt"));
             winedyProfileTabContentLabel.setText(GuiService.getContentFromFile("/text/profile_tab.txt"));
+            changingPreferencesContentLabel.setText(GuiService.getContentFromFile("/text/preferences.txt"));
+            viewingRecommendedWinesContentLabel.setText(GuiService.getContentFromFile("/text/recommended_wines.txt"));
+            creatingWineListsContentLabel.setText(GuiService.getContentFromFile("/text/creating_wine_lists.txt"));
+            addingWinesToListContentLabel.setText(GuiService.getContentFromFile("/text/adding_wines_to_list.txt"));
+            deletingWineListsContentLabel.setText(GuiService.getContentFromFile("/text/deleting_wine_lists.txt"));
+            viewingWineListsContentLabel.setText(GuiService.getContentFromFile("/text/viewing_list_contents.txt"));
+            editingWineListsContentLabel.setText(GuiService.getContentFromFile("/text/editing_lists.txt"));
+            consumptionTrackingContentLabel.setText(GuiService.getContentFromFile("/text/consumption_tracking.txt"));
+            loggingContentLabel.setText(GuiService.getContentFromFile("/text/logging_wine_consumption.txt"));
+            addingWinesContentLabel.setText(GuiService.getContentFromFile("/text/adding_personal_wines.txt"));
             log.info("Help Screen loaded.");
         } catch (NullPointerException e) {
             log.error("Error loading txt files. Did you misspell their path", e);

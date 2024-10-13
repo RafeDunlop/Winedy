@@ -1,0 +1,13 @@
+Once you have clicked the 'Log a Wine' button on the 'Consumption Tracking' tab (See Consumption Tracking) the 'Consumption Tracking' popup should open.
+
+On this popup you can select a wine to log by clicking the combo box in the top left of the screen. Begin to type in the name of the wine you would like to log, once it shows up, click on it. You can also scroll through the combo box to find the wine.
+
+If the wine you want to log is not there, you can add it to the database by clicking the 'Add personal wine instead' button to the right (See Adding Your Own Wines).
+
+If you would like to change the date that you are logging for, click on the date picker and find your desired date. You can also change the time of the log by clicking the 'Time' combo box and scrolling through to find your desired hour.
+
+Decide if you would like to log the amount you drank in glasses, or bottles. The bottles selection likely to be more accurate.
+
+Enter the number of glasses/bottles you drank and optionally enter a note to remember how you felt at the time of consumption.
+
+Once your log has all the entered data, click the 'Add log' button to save it. The graph should be updated to reflect your new log.
