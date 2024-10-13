@@ -64,15 +64,17 @@ public class PersonalWineDAO implements DAOInterface<Wine> {
         String sqlWine = "SELECT * FROM personalWine WHERE personalWine.wineDrinker=?";
         try (Connection conn = databaseManager.connect();
              PreparedStatement ps = conn.prepareStatement(sqlWine)) {
-            ps.setString(1, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
-            try (ResultSet resultSet = ps.executeQuery()) {
-                while (resultSet.next()) {
-                    int wineId = resultSet.getInt("id");
-                    Wine newWine = wineDAO.getWineByID(wineId);
-                    wines.add(newWine);
+            if (WineDrinkerManager.getInstance().getCurrentUser() != null) {
+                ps.setString(1, WineDrinkerManager.getInstance().getCurrentUser().getUsername());
+                try (ResultSet resultSet = ps.executeQuery()) {
+                    while (resultSet.next()) {
+                        int wineId = resultSet.getInt("id");
+                        Wine newWine = wineDAO.getWineByID(wineId);
+                        wines.add(newWine);
+                    }
                 }
-                return wines;
             }
+            return wines;
         } catch (SQLException sqlException) {
             log.error(sqlException);
             return new ArrayList<>();

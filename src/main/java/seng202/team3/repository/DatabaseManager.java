@@ -219,10 +219,6 @@ public class DatabaseManager {
         }
         InputStream inputStream = getClass().getResourceAsStream(filePath);
         List<Wine> wines = WineCSVImporter.readFromFile(inputStream);
-        if (WineDrinkerManager.getInstance().getCurrentUser() != null) {
-            PersonalWineDAO personalWineDAO = new PersonalWineDAO();
-            wines.addAll(personalWineDAO.getAll());
-        }
         WineDAO wineDAO = new WineDAO(url);
         int i = 0;
         while (i < wines.size()) {
@@ -233,5 +229,6 @@ public class DatabaseManager {
             }
             i += 100;
         }
+        wineDAO.addBatch(new PersonalWineDAO().getAll());
     }
 }
