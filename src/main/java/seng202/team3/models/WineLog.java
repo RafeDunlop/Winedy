@@ -123,6 +123,11 @@ public class WineLog implements Timed {
                 String.format("%.1f",standards);
     }
 
+    /**
+     *
+     * @param other
+     * @return
+     */
     public boolean equals(WineLog other) {
         boolean same = other.getIsBottles() == this.loggedByBottles;
         same = other.getStandards() == this.standards && same;

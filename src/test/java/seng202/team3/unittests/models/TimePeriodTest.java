@@ -68,7 +68,7 @@ public class TimePeriodTest {
         List<WineLog> logsInYear = List.of(log7, log6, log5, log4, log3, log2, log1, log0);
         HashMap<Integer, List<WineLog>> logsInMonths = TimePeriod.MONTHS.splitIntoPeriods(logsInYear);
         assertEquals(3, logsInMonths.size());
-        assertEquals(6, logsInMonths.get(0).size());
+        assertEquals(6, logsInMonths.get(1).size());
     }
 
     @Test

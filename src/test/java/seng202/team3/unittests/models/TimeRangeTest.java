@@ -8,9 +8,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import seng202.team3.models.TimeRange;
 import seng202.team3.repository.DatabaseManager;
+import seng202.team3.services.LogManager;
 
 import java.io.File;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.List;
 
@@ -184,7 +186,8 @@ public class TimeRangeTest {
     @Test
     public void getResetCalendarTest() {
         Calendar cal = TimeRange.getResetCalendar();
-        assertEquals(1728691200000L, cal.getTimeInMillis());
+        assertEquals(new Date(System.currentTimeMillis()).toLocalDate().atStartOfDay(),
+                new Date(cal.getTimeInMillis()).toLocalDate().atStartOfDay());
     }
 
     @Test

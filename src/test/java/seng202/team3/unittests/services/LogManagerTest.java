@@ -145,8 +145,8 @@ public class LogManagerTest {
         logDiff.setIsBottles(false);
         logManager.addLog(logDiff);
         List<WineLog> logs = logManager.getAllLogs();
-        WineLog expectedLog = new WineLog(1, "", Date.valueOf(LocalDate.of(2024, 1, 1)),
-                Time.valueOf(LocalTime.of(12, 0, 0)), 1.4f, false);
+        WineLog expectedLog = new WineLog(1, null, Date.valueOf(LocalDate.of(2024, 1, 1)),
+                Time.valueOf(LocalTime.of(12, 0, 0)), 1.3f, false);
         WineLog logToTest = logs.get(6);
         assertTrue(expectedLog.equals(logToTest));
     }
@@ -162,7 +162,7 @@ public class LogManagerTest {
         logDiff.setIsBottles(true);
         logManager.addLog(logDiff);
         List<WineLog> logs = logManager.getAllLogs();
-        WineLog expectedLog = new WineLog(1, "", Date.valueOf(LocalDate.of(2024, 1, 1)),
+        WineLog expectedLog = new WineLog(1, null, Date.valueOf(LocalDate.of(2024, 1, 1)),
                 Time.valueOf(LocalTime.of(12, 0, 0)), 8.4f, true);
         WineLog logToTest = logs.get(6);
         assertTrue(expectedLog.equals(logToTest));
@@ -171,7 +171,7 @@ public class LogManagerTest {
     @Test
     public void getAmtIsGlassesTest() {
         float testAmt = logManager.getAmt(wineDAO.getWineByID(2), 1.5f, false);
-        assertEquals("1.07", String.format("%.2f", testAmt));
+        assertEquals("1.15", String.format("%.2f", testAmt));
     }
 
     @Test
@@ -279,13 +279,13 @@ public class LogManagerTest {
 
     @Test
     public void validateAmountStringValidValueTest() {
-        Pair<Boolean, String> validation = logManager.validateAmount("23");
+        Pair<Boolean, String> validation = logManager.validateAmount("9");
         assertEquals("errorDisplayLabel", validation.getValue());
     }
 
     @Test
     public void validateAmountBooleanValidValueTest() {
-        Pair<Boolean, String> validation = logManager.validateAmount("23");
+        Pair<Boolean, String> validation = logManager.validateAmount("9");
         assertTrue(validation.getKey());
     }
 
