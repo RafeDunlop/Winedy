@@ -234,7 +234,7 @@ public class WineDAO implements DAOInterface<Wine> {
      *
      * @param toAdd a list of wines to add to the database
      */
-    public void addBatch (List < Wine > toAdd) {
+    public void addBatch (List <Wine> toAdd) {
         String sqlWineSuper = "INSERT OR IGNORE INTO wineSuper (id, name, country, colour, style, fullness, longDescription, pricePerBottle, alcoholByVolume, volumeInML, year) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
         String sqlGrape = "INSERT INTO grape (wineId, name) VALUES (?, ?)";
         String sqlAward = "INSERT INTO award (wineId, name) VALUES (?, ?)";

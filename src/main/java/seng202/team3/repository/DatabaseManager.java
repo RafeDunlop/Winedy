@@ -3,6 +3,7 @@ package seng202.team3.repository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.models.Wine;
+import seng202.team3.services.WineDrinkerManager;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -218,12 +219,10 @@ public class DatabaseManager {
         }
         InputStream inputStream = getClass().getResourceAsStream(filePath);
         List<Wine> wines = WineCSVImporter.readFromFile(inputStream);
-//        try {
-//            PersonalWineDAO personalWineDAO = new PersonalWineDAO();
-//            wines.addAll(personalWineDAO.getAll());
-//        } catch (NullPointerException e)  {
-//            log.info("no logged in user");
-//        }
+        if (WineDrinkerManager.getInstance().getCurrentUser() != null) {
+            PersonalWineDAO personalWineDAO = new PersonalWineDAO();
+            wines.addAll(personalWineDAO.getAll());
+        }
         WineDAO wineDAO = new WineDAO(url);
         int i = 0;
         while (i < wines.size()) {
