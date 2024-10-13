@@ -12,18 +12,19 @@ import javafx.scene.shape.Rectangle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import seng202.team3.models.Wine;
+import seng202.team3.services.IndividualWineViewService;
 
 /**
  * Controller for individual_wine_view_popup.fxml
  *
- * @author Hannah Botting (hbo51)
+ * @author Steven Leishman (sle159)
  */
-public class IndividualWineViewPopupController {
+public class IndividualWineViewPopupButtonsController {
 
     /**
      * Logger for robust error and information logging
      */
-    private static final Logger log = LogManager.getLogger(IndividualWineViewPopupController.class);
+    private static final Logger log = LogManager.getLogger(IndividualWineViewPopupButtonsController.class);
 
     @FXML
     private StackPane overlayPane;
@@ -85,6 +86,11 @@ public class IndividualWineViewPopupController {
     @FXML
     private ImageView wineViewImageView;
 
+    @FXML
+    private Button likeButton;
+    @FXML
+    private Button addToListButton;
+
     /**
      * The wine whose details are to be displayed in the popup
      */
@@ -95,7 +101,7 @@ public class IndividualWineViewPopupController {
      *
      * @param wineToDisplay the wine to be set to the wine to be displayed
      */
-    public IndividualWineViewPopupController(Wine wineToDisplay) {
+    public IndividualWineViewPopupButtonsController(Wine wineToDisplay) {
         this.wineToDisplay = wineToDisplay;
     }
 
@@ -118,6 +124,8 @@ public class IndividualWineViewPopupController {
 
         GuiService.setUpPopUp(overlayPane, popupAnchorPane, null);
 
+        likeButton.getStyleClass().add("like-button");
+        addToListButton.getStyleClass().add("add-to-list-button");
         awardsScrollPane.getStyleClass().add("white-wine-scroll-pane");
         descriptionScrollPane.getStyleClass().add("white-wine-scroll-pane");
         exitButton.getStyleClass().add("nav-bar-button");
@@ -219,4 +227,25 @@ public class IndividualWineViewPopupController {
     public void onExitButtonClicked() {
         FXWrapper.getInstance().removePopUp(overlayPane);
     }
+
+    /**
+     * Used by JavaFX as the OnAction of the Like Button.
+     * Updates whether the wine is the Wine Drinker's favourites list.
+     * Sets the style of the button to reflect whether the Wine has been added or removed from the favourites list
+     */
+    @FXML
+    public void onLikeButtonClicked() {
+        IndividualWineViewService individualWineViewService = new IndividualWineViewService();
+        individualWineViewService.updateFavourites(wineToDisplay);
+        likeButton.setStyle(individualWineViewService.inFavourites(wineToDisplay)? "-fx-background-color: -fx-dark-red-wine-colour" : "");
+    }
+
+    /**
+     * Used by JavaFX as OnAction of the Add Button.
+     */
+    @FXML
+    public void onAddButtonClicked() {
+        FXWrapper.getInstance().loadAddWineToListPopUp(wineToDisplay, false);
+    }
+
 }

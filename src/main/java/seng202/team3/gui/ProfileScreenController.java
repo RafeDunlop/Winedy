@@ -53,8 +53,6 @@ public class ProfileScreenController {
     private Rectangle profileAbvLimitRectangle;
     @FXML
     private Button savePreferencesButton;
-
-    //******************************************************* Recommendation
     @FXML
     private Button beginRecommendationButton;
     @FXML
@@ -81,8 +79,6 @@ public class ProfileScreenController {
     private List<Wine> recommendedWines = new ArrayList<>();
     private ArrayList<Wine> userSelectedRecommendWines = new ArrayList<>();
     private List<Float> wineMatchPercentages = new ArrayList<>();
-
-    //****************************************************** ENDS
 
     /**
      * Instance of the ProfileScreenServiceClass, used for data validation
@@ -149,7 +145,7 @@ public class ProfileScreenController {
         RecommendationManager.getInstance().
             updatePreferenceModelAfterUserSelection(recommendedWines.get(recommendedWineIndex), false);
         recommendedWineIndex++;
-        if (recommendedWineIndex < 5) {
+        if (recommendedWineIndex < 4) {
             recommendNextWineToUser();
         } else {
             endRecommendationReturnWines();
@@ -166,7 +162,7 @@ public class ProfileScreenController {
                 updatePreferenceModelAfterUserSelection(recommendedWines.get(recommendedWineIndex), true);
         userSelectedRecommendWines.add(recommendedWines.get(recommendedWineIndex));
         recommendedWineIndex++;
-        if (recommendedWineIndex < 5) {
+        if (recommendedWineIndex < 4) {
             recommendNextWineToUser();
         } else {
             endRecommendationReturnWines();
@@ -182,9 +178,9 @@ public class ProfileScreenController {
         GuiService.turnOnPane(recommendStep3Pane);
         GuiService.turnOffPane(recommendStep2Pane);
         recommendedWinesVBox.getChildren().clear();
-        Consumer<Wine> onAction = wine -> FXWrapper.getInstance().loadIndividualWineViewPopup(wine);
+        Consumer<Wine> onAction = wine -> FXWrapper.getInstance().loadIndividualWineViewPopupWithButtons(wine);
         GuiService.startButtonGeneration(userSelectedRecommendWines, recommendedWinesVBox,
-                onAction, 3);
+                onAction, 2);
     }
 
     /**
