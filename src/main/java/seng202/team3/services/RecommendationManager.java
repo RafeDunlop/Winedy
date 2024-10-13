@@ -153,7 +153,7 @@ public class RecommendationManager {
     public void recommendWines(List<Wine> selectedWines, List<Float> selectedWinePercents) {
         Random rand = new SecureRandom();
         setupWineIndexList();
-        while (selectedWines.size() < 5) {
+        while (selectedWines.size() < 4) {
             int randomIndex = rand.nextInt(wineIndexes.size());
             selectWinesWithIndex(selectedWines, selectedWinePercents, randomIndex);
         }

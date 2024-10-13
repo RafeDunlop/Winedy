@@ -86,6 +86,12 @@ public enum Screen {
     INDIVIDUALWINEVIEWPOPUP("individual_wine_view_popup.fxml", false),
 
     /**
+     * The individual wine view popup. Displays the information of a specific wine in detail. Opened on top of and by
+     *  the individual wine view in the search screen. Includes buttons to add to lists
+     */
+    INDIVIDUALWINEVIEWPOPUPBUTTONS("individual_wine_view_popup_buttons.fxml", false),
+
+    /**
      * The popup which appears when the user attempts to discard their changes
      * on any screen within the consumption screen
      */

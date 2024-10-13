@@ -307,11 +307,12 @@ public class FXWrapper {
 
     /** Loads a pop-up that allows user to select a wineList. The wine is added to the selected list
      * @param wine The wine to be added to the list
+     * @param refreshPrev boolean to determine whether the previous screen should refresh
      */
-    public void loadAddWineToListPopUp(Wine wine) {
+    public void loadAddWineToListPopUp(Wine wine, boolean refreshPrev) {
         try {
             FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.WINELISTSELECTPOPUP.file));
-            popUpLoader.setControllerFactory(param -> new WineListSelectPopUpController(wine));
+            popUpLoader.setControllerFactory(param -> new WineListSelectPopUpController(wine, refreshPrev));
             StackPane popUpRoot = popUpLoader.load();
             superPane.getChildren().add(popUpRoot);
         } catch (IOException e) {
@@ -355,6 +356,22 @@ public class FXWrapper {
         try {
             FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.INDIVIDUALWINEVIEWPOPUP.file));
             popUpLoader.setControllerFactory(param -> new IndividualWineViewPopupController(wineToDisplay));
+            StackPane popUpRoot = popUpLoader.load();
+            superPane.getChildren().add(popUpRoot);
+        } catch (IOException e) {
+            log.error(e);
+        }
+    }
+
+    /**
+     * Loads the individual wine view popup to show the given wine
+     *
+     * @param wineToDisplay the wine to be displayed in the popup
+     */
+    public void loadIndividualWineViewPopupWithButtons(Wine wineToDisplay) {
+        try {
+            FXMLLoader popUpLoader = new FXMLLoader(getClass().getResource("/fxml/" + Screen.INDIVIDUALWINEVIEWPOPUPBUTTONS.file));
+            popUpLoader.setControllerFactory(param -> new IndividualWineViewPopupButtonsController(wineToDisplay));
             StackPane popUpRoot = popUpLoader.load();
             superPane.getChildren().add(popUpRoot);
         } catch (IOException e) {
