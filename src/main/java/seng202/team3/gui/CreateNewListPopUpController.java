@@ -106,13 +106,15 @@ public class CreateNewListPopUpController {
                 descErrorLabel.setVisible(false);
                 errorLabel.setVisible(true);
                 errorLabel.setText(profileScreenService.getCreateListErrorMessage(newValue));
+                GuiService.shakeNode(errorLabel);
                 createNewListButton.setDisable(true);
                 createNewListButton.setOpacity(0.5);
             } else if (profileScreenService.reachedCharLimit(newValue, listNameCharLimit)) {
                 listNameTextField.setText(oldValue);
                 descErrorLabel.setVisible(false);
                 errorLabel.setVisible(true);
-                errorLabel.setText("You have reached the character limit for a list name (" + listNameCharLimit + " characters)");
+                errorLabel.setText("Character limit reached ("+ listNameCharLimit + " characters)");
+                GuiService.shakeNode(errorLabel);
                 createNewListButton.setDisable(false);
                 createNewListButton.setOpacity(1);
             } else {
@@ -132,7 +134,8 @@ public class CreateNewListPopUpController {
                 descriptionTextArea.setText(oldValue);
                 errorLabel.setVisible(false);
                 descErrorLabel.setVisible(true);
-                descErrorLabel.setText("You have reached the character limit for a list description (" + descCharLimit + " characters)");
+                descErrorLabel.setText("Character limit reached ("+ descCharLimit + " characters)");
+                GuiService.shakeNode(descErrorLabel);
             } else {
                 descErrorLabel.setVisible(false);
             }
@@ -147,5 +150,7 @@ public class CreateNewListPopUpController {
          createNewListButton.getStyleClass().add("nav-bar-button");
          listNameTextField.getStyleClass().add("sign-in-screen-text-field");
          descriptionTextArea.getStyleClass().add("description-text-area");
+        errorLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour;");
+        descErrorLabel.setStyle("-fx-text-fill: -fx-dark-red-wine-colour;");
     }
 }

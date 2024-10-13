@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="overlayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(0,0,0, 0.5);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.CreateNewListPopUpController">
+<StackPane fx:id="overlayPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: rgba(0,0,0, 0.5);" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="seng202.team3.gui.CreateNewListPopUpController">
    <children>
       <AnchorPane fx:id="popUpAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="445.0" prefWidth="554.0" StackPane.alignment="CENTER">
          <children>
@@ -23,8 +23,8 @@
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints maxHeight="159.0" minHeight="10.0" prefHeight="122.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="226.5" minHeight="10.0" prefHeight="197.5" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="103.0" minHeight="10.0" prefHeight="96.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="226.5" minHeight="10.0" prefHeight="184.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="113.0" minHeight="10.0" prefHeight="110.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
                   <Label text="Name Your New List" GridPane.valignment="TOP">
@@ -51,7 +51,7 @@
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Button fx:id="createNewListButton" disable = "true" mnemonicParsing="false" onAction="#onCreateListButtonClicked" prefHeight="49.0" prefWidth="162.0" text="Create New List" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                  <Button fx:id="createNewListButton" disable="true" mnemonicParsing="false" onAction="#onCreateListButtonClicked" prefHeight="49.0" prefWidth="162.0" text="Create New List" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets right="15.0" />
                      </GridPane.margin>
@@ -75,20 +75,20 @@
                         <Font size="15.0" />
                      </font>
                   </TextArea>
-                  <Label fx:id="errorLabel" alignment="TOP_LEFT" prefHeight="79.0" prefWidth="245.0" text="Error label" textFill="RED" visible="false" wrapText="true" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                  <Label fx:id="errorLabel" alignment="TOP_LEFT" prefHeight="83.0" prefWidth="245.0" text="Error label" textAlignment="CENTER" textFill="RED" visible="false" wrapText="true" GridPane.rowIndex="2" GridPane.valignment="TOP">
                      <GridPane.margin>
-                        <Insets left="20.0" />
+                        <Insets left="20.0" top="20.0" />
                      </GridPane.margin>
                      <font>
-                        <Font size="15.0" />
+                        <Font size="20.0" />
                      </font>
                   </Label>
                   <Label fx:id="descErrorLabel" alignment="TOP_LEFT" prefHeight="79.0" prefWidth="245.0" text="Description error label" textFill="RED" visible="false" wrapText="true" GridPane.rowIndex="2" GridPane.valignment="TOP">
                      <GridPane.margin>
-                        <Insets left="20.0" />
+                        <Insets left="20.0" top="20.0" />
                      </GridPane.margin>
                      <font>
-                        <Font size="15.0" />
+                        <Font size="20.0" />
                      </font>
                   </Label>
                </children>
