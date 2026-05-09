@@ -1,5 +1,6 @@
-# Winedy
-An application for personal wine management.
+![winedy-logo](src/main/resources/images/winedy_logo.png)
+
+A desktop app to help amateur and professional someliers catalogue, select and manage their wines. 
 
 ## Authors
 - SENG202 Teaching team
