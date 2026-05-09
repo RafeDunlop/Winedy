@@ -1,6 +1,6 @@
 ![winedy-logo](src/main/resources/images/winedy_logo.png)
 
-A desktop app to help amateur and professional someliers catalogue, select and manage their wines. 
+*<div align="center">A desktop app to help amateur and professional someliers catalogue, select and manage their wines.</div>*
 
 ## Authors
 - SENG202 Teaching team
